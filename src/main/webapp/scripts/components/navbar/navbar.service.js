@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .service('ozaySearchState', function() {
+    .service('MenuSearchState', function() {
         var searchBtnState = false;
         this.getState = function(){
             return searchBtnState;

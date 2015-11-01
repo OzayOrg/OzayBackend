@@ -3,17 +3,17 @@
 angular.module('ozayApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('register', {
-                parent: 'account',
-                url: '/register',
+            .state('organization', {
+                parent: 'manage',
+                url: '/management/organization',
                 data: {
                     authorities: ['ROLE_ADMIN'],
-                    pageTitle: 'Registration'
+                    pageTitle: 'Management'
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/account/register/register.html',
-                        controller: 'RegisterController'
+                        templateUrl: 'scripts/app/management/management.html',
+                        controller: 'AuditsController'
                     }
                 },
                 resolve: {

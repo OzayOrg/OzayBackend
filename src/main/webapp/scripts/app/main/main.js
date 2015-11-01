@@ -7,7 +7,7 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/',
                 data: {
-                    authorities: []
+                    authorities: ['ROLE_ADMIN']
                 },
                 views: {
                     'content@': {
@@ -16,7 +16,7 @@ angular.module('ozayApp')
                     }
                 },
                 resolve: {
-                    
+
                 }
             });
     });
