@@ -1,10 +1,19 @@
 'use strict';
 
-angular.module('ozayApp', ['LocalStorageModule', 
+angular.module('ozayApp', ['LocalStorageModule',
                'ui.bootstrap', // for modal dialogs
     'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
 
-    .run(function ($rootScope, $location, $window, $http, $state,  Auth, Principal, ENV, VERSION) {
+    .run(function ($rootScope, $location, $window, $http, $state,  Auth, Principal, Building, SelectedBuilding,$cookies,  ENV, VERSION) {
+
+        if(SelectedBuilding.getBuildingList().length == 0 || SelectedBuilding.getBuilding() == null){
+            Building.query().$promise.then(function(list) {
+                    SelectedBuilding.process(list, $cookies);
+                }, function(error){
+            });
+        }
+
+
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
@@ -14,11 +23,19 @@ angular.module('ozayApp', ['LocalStorageModule',
             if (Principal.isIdentityResolved()) {
                 Auth.authorize();
             }
-            
+
         });
 
         $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
-            var titleKey = 'ozay' ;
+            var titleKey = 'ozay';
+
+            if(SelectedBuilding.getBuildingList().length == 0 || SelectedBuilding.getBuilding() == null){
+                Building.query().$promise.then(function(list) {
+                        SelectedBuilding.process(list, $cookies);
+                    }, function(error){
+                });
+            }
+
 
             // Remember previous state unless we've been redirected to login or we've just
             // reset the state memory after logout. If we're redirected to login, our
@@ -72,5 +89,5 @@ angular.module('ozayApp', ['LocalStorageModule',
         $httpProvider.interceptors.push('authExpiredInterceptor');
         $httpProvider.interceptors.push('authInterceptor');
         $httpProvider.interceptors.push('notificationInterceptor');
-        
+
     });

@@ -1,5 +1,6 @@
 package com.ozay.backend.service;
 
+import com.ozay.backend.config.JHipsterProperties;
 import com.ozay.backend.domain.User;
 import org.apache.commons.lang.CharEncoding;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class MailService {
     private final Logger log = LoggerFactory.getLogger(MailService.class);
 
     @Inject
-    private Environment env;
+    private JHipsterProperties jHipsterProperties;
 
     @Inject
     private JavaMailSenderImpl javaMailSender;
@@ -47,22 +48,17 @@ public class MailService {
      */
     private String from;
 
-    @PostConstruct
-    public void init() {
-        this.from = env.getProperty("mail.from");
-    }
-
     @Async
     public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
         log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
-                isMultipart, isHtml, to, subject, content);
+            isMultipart, isHtml, to, subject, content);
 
         // Prepare message using a Spring helper
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
             message.setTo(to);
-            message.setFrom(from);
+            message.setFrom(jHipsterProperties.getMail().getFrom());
             message.setSubject(subject);
             message.setText(content, isHtml);
             javaMailSender.send(mimeMessage);

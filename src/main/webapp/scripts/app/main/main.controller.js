@@ -3,7 +3,7 @@
 angular.module('ozayApp')
     .controller('MainController', function ($scope, Principal, MenuSearchState) {
         // For mobile nav
-        $scope.buildingInformation = MenuSearchState;
+        $scope.menu_search_state = MenuSearchState;
 
         Principal.identity().then(function(account) {
             $scope.account = account;

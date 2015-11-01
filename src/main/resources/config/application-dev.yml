@@ -15,10 +15,10 @@ spring:
         active: dev
     datasource:
         driver-class-name: org.postgresql.ds.PGSimpleDataSource
-        url:
+        url: jdbc:postgresql://localhost:5432/ozay
         name: ozay
-        username: ozay
-        password:
+        username: naofumiezaki
+        password: C!nnam0n
     jpa:
         database-platform: com.ozay.backend.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL

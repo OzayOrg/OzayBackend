@@ -39,14 +39,14 @@ jhipster:
         maxPoolSize: 50
         queueCapacity: 10000
     mail:
-        host: localhost
+        host: smtp.sendgrid.net
         port: 25
-        username:
-        password:
+        username: OzayOrg
+        password: Ozaysyzn1124
         protocol: smtp
         tls: false
         auth: false
-        from: ozay@localhost
+        from: ozay@ozay.us
     security:
         authentication:
             oauth:

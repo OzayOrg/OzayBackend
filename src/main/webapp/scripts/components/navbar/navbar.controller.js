@@ -2,8 +2,11 @@
 
 angular.module('ozayApp')
     .controller('NavbarController', function ($scope, $location, $state, Auth, Principal, ENV, MenuSearchState, SelectedBuilding) {
+
         $scope.button_state = MenuSearchState;
-        $scope.hasBuilding = SelectedBuilding.getBuilding();
+        $scope.buildingList = SelectedBuilding.getBuildingList();
+
+        $scope.selectedBuilding = SelectedBuilding.getBuilding();
 
         $scope.isAuthenticated = Principal.isAuthenticated;
         $scope.$state = $state;

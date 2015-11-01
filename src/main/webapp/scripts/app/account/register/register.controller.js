@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('RegisterController', function ($scope, $timeout, Auth) {
+    .controller('RegisterController', function ($scope, $timeout, Auth, MenuSearchState) {
+        $scope.buildingInformation = MenuSearchState;
         $scope.success = null;
         $scope.error = null;
         $scope.doNotMatch = null;

@@ -16,7 +16,6 @@ public class Organization {
     private String zip;
     private String country;
     private DateTime createdDate;
-    private Long subscriptionId;
 
     private Long createdBy;
     private Long modifiedBy;
@@ -102,14 +101,6 @@ public class Organization {
         this.createdDate = createdDate;
     }
 
-    public Long getSubscriptionId() {
-        return subscriptionId;
-    }
-
-    public void setSubscriptionId(Long subscriptionId) {
-        this.subscriptionId = subscriptionId;
-    }
-
     public Long getCreatedBy() {
         return createdBy;
     }
@@ -141,7 +132,6 @@ public class Organization {
             "name='" + name + '\'' +
             ", address1='" + address1 + '\'' +
             ", address2='" + address2 + '\'' +
-            ", subscription ID='" + subscriptionId + '\'' +
 
             ", user_id='" + userId + '\'' +
             "}";

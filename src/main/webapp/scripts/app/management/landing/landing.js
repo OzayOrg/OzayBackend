@@ -8,7 +8,7 @@ angular.module('ozayApp')
                 url: '/management',
                 data: {
                     authorities: ['ROLE_ADMIN'],
-                    pageTitle: 'Health checks'
+                    pageTitle: 'Organization Top'
                 },
                 views: {
                     'content@': {
