@@ -100,11 +100,17 @@ public class AccountResource {
      * GET  /account -> get the current user.
      */
     @RequestMapping(value = "/account",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<UserDTO> getAccount() {
-        return Optional.ofNullable(userService.getUserWithAuthorities())
+    public ResponseEntity<UserDTO> getAccount(@RequestParam(value = "building", required=false) Long buildingId, @RequestParam(value = "organization", required=false) Long organizationId) {
+        if(buildingId == null && organizationId == null ){
+            return Optional.ofNullable(userService.getUserWithAuthorities())
+                .map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+        }
+
+        return Optional.ofNullable(userService.getUserWithAuthorities(buildingId, organizationId))
             .map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }

@@ -5,6 +5,7 @@ import com.ozay.backend.model.Organization;
 import com.ozay.backend.resultsetextractor.OrganizationSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -13,12 +14,13 @@ import java.util.List;
 /**
  * Created by naofumiezaki on 11/1/15.
  */
+@Repository
 public class OrganizationRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public List<Organization> findAllUserCanAccess(User user){
-        String query = "SELECT * FROM organization o LEFT JOIN organization_user ou ON o.id = out.organization_id WHERE o.user_id = :userId OR ou.user_id = :userId GROUP BY o.id";
+        String query = "SELECT * FROM organization o LEFT JOIN organization_user ou ON o.id = ou.organization_id WHERE o.user_id = :userId OR ou.user_id = :userId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", user.getId());
         return (List<Organization>) namedParameterJdbcTemplate.query(query, params, new OrganizationSetExtractor());

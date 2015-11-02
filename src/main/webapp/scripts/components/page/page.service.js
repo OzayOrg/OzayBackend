@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('ozayApp')
-    .factory('Building', function ($resource) {
-        return $resource('api/buildings', {}, {
-                'query': {method: 'GET', isArray: true},
+    .factory('Page', function ($resource) {
+        return $resource('api/pages/:state', {}, {
                 'get': {
                     method: 'GET',
                     transformResponse: function (data) {
@@ -11,7 +10,5 @@ angular.module('ozayApp')
                         return data;
                     }
                 },
-                'update': { method:'PUT' }
             });
         });
-

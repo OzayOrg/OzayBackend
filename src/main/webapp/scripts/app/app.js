@@ -16,7 +16,7 @@ angular.module('ozayApp', ['LocalStorageModule',
 
 
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
-            console.log(5);
+
              if(Principal.isAuthenticated() == true){
                 if(SelectedBuilding.getBuildingList().length == 0 || SelectedBuilding.getBuilding() == null){
                     Building.query().$promise.then(function(list) {

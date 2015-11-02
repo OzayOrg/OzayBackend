@@ -3,12 +3,14 @@ package com.ozay.backend.repository;
 import com.ozay.backend.model.Subscription;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 
 /**
  * Created by naofumiezaki on 11/1/15.
  */
+@Repository
 public class SubscriptionRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
