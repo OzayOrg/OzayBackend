@@ -56,7 +56,7 @@ angular.module('ozayApp')
                 }
 
                 // retrieve the identity data from the server, update the identity object, and then resolve.
-                Account.get({building:stateParams.building, organization:tateParams.organization}).$promise
+                Account.get({building:$stateParams.building, organization:$stateParams.organization}).$promise
                     .then(function (account) {
                         _identity = account.data;
                         _authenticated = true;
