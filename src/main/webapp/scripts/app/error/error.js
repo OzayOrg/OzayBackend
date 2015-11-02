@@ -16,11 +16,10 @@ angular.module('ozayApp')
                     }
                 },
                 resolve: {
-                    
+
                 }
             })
             .state('accessdenied', {
-                parent: 'site',
                 url: '/accessdenied',
                 data: {
                     authorities: []
@@ -31,7 +30,7 @@ angular.module('ozayApp')
                     }
                 },
                 resolve: {
-                    
+
                 }
             });
     });

@@ -4,19 +4,29 @@ angular.module('ozayApp', ['LocalStorageModule',
                'ui.bootstrap', // for modal dialogs
     'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
 
-    .run(function ($rootScope, $location, $window, $http, $state,  Auth, Principal, Building, SelectedBuilding,$cookies,  ENV, VERSION) {
-
-        if(SelectedBuilding.getBuildingList().length == 0 || SelectedBuilding.getBuilding() == null){
-            Building.query().$promise.then(function(list) {
-                    SelectedBuilding.process(list, $cookies);
-                }, function(error){
-            });
-        }
-
+    .run(function ($rootScope, $location, $window, $http, $state,  Auth, Principal, Building, SelectedBuilding, $cookies, ENV, VERSION) {
 
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
+
+        Building.query().$promise.then(function(list) {
+                SelectedBuilding.process(list, $cookies);
+            }, function(error){
+        });
+
+
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
+            console.log(5);
+             if(Principal.isAuthenticated() == true){
+                if(SelectedBuilding.getBuildingList().length == 0 || SelectedBuilding.getBuilding() == null){
+                    Building.query().$promise.then(function(list) {
+                            SelectedBuilding.process(list, $cookies);
+                        }, function(error){
+                    });
+                }
+            }
+
+
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
 
@@ -29,11 +39,14 @@ angular.module('ozayApp', ['LocalStorageModule',
         $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
             var titleKey = 'ozay';
 
-            if(SelectedBuilding.getBuildingList().length == 0 || SelectedBuilding.getBuilding() == null){
-                Building.query().$promise.then(function(list) {
-                        SelectedBuilding.process(list, $cookies);
-                    }, function(error){
-                });
+
+            if(Principal.isAuthenticated() == true){
+                if(SelectedBuilding.getBuildingList().length == 0 || SelectedBuilding.getBuilding() == null){
+                    Building.query().$promise.then(function(list) {
+                            SelectedBuilding.process(list, $cookies);
+                        }, function(error){
+                    });
+                }
             }
 
 

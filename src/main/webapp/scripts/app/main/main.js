@@ -7,7 +7,7 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/',
                 data: {
-                    authorities: ['ROLE_ADMIN']
+                    authorities: ['ROLE_USER']
                 },
                 views: {
                     'content@': {

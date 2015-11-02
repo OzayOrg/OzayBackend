@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .factory('Principal', function Principal($q, Account) {
+    .factory('Principal', function Principal($q, $stateParams, Account) {
         var _identity,
             _authenticated = false;
 
@@ -56,7 +56,7 @@ angular.module('ozayApp')
                 }
 
                 // retrieve the identity data from the server, update the identity object, and then resolve.
-                Account.get().$promise
+                Account.get({building:stateParams.building, organization:tateParams.organization}).$promise
                     .then(function (account) {
                         _identity = account.data;
                         _authenticated = true;

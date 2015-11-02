@@ -71,7 +71,12 @@
                     </div>
                     <div>
                         <h4 class="text-center">
-                            {{account.firstName}} {{account.lastName}}
+                            <span ng-if="account.firstName != null || account.lastName != null">
+                                {{account.firstName}} {{account.lastName}}
+                            </span>
+                            <span ng-if="account.firstName == null && account.lastName == null">
+                                {{account.login}}
+                            </span>
                         </h4>
                     </div>
                 </li>
@@ -137,7 +142,7 @@
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
                                 <li><a ui-sref="password">Password</a></li>
-                                <li><a ui-sref="logout">Logout</a></li>
+                                <li><a href="" ng-click="logout()">Logout</a></li>
                             </ul>
                         </div>
                     </div>

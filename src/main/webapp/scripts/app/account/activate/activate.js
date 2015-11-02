@@ -4,7 +4,6 @@ angular.module('ozayApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('activate', {
-                parent: 'account',
                 url: '/activate?key',
                 data: {
                     authorities: [],
@@ -17,7 +16,7 @@ angular.module('ozayApp')
                     }
                 },
                 resolve: {
-                    
+
                 }
             });
     });

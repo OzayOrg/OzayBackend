@@ -19,6 +19,12 @@ angular.module('ozayApp')
     .service('SelectedBuilding', function() {
         var building = null ;
         var buildingList = [];
+
+        this.clear = function(){
+            building = null;
+            buildingList = [];
+        }
+
         this.getBuilding = function(){
             return building;
         }
@@ -32,13 +38,15 @@ angular.module('ozayApp')
             buildingList = list;
         }
         this.process = function(list, cookie){
-            if(this.getBuildingList().length){
+
+            if(this.getBuildingList().length == 0){
                 this.setBuilding(null);
-                this.buildingList([]);
+                this.setBuildingList([]);
                 cookie.remove('selectedBuilding');
             }
             var cookieBuildingId = cookie.get('selectedBuilding');
             this.setBuildingList(list);
+            console.log(list);
 
             if(cookieBuildingId === undefined || cookieBuildingId == null){
                 if(this.getBuildingList().length > 0){
