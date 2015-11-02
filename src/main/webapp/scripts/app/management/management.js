@@ -6,8 +6,5 @@ angular.module('ozayApp')
             .state('manage', {
                 abstract: true,
                 parent: 'site',
-                data: {
-                    authorities: ['ROLE_ADMIN'],
-                },
             });
     });
