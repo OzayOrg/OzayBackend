@@ -3,21 +3,37 @@
 angular.module('ozayApp')
     .config(function ($stateProvider) {
         $stateProvider
-            .state('organization', {
+            .state('management', {
                 parent: 'manage',
-                url: '/management/organization',
+                url: '/management',
                 data: {
-                    authorities: ['ROLE_ADMIN'],
-                    pageTitle: 'Management'
+                    authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                    pageTitle: 'Organization Top'
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/management/management.html',
-                        controller: 'AuditsController'
+                        templateUrl: 'scripts/app/management/organization/organization.html',
+                        controller: 'OrganizationController'
                     }
                 },
                 resolve: {
 
                 }
-            });
+            }).state('management_new', {
+                              parent: 'manage',
+                              url: '/management/organization/new',
+                              data: {
+                                  authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                                  pageTitle: 'Organization Top'
+                              },
+                              views: {
+                                  'content@': {
+                                      templateUrl: 'scripts/app/management/organization/organization.edit.html',
+                                      controller: 'OrganizationController'
+                                  }
+                              },
+                              resolve: {
+
+                              }
+                          });
     });

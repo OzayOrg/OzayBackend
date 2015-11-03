@@ -1,6 +1,7 @@
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
 $first_gray : #F3F5F4;
 $second_gray : #E4E5E0;
+$third_gray: #E7E3E4;
 
 
 // bower:scss
@@ -8,7 +9,7 @@ $second_gray : #E4E5E0;
 // endbower
 
 body {
-    background: #fafafa;
+    background: $first_gray;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
 }
@@ -243,7 +244,7 @@ ul#strength {
 }
 .side-menu li .panel-body .navbar-nav li {
   padding-left: 15px;
-  border-bottom: 1px solid $first_gray;
+  border-bottom: 1px solid #FFF;
 }
 .side-menu li .panel-body .navbar-nav li:last-child {
   border-bottom: none;
@@ -521,7 +522,7 @@ input{
 
 #ozay-header{
     display:none;
-
+    z-index:10000;
 }
 
 #desktop-search-div{
@@ -548,6 +549,16 @@ input{
 
 .side-menu{
     overflow-y:auto;
+    background-color:$second_gray;
+    div.side-menu-container > ul > li:not(#profile-li){
+        background-color:$second_gray;
+    }
+    ul{
+        width:250px;
+    }
+    .panel-body ul li{
+        border-bottom:1px solid #FFF;
+    }
 }
 
 select#building-list {
@@ -632,11 +643,33 @@ li#profile-li {
     }
 }
 
-div.side-menu, div.side-menu-container ul li:not(:first-child){
-    background-color:$second_gray;
-}
 div.side-body{
-    border-left:2px solid #FFFFFF;
+    .page-title-wrapper{
+        background-color:$second_gray;
+        min-height: 85px;
+    }
+    h3{
+        margin-top:40px;
+    }
+    .side-body-content{
+        padding-top:15px;
+    }
+    .side-body-inner-content{
+        padding-top:15px;
+        padding-bottom:15px;
+    }
+    .main-content{
+        background-color:#FFF;
+    }
+    .main-content-wrapper{
+        border:1px solid black;
+    }
+    .main-content-title{
+        background-color:$third_gray;
+        h4{
+            margin-top:20px;
+        }
+    }
 }
 
 

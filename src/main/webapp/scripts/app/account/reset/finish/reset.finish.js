@@ -4,7 +4,6 @@ angular.module('ozayApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('finishReset', {
-                parent: 'account',
                 url: '/reset/finish?key',
                 data: {
                     authorities: []
@@ -16,7 +15,7 @@ angular.module('ozayApp')
                     }
                 },
                 resolve: {
-                    
+
                 }
             });
     });
