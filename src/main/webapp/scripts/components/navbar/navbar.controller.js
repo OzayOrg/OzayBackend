@@ -3,6 +3,7 @@
 angular.module('ozayApp')
     .controller('NavbarController', function ($scope, $location, $state, Auth, Principal, $cookies, ENV, MenuSearchState, SelectedBuilding) {
         $scope.activeMenu = $state;
+        $scope.button_state =MenuSearchState;
 
         $scope.isAuthenticated = Principal.isAuthenticated;
         $scope.$state = $state;

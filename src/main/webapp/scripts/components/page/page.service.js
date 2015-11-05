@@ -2,7 +2,7 @@
 
 angular.module('ozayApp')
     .factory('Page', function ($resource) {
-        return $resource('api/pages/:state', {}, {
+        return $resource('api/page/:state/:id', {}, {
                 'get': {
                     method: 'GET',
                     transformResponse: function (data) {

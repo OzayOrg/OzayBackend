@@ -3,6 +3,7 @@ package com.ozay.backend.repository;
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.AccountInformation;
 import com.ozay.backend.resultsetextractor.AccountResultSetExtractor;
+import com.ozay.backend.resultsetextractor.AccountSimpleResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -30,14 +31,12 @@ public class AccountRepository {
     public AccountInformation getLoginUserInformation(User user){
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", user.getId());
-        String query = "SELECT count(u.id) from jhi_user u LEFT JOIN subscription s ON u.id = s.user_id LEFT JOIN organization_user ou ON u.id = ou.user_id WHERE u.id =:userId AND (s.user_id IS NOT NULL OR ou.user_id IS NOT NULL)";
+        String query = "SELECT s.id as s_id, s.user_id as s_user_id, ou.organization_id as organization_id from jhi_user u LEFT JOIN subscription s ON u.id = s.user_id AND (s.date_from <= now() AND s.date_to > now() ) LEFT JOIN organization_user ou ON u.id = ou.user_id WHERE u.id =:userId AND (s.user_id IS NOT NULL OR ou.user_id IS NOT NULL)";
 
-        Long count = namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
-        AccountInformation accountInformation = new AccountInformation();
-        if(count > 0){
-            List<String> authorityList = new ArrayList<String>();
-            authorityList.add("ORGANIZATION_HAS_ACCESS");
-            accountInformation.setAuthorities(authorityList);
+        List<AccountInformation> accountInformationList = (List<AccountInformation>)namedParameterJdbcTemplate.query(query, params, new AccountSimpleResultSetExtractor());
+        AccountInformation accountInformation = null;
+        if(accountInformationList.size() > 0){
+            accountInformation = accountInformationList.get(0);
         }
         return accountInformation;
     }

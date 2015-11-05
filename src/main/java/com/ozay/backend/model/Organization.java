@@ -9,8 +9,9 @@ public class Organization {
     private Long id;
     private long userId;
     private String name;
-    private String address;
+    private String street;
     private String apartment;
+    private String city;
     private String phone;
     private String state;
     private String zip;
@@ -45,12 +46,12 @@ public class Organization {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getApartment() {
@@ -125,13 +126,21 @@ public class Organization {
         this.modifiedDate = modifiedDate;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "Organization{" +
             "id='" + id + '\'' +
             "name='" + name + '\'' +
-            ", address1='" + address + '\'' +
-            ", address2='" + apartment + '\'' +
+            ", street='" + street + '\'' +
+            ", apartment='" + apartment + '\'' +
 
             ", user_id='" + userId + '\'' +
             "}";

@@ -38,7 +38,7 @@ public class BuildingRepository {
         return (List<Building>)namedParameterJdbcTemplate.query(query, params, new BuildingSetExtractor(){});
     }
 
-    public Building getBuilding(long id){
+    public Building findOne(long id){
         String query = "SELECT * FROM building WHERE id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
@@ -55,14 +55,15 @@ public class BuildingRepository {
 
     public void create(Building building){
 
-        String insert = "INSERT INTO building(name, organization_id, email, address, apartment, state, zip, phone, total_units, created_by, created_date) VALUES (:name, :organizationId, :email, :address, :apartment, :state, :zip, :phone, :totalUnits,:createdBy, now()) RETURNING id";
+        String insert = "INSERT INTO 'building' (name, organization_id, email, street, apartment, city, state, zip, phone, total_units, created_by, created_date) VALUES (:name, :organizationId, :email, :street, :apartment, :city, :state, :zip, :phone, :totalUnits,:createdBy, now()) RETURNING id";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", building.getName());
         params.addValue("organizationId", building.getOrganizationId());
         params.addValue("email", building.getEmail());
-        params.addValue("address", building.getAddress());
+        params.addValue("street", building.getStreet());
         params.addValue("apartment", building.getApartment());
+        params.addValue("city", building.getCity());
         params.addValue("state", building.getState());
         params.addValue("zip", building.getZip());
         params.addValue("phone", building.getPhone());
@@ -75,15 +76,16 @@ public class BuildingRepository {
 
     public void update(Building building){
 
-        String query = "UPDATE building SET name =:name, organization_id = :organizationId, email =:email, address= :address, apartment = :apartment, state=:state, zip=:zip, phone=:phone, total_units=:totalUnits, last_modified_by =:modifiedBy, last_modified_date=now() WHERE id=:id";
+        String query = "UPDATE building SET name =:name, organization_id = :organizationId, email =:email, street= :street, apartment = :apartment, city=:city, state=:state, zip=:zip, phone=:phone, total_units=:totalUnits, last_modified_by =:modifiedBy, last_modified_date=now() WHERE id=:id";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", building.getName());
         params.addValue("organizationId", building.getOrganizationId());
         params.addValue("email", building.getEmail());
-        params.addValue("address", building.getAddress());
+        params.addValue("street", building.getStreet());
         params.addValue("apartment", building.getApartment());
         params.addValue("state", building.getState());
+        params.addValue("city", building.getCity());
         params.addValue("zip", building.getZip());
         params.addValue("phone", building.getPhone());
         params.addValue("totalUnits", building.getTotalUnits());

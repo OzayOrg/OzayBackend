@@ -13,10 +13,9 @@
                 <div class="main-content-wrapper">
                     <div class="main-content-title">
                         <div class="row">
-
                             <h4 class="col-xs-12">
                                 Organization List
-                                <span class="pull-right">
+                                <span class="pull-right" has-authority="ROLE_SUBSCRIBER" has-authroity="ROLE_ADMIN">
                                     <a ui-sref='management_new'>
                                         <button class="btn button">
                                             Add
@@ -34,12 +33,16 @@
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
-                                            <th><a href="">Name</a></th>
+                                            <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Name</a></th>
                                             <th>Action</th>
                                             </thead>
-                                            <tbody ng-repeat="organization in organizations">
+                                            <tbody ng-repeat="organization in organizations| orderBy:predicate:reverse">
                                             <td>{{organization.name}}</td>
-                                            <td><a ui-sref="organization">Edit</a></td>
+                                            <td>
+                                                <a ui-sref="management-edit({id:organization.id})">Edit</a>
+                                                &nbsp;
+                                                <a ui-sref="organization-detail({id:organization.id})">Detail</a>
+                                            </td>
                                             </tbody>
                                         </table>
                                     </div>

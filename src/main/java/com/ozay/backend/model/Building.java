@@ -7,8 +7,9 @@ public class Building {
     private Long id;
     private Long organizationId;
     private String name;
-    private String address;
+    private String street;
     private String apartment;
+    private String city;
     private String state;
     private String zip;
     private String phone;
@@ -44,12 +45,12 @@ public class Building {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getApartment() {
@@ -114,6 +115,15 @@ public class Building {
 
     public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
+    }
+
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     @Override

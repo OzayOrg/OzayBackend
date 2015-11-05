@@ -19,21 +19,57 @@ angular.module('ozayApp')
                 resolve: {
 
                 }
-            }).state('management_new', {
-                              parent: 'manage',
-                              url: '/management/organization/new',
-                              data: {
-                                  authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
-                                  pageTitle: 'Organization Top'
-                              },
-                              views: {
-                                  'content@': {
-                                      templateUrl: 'scripts/app/management/organization/organization.edit.html',
-                                      controller: 'OrganizationController'
-                                  }
-                              },
-                              resolve: {
+            }).state('management-new', {
+                  parent: 'manage',
+                  url: '/management/organization/new',
+                  data: {
+                      authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                      pageTitle: 'Organization Top'
+                  },
+                  views: {
+                      'content@': {
+                          templateUrl: 'scripts/app/management/organization/organization.edit.html',
+                          controller: 'OrganizationEditController'
+                      }
+                  },
+                  resolve: {
 
-                              }
-                          });
+                  }
+              })
+              .state('management-edit', {
+                    parent: 'manage',
+                    url: '/management/organization/edit/:id',
+                    data: {
+                        authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                        pageTitle: 'Organization Edit'
+                    },
+                    views: {
+                        'content@': {
+                            templateUrl: 'scripts/app/management/organization/organization.edit.html',
+                            controller: 'OrganizationEditController'
+                        }
+                    },
+                    resolve: {
+
+                    }
+                })
+                .state('organization-detail', {
+                      parent: 'manage',
+                      url: '/management/organization/:id',
+                      data: {
+                          authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                          pageTitle: 'Organization Detail'
+                      },
+                      views: {
+                          'content@': {
+                              templateUrl: 'scripts/app/management/organization/organization.detail.html',
+                              controller: 'OrganizationDetailController'
+                          }
+                      },
+                      resolve: {
+
+                      }
+                  })
+
+                ;
     });

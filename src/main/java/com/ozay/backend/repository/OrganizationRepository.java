@@ -3,6 +3,7 @@ package com.ozay.backend.repository;
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.Organization;
 import com.ozay.backend.resultsetextractor.OrganizationSetExtractor;
+import com.ozay.backend.security.SecurityUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -39,14 +40,17 @@ public class OrganizationRepository {
     }
 
     public void create(Organization organization){
-        String query = "INSERT INTO organization (user_id, name, created_date, address_1, address_2, phone, state, country, zip, created_by) " +
-            "VALUES(:userId, :name, now(), :address, :apartment, :phone, :state, :country, :zip, :createdBy" +
+        String query = "INSERT INTO organization (user_id, name, created_date, street, apartment, city, phone, state, country, zip, created_by) " +
+            "VALUES(:userId, :name, now(), :street, :apartment, :city, :phone, :state, :country, :zip, :createdBy" +
             ")";
+
+        SecurityUtils.getCurrentLogin();
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", organization.getUserId());
         params.addValue("name", organization.getName());
-        params.addValue("address", organization.getAddress());
-        params.addValue("apartment", organization.getAddress());
+        params.addValue("street", organization.getStreet());
+        params.addValue("apartment", organization.getApartment());
+        params.addValue("city", organization.getCity());
         params.addValue("phone", organization.getPhone());
         params.addValue("state", organization.getState());
         params.addValue("country", organization.getCountry());
@@ -59,20 +63,22 @@ public class OrganizationRepository {
         String query = "UPDATE organization " +
             "SET user_id=:userId, " +
             "name=:name, " +
-            "address_1=:address," +
-            "aparment=:apartment," +
+            "street=:street," +
+            "apartment=:apartment," +
+            "city=:city," +
             "phone=:phone," +
             "state=:state," +
             "country=:country," +
             "zip=:zip, " +
             "modified_date=now(), " +
-            "modified_by=:modifiedBy, " +
+            "modified_by=:modifiedBy " +
             "WHERE id=:id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", organization.getUserId());
         params.addValue("name", organization.getName());
-        params.addValue("address1", organization.getAddress());
-        params.addValue("address2", organization.getApartment());
+        params.addValue("street", organization.getStreet());
+        params.addValue("apartment", organization.getApartment());
+        params.addValue("city", organization.getCity());
         params.addValue("phone", organization.getPhone());
         params.addValue("state", organization.getState());
         params.addValue("country", organization.getCountry());

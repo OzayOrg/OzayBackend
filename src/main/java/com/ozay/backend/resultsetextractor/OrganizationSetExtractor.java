@@ -22,11 +22,13 @@ public class OrganizationSetExtractor implements ResultSetExtractor {
             organization.setId(resultSet.getLong("id"));
             organization.setUserId(resultSet.getLong("user_id"));
             organization.setName(resultSet.getString("name"));
-            organization.setAddress(resultSet.getString("address"));
+            organization.setStreet(resultSet.getString("street"));
             organization.setApartment(resultSet.getString("apartment"));
+            organization.setCity(resultSet.getString("city"));
             organization.setPhone(resultSet.getString("phone"));
             organization.setCountry(resultSet.getString("country"));
             organization.setState(resultSet.getString("state"));
+            organizations.add(organization);
         }
 
         return organizations;

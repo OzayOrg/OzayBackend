@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ozayApp')
-    .factory('Building', function ($resource) {
-        return $resource('api/building', {}, {
+    .factory('Organization', function ($resource) {
+        return $resource('api/organization/:id', {}, {
                 'query': {method: 'GET', isArray: true},
                 'get': {
                     method: 'GET',
@@ -14,4 +14,3 @@ angular.module('ozayApp')
                 'update': { method:'PUT' }
             });
         });
-

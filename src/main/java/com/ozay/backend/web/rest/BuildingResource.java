@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/api/buildings")
+@RequestMapping("/api/building")
 public class BuildingResource {
 
     private final Logger log = LoggerFactory.getLogger(BuildingResource.class);
@@ -62,5 +60,35 @@ public class BuildingResource {
         }
 
         return new ResponseEntity<List<Building>>(buildingList, HttpStatus.OK);
+    }
+
+    /**
+     * POST  /buidling -> Create a new buidling.
+     */
+    @RequestMapping(
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<?> createBuilding(@RequestBody Building building) {
+        log.debug("REST request to save Building : {}", building);
+        User user = userService.getUserWithAuthorities();
+        building.setCreatedBy(user.getId());
+        buildingRepository.create(building);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    /**
+     * POST  /building -> Update a building.
+     */
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<?> updateBuilding(@RequestBody Building building) {
+        log.debug("REST request to udate Building : {}", building);
+        User user = userService.getUserWithAuthorities();
+        building.setLastModifiedBy(user.getId());
+        buildingRepository.update(building);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
