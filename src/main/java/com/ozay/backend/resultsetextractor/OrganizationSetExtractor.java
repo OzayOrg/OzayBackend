@@ -22,8 +22,8 @@ public class OrganizationSetExtractor implements ResultSetExtractor {
             organization.setId(resultSet.getLong("id"));
             organization.setUserId(resultSet.getLong("user_id"));
             organization.setName(resultSet.getString("name"));
-            organization.setAddress1(resultSet.getString("address_1"));
-            organization.setAddress2(resultSet.getString("address_2"));
+            organization.setAddress(resultSet.getString("address"));
+            organization.setApartment(resultSet.getString("apartment"));
             organization.setPhone(resultSet.getString("phone"));
             organization.setCountry(resultSet.getString("country"));
             organization.setState(resultSet.getString("state"));

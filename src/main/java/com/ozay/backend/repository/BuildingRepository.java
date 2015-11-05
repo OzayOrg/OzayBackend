@@ -55,14 +55,14 @@ public class BuildingRepository {
 
     public void create(Building building){
 
-        String insert = "INSERT INTO building(name, organization_id, email, address_1, address_2, state, zip, phone, total_units, created_by, created_date) VALUES (:name, :organizationId, :email, :address1, :address2, :state, :zip, :phone, :totalUnits,:createdBy, now()) RETURNING id";
+        String insert = "INSERT INTO building(name, organization_id, email, address, apartment, state, zip, phone, total_units, created_by, created_date) VALUES (:name, :organizationId, :email, :address, :apartment, :state, :zip, :phone, :totalUnits,:createdBy, now()) RETURNING id";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", building.getName());
         params.addValue("organizationId", building.getOrganizationId());
         params.addValue("email", building.getEmail());
-        params.addValue("address1", building.getAddress1());
-        params.addValue("address2", building.getAddress2());
+        params.addValue("address", building.getAddress());
+        params.addValue("apartment", building.getApartment());
         params.addValue("state", building.getState());
         params.addValue("zip", building.getZip());
         params.addValue("phone", building.getPhone());
@@ -75,14 +75,14 @@ public class BuildingRepository {
 
     public void update(Building building){
 
-        String query = "UPDATE building SET name =:name, organization_id = :organizationId, email =:email, address_1= :address1, address_2 = :address2, state=:state, zip=:zip, phone=:phone, total_units=:totalUnits, last_modified_by =:modifiedBy, last_modified_date=now() WHERE id=:id";
+        String query = "UPDATE building SET name =:name, organization_id = :organizationId, email =:email, address= :address, apartment = :apartment, state=:state, zip=:zip, phone=:phone, total_units=:totalUnits, last_modified_by =:modifiedBy, last_modified_date=now() WHERE id=:id";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", building.getName());
         params.addValue("organizationId", building.getOrganizationId());
         params.addValue("email", building.getEmail());
-        params.addValue("address1", building.getAddress1());
-        params.addValue("address2", building.getAddress2());
+        params.addValue("address", building.getAddress());
+        params.addValue("apartment", building.getApartment());
         params.addValue("state", building.getState());
         params.addValue("zip", building.getZip());
         params.addValue("phone", building.getPhone());

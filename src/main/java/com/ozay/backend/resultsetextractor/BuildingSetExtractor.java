@@ -21,8 +21,8 @@ public class BuildingSetExtractor implements ResultSetExtractor {
             Building building = new Building();
             building.setId(resultSet.getLong("id"));
             building.setName(resultSet.getString("name"));
-            building.setAddress1("address_1");
-            building.setAddress2("address_2");
+            building.setAddress("address");
+            building.setApartment("apartment");
             building.setState("state");
             building.setZip("zip");
             building.setPhone("phone");

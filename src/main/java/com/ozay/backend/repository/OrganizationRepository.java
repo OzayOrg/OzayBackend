@@ -40,13 +40,13 @@ public class OrganizationRepository {
 
     public void create(Organization organization){
         String query = "INSERT INTO organization (user_id, name, created_date, address_1, address_2, phone, state, country, zip, created_by) " +
-            "VALUES(:userId, :name, now(), :address1, :address2, :phone, :state, :country, :zip, :createdBy" +
+            "VALUES(:userId, :name, now(), :address, :apartment, :phone, :state, :country, :zip, :createdBy" +
             ")";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", organization.getUserId());
         params.addValue("name", organization.getName());
-        params.addValue("address1", organization.getAddress1());
-        params.addValue("address2", organization.getAddress2());
+        params.addValue("address", organization.getAddress());
+        params.addValue("apartment", organization.getAddress());
         params.addValue("phone", organization.getPhone());
         params.addValue("state", organization.getState());
         params.addValue("country", organization.getCountry());
@@ -59,8 +59,8 @@ public class OrganizationRepository {
         String query = "UPDATE organization " +
             "SET user_id=:userId, " +
             "name=:name, " +
-            "address_1=:address1," +
-            "address_2=:address2," +
+            "address_1=:address," +
+            "aparment=:apartment," +
             "phone=:phone," +
             "state=:state," +
             "country=:country," +
@@ -71,8 +71,8 @@ public class OrganizationRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", organization.getUserId());
         params.addValue("name", organization.getName());
-        params.addValue("address1", organization.getAddress1());
-        params.addValue("address2", organization.getAddress2());
+        params.addValue("address1", organization.getAddress());
+        params.addValue("address2", organization.getApartment());
         params.addValue("phone", organization.getPhone());
         params.addValue("state", organization.getState());
         params.addValue("country", organization.getCountry());
