@@ -39,9 +39,9 @@
                                             <tbody ng-repeat="organization in organizations| orderBy:predicate:reverse">
                                             <td>{{organization.name}}</td>
                                             <td>
-                                                <a ui-sref="management-edit({id:organization.id})">Edit</a>
+                                                <a ui-sref="management-edit({organizationId:organization.id})">Edit</a>
                                                 &nbsp;
-                                                <a ui-sref="organization-detail({id:organization.id})">Detail</a>
+                                                <a ui-sref="organization-detail({organizationId:organization.id})">Detail</a>
                                             </td>
                                             </tbody>
                                         </table>

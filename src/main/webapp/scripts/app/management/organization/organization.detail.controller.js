@@ -5,8 +5,9 @@ angular.module('ozayApp')
         $scope.button_state = MenuSearchState;
         $scope.pageTitle = 'Organization Detail';
         $scope.predicate = 'name';
+        $scope.organizationId = $stateParams.organizationId;
 
-        Page.get({state: $state.current.name, id:$stateParams.id}).$promise.then(function(data){
+        Page.get({state: $state.current.name, id:$stateParams.organizationId}).$promise.then(function(data){
             $scope.buildings = data.buildings;
         });
 

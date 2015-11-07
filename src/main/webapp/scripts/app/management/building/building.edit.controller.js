@@ -1,16 +1,20 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('OrganizationEditController', function ($scope, $state, $stateParams, MenuSearchState, Page, Principal, Organization) {
+    .controller('BuildingEditController', function ($scope, $state, $stateParams, MenuSearchState, Page, Principal, Building) {
         $scope.button_state = MenuSearchState;
-        $scope.pageTitle = 'Organization Top';
-        $scope.contentTitle = 'Organization New';
+        $scope.pageTitle = 'Building Top';
+        $scope.contentTitle = 'Building New';
         $scope.button = true;
         $scope.submitted = false;
+
         if($state.current.name == 'management-edit'){
             Page.get({state: 'management_edit', id:$stateParams.id}).$promise.then(function(data){
-                $scope.organization = data;
+                $scope.building = data;
             });
+        }
+        else{
+            $scope.building = {};
         }
 
 
@@ -19,8 +23,8 @@ angular.module('ozayApp')
             $scope.button = false;
 
             if(confirm("Would you like to save?")){
-                if($scope.organization.id === undefined || $scope.organization.id == 0){
-                    Organization.save($scope.organization, function (data) {
+                if($scope.building.id === undefined || $scope.building.id == 0){
+                    Building.save($scope.building, function (data) {
                         $scope.showSuccessAlert = true;
                         $scope.successTextAlert = 'Successfully created';
                         $scope.button = true;
@@ -30,7 +34,7 @@ angular.module('ozayApp')
                         $scope.button = true;
                     });
                 } else{
-                    Organization.update($scope.organization, function (data) {
+                    Building.update($scope.building, function (data) {
                         $scope.showSuccessAlert = true;
                         $scope.successTextAlert = 'Successfully updated';
                         $scope.button = true;
@@ -41,9 +45,10 @@ angular.module('ozayApp')
                     });
                 }
             }
-            Organization.save();
+            Building.save();
 
         };
+
 
     });
 
