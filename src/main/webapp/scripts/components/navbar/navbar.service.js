@@ -39,7 +39,6 @@ angular.module('ozayApp')
             buildingList = list;
         }
         this.process = function(list, cookie){
-
             if(this.getBuildingList().length == 0){
                 this.setBuilding(null);
                 this.setBuildingList([]);

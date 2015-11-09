@@ -5,10 +5,10 @@ angular.module('ozayApp')
         $stateProvider
             .state('building-edit', {
                 parent: 'manage',
-                url: '/management/organization/:organizationId/building/:buildingId',
+                url: '/management/organization/:organizationId/building/{buildingId:int}',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
-                    pageTitle: 'Organization Top'
+                    pageTitle: 'Building Edit'
                 },
                 views: {
                     'content@': {
@@ -25,11 +25,11 @@ angular.module('ozayApp')
                   url: '/management/organization/:organizationId/building/new',
                   data: {
                       authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
-                      pageTitle: 'Organization Detail'
+                      pageTitle: 'Building New'
                   },
                   views: {
                       'content@': {
-                          templateUrl: 'scripts/app/management/organization/organization.detail.html',
+                          templateUrl: 'scripts/app/management/building/building.edit.html',
                           controller: 'BuildingEditController'
                       }
                   },

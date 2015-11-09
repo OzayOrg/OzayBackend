@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('OrganizationController', function ($scope, $state, $stateParams, MenuSearchState, Page, Principal, Organization) {
-        $scope.button_state = MenuSearchState;
+    .controller('OrganizationController', function ($scope, $state, $stateParams, Page, Principal, Organization) {
         $scope.pageTitle = 'Organization Top';
         $scope.predicate = 'name';
 

@@ -5,6 +5,7 @@ import com.ozay.backend.domain.Authority;
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.Building;
 import com.ozay.backend.repository.BuildingRepository;
+import com.ozay.backend.security.SecurityUtils;
 import com.ozay.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,16 +45,9 @@ public class BuildingResource {
 
         User user = userService.getUserWithAuthorities();
 
-        boolean isAdmin = false;
-        for(Authority authority : user.getAuthorities()){
-            if(authority.getName().equals("ROLE_ADMIN")){
-                isAdmin = true;
-                break;
-            }
-        }
         List<Building> buildingList = new ArrayList<Building>();
 
-        if(isAdmin){
+        if(SecurityUtils.isUserInRole("ROLE_ADMIN")){
             buildingList = buildingRepository.findAll();
         } else {
             buildingList = buildingRepository.findAllUserCanAccess(user);

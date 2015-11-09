@@ -1,15 +1,12 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('NavbarController', function ($scope, $location, $state, Auth, Principal, $cookies, ENV, MenuSearchState, SelectedBuilding) {
+    .controller('NavbarController', function ($scope, $location, $state, Auth, Principal, $cookies, ENV, SelectedBuilding) {
         $scope.activeMenu = $state;
-        $scope.button_state =MenuSearchState;
 
         $scope.isAuthenticated = Principal.isAuthenticated;
         $scope.$state = $state;
         $scope.inProduction = ENV === 'prod';
-
-
 
         $scope.logout = function () {
             SelectedBuilding.clear();
@@ -21,6 +18,10 @@ angular.module('ozayApp')
             $scope.account = account;
             $scope.isAuthenticated = Principal.isAuthenticated;
         });
+
+
+        $scope.buildingList = SelectedBuilding.getBuildingList();
+        $scope.selectedBuilding = SelectedBuilding.getBuilding();
 
         $scope.changeBuilding = function(){
             SelectedBuilding.setBuilding($scope.selectedBuilding);

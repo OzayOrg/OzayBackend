@@ -1,22 +1,23 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('BuildingEditController', function ($scope, $state, $stateParams, MenuSearchState, Page, Principal, Building) {
-        $scope.button_state = MenuSearchState;
-        $scope.pageTitle = 'Building Top';
+    .controller('BuildingEditController', function ($scope, $state, $stateParams, Page, Principal, Building) {
+        $scope.pageTitle = 'Building New';
         $scope.contentTitle = 'Building New';
         $scope.button = true;
         $scope.submitted = false;
+        $scope.organizationId = $stateParams.organizationId;
 
-        if($state.current.name == 'management-edit'){
-            Page.get({state: 'management_edit', id:$stateParams.id}).$promise.then(function(data){
-                $scope.building = data;
+        if($state.current.name == 'building-edit'){
+            $scope.contentTitle = 'Building Edit';
+            $scope.pageTitle = 'Building Edit';
+            Page.get({state: 'building-edit', id:$stateParams.buildingId}).$promise.then(function(data){
+                $scope.building = data.building;
             });
         }
         else{
             $scope.building = {};
         }
-
 
         $scope.submit = function () {
 
@@ -24,6 +25,7 @@ angular.module('ozayApp')
 
             if(confirm("Would you like to save?")){
                 if($scope.building.id === undefined || $scope.building.id == 0){
+                    $scope.building.organizationId = $stateParams.organizationId;
                     Building.save($scope.building, function (data) {
                         $scope.showSuccessAlert = true;
                         $scope.successTextAlert = 'Successfully created';
@@ -45,10 +47,6 @@ angular.module('ozayApp')
                     });
                 }
             }
-            Building.save();
-
         };
-
-
     });
 

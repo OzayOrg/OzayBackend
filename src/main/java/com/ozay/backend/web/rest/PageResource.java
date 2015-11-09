@@ -1,10 +1,12 @@
 package com.ozay.backend.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ozay.backend.model.Building;
 import com.ozay.backend.model.Organization;
 import com.ozay.backend.repository.BuildingRepository;
 import com.ozay.backend.repository.OrganizationRepository;
 import com.ozay.backend.service.UserService;
+import com.ozay.backend.web.rest.dto.pages.PageBuildingEditDTO;
 import com.ozay.backend.web.rest.dto.pages.PageManagementDTO;
 import com.ozay.backend.web.rest.dto.pages.PageOrganizationDetailDTO;
 import org.slf4j.Logger;
@@ -77,5 +79,19 @@ public class PageResource {
         PageOrganizationDetailDTO pageOrganizationDetailDTO = new PageOrganizationDetailDTO();
         pageOrganizationDetailDTO.setBuildings(buildingRepository.findAllOrganizationBuildings(id));
         return new ResponseEntity<>(pageOrganizationDetailDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value = "/building-edit/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<PageBuildingEditDTO> getBuildingEditContents(@PathVariable Long id){
+        Building building = buildingRepository.findOne(id);
+        log.debug("REST request to get building edit : {}", building);
+        PageBuildingEditDTO pageBuildingEditDTO = new PageBuildingEditDTO();
+        pageBuildingEditDTO.setBuilding(building);
+        return new ResponseEntity<>(pageBuildingEditDTO, HttpStatus.OK);
     }
 }

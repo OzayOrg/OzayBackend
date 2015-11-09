@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('MainController', function ($scope, Principal, MenuSearchState) {
+    .controller('MainController', function ($scope, Principal) {
         // For mobile nav
-        $scope.menu_search_state = MenuSearchState;
 
         Principal.identity().then(function(account) {
             $scope.account = account;
