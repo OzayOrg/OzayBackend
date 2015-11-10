@@ -6,5 +6,11 @@ angular.module('ozayApp')
             .state('manage', {
                 abstract: true,
                 parent: 'site',
+                views: {
+                    'title@': {
+                        templateUrl: 'scripts/components/layout/title.html',
+                    }
+                },
+
             });
     });

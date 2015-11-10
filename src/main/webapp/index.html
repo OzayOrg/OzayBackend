@@ -24,11 +24,12 @@
 
 <div class="row" ng-controller="PageController">
     <div ui-view="navbar" ng-cloak=""></div>
+    <div ui-view="login"></div>
     <div ng-cloak>
         <div id="content" class="">
-            <div class="side-body" ng-class="{'body-slide-in' : button_state.getState()}">
-                <div ui-view="content">
-                </div>
+            <div class="side-body" ng-class="{'body-slide-in' : button_state.getState(), 'loaded': loaded}">
+                <div ui-view="title"></div>
+                <div ui-view="content"></div>
             </div>
         </div>
     </div>
@@ -156,6 +157,9 @@
 <script src="scripts/components/page/page.controller.js"></script>
 <script src="scripts/app/management/building/building.js"></script>
 <script src="scripts/app/management/building/building.edit.controller.js"></script>
+<script src="scripts/app/management/role/role.js"></script>
+<script src="scripts/app/management/role/role.controller.js"></script>
+<script src="scripts/app/management/role/role.edit.controller.js"></script>
 
 <!-- endbuild -->
 </body>

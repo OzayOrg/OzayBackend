@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('LoginController', function ($rootScope, $scope, $state, $timeout, $cookies, Auth, Building, SelectedBuilding) {
+    .controller('LoginController', function ($rootScope, $scope, $state, $timeout, $cookies, Auth, Building, UserInformation) {
         $scope.user = {};
         $scope.errors = {};
 
@@ -17,7 +17,7 @@ angular.module('ozayApp')
                 $scope.authenticationError = false;
 
                 Building.query().$promise.then(function(list) {
-                        SelectedBuilding.process(list, $cookies);
+                        UserInformation.process(list, $cookies);
                     }, function(error){
                 })
                 .finally(function() {

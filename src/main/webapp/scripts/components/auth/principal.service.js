@@ -41,6 +41,7 @@ angular.module('ozayApp')
                 _authenticated = identity !== null;
             },
             identity: function (force) {
+                console.log(1);
                 var deferred = $q.defer();
 
                 if (force === true) {
@@ -54,7 +55,7 @@ angular.module('ozayApp')
 
                     return deferred.promise;
                 }
-
+                console.log(2);
                 // retrieve the identity data from the server, update the identity object, and then resolve.
                 Account.get({building:$stateParams.building, organization:$stateParams.organization}).$promise
                     .then(function (account) {

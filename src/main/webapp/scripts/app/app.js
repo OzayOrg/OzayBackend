@@ -4,51 +4,43 @@ angular.module('ozayApp', ['LocalStorageModule',
                'ui.bootstrap', // for modal dialogs
     'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
 
-    .run(function ($rootScope, $location, $window, $http, $state,  Auth, Principal, Building, SelectedBuilding, $cookies, ENV, VERSION) {
+    .run(function ($rootScope, $location, $window, $http, $state, $q, $stateParams, Auth, Principal, Building, UserInformation, $cookies, ENV, VERSION) {
 
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
 
         Building.query().$promise.then(function(list) {
-                SelectedBuilding.process(list, $cookies);
+                UserInformation.process(list, $cookies);
             }, function(error){
         });
 
 
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
-
-             if(Principal.isAuthenticated() == true){
-                if(SelectedBuilding.getBuildingList().length == 0 || SelectedBuilding.getBuilding() == null){
-                    Building.query().$promise.then(function(list) {
-                            SelectedBuilding.process(list, $cookies);
-                        }, function(error){
-                    });
-                }
-            }
-
-
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
 
             if (Principal.isIdentityResolved()) {
                 Auth.authorize();
             }
-
         });
 
         $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
             var titleKey = 'ozay';
 
-
             if(Principal.isAuthenticated() == true){
-                if(SelectedBuilding.getBuildingList().length == 0 || SelectedBuilding.getBuilding() == null){
+                if(UserInformation.getBuildingList().length == 0 || UserInformation.getBuilding() == null){
                     Building.query().$promise.then(function(list) {
-                            SelectedBuilding.process(list, $cookies);
+                            UserInformation.process(list, $cookies);
                         }, function(error){
                     });
                 }
+                if($stateParams.organizationId !== undefined && $stateParams.organizationId != UserInformation.getOrganization()){
+                console.log(0);
+//                    Principal.identity(true).then(function(account) {
+//                        UserInformation.setOrganization($stateParams.organizationId);
+//                    });
+                }
             }
-
 
             // Remember previous state unless we've been redirected to login or we've just
             // reset the state memory after logout. If we're redirected to login, our
