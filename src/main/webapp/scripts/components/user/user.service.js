@@ -56,7 +56,6 @@ angular.module('ozayApp')
             var cookieBuildingId = cookie.get('selectedBuilding');
 
             this.setBuildingList(list);
-            console.log(list);
 
             if(cookieBuildingId === undefined || cookieBuildingId == null){
                 if(this.getBuildingList().length > 0){
