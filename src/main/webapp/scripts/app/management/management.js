@@ -11,6 +11,5 @@ angular.module('ozayApp')
                         templateUrl: 'scripts/components/layout/title.html',
                     }
                 },
-
             });
     });

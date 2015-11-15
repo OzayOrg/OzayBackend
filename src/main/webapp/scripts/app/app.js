@@ -9,12 +9,6 @@ angular.module('ozayApp', ['LocalStorageModule',
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
 
-        Building.query().$promise.then(function(list) {
-                UserInformation.process(list, $cookies);
-            }, function(error){
-        });
-
-
         $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
@@ -22,25 +16,27 @@ angular.module('ozayApp', ['LocalStorageModule',
             if (Principal.isIdentityResolved()) {
                 Auth.authorize();
             }
-        });
-
-        $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
-            var titleKey = 'ozay';
-
             if(Principal.isAuthenticated() == true){
+                // This is for get building list
                 if(UserInformation.getBuildingList().length == 0 || UserInformation.getBuilding() == null){
                     Building.query().$promise.then(function(list) {
                             UserInformation.process(list, $cookies);
+
                         }, function(error){
                     });
                 }
-                if($stateParams.organizationId !== undefined && $stateParams.organizationId != UserInformation.getOrganization()){
-                console.log(0);
-//                    Principal.identity(true).then(function(account) {
-//                        UserInformation.setOrganization($stateParams.organizationId);
-//                    });
+                // This is for only organization page.
+                if($stateParams.organizationId !== undefined && $stateParams.organizationId != UserInformation.getOrganization() ){
+                    Principal.identity(true).then(function(account) {
+                        UserInformation.setOrganization($stateParams.organizationId);
+                    });
                 }
             }
+        });
+
+        $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
+
+            var titleKey = 'ozay';
 
             // Remember previous state unless we've been redirected to login or we've just
             // reset the state memory after logout. If we're redirected to login, our
