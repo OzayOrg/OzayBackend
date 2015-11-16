@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('LoginController', function ($rootScope, $scope, $state, $timeout, $cookies, Auth, Building, UserInformation) {
+    .controller('LoginController', function ($rootScope, $scope, $state, $timeout, Auth) {
         $scope.user = {};
         $scope.errors = {};
 
@@ -15,19 +15,11 @@ angular.module('ozayApp')
                 rememberMe: $scope.rememberMe
             }).then(function () {
                 $scope.authenticationError = false;
-
-                Building.query().$promise.then(function(list) {
-                        UserInformation.process(list, $cookies);
-                    }, function(error){
-                })
-                .finally(function() {
-                    if ($rootScope.previousStateName === 'register') {
-                        $state.go('home');
-                    } else {
-                        $rootScope.back();
-                    }
-              });
-
+                if ($rootScope.previousStateName === 'register') {
+                    $state.go('home');
+                } else {
+                    $rootScope.back();
+                }
             }).catch(function () {
                 $scope.authenticationError = true;
             });

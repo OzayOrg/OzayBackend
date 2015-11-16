@@ -10,6 +10,6 @@ angular.module('ozayApp')
                     'title@': {
                         templateUrl: 'scripts/components/layout/title.html',
                     }
-                },
+                }
             });
     });

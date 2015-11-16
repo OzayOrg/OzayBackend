@@ -8,7 +8,7 @@ angular.module('ozayApp')
         $scope.inProduction = ENV === 'prod';
 
         $scope.logout = function () {
-            UserInformation.clear();
+//            UserInformation.clear();
             Auth.logout();
             $state.go('login');
         };
@@ -18,20 +18,11 @@ angular.module('ozayApp')
             $scope.isAuthenticated = Principal.isAuthenticated;
         });
 
-        if(Principal.isAuthenticated() == true){
-            Building.query().$promise.then(function(list) {
-                    UserInformation.process(list, $cookies);
-                }, function(error){
-            });
-        }
-
         $scope.buildingList = UserInformation.getBuildingList();
         $scope.selectedBuilding = UserInformation.getBuilding();
 
-
-
         $scope.changeBuilding = function(){
-            UserInformation.setBuilding($scope.selectedBuilding);
+//            UserInformation.setBuilding($scope.selectedBuilding);
             $cookies.put('selectedBuilding', $scope.selectedBuilding);
             //$state.transitionTo('home.home', null, {'reload':true});
             $state.reload();

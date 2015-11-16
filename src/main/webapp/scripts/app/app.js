@@ -16,22 +16,6 @@ angular.module('ozayApp', ['LocalStorageModule',
             if (Principal.isIdentityResolved()) {
                 Auth.authorize();
             }
-            if(Principal.isAuthenticated() == true){
-                // This is for get building list
-                if(UserInformation.getBuildingList().length == 0 || UserInformation.getBuilding() == null){
-                    Building.query().$promise.then(function(list) {
-                            UserInformation.process(list, $cookies);
-
-                        }, function(error){
-                    });
-                }
-                // This is for only organization page.
-                if($stateParams.organizationId !== undefined && $stateParams.organizationId != UserInformation.getOrganization() ){
-                    Principal.identity(true).then(function(account) {
-                        UserInformation.setOrganization($stateParams.organizationId);
-                    });
-                }
-            }
         });
 
         $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
@@ -81,6 +65,11 @@ angular.module('ozayApp', ['LocalStorageModule',
                 authorize: ['Auth',
                     function (Auth) {
                         return Auth.authorize();
+                    }
+                ],
+                userInfo: ['UserInformation',
+                    function (UserInformation) {
+                        return UserInformation.process();
                     }
                 ]
             }

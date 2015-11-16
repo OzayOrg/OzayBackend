@@ -16,60 +16,163 @@ angular.module('ozayApp')
         });
 
 
-
 angular.module('ozayApp')
-    .service('UserInformation', function() {
-        var building = null ;
+    .service('UserInformation', function UserInformation($q, $cookies, Building) {
+        var building;
         var buildingList = [];
         var organization = null;
 
-        this.clear = function(){
-            building = null;
-            buildingList = [];
-            organization = null;
-        }
-        this.getOrganization = function(){
-            return organization;
-        }
-        this.setOrganization = function(organizationId){
-            organization = organizationId;
-        }
+        return {
+            getBuilding:function(){
+                return building;
+            },
+            getBuildingList : function(){
+                return buildingList;
+            },
+            process: function () {
+                var deferred = $q.defer();
 
-        this.getBuilding = function(){
-            return building;
-        }
-        this.setBuilding = function(buildingId){
-            building = buildingId;
-        }
-        this.getBuildingList = function(){
-            return buildingList;
-        }
-        this.setBuildingList = function(list){
-            buildingList = list;
-        }
-        this.process = function(list, cookie){
-            if(this.getBuildingList().length == 0){
-                this.setBuilding(null);
-                this.setBuildingList([]);
-                cookie.remove('selectedBuilding');
-            }
-            var cookieBuildingId = cookie.get('selectedBuilding');
-
-            this.setBuildingList(list);
-
-            if(cookieBuildingId === undefined || cookieBuildingId == null){
-                if(this.getBuildingList().length > 0){
-                    this.setBuilding(list[0].id);
-                    cookie.put('selectedBuilding', building);
+                if (angular.isDefined(building)) {
+                    deferred.resolve(building);
+                    return deferred.promise;
                 }
-            }else{
-                for(var i = 0; i < this.getBuildingList().length;i++){
-                    if(this.getBuildingList()[i].id == cookieBuildingId){
-                        this.setBuilding(this.getBuildingList()[i].id);
-                        cookie.put('selectedBuilding', building);
-                        break;
-                    }
-                }
+                // retrieve the identity data from the server, update the identity object, and then resolve.
+                Building.query().$promise
+                    .then(function (list) {
+                        if(list.length == 0){
+                            building = undefined;
+                            buildingList = [];
+                            deferred.resolve(building);
+                            return deferred.promise;
+                        }
+
+                        buildingList = list;
+
+                        var cookieBuildingId = $cookies.get('selectedBuilding');
+
+                        if(building === undefined){
+                            building = buildingList[0].id;
+                        }
+
+
+                        deferred.resolve(building);
+                    })
+                    .catch(function() {
+                        building = undefined;
+                        buildingList = [];
+                        organization = null;
+                        deferred.resolve(_identity);
+                    });
+                return deferred.promise;
             }
-        }
+        };
     });
+
+
+
+
+//angular.module('ozayApp')
+//    .service('UserInformation', function UserInformation($q, $cookies, Building) {
+//        var building = null ;
+//        var buildingList = [];
+//        var organization = null;
+//        return {
+//            clear:function(){
+//                building = null;
+//                buildingList = [];
+//                organization = null;
+//            },
+//            getOrganization: function(){
+//                return organization;
+//            },
+//            setOrganization: function(organizationId){
+//                organization = organizationId;
+//            },
+//            getBuilding: function(){
+//                return building;
+//            },
+//            setBuilding : function(buildingId){
+//                building = buildingId;
+//            },
+//            getBuildingList: function(){
+//                return buildingList;
+//            },
+//            setBuildingList:function(list){
+//                buildingList = list;
+//            },
+//
+//
+//            processcopy: function (force) {
+//                var deferred = $q.defer();
+//
+//                if (force === true) {
+//                    building = undefined;
+//                }
+//
+//                // check and see if we have retrieved the identity data from the server.
+//                // if we have, reuse it by immediately resolving
+//                if (angular.isDefined(building)) {
+//                    deferred.resolve(building);
+//                    return deferred.promise;
+//                }
+//
+//                // retrieve the identity data from the server, update the identity object, and then resolve.
+//                 Building.query().$promise
+//                    .then(function (list) {
+//                        building = 1;
+//                        buildingList = list;
+//                        deferred.resolve(building);
+//                    })
+//                    .catch(function() {
+//                        building = undefined;
+//                        buildingList = [];
+//                        deferred.resolve(building);
+//                    });
+//                return deferred.promise;
+//            },
+//
+//            copy : function(){
+//                var deferred = $q.defer();
+//
+//
+//
+//                if(buildingList.length == 0){
+//                    building = undefined;
+//                    buildingList = [];
+//                    $cookies.remove('selectedBuilding');
+//                }
+//                if (angular.isDefined(building)) {
+//                    deferred.resolve(building);
+//                    return deferred.promise;
+//                }
+//
+//                var cookieBuildingId = $cookies.get('selectedBuilding');
+//
+//                Building.query().$promise
+//                    .then(function (list) {
+//                        buildingList = list;
+//                        if(cookieBuildingId === undefined || cookieBuildingId == null){
+//                            if(buildingList.length > 0){
+//                                building = list[0].id;
+//                                $cookies.put('selectedBuilding', building);
+//                            }
+//                        }else{
+//                            for(var i = 0; i < this.getBuildingList().length;i++){
+//                                if(buildingId[i].id == cookieBuildingId){
+//                                    building = buildingId[i].id;
+//                                    $cookies.put('selectedBuilding', building);
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    })
+//                    .catch(function() {
+//                        building = null;
+//                        buildingList = [];
+//                        $cookies.remove('selectedBuilding');
+//                    });
+//            console.log(deferred.promise);
+//            return deferred.promise;
+//            }
+//        };
+//    });
