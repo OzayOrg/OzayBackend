@@ -5,7 +5,7 @@ angular.module('ozayApp')
         $stateProvider
             .state('role', {
                 parent: 'manage',
-                url: '/management/organization/organizationId{organizationId:int}/building/{buildingId:int}/role',
+                url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
                     pageTitle: 'Role List'
@@ -22,7 +22,7 @@ angular.module('ozayApp')
             })
            .state('role-edit', {
                           parent: 'manage',
-                          url: '/management/organization/organizationId{organizationId:int}/building/{buildingId:int}/role/edit/{roleId:int}',
+                          url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role/edit/{roleId:int}',
                           data: {
                               authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
                               pageTitle: 'Role Edit'
@@ -39,7 +39,7 @@ angular.module('ozayApp')
                       })
           .state('role-new', {
                   parent: 'manage',
-                  url: '/management/organization/organizationId{organizationId:int}/building/{buildingId:int}/role/new',
+                  url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role/new',
                   data: {
                       authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
                       pageTitle: 'Role New'

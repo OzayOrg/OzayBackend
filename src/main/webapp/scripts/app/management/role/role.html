@@ -1,11 +1,3 @@
-<div class="page-title-wrapper">
-    <div class="row">
-        <div class="col-xs-12">
-            <h3>Role List</h3>
-        </div>
-    </div>
-</div>
-
 <div class="side-body-content">
     <div class="row">
         <div class="col-xs-12">
@@ -15,7 +7,7 @@
                         <h4 class="col-xs-12">
                             Role List
                                 <span class="pull-right" has-authority="ROLE_SUBSCRIBER" has-authroity="ROLE_ADMIN">
-                                    <a ui-sref='organization-new'>
+                                    <a ui-sref='role-new({organizationId:organizationId, buildingId:buildingId})'>
                                         <button class="btn button">
                                             Add
                                         </button>
@@ -35,12 +27,10 @@
                                         <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Name</a></th>
                                         <th>Action</th>
                                         </thead>
-                                        <tbody ng-repeat="organization in organizations| orderBy:predicate:reverse">
-                                        <td>{{organization.name}}</td>
+                                        <tbody ng-repeat="role in roles| orderBy:predicate:reverse">
+                                        <td>{{role.name}}</td>
                                         <td>
-                                            <a ui-sref="organization-edit({organizationId:organization.id})">Edit</a>
-                                            &nbsp;
-                                            <a ui-sref="organization-detail({organizationId:organization.id})">Detail</a>
+                                            <a ui-sref="role-edit({organizationId:organizationId, buildingId:building.id, roleId:role.id})">Edit</a>
                                         </td>
                                         </tbody>
                                     </table>

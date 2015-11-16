@@ -2,17 +2,17 @@
 
 angular.module('ozayApp')
     .controller('RoleEditController', function ($scope, $state, $stateParams, Page, Principal, Building) {
-        $scope.pageTitle = 'Building New';
-        $scope.contentTitle = 'Building New';
+        $scope.pageTitle = 'Role New';
+        $scope.contentTitle = 'Role New';
         $scope.button = true;
         $scope.submitted = false;
         $scope.organizationId = $stateParams.organizationId;
 
-        if($state.current.name == 'building-edit'){
-            $scope.contentTitle = 'Building Edit';
-            $scope.pageTitle = 'Building Edit';
-            Page.get({state: 'building-edit', id:$stateParams.buildingId}).$promise.then(function(data){
-                $scope.building = data.building;
+        if($state.current.name == 'role-edit'){
+            $scope.contentTitle = 'Role Edit';
+            $scope.pageTitle = 'Role Edit';
+            Page.get({state: 'role-edit', id:$stateParams.buildingId}).$promise.then(function(data){
+                $scope.role = data.role;
             });
         }
         else{

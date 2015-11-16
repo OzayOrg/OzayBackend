@@ -396,12 +396,14 @@ ul#strength {
     height: 100%;
     border-right: 1px solid $first_gray;
     background-color: $second_gray;
-    -moz-animation: slideout 300ms forwards;
-    -o-animation: slideout 300ms forwards;
-    -webkit-animation: slideout 300ms forwards;
-    animation: slideout 300ms forwards;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
+  }
+  .side-menu-container > .activated {
+     -moz-animation: slideout 300ms forwards;
+     -o-animation: slideout 300ms forwards;
+     -webkit-animation: slideout 300ms forwards;
+     animation: slideout 300ms forwards;
+     -webkit-transform-style: preserve-3d;
+     transform-style: preserve-3d;
   }
   /* Uncomment for scrollable menu -> see top comment */
   /*.absolute-wrapper{
@@ -466,6 +468,9 @@ ul#strength {
     margin-left: 0;
     margin-top: 50px;
     position: relative;
+
+  }
+  .side-body.loaded{
     -moz-animation: bodyslideout 300ms forwards;
     -o-animation: bodyslideout 300ms forwards;
     -webkit-animation: bodyslideout 300ms forwards;
@@ -473,7 +478,7 @@ ul#strength {
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
   }
-  .body-slide-in {
+  .body-slide-in.loaded {
     -moz-animation: bodyslidein 300ms forwards;
     -o-animation: bodyslidein 300ms forwards;
     -webkit-animation: bodyslidein 300ms forwards;
@@ -635,6 +640,42 @@ li#profile-li {
 
 #logo {
     max-width: 300px;
+}
+
+a{
+    text-decoration: none !important;
+}
+a:focus, a:hover{
+    border: none!important;
+    outline:none;
+}
+
+
+
+.checkbox-ul{
+    list-style-type: none;
+    padding:0;
+    a{
+        display:block;
+        padding:10px;
+        min-width:100px;
+        color:black;
+    }
+    a:focus, a:hover{
+        border: none!important;
+    }
+    li{
+
+        display:inline-block;
+        background-color:$first_gray;
+    }
+    li.active{
+        background-color:$second_gray;
+    }
+
+    input[type='checkbox']{
+        display:none;
+    }
 }
 
 @media screen and (max-width:767px){

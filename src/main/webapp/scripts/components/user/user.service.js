@@ -61,7 +61,7 @@ angular.module('ozayApp')
                         building = undefined;
                         buildingList = [];
                         organization = null;
-                        deferred.resolve(_identity);
+                        deferred.resolve(building);
                     });
                 return deferred.promise;
             }

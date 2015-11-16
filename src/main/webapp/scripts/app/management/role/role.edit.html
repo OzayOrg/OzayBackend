@@ -1,12 +1,3 @@
-
-<div class="page-title-wrapper">
-    <div class="row">
-        <div class="col-xs-12">
-            <h3>Building</h3>
-        </div>
-    </div>
-</div>
-
 <div class="side-body-content">
     <div class="row">
         <div class="col-xs-12">
@@ -31,38 +22,33 @@
                             <div class="col-xs-12">
                                 <div class="side-body-inner-content">
                                     <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
-                                        <label for="name">Building Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="" ng-model="building.name" required>
+                                        <label for="name">Role Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="" ng-model="role.name" required>
                                         <p ng-show="submitted && form.name.$error.required" class="help-block has-error">Required</p>
                                     </div>
+
                                     <div class="form-group">
-                                        <label for="street">Street</label>
-                                        <input type="text" class="form-control" id="street" placeholder="" ng-model="building.street">
+                                        <label>Organization Role</label>
+                                        <ul class="checkbox-ul">
+                                            <li ng-class="{'active': role.organizationUserRole,'inactive': !role.organizationUserRole}"><a ng-click="role.organizationUserRole = !role.organizationUserRole"><input ng-model="role.organizationUserRole" type="checkbox" value='1' name="role.organizationUserRole" >Organization Member Only</a></li>
+                                        </ul>
                                     </div>
                                     <div class="form-group">
-                                        <label for="apartment">Apartment</label>
-                                        <input type="text" class="form-control" id="apartment" placeholder="" ng-model="building.apartment">
+                                        <label for="belongTo">Belong To</label>
+                                        <select id="belongTo" class="form-control" ng-model="role.belongTo" ng-options="role.id as role.name for role in roleList"></select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="city">City</label>
-                                        <input type="text" class="form-control" id="city" placeholder="" ng-model="building.city">
+                                        <label>Access</label>
+                                        <ul class="checkbox-ul">
+                                            <li ng-class="{'active': access[obj.name],'inactive': !access[obj.name]}" ng-repeat="obj in accessList"><a ng-click="access[obj.name] = !access[obj.name]; rolePermissionsClicked(obj.name, access[obj.name])"><input ng-model="access[obj.name]"  type="text" value='{{obj.value}}' name="{{obj.name}}" >{{obj.label}}</a></li>
+                                        </ul>
                                     </div>
+
                                     <div class="form-group">
-                                        <label for="state">State</label>
-                                        <input type="text" class="form-control" id="state" placeholder="" ng-model="building.state">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="zip">Zip</label>
-                                        <input type="text" class="form-control" id="zip" placeholder="" ng-model="building.zip">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="phone">Phone</label>
-                                        <input type="text" class="form-control" id="phone" placeholder="" ng-model="building.phone">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="totalUnits">Total Units</label>
-                                        <input type="text" class="form-control" name="totalUnits" id="totalUnits" placeholder="" ng-model="building.totalUnits" required>
-                                        <p ng-show="submitted && form.totalUnits.$error.required" class="help-block has-error">Required</p>
+                                        <label>Assign</label>
+                                        <div ng-repeat="organizationUser in organizationUserRoleDTOs">
+                                            <label><input ng-model="organizationUser.assigned" type="checkbox"> {{organizationUser.firstName}} {{organizationUser.lastName}}</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
