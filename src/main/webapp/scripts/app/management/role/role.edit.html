@@ -30,17 +30,25 @@
                                     <div class="form-group">
                                         <label>Organization Role</label>
                                         <ul class="checkbox-ul">
-                                            <li ng-class="{'active': role.organizationUserRole,'inactive': !role.organizationUserRole}"><a ng-click="role.organizationUserRole = !role.organizationUserRole"><input ng-model="role.organizationUserRole" type="checkbox" value='1' name="role.organizationUserRole" >Organization Member Only</a></li>
+                                            <li ng-class="{'active': role.organizationUserRole,'inactive': !role.organizationUserRole}">
+                                                <a ng-click="role.organizationUserRole = !role.organizationUserRole">
+                                                    <input ng-model="role.organizationUserRole" type="checkbox" value='1' name="role.organizationUserRole" >Organization Member Only
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" ng-show="roles != null">
                                         <label for="belongTo">Belong To</label>
-                                        <select id="belongTo" class="form-control" ng-model="role.belongTo" ng-options="role.id as role.name for role in roleList"></select>
+                                        <select id="belongTo" class="form-control" ng-model="role.belongTo" ng-options="role.id as role.name for role in roles"></select>
                                     </div>
                                     <div class="form-group">
                                         <label>Access</label>
                                         <ul class="checkbox-ul">
-                                            <li ng-class="{'active': access[obj.name],'inactive': !access[obj.name]}" ng-repeat="obj in accessList"><a ng-click="access[obj.name] = !access[obj.name]; rolePermissionsClicked(obj.name, access[obj.name])"><input ng-model="access[obj.name]"  type="text" value='{{obj.value}}' name="{{obj.name}}" >{{obj.label}}</a></li>
+                                            <li ng-class="{'active': access[obj.name],'inactive': !access[obj.name]}" ng-repeat="obj in permissions">
+                                                <a ng-click="access[obj.name] = !access[obj.name]; rolePermissionsClicked(obj.name, access[obj.name])">
+                                                    <input ng-model="access[obj.name]"  type="checkbox" value='{{obj.value}}' name="{{obj.name}}" >{{obj.label}}
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
 

@@ -4,16 +4,25 @@ package com.ozay.backend.model;
  * Created by naofumiezaki on 10/31/15.
  */
 public class Permission {
-    private String name;
+    private Long id;
+    private String key;
     private String label;
     private long type;
 
-    public String getName() {
-        return name;
+    public Long getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getLabel() {

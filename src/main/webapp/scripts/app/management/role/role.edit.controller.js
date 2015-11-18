@@ -8,41 +8,38 @@ angular.module('ozayApp')
         $scope.submitted = false;
         $scope.organizationId = $stateParams.organizationId;
 
+        Page.get({state: $state.current.name, building:$stateParams.buildingId}).$promise.then(function(data){
+            $scope.permissions = data.permissions;
+            $scope.roles = data.roles;
+
+        });
+
         if($state.current.name == 'role-edit'){
             $scope.contentTitle = 'Role Edit';
             $scope.pageTitle = 'Role Edit';
-            Page.get({state: 'role-edit', id:$stateParams.buildingId}).$promise.then(function(data){
-                $scope.role = data.role;
-            });
         }
         else{
-            $scope.building = {};
+            $scope.role = {};
         }
 
         $scope.submit = function () {
-
             $scope.button = false;
-
             if(confirm("Would you like to save?")){
                 if($scope.building.id === undefined || $scope.building.id == 0){
                     $scope.building.organizationId = $stateParams.organizationId;
                     Building.save($scope.building, function (data) {
-                        $scope.showSuccessAlert = true;
                         $scope.successTextAlert = 'Successfully created';
-                        $scope.button = true;
                     }, function (error){
-                        $scope.showErrorAlert = true;
                         $scope.errorTextAlert = "Error! Please try later.";
+                    }).finally(function(){
                         $scope.button = true;
                     });
                 } else{
                     Building.update($scope.building, function (data) {
-                        $scope.showSuccessAlert = true;
                         $scope.successTextAlert = 'Successfully updated';
-                        $scope.button = true;
                     }, function (error){
-                        $scope.showErrorAlert = true;
                         $scope.errorTextAlert = "Error! Please try later.";
+                    }).finally(function(){
                         $scope.button = true;
                     });
                 }
