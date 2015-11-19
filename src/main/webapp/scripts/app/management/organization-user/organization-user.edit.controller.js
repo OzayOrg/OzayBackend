@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('RoleEditController', function($scope, $state, $stateParams, Page, Principal, Role) {
+    .controller('RoleEditController', function ($scope, $state, $stateParams, Page, Principal, Role) {
         $scope.pageTitle = 'Role New';
         $scope.contentTitle = 'Role New';
         $scope.button = true;
@@ -11,31 +11,28 @@ angular.module('ozayApp')
         $scope.accessList = [];
         var roleId = $stateParams.roleId;
 
-        Page.get({
-            state: $state.current.name,
-            id: roleId,
-            building: $stateParams.buildingId
-        }).$promise.then(function(data) {
+
+        Page.get({state: $state.current.name, id:roleId, building:$stateParams.buildingId}).$promise.then(function(data){
             $scope.permissions = data.permissions;
 
-            if (data.roles.length > 0) {
+            if(data.roles.length > 0){
                 $scope.showBelongTo = true;
                 $scope.roles = data.roles;
             }
 
-            for (var i = 0; i < data.permissions.length; i++) {
+            for(var i = 0; i< data.permissions.length;i++){
                 $scope.accessList.push({
                     id: data.permissions[i].id,
-                    label: data.permissions[i].label,
+                    label:data.permissions[i].label,
                 });
             }
-            if ($state.current.name == 'role-edit') {
+            if($state.current.name == 'role-edit'){
                 $scope.role = data.role;
 
-                if (data.role.rolePermissions.length == 0) {
+                if(data.role.rolePermissions.length == 0){
                     $scope.role.rolePermissions = [];
-                } else {
-                    for (var i = 0; i < $scope.role.rolePermissions.length; i++) {
+                } else{
+                    for(var i = 0; i< $scope.role.rolePermissions.length;i++){
                         var index = $scope.role.rolePermissions[i].permissionId;
                         $scope.access[index] = true;
                     }
@@ -43,23 +40,22 @@ angular.module('ozayApp')
             }
         });
 
-        if ($state.current.name == 'role-edit') {
+        if($state.current.name == 'role-edit'){
             $scope.contentTitle = 'Role Edit';
             $scope.pageTitle = 'Role Edit';
-        } else {
+        }
+        else{
             $scope.role = {};
             $scope.role.buildingId = $stateParams.buildingId;
             $scope.role.rolePermissions = [];
         }
 
-        $scope.rolePermissionsClicked = function(value, modelValue) {
-            if (modelValue == true) {
-                $scope.role.rolePermissions.push({
-                    permissionId: value
-                });
+        $scope.rolePermissionsClicked = function(value, modelValue){
+            if(modelValue == true){
+                $scope.role.rolePermissions.push({permissionId:value});
             } else {
-                for (var i = 0; i < $scope.role.rolePermissions.length; i++) {
-                    if (value == $scope.role.rolePermissions[i].permissionId) {
+                for(var i = 0; i< $scope.role.rolePermissions.length; i++){
+                    if(value == $scope.role.rolePermissions[i].permissionId){
                         $scope.role.rolePermissions.splice(i, 1);
                         break;
                     }
@@ -67,35 +63,36 @@ angular.module('ozayApp')
             }
         }
 
-        $scope.submit = function() {
+        $scope.submit = function () {
             $scope.button = false;
             $scope.successTextAlert = null;
             $scope.errorTextAlert = null;
 
-            if (confirm("Would you like to save?")) {
+            if(confirm("Would you like to save?")){
                 var form = {};
                 form['role'] = $scope.role;
                 form['OrganizationUserRoleDTO'] = [];
                 console.log(form);
-                if ($scope.role.id === undefined || $scope.role.id == 0) {
+                if($scope.role.id === undefined || $scope.role.id == 0){
                     $scope.role.buildingId = $stateParams.buildingId;
 
-                    Role.save(form, function(data) {
+                    Role.save(form, function (data) {
                         $scope.successTextAlert = 'Successfully created';
-                    }, function(error) {
+                    }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";
-                    }).$promise.finally(function() {
+                    }).$promise.finally(function(){
                         $scope.button = true;
                     });
-                } else {
-                    Role.update(form, function(data) {
+                } else{
+                    Role.update(form, function (data) {
                         $scope.successTextAlert = 'Successfully updated';
-                    }, function(error) {
+                    }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";
-                    }).$promise.finally(function() {
+                    }).$promise.finally(function(){
                         $scope.button = true;
                     });
                 }
             }
         };
     });
+

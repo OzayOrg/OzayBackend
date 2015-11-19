@@ -3,17 +3,17 @@
 angular.module('ozayApp')
     .config(function($stateProvider) {
         $stateProvider
-            .state('role', {
+            .state('organization-user', {
                 parent: 'manage',
-                url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role',
+                url: '/management/organization/{organizationId:int}/building/{buildingId:int}/organization-user',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
-                    pageTitle: 'Role List'
+                    pageTitle: 'Organization User List'
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/management/role/role.html',
-                        controller: 'RoleController'
+                        templateUrl: 'scripts/app/management/organization-user/organization-user.html',
+                        controller: 'OrganizationUserController'
                     }
                 },
                 resolve: {
@@ -22,15 +22,15 @@ angular.module('ozayApp')
             })
             .state('role-edit', {
                 parent: 'manage',
-                url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role/edit/{roleId:int}',
+                url: '/management/organization/{organizationId:int}/building/{buildingId:int}/organization-user/edit/{organizationUserId:int}',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
-                    pageTitle: 'Role Edit'
+                    pageTitle: 'Organization User Edit'
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/management/role/role.edit.html',
-                        controller: 'RoleEditController'
+                        templateUrl: 'scripts/app/management/organization-user/organization-user.edit.html',
+                        controller: 'OrganizationUserEditController'
                     }
                 },
                 resolve: {
@@ -39,15 +39,15 @@ angular.module('ozayApp')
             })
             .state('role-new', {
                 parent: 'manage',
-                url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role/new',
+                url: '/management/organization/{organizationId:int}/building/{buildingId:int}/organization-user/new',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
-                    pageTitle: 'Role New'
+                    pageTitle: 'Organization User New'
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/management/role/role.edit.html',
-                        controller: 'RoleEditController'
+                        templateUrl: 'scripts/app/management/organization-user/organization-user.edit.html',
+                        controller: 'OrganizationUserEditController'
                     }
                 },
                 resolve: {

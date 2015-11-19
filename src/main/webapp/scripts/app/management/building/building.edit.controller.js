@@ -1,48 +1,49 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('BuildingEditController', function ($scope, $state, $stateParams, Page, Principal, Building) {
+    .controller('BuildingEditController', function($scope, $state, $stateParams, Page, Principal, Building) {
         $scope.pageTitle = 'Building New';
         $scope.contentTitle = 'Building New';
         $scope.button = true;
         $scope.submitted = false;
         $scope.organizationId = $stateParams.organizationId;
 
-        if($state.current.name == 'building-edit'){
+        if ($state.current.name == 'building-edit') {
             $scope.contentTitle = 'Building Edit';
             $scope.pageTitle = 'Building Edit';
-            Page.get({state: 'building-edit', id:$stateParams.buildingId}).$promise.then(function(data){
+            Page.get({
+                state: 'building-edit',
+                id: $stateParams.buildingId
+            }).$promise.then(function(data) {
                 $scope.building = data.building;
             });
-        }
-        else{
+        } else {
             $scope.building = {};
         }
 
-        $scope.submit = function () {
+        $scope.submit = function() {
             $scope.button = false;
             $scope.successTextAlert = null;
             $scope.errorTextAlert = null;
-            if(confirm("Would you like to save?")){
-                if($scope.building.id === undefined || $scope.building.id == 0){
+            if (confirm("Would you like to save?")) {
+                if ($scope.building.id === undefined || $scope.building.id == 0) {
                     $scope.building.organizationId = $stateParams.organizationId;
-                    Building.save($scope.building, function (data) {
+                    Building.save($scope.building, function(data) {
                         $scope.successTextAlert = 'Successfully created';
-                    }, function (error){
+                    }, function(error) {
                         $scope.errorTextAlert = "Error! Please try later.";
-                    }).$promise.finally(function(){
+                    }).$promise.finally(function() {
                         $scope.button = true;
                     });
-                } else{
-                    Building.update($scope.building, function (data) {
+                } else {
+                    Building.update($scope.building, function(data) {
                         $scope.successTextAlert = 'Successfully updated';
-                    }, function (error){
+                    }, function(error) {
                         $scope.errorTextAlert = "Error! Please try later.";
-                    }).$promise.finally(function(){
+                    }).$promise.finally(function() {
                         $scope.button = true;
                     });
                 }
             }
         };
     });
-

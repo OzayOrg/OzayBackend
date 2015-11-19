@@ -66,7 +66,6 @@ angular.module('ozayApp')
                         controller: 'OrganizationDetailController'
                     }
                 },
-                resolve: {
-                }
+                resolve: {}
             });
     });

@@ -1,0 +1,48 @@
+<div class="side-body-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="main-content-wrapper">
+                <div class="main-content-title">
+                    <div class="row">
+                        <h4 class="col-xs-12">
+                            Role List
+                                <span class="pull-right" has-authority="ROLE_SUBSCRIBER" has-authroity="ROLE_ADMIN">
+                                    <a ui-sref='role-new({organizationId:organizationId, buildingId:buildingId})'>
+                                        <button class="btn button">
+                                            Add
+                                        </button>
+                                    </a>
+
+                                </span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="main-content">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="side-body-inner-content">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Name</a></th>
+                                        <th>Action</th>
+                                        </thead>
+                                        <tbody ng-repeat="role in roles | orderBy:predicate:reverse">
+                                        <td>{{role.name}}</td>
+                                        <td>
+                                            <a ui-sref="role-edit({organizationId:organizationId, buildingId:buildingId, roleId:role.id})">Edit</a>
+                                        </td>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
