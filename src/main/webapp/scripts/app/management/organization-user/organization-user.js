@@ -20,7 +20,7 @@ angular.module('ozayApp')
 
                 }
             })
-            .state('role-edit', {
+            .state('oraganization-user-edit', {
                 parent: 'manage',
                 url: '/management/organization/{organizationId:int}/building/{buildingId:int}/organization-user/edit/{organizationUserId:int}',
                 data: {
@@ -37,7 +37,7 @@ angular.module('ozayApp')
 
                 }
             })
-            .state('role-new', {
+            .state('oraganization-user-new', {
                 parent: 'manage',
                 url: '/management/organization/{organizationId:int}/building/{buildingId:int}/organization-user/new',
                 data: {

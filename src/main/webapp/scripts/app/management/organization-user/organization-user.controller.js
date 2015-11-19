@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('RoleController', function($scope, $state, $stateParams, Page, Principal, Building) {
+    .controller('OrganizationUserController', function($scope, $state, $stateParams, Page, Principal, Building) {
         $scope.pageTitle = 'Role List';
         $scope.contentTitle = 'Role list';
         $scope.roles = [];
@@ -9,11 +9,9 @@ angular.module('ozayApp')
         $scope.buildingId = $stateParams.buildingId;
 
         Page.get({
-            state: $state.current.name,
-            building: $stateParams.buildingId
+            state: $state.current.name
         }).$promise.then(function(data) {
             $scope.roles = data.roles;
-            console.log(data);
         });
 
     });

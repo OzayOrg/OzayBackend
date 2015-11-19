@@ -13,7 +13,6 @@ angular.module('ozayApp')
             building: $stateParams.buildingId
         }).$promise.then(function(data) {
             $scope.roles = data.roles;
-            console.log(data);
         });
 
     });

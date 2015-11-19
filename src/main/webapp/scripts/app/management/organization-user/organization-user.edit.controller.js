@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('RoleEditController', function ($scope, $state, $stateParams, Page, Principal, Role) {
+    .controller('OrganizationUserEditController', function ($scope, $state, $stateParams, Page, Principal, Role) {
         $scope.pageTitle = 'Role New';
         $scope.contentTitle = 'Role New';
         $scope.button = true;
@@ -9,10 +9,10 @@ angular.module('ozayApp')
         $scope.organizationId = $stateParams.organizationId;
         $scope.access = [];
         $scope.accessList = [];
-        var roleId = $stateParams.roleId;
+        var organizationUserId = $stateParams.organizationUserId;
 
 
-        Page.get({state: $state.current.name, id:roleId, building:$stateParams.buildingId}).$promise.then(function(data){
+        Page.get({state: $state.current.name, id:organizationUserId, building:$stateParams.buildingId}).$promise.then(function(data){
             $scope.permissions = data.permissions;
 
             if(data.roles.length > 0){
