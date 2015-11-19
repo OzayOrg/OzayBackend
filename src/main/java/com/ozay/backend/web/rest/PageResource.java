@@ -3,10 +3,9 @@ package com.ozay.backend.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.ozay.backend.model.Building;
 import com.ozay.backend.model.Organization;
-import com.ozay.backend.repository.BuildingRepository;
-import com.ozay.backend.repository.OrganizationRepository;
-import com.ozay.backend.repository.PermissionRepository;
-import com.ozay.backend.repository.RoleRepository;
+import com.ozay.backend.model.Role;
+import com.ozay.backend.model.RolePermission;
+import com.ozay.backend.repository.*;
 import com.ozay.backend.service.UserService;
 import com.ozay.backend.web.rest.dto.pages.*;
 import org.slf4j.Logger;
@@ -18,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by naofumiezaki on 11/1/15.
@@ -40,6 +41,9 @@ public class PageResource {
 
     @Inject
     private PermissionRepository permissionRepository;
+
+    @Inject
+    private RolePermissionRepository rolePermissionRepository;
 
     @Inject
     private RoleRepository roleRepository;
@@ -132,11 +136,13 @@ public class PageResource {
     @Timed
     @Transactional(readOnly = true)
     public ResponseEntity<PageRoleEditDTO> roleEdit(@PathVariable Long id, @RequestParam(value = "building") Long buildingId){
-        log.debug("REST request to get role new  ");
+        log.debug("REST request to get role id : {} ", id);
 
         PageRoleEditDTO pageRoleEditDTO = new PageRoleEditDTO();
+
+        pageRoleEditDTO.setRole(roleRepository.findOne(id));
         pageRoleEditDTO.setPermissions(permissionRepository.findRolePermissions());
-        pageRoleEditDTO.setRoles(roleRepository.findAll(buildingId));
+        pageRoleEditDTO.setRoles(roleRepository.findAllExceptId(buildingId, id));
         return new ResponseEntity<>(pageRoleEditDTO, HttpStatus.OK);
     }
 }

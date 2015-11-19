@@ -3,6 +3,7 @@ package com.ozay.backend.repository;
 import com.ozay.backend.model.Permission;
 import com.ozay.backend.model.Role;
 import com.ozay.backend.resultsetextractor.PermissionSetExtractor;
+import com.ozay.backend.resultsetextractor.RoleRolePermissionSetExtractor;
 import com.ozay.backend.resultsetextractor.RoleSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -26,14 +27,24 @@ public class RoleRepository {
         return (List<Role>)namedParameterJdbcTemplate.query(query, params, new RoleSetExtractor(){});
     }
 
-    public Role findOne(Long id){
-        String query = "SELECT * FROM ROLE WHREE id = :id";
+    public List<Role> findAllExceptId(Long buildingId, Long roleId){
+        String query = "SELECT * FROM ROLE WHERE building_id = :buildingId AND id <> :roleId";
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id", id);
-        List<Role> roles = (List<Role>)namedParameterJdbcTemplate.query(query, params, new RoleSetExtractor(){});
+        params.addValue("buildingId", buildingId);
+        params.addValue("roleId", roleId);
+        return (List<Role>)namedParameterJdbcTemplate.query(query, params, new RoleSetExtractor(){});
+    }
+
+    public Role findOne(Long id){
+        String query = "SELECT r.*, rp.role_id, permission_id  FROM role r LEFT JOIN role_permission rp ON rp.role_id = r.id WHERE r.id = :roleId";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("roleId", id);
+        List<Role> roles = (List<Role>)namedParameterJdbcTemplate.query(query, params, new RoleRolePermissionSetExtractor(){});
         if(roles.size() == 1){
+            System.out.println(roles.get(0));
             return roles.get(0);
         } else {
+            System.out.println(123);
             return null;
         }
     }

@@ -9,11 +9,17 @@ angular.module('ozayApp')
         $scope.organizationId = $stateParams.organizationId;
         $scope.access = [];
         $scope.accessList = [];
+        var roleId = $stateParams.roleId;
 
 
-        Page.get({state: $state.current.name, building:$stateParams.buildingId}).$promise.then(function(data){
+        Page.get({state: $state.current.name, id:roleId, building:$stateParams.buildingId}).$promise.then(function(data){
             $scope.permissions = data.permissions;
-            $scope.roles = data.roles;
+
+            if(data.roles.length > 0){
+                $scope.showBelongTo = true;
+                $scope.roles = data.roles;
+            }
+
             for(var i = 0; i< data.permissions.length;i++){
                 $scope.accessList.push({
                     id: data.permissions[i].id,
@@ -21,7 +27,9 @@ angular.module('ozayApp')
                 });
             }
             if($state.current.name == 'role-edit'){
-                if(role.rolePermissions.length == 0){
+                $scope.role = data.role;
+
+                if(data.role.rolePermissions.length == 0){
                     $scope.role.rolePermissions = [];
                 } else{
                     for(var i = 0; i< $scope.role.rolePermissions.length;i++){
@@ -30,7 +38,6 @@ angular.module('ozayApp')
                     }
                 }
             }
-
         });
 
         if($state.current.name == 'role-edit'){

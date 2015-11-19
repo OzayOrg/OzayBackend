@@ -19,9 +19,7 @@ angular.module('ozayApp')
             $scope.isAuthenticated = Principal.isAuthenticated;
         });
 
-        $scope.navClicked = function(){
-            $scope.navigationLoaded = true;
-        }
+
 
         $scope.buildingList = UserInformation.getBuildingList();
         $scope.selectedBuilding = UserInformation.getBuilding();

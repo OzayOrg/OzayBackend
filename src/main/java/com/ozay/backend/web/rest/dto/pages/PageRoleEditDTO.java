@@ -10,8 +10,18 @@ import java.util.List;
  * Created by naofumiezaki on 11/17/15.
  */
 public class PageRoleEditDTO {
+    private Role role;
     private List<Permission> permissions;
     private List<Role> roles;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public List<Permission> getPermissions() {
         return permissions;
     }

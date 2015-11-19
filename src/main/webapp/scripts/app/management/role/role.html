@@ -30,7 +30,7 @@
                                         <tbody ng-repeat="role in roles | orderBy:predicate:reverse">
                                         <td>{{role.name}}</td>
                                         <td>
-                                            <a ui-sref="role-edit({organizationId:organizationId, buildingId:building.id, roleId:role.id})">Edit</a>
+                                            <a ui-sref="role-edit({organizationId:organizationId, buildingId:buildingId, roleId:role.id})">Edit</a>
                                         </td>
                                         </tbody>
                                     </table>
