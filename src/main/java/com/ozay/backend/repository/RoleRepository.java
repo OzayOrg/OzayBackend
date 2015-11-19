@@ -20,7 +20,7 @@ public class RoleRepository {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public List<Role> findAll(Long buildingId){
-        String query = "SELECT * FROM ROLE WHREE building_id = :buildingId";
+        String query = "SELECT * FROM ROLE WHERE building_id = :buildingId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", buildingId);
         return (List<Role>)namedParameterJdbcTemplate.query(query, params, new RoleSetExtractor(){});
@@ -45,7 +45,8 @@ public class RoleRepository {
         params.addValue("name", role.getName());
         params.addValue("organizationUserRole", role.isOrganizationUserRole());
         params.addValue("belongTo", role.getBelongTo());
-        namedParameterJdbcTemplate.update(query, params);
+        Long id = namedParameterJdbcTemplate.queryForObject(query, params, Long.class );
+        role.setId(id);
     }
 
     public void update(Role role){

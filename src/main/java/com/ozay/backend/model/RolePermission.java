@@ -6,14 +6,15 @@ package com.ozay.backend.model;
 public class RolePermission {
 
     private Long roleId;
-    private String name;
+    private Long permissionId;
 
-    public String getName() {
-        return name;
+
+    public Long getPermissionId() {
+        return permissionId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPermissionId(Long permissionId) {
+        this.permissionId = permissionId;
     }
 
     public Long getRoleId() {
@@ -35,7 +36,7 @@ public class RolePermission {
 
         RolePermission rolePermission = (RolePermission) o;
 
-        if (!roleId.equals(rolePermission.getRoleId()) && name.equals(rolePermission.getName())) {
+        if (!roleId.equals(rolePermission.getRoleId()) && permissionId.equals(rolePermission.getPermissionId())) {
             return false;
         }
 
@@ -45,7 +46,7 @@ public class RolePermission {
     public String toString() {
         return "RolePermission{" +
             "roleId='" + roleId + '\'' +
-            "name='" + name + '\'' +
+            "permissionId='" + permissionId + '\'' +
 
             "}";
     }

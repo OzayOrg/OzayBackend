@@ -21,22 +21,24 @@ angular.module('ozayApp')
 
         $scope.submit = function () {
             $scope.button = false;
+            $scope.successTextAlert = null;
+            $scope.errorTextAlert = null;
             if(confirm("Would you like to save?")){
                 if($scope.building.id === undefined || $scope.building.id == 0){
                     $scope.building.organizationId = $stateParams.organizationId;
                     Building.save($scope.building, function (data) {
                         $scope.successTextAlert = 'Successfully created';
-                        $scope.button = true;
                     }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";
+                    }).$promise.finally(function(){
                         $scope.button = true;
                     });
                 } else{
                     Building.update($scope.building, function (data) {
                         $scope.successTextAlert = 'Successfully updated';
-                        $scope.button = true;
                     }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";
+                    }).$promise.finally(function(){
                         $scope.button = true;
                     });
                 }

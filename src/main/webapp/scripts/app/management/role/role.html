@@ -27,7 +27,7 @@
                                         <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Name</a></th>
                                         <th>Action</th>
                                         </thead>
-                                        <tbody ng-repeat="role in roles| orderBy:predicate:reverse">
+                                        <tbody ng-repeat="role in roles | orderBy:predicate:reverse">
                                         <td>{{role.name}}</td>
                                         <td>
                                             <a ui-sref="role-edit({organizationId:organizationId, buildingId:building.id, roleId:role.id})">Edit</a>

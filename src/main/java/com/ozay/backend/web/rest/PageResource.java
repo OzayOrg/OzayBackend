@@ -8,10 +8,7 @@ import com.ozay.backend.repository.OrganizationRepository;
 import com.ozay.backend.repository.PermissionRepository;
 import com.ozay.backend.repository.RoleRepository;
 import com.ozay.backend.service.UserService;
-import com.ozay.backend.web.rest.dto.pages.PageBuildingEditDTO;
-import com.ozay.backend.web.rest.dto.pages.PageManagementDTO;
-import com.ozay.backend.web.rest.dto.pages.PageOrganizationDetailDTO;
-import com.ozay.backend.web.rest.dto.pages.PageRoleDTO;
+import com.ozay.backend.web.rest.dto.pages.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -101,17 +98,31 @@ public class PageResource {
     }
 
     @RequestMapping(
+        value = "/role",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<PageRoleDTO> getRoles(@RequestParam(value = "building") Long buildingId){
+        log.debug("REST request to get role list");
+
+        PageRoleDTO pageRoleDTO = new PageRoleDTO();
+        pageRoleDTO.setRoles(roleRepository.findAll(buildingId));
+        return new ResponseEntity<>(pageRoleDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
         value = "/role-new",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<PageRoleDTO> roleNew(){
+    public ResponseEntity<PageRoleEditDTO> roleNew(){
         log.debug("REST request to get role new  ");
 
-        PageRoleDTO pageRoleDTO = new PageRoleDTO();
-        pageRoleDTO.setPermissions(permissionRepository.findRolePermissions());
-        return new ResponseEntity<>(pageRoleDTO, HttpStatus.OK);
+        PageRoleEditDTO pageRoleEditDTO = new PageRoleEditDTO();
+        pageRoleEditDTO.setPermissions(permissionRepository.findRolePermissions());
+        return new ResponseEntity<>(pageRoleEditDTO, HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -120,12 +131,12 @@ public class PageResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<PageRoleDTO> roleEdit(@PathVariable Long id, @RequestParam(value = "building") Long buildingId){
+    public ResponseEntity<PageRoleEditDTO> roleEdit(@PathVariable Long id, @RequestParam(value = "building") Long buildingId){
         log.debug("REST request to get role new  ");
 
-        PageRoleDTO pageRoleDTO = new PageRoleDTO();
-        pageRoleDTO.setPermissions(permissionRepository.findRolePermissions());
-        pageRoleDTO.setRoles(roleRepository.findAll(buildingId));
-        return new ResponseEntity<>(pageRoleDTO, HttpStatus.OK);
+        PageRoleEditDTO pageRoleEditDTO = new PageRoleEditDTO();
+        pageRoleEditDTO.setPermissions(permissionRepository.findRolePermissions());
+        pageRoleEditDTO.setRoles(roleRepository.findAll(buildingId));
+        return new ResponseEntity<>(pageRoleEditDTO, HttpStatus.OK);
     }
 }

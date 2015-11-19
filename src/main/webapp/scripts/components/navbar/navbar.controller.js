@@ -14,7 +14,7 @@ angular.module('ozayApp')
             $state.go('login');
         };
 
-        Principal.identity().then(function(account) {
+        Principal.identity(true).then(function(account) {
             $scope.account = account;
             $scope.isAuthenticated = Principal.isAuthenticated;
         });
@@ -27,10 +27,9 @@ angular.module('ozayApp')
         $scope.selectedBuilding = UserInformation.getBuilding();
 
         $scope.changeBuilding = function(){
-//            UserInformation.setBuilding($scope.selectedBuilding);
+            UserInformation.setBuilding($scope.selectedBuilding);
             $cookies.put('selectedBuilding', $scope.selectedBuilding);
             //$state.transitionTo('home.home', null, {'reload':true});
             $state.reload();
         }
-
     });

@@ -1,16 +1,35 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('RoleEditController', function ($scope, $state, $stateParams, Page, Principal, Building) {
+    .controller('RoleEditController', function ($scope, $state, $stateParams, Page, Principal, Role) {
         $scope.pageTitle = 'Role New';
         $scope.contentTitle = 'Role New';
         $scope.button = true;
         $scope.submitted = false;
         $scope.organizationId = $stateParams.organizationId;
+        $scope.access = [];
+        $scope.accessList = [];
+
 
         Page.get({state: $state.current.name, building:$stateParams.buildingId}).$promise.then(function(data){
             $scope.permissions = data.permissions;
             $scope.roles = data.roles;
+            for(var i = 0; i< data.permissions.length;i++){
+                $scope.accessList.push({
+                    id: data.permissions[i].id,
+                    label:data.permissions[i].label,
+                });
+            }
+            if($state.current.name == 'role-edit'){
+                if(role.rolePermissions.length == 0){
+                    $scope.role.rolePermissions = [];
+                } else{
+                    for(var i = 0; i< $scope.role.rolePermissions.length;i++){
+                        var index = $scope.role.rolePermissions[i].permissionId;
+                        $scope.access[index] = true;
+                    }
+                }
+            }
 
         });
 
@@ -20,26 +39,49 @@ angular.module('ozayApp')
         }
         else{
             $scope.role = {};
+            $scope.role.buildingId = $stateParams.buildingId;
+            $scope.role.rolePermissions = [];
+        }
+
+        $scope.rolePermissionsClicked = function(value, modelValue){
+            if(modelValue == true){
+                $scope.role.rolePermissions.push({permissionId:value});
+            } else {
+                for(var i = 0; i< $scope.role.rolePermissions.length; i++){
+                    if(value == $scope.role.rolePermissions[i].permissionId){
+                        $scope.role.rolePermissions.splice(i, 1);
+                        break;
+                    }
+                }
+            }
         }
 
         $scope.submit = function () {
             $scope.button = false;
+            $scope.successTextAlert = null;
+            $scope.errorTextAlert = null;
+
             if(confirm("Would you like to save?")){
-                if($scope.building.id === undefined || $scope.building.id == 0){
-                    $scope.building.organizationId = $stateParams.organizationId;
-                    Building.save($scope.building, function (data) {
+                var form = {};
+                form['role'] = $scope.role;
+                form['OrganizationUserRoleDTO'] = [];
+                console.log(form);
+                if($scope.role.id === undefined || $scope.role.id == 0){
+                    $scope.role.buildingId = $stateParams.buildingId;
+
+                    Role.save(form, function (data) {
                         $scope.successTextAlert = 'Successfully created';
                     }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";
-                    }).finally(function(){
+                    }).$promise.finally(function(){
                         $scope.button = true;
                     });
                 } else{
-                    Building.update($scope.building, function (data) {
+                    Role.update(form, function (data) {
                         $scope.successTextAlert = 'Successfully updated';
                     }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";
-                    }).finally(function(){
+                    }).$promise.finally(function(){
                         $scope.button = true;
                     });
                 }

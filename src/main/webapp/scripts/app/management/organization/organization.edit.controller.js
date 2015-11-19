@@ -20,22 +20,22 @@ angular.module('ozayApp')
                 if($scope.organization.id === undefined || $scope.organization.id == 0){
                     Organization.save($scope.organization, function (data) {
                         $scope.successTextAlert = 'Successfully created';
-                        $scope.button = true;
                     }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";
+
+                    }).finally(function(){
                         $scope.button = true;
                     });
                 } else{
                     Organization.update($scope.organization, function (data) {
                         $scope.successTextAlert = 'Successfully updated';
-                        $scope.button = true;
                     }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";
+                    }).$promise.finally(function(){
                         $scope.button = true;
                     });
                 }
             }
         };
-
     });
 
