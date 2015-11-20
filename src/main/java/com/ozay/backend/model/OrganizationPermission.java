@@ -4,32 +4,31 @@ package com.ozay.backend.model;
  * Created by naofumiezaki on 10/31/15.
  */
 public class OrganizationPermission {
-    private long userId;
-    private long organizationId;
-    private String name;
+    private Long userId;
+    private Long organizationId;
+    private Long permissionId;
 
-
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public long getOrganizationId() {
+    public Long getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(long organizationId) {
+    public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
     }
 
-    public String getName() {
-        return name;
+    public Long getPermissionId() {
+        return permissionId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPermissionId(Long permissionId) {
+        this.permissionId = permissionId;
     }
 }

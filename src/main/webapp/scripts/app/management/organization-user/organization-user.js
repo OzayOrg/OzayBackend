@@ -20,9 +20,9 @@ angular.module('ozayApp')
 
                 }
             })
-            .state('oraganization-user-edit', {
+            .state('organization-user-edit', {
                 parent: 'manage',
-                url: '/management/organization/{organizationId:int}/building/{buildingId:int}/organization-user/edit/{organizationUserId:int}',
+                url: '/management/organization/{organizationId:int}/organization-user/edit/{organizationUserId:int}',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
                     pageTitle: 'Organization User Edit'
@@ -37,9 +37,9 @@ angular.module('ozayApp')
 
                 }
             })
-            .state('oraganization-user-new', {
+            .state('organization-user-new', {
                 parent: 'manage',
-                url: '/management/organization/{organizationId:int}/building/{buildingId:int}/organization-user/new',
+                url: '/management/organization/{organizationId:int}/organization-user/new',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
                     pageTitle: 'Organization User New'

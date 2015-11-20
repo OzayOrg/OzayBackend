@@ -1,12 +1,14 @@
 package com.ozay.backend.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ozay.backend.domain.User;
 import com.ozay.backend.model.Building;
+import com.ozay.backend.model.InvitedUser;
 import com.ozay.backend.model.Organization;
-import com.ozay.backend.model.Role;
-import com.ozay.backend.model.RolePermission;
 import com.ozay.backend.repository.*;
 import com.ozay.backend.service.UserService;
+import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
+import com.ozay.backend.web.rest.dto.UserDTO;
 import com.ozay.backend.web.rest.dto.pages.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by naofumiezaki on 11/1/15.
@@ -74,16 +76,40 @@ public class PageResource {
     }
 
     @RequestMapping(
-        value = "/organization-detail/{id}",
+        value = "/organization-detail/{organizationId}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<PageOrganizationDetailDTO> getOrganizationDetailContents(@PathVariable Long id){
-        Organization organization = organizationRepository.findOne(id);
+    public ResponseEntity<PageOrganizationDetailDTO> getOrganizationDetailContents(@PathVariable Long organizationId){
+        Organization organization = organizationRepository.findOne(organizationId);
         log.debug("REST request to get organization detail : {}", organization);
         PageOrganizationDetailDTO pageOrganizationDetailDTO = new PageOrganizationDetailDTO();
-        pageOrganizationDetailDTO.setBuildings(buildingRepository.findAllOrganizationBuildings(id));
+        pageOrganizationDetailDTO.setBuildings(buildingRepository.findAllOrganizationBuildings(organizationId));
+
+        List<OrganizationUserDTO> organizationUserDTOs = new ArrayList<OrganizationUserDTO>();
+
+        for(User user : organizationRepository.findAllOrganizationActivatedUser(organizationId)){
+            OrganizationUserDTO organizationUserDTO = new OrganizationUserDTO();
+            organizationUserDTO.setId(user.getId());
+            organizationUserDTO.setFirstName(user.getFirstName());
+            organizationUserDTO.setLastName(user.getLastName());
+            organizationUserDTO.setEmail(user.getEmail());
+            organizationUserDTOs.add(organizationUserDTO);
+        }
+
+        for(InvitedUser invitedUser : organizationRepository.findAllOrganizationInactivatedUser(organizationId)){
+            OrganizationUserDTO organizationUserDTO = new OrganizationUserDTO();
+            organizationUserDTO.setId(invitedUser.getId());
+            organizationUserDTO.setFirstName(invitedUser.getFirstName());
+            organizationUserDTO.setLastName(invitedUser.getLastName());
+            organizationUserDTO.setEmail(invitedUser.getEmail());
+            organizationUserDTOs.add(organizationUserDTO);
+        }
+
+        pageOrganizationDetailDTO.setOrganizationUserDTOs(organizationUserDTOs);
+
+
         return new ResponseEntity<>(pageOrganizationDetailDTO, HttpStatus.OK);
     }
 
@@ -139,10 +165,23 @@ public class PageResource {
         log.debug("REST request to get role id : {} ", id);
 
         PageRoleEditDTO pageRoleEditDTO = new PageRoleEditDTO();
-
         pageRoleEditDTO.setRole(roleRepository.findOne(id));
         pageRoleEditDTO.setPermissions(permissionRepository.findRolePermissions());
         pageRoleEditDTO.setRoles(roleRepository.findAllExceptId(buildingId, id));
         return new ResponseEntity<>(pageRoleEditDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value = "/organization-user-new",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<PageOrganizationUserDTO> organizationUserNew(){
+        log.debug("REST request to create a neworganization user  ");
+
+        PageOrganizationUserDTO pageOrganizationUserDTO = new PageOrganizationUserDTO();
+        pageOrganizationUserDTO.setPermissions(permissionRepository.findOrganizationPermissions());
+        return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
 }

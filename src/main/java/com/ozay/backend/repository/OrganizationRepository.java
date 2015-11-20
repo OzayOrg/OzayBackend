@@ -1,15 +1,17 @@
 package com.ozay.backend.repository;
 
 import com.ozay.backend.domain.User;
+import com.ozay.backend.model.InvitedUser;
 import com.ozay.backend.model.Organization;
+import com.ozay.backend.resultsetextractor.InvitedUserSetExtractor;
 import com.ozay.backend.resultsetextractor.OrganizationSetExtractor;
+import com.ozay.backend.resultsetextractor.UserSetExtractor;
 import com.ozay.backend.security.SecurityUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +27,20 @@ public class OrganizationRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", user.getId());
         return (List<Organization>) namedParameterJdbcTemplate.query(query, params, new OrganizationSetExtractor());
+    }
+
+    public List<User> findAllOrganizationActivatedUser(Long organizationId){
+        String query = "SELECT * from jhi_user u INNER JOIN organization_user ou ON u.id = ou.user_id WHERE ou.organization_id = :organizationId";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("organizationId", organizationId);
+        return (List<User>) namedParameterJdbcTemplate.query(query, params, new UserSetExtractor());
+    }
+
+    public List<InvitedUser> findAllOrganizationInactivatedUser(Long organizationId){
+        String query = "SELECT * from invited_user u INNER JOIN organization_invited_user ou ON u.id = ou.user_id WHERE ou.organization_id = :organizationId";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("organizationId", organizationId);
+        return (List<InvitedUser>) namedParameterJdbcTemplate.query(query, params, new InvitedUserSetExtractor());
     }
 
     public Organization findOne(long organizationId){

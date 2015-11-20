@@ -1,11 +1,10 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('OrganizationUserEditController', function ($scope, $state, $stateParams, Page, Principal, Role) {
-        $scope.pageTitle = 'Role New';
-        $scope.contentTitle = 'Role New';
+    .controller('OrganizationUserEditController', function ($scope, $state, $stateParams, Page, Principal, OrganizationUser) {
+        $scope.pageTitle = 'Organization User New';
+        $scope.contentTitle = 'Organization User New';
         $scope.button = true;
-        $scope.submitted = false;
         $scope.organizationId = $stateParams.organizationId;
         $scope.access = [];
         $scope.accessList = [];
@@ -14,49 +13,43 @@ angular.module('ozayApp')
 
         Page.get({state: $state.current.name, id:organizationUserId, building:$stateParams.buildingId}).$promise.then(function(data){
             $scope.permissions = data.permissions;
-
-            if(data.roles.length > 0){
-                $scope.showBelongTo = true;
-                $scope.roles = data.roles;
-            }
-
             for(var i = 0; i< data.permissions.length;i++){
                 $scope.accessList.push({
                     id: data.permissions[i].id,
                     label:data.permissions[i].label,
                 });
             }
-            if($state.current.name == 'role-edit'){
-                $scope.role = data.role;
+            if($state.current.name == 'organization-user-edit'){
+                $scope.organizationUser = data.organizationUser;
 
-                if(data.role.rolePermissions.length == 0){
-                    $scope.role.rolePermissions = [];
+                if(data.organizationUser.organizationPermissions.length == 0){
+                    $scope.organizationUser.organizationPermissions = [];
                 } else{
-                    for(var i = 0; i< $scope.role.rolePermissions.length;i++){
-                        var index = $scope.role.rolePermissions[i].permissionId;
+                    for(var i = 0; i< $scope.organizationUser.organizationPermissions.length;i++){
+                        var index = $scope.organizationUser.organizationPermissions[i].permissionId;
                         $scope.access[index] = true;
                     }
                 }
             }
         });
 
-        if($state.current.name == 'role-edit'){
-            $scope.contentTitle = 'Role Edit';
-            $scope.pageTitle = 'Role Edit';
+        if($state.current.name == 'organization-user-edit'){
+            $scope.contentTitle = 'Organization User Edit';
+            $scope.pageTitle = 'Organization User Edit';
         }
         else{
-            $scope.role = {};
-            $scope.role.buildingId = $stateParams.buildingId;
-            $scope.role.rolePermissions = [];
+            $scope.organizationUser = {};
+            $scope.organizationUser.organizationId = $stateParams.organizationId;
+            $scope.organizationUser.organizationPermissions = [];
         }
 
-        $scope.rolePermissionsClicked = function(value, modelValue){
+        $scope.organizationPermissionsClicked = function(value, modelValue){
             if(modelValue == true){
-                $scope.role.rolePermissions.push({permissionId:value});
+                $scope.organizationUser.organizationPermissions.push({permissionId:value});
             } else {
-                for(var i = 0; i< $scope.role.rolePermissions.length; i++){
-                    if(value == $scope.role.rolePermissions[i].permissionId){
-                        $scope.role.rolePermissions.splice(i, 1);
+                for(var i = 0; i< $scope.organizationUser.organizationPermissions.length; i++){
+                    if(value == $scope.organizationUser.organizationPermissions[i].permissionId){
+                        $scope.organizationUser.organizationPermissions.splice(i, 1);
                         break;
                     }
                 }
@@ -69,14 +62,10 @@ angular.module('ozayApp')
             $scope.errorTextAlert = null;
 
             if(confirm("Would you like to save?")){
-                var form = {};
-                form['role'] = $scope.role;
-                form['OrganizationUserRoleDTO'] = [];
-                console.log(form);
-                if($scope.role.id === undefined || $scope.role.id == 0){
-                    $scope.role.buildingId = $stateParams.buildingId;
 
-                    Role.save(form, function (data) {
+                if($scope.organizationUser.id === undefined || $scope.organizationUser.id == 0){
+                    $scope.organizationUser.organizationId = $stateParams.organizationId;
+                    OrganizationUser.save($scope.organizationUser, function (data) {
                         $scope.successTextAlert = 'Successfully created';
                     }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";
@@ -84,7 +73,7 @@ angular.module('ozayApp')
                         $scope.button = true;
                     });
                 } else{
-                    Role.update(form, function (data) {
+                    OrganizationUser.update($scope.organizationUser, function (data) {
                         $scope.successTextAlert = 'Successfully updated';
                     }, function (error){
                         $scope.errorTextAlert = "Error! Please try later.";

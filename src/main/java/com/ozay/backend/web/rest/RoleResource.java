@@ -1,8 +1,6 @@
 package com.ozay.backend.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.ozay.backend.model.Building;
-import com.ozay.backend.repository.RoleRepository;
 import com.ozay.backend.service.RoleService;
 import com.ozay.backend.web.rest.form.RoleFormDTO;
 import org.slf4j.Logger;

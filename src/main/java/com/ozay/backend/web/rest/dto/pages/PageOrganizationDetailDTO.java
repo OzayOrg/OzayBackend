@@ -1,6 +1,8 @@
 package com.ozay.backend.web.rest.dto.pages;
 
 import com.ozay.backend.model.Building;
+import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
+import com.ozay.backend.web.rest.dto.UserDTO;
 
 import java.util.List;
 
@@ -10,11 +12,21 @@ import java.util.List;
 public class PageOrganizationDetailDTO {
     private List<Building> buildings;
 
+    private List<OrganizationUserDTO> organizationUserDTOs;
+
     public List<Building> getBuildings() {
         return buildings;
     }
 
     public void setBuildings(List<Building> buildings) {
         this.buildings = buildings;
+    }
+
+    public List<OrganizationUserDTO> getOrganizationUserDTOs() {
+        return organizationUserDTOs;
+    }
+
+    public void setOrganizationUserDTOs(List<OrganizationUserDTO> organizationUserDTOs) {
+        this.organizationUserDTOs = organizationUserDTOs;
     }
 }

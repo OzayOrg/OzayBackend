@@ -7,6 +7,7 @@ angular.module('ozayApp')
         $scope.button = true;
         $scope.submitted = false;
         $scope.organizationId = $stateParams.organizationId;
+        $scope.buildingId = $stateParams.buildingId;
         $scope.access = [];
         $scope.accessList = [];
         var roleId = $stateParams.roleId;

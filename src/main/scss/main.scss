@@ -649,7 +649,9 @@ a:focus, a:hover{
     outline:none;
 }
 
-
+a > button{
+    color:black;
+}
 
 .checkbox-ul{
     list-style-type: none;
@@ -664,7 +666,8 @@ a:focus, a:hover{
         border: none!important;
     }
     li{
-
+        border:1px solid silver;
+        text-align:center;
         display:inline-block;
         background-color:$first_gray;
     }
