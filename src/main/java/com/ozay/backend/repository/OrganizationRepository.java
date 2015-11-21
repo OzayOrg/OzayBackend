@@ -5,8 +5,9 @@ import com.ozay.backend.model.InvitedUser;
 import com.ozay.backend.model.Organization;
 import com.ozay.backend.resultsetextractor.InvitedUserSetExtractor;
 import com.ozay.backend.resultsetextractor.OrganizationSetExtractor;
-import com.ozay.backend.resultsetextractor.UserSetExtractor;
+import com.ozay.backend.resultsetextractor.OrganizationUserDTOSetExtractor;
 import com.ozay.backend.security.SecurityUtils;
+import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -29,18 +30,18 @@ public class OrganizationRepository {
         return (List<Organization>) namedParameterJdbcTemplate.query(query, params, new OrganizationSetExtractor());
     }
 
-    public List<User> findAllOrganizationActivatedUser(Long organizationId){
-        String query = "SELECT * from jhi_user u INNER JOIN organization_user ou ON u.id = ou.user_id WHERE ou.organization_id = :organizationId";
+    public List<OrganizationUserDTO> findAllOrganizationActivatedUser(Long organizationId){
+        String query = "SELECT u.*, ou.id as organization_user_id, ou.id as user_id FROM jhi_user u INNER JOIN organization_user ou ON u.id = ou.user_id AND ou.activated = true WHERE ou.organization_id = :organizationId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("organizationId", organizationId);
-        return (List<User>) namedParameterJdbcTemplate.query(query, params, new UserSetExtractor());
+        return (List<OrganizationUserDTO>) namedParameterJdbcTemplate.query(query, params, new OrganizationUserDTOSetExtractor());
     }
 
-    public List<InvitedUser> findAllOrganizationInactivatedUser(Long organizationId){
-        String query = "SELECT * from invited_user u INNER JOIN organization_invited_user ou ON u.id = ou.user_id WHERE ou.organization_id = :organizationId";
+    public List<OrganizationUserDTO> findAllOrganizationInactivatedUser(Long organizationId){
+        String query = "SELECT u.*, ou.id as organization_user_id, ou.id as user_id FROM invited_user u INNER JOIN organization_user ou ON u.id = ou.user_id AND ou.activated = false WHERE ou.organization_id = :organizationId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("organizationId", organizationId);
-        return (List<InvitedUser>) namedParameterJdbcTemplate.query(query, params, new InvitedUserSetExtractor());
+        return (List<OrganizationUserDTO>) namedParameterJdbcTemplate.query(query, params, new OrganizationUserDTOSetExtractor());
     }
 
     public Organization findOne(long organizationId){

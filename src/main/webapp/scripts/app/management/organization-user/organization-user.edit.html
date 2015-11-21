@@ -43,7 +43,7 @@
                                         <label>Access</label>
                                         <ul class="checkbox-ul">
                                             <ul class="checkbox-ul">
-                                                <li ng-class="{'active': access[obj.id],'inactive': !access[obj.id]}" ng-repeat="obj in accessList"><a ng-click="access[obj.id] = !access[obj.id]; organizationPermissionsClicked(obj.id, access[obj.id])"><input ng-model="access[obj.id]" type="checkbox" value='{{obj.id}}' name="{{obj.id}}" >{{obj.label}}</a></li>
+                                                <li ng-class="{'active': access[obj.id],'inactive': !access[obj.id]}" ng-repeat="obj in accessList"><a ng-click="access[obj.id] = !access[obj.id]; organizationUserPermissionsClicked(obj.id, access[obj.id])"><input ng-model="access[obj.id]" type="checkbox" value='{{obj.id}}' name="{{obj.id}}" >{{obj.label}}</a></li>
                                             </ul>
                                         </ul>
                                     </div>

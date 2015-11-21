@@ -7,12 +7,11 @@ import java.util.Set;
  */
 public class InvitedUser {
     private Long id;
-    private Long organizationId;
     private String firstName;
     private String lastName;
     private String email;
     private boolean activated;
-    private Set<OrganizationPermission> organizationPermissions;
+    private Set<OrganizationUserPermission> organizationUserPermissions;
 
     public Long getId() {
         return id;
@@ -20,14 +19,6 @@ public class InvitedUser {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(Long organizationId) {
-        this.organizationId = organizationId;
     }
 
     public String getFirstName() {
@@ -62,11 +53,11 @@ public class InvitedUser {
         this.activated = activated;
     }
 
-    public Set<OrganizationPermission> getOrganizationPermissions() {
-        return organizationPermissions;
+    public Set<OrganizationUserPermission> getOrganizationUserPermissions() {
+        return organizationUserPermissions;
     }
 
-    public void setOrganizationPermissions(Set<OrganizationPermission> organizationPermissions) {
-        this.organizationPermissions = organizationPermissions;
+    public void setOrganizationUserPermissions(Set<OrganizationUserPermission> organizationUserPermissions) {
+        this.organizationUserPermissions = organizationUserPermissions;
     }
 }

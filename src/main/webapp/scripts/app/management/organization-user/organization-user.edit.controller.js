@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('OrganizationUserEditController', function ($scope, $state, $stateParams, Page, Principal, OrganizationUser) {
+    .controller('OrganizationUserEditController', function ($scope, $state, $stateParams, Page, Principal, OrganizationUser, MessageService) {
         $scope.pageTitle = 'Organization User New';
         $scope.contentTitle = 'Organization User New';
         $scope.button = true;
@@ -20,13 +20,17 @@ angular.module('ozayApp')
                 });
             }
             if($state.current.name == 'organization-user-edit'){
-                $scope.organizationUser = data.organizationUser;
+                $scope.organizationUser = data.organizationUserDTO;
+                var message = MessageService.getSuccessMessage();
+                if(message !== undefined){
+                    $scope.successTextAlert = message;
+                }
 
-                if(data.organizationUser.organizationPermissions.length == 0){
-                    $scope.organizationUser.organizationPermissions = [];
+                if(data.organizationUserDTO.organizationUserPermissions.length == 0){
+                    $scope.organizationUser.organizationUserPermissions = [];
                 } else{
-                    for(var i = 0; i< $scope.organizationUser.organizationPermissions.length;i++){
-                        var index = $scope.organizationUser.organizationPermissions[i].permissionId;
+                    for(var i = 0; i< $scope.organizationUser.organizationUserPermissions.length;i++){
+                        var index = $scope.organizationUser.organizationUserPermissions[i].permissionId;
                         $scope.access[index] = true;
                     }
                 }
@@ -40,23 +44,23 @@ angular.module('ozayApp')
         else{
             $scope.organizationUser = {};
             $scope.organizationUser.organizationId = $stateParams.organizationId;
-            $scope.organizationUser.organizationPermissions = [];
+            $scope.organizationUser.organizationUserPermissions = [];
         }
 
-        $scope.organizationPermissionsClicked = function(value, modelValue){
+        $scope.organizationUserPermissionsClicked = function(value, modelValue){
             if(modelValue == true){
-                $scope.organizationUser.organizationPermissions.push({permissionId:value});
+                $scope.organizationUser.organizationUserPermissions.push({permissionId:value});
             } else {
-                for(var i = 0; i< $scope.organizationUser.organizationPermissions.length; i++){
-                    if(value == $scope.organizationUser.organizationPermissions[i].permissionId){
-                        $scope.organizationUser.organizationPermissions.splice(i, 1);
+                for(var i = 0; i< $scope.organizationUser.organizationUserPermissions.length; i++){
+                    if(value == $scope.organizationUser.organizationUserPermissions[i].permissionId){
+                        $scope.organizationUser.organizationUserPermissions.splice(i, 1);
                         break;
                     }
                 }
             }
         }
 
-        $scope.submit = function () {
+        $scope.submit = function (callback) {
             $scope.button = false;
             $scope.successTextAlert = null;
             $scope.errorTextAlert = null;
@@ -65,18 +69,33 @@ angular.module('ozayApp')
 
                 if($scope.organizationUser.id === undefined || $scope.organizationUser.id == 0){
                     $scope.organizationUser.organizationId = $stateParams.organizationId;
+
+                    var cb = callback || angular.noop;
+
                     OrganizationUser.save($scope.organizationUser, function (data) {
-                        $scope.successTextAlert = 'Successfully created';
+                        MessageService.setSuccessMessage('Successfully created');
+                        $state.go('organization-user-edit', {organizationId:$stateParams.organizationId, organizationUserId:data.data.id});
                     }, function (error){
-                        $scope.errorTextAlert = "Error! Please try later.";
+
+                        if(error.data.message !== undefined){
+                            $scope.errorTextAlert = error.data.message;
+                        } else {
+                            $scope.errorTextAlert = "Error! Please try later.";
+                        }
                     }).$promise.finally(function(){
                         $scope.button = true;
                     });
+
                 } else{
                     OrganizationUser.update($scope.organizationUser, function (data) {
                         $scope.successTextAlert = 'Successfully updated';
                     }, function (error){
-                        $scope.errorTextAlert = "Error! Please try later.";
+                        if(error.message !== undefined){
+                            $scope.errorTextAlert = error.message;
+                        } else {
+                            $scope.errorTextAlert = "Error! Please try later.";
+                        }
+
                     }).$promise.finally(function(){
                         $scope.button = true;
                     });

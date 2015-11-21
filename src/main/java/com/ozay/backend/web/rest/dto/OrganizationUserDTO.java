@@ -1,7 +1,9 @@
 package com.ozay.backend.web.rest.dto;
 
-import com.ozay.backend.model.OrganizationPermission;
+import com.ozay.backend.model.OrganizationUserPermission;
+import org.hibernate.validator.constraints.Email;
 
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -9,11 +11,21 @@ import java.util.Set;
  */
 public class OrganizationUserDTO {
     private Long id;
+
+    private Long userId;
+
+    @Size(max = 50)
     private String firstName;
+
+    @Size(max = 50)
     private String lastName;
+
+    @Email
+    @Size(min = 5, max = 100)
     private String email;
+
     private Long organizationId;
-    private Set<OrganizationPermission> organizationPermissions;
+    private Set<OrganizationUserPermission> organizationUserPermissions;
 
     public Long getId() {
         return id;
@@ -21,6 +33,14 @@ public class OrganizationUserDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -55,11 +75,22 @@ public class OrganizationUserDTO {
         this.organizationId = organizationId;
     }
 
-    public Set<OrganizationPermission> getOrganizationPermissions() {
-        return organizationPermissions;
+    public Set<OrganizationUserPermission> getOrganizationUserPermissions() {
+        return organizationUserPermissions;
     }
 
-    public void setOrganizationPermissions(Set<OrganizationPermission> organizationPermissions) {
-        this.organizationPermissions = organizationPermissions;
+    public void setOrganizationUserPermissions(Set<OrganizationUserPermission> organizationUserPermissions) {
+        this.organizationUserPermissions = organizationUserPermissions;
+    }
+
+    @Override
+    public String toString() {
+        return "OrganizationUserDTO{" +
+            "id='" + id + '\'' +
+            ", userId='" + userId + '\'' +
+            ", organizationId='" + organizationId + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", organizationUserPermissions='" + organizationUserPermissions + '\'' +
+            '}';
     }
 }

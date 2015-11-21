@@ -2,9 +2,7 @@ package com.ozay.backend.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.ozay.backend.domain.User;
-import com.ozay.backend.model.Building;
-import com.ozay.backend.model.InvitedUser;
-import com.ozay.backend.model.Organization;
+import com.ozay.backend.model.*;
 import com.ozay.backend.repository.*;
 import com.ozay.backend.service.UserService;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -49,6 +48,18 @@ public class PageResource {
 
     @Inject
     private RoleRepository roleRepository;
+
+    @Inject
+    private OrganizationUserRepository organizationUserRepository;
+
+    @Inject
+    private UserRepository userRepository;
+
+    @Inject
+    private InvitedUserRepository invitedUserRepository;
+
+    @Inject
+    private OrganizationUserPermissionRepository organizationUserPermissionRepository;
 
     @RequestMapping(
         value = "/management",
@@ -87,28 +98,10 @@ public class PageResource {
         PageOrganizationDetailDTO pageOrganizationDetailDTO = new PageOrganizationDetailDTO();
         pageOrganizationDetailDTO.setBuildings(buildingRepository.findAllOrganizationBuildings(organizationId));
 
-        List<OrganizationUserDTO> organizationUserDTOs = new ArrayList<OrganizationUserDTO>();
-
-        for(User user : organizationRepository.findAllOrganizationActivatedUser(organizationId)){
-            OrganizationUserDTO organizationUserDTO = new OrganizationUserDTO();
-            organizationUserDTO.setId(user.getId());
-            organizationUserDTO.setFirstName(user.getFirstName());
-            organizationUserDTO.setLastName(user.getLastName());
-            organizationUserDTO.setEmail(user.getEmail());
-            organizationUserDTOs.add(organizationUserDTO);
-        }
-
-        for(InvitedUser invitedUser : organizationRepository.findAllOrganizationInactivatedUser(organizationId)){
-            OrganizationUserDTO organizationUserDTO = new OrganizationUserDTO();
-            organizationUserDTO.setId(invitedUser.getId());
-            organizationUserDTO.setFirstName(invitedUser.getFirstName());
-            organizationUserDTO.setLastName(invitedUser.getLastName());
-            organizationUserDTO.setEmail(invitedUser.getEmail());
-            organizationUserDTOs.add(organizationUserDTO);
-        }
+        List<OrganizationUserDTO> organizationUserDTOs = organizationRepository.findAllOrganizationActivatedUser(organizationId);
+        organizationUserDTOs.addAll(organizationRepository.findAllOrganizationInactivatedUser(organizationId));
 
         pageOrganizationDetailDTO.setOrganizationUserDTOs(organizationUserDTOs);
-
 
         return new ResponseEntity<>(pageOrganizationDetailDTO, HttpStatus.OK);
     }
@@ -178,10 +171,47 @@ public class PageResource {
     @Timed
     @Transactional(readOnly = true)
     public ResponseEntity<PageOrganizationUserDTO> organizationUserNew(){
-        log.debug("REST request to create a neworganization user  ");
+        log.debug("REST request to create a organization user  ");
 
         PageOrganizationUserDTO pageOrganizationUserDTO = new PageOrganizationUserDTO();
         pageOrganizationUserDTO.setPermissions(permissionRepository.findOrganizationPermissions());
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
+
+    @RequestMapping(
+        value = "/organization-user-edit/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<PageOrganizationUserDTO> organizationUserEdit(@PathVariable Long id){
+        log.debug("REST request to get organization user id  {} ", id);
+        OrganizationUser organizationUser = organizationUserRepository.findOne(id);
+        if(organizationUser == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        OrganizationUserDTO organizationUserDTO = new OrganizationUserDTO();
+        organizationUserDTO.setId(organizationUser.getId());
+        organizationUserDTO.setOrganizationUserPermissions( new HashSet<OrganizationUserPermission>(organizationUserPermissionRepository.findAll(organizationUser.getId())));
+        organizationUserDTO.setOrganizationId(organizationUser.getOrganizationId());
+        if(organizationUser.isActivated() == true){
+            User user = userRepository.findOne(organizationUser.getUserId());
+            organizationUserDTO.setUserId(user.getId());
+            organizationUserDTO.setFirstName(user.getFirstName());
+            organizationUserDTO.setLastName(user.getLastName());
+            organizationUserDTO.setEmail(user.getEmail());
+        } else {
+            InvitedUser invitedUser = invitedUserRepository.findOne(organizationUser.getUserId());
+            organizationUserDTO.setUserId(invitedUser.getId());
+            organizationUserDTO.setFirstName(invitedUser.getFirstName());
+            organizationUserDTO.setLastName(invitedUser.getLastName());
+            organizationUserDTO.setEmail(invitedUser.getEmail());
+        }
+
+        PageOrganizationUserDTO pageOrganizationUserDTO = new PageOrganizationUserDTO();
+        pageOrganizationUserDTO.setOrganizationUserDTO(organizationUserDTO);
+        pageOrganizationUserDTO.setPermissions(permissionRepository.findOrganizationPermissions());
+        return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
+    }
+
 }

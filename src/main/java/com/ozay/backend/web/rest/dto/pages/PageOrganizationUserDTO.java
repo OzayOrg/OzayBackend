@@ -2,6 +2,7 @@ package com.ozay.backend.web.rest.dto.pages;
 
 import com.ozay.backend.model.Permission;
 import com.ozay.backend.model.Role;
+import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 
 import java.util.List;
 
@@ -11,7 +12,17 @@ import java.util.List;
  */
 public class PageOrganizationUserDTO {
 
+    private OrganizationUserDTO organizationUserDTO;
+
     private List<Permission> permissions;
+
+    public OrganizationUserDTO getOrganizationUserDTO() {
+        return organizationUserDTO;
+    }
+
+    public void setOrganizationUserDTO(OrganizationUserDTO organizationUserDTO) {
+        this.organizationUserDTO = organizationUserDTO;
+    }
 
     public List<Permission> getPermissions() {
         return permissions;
