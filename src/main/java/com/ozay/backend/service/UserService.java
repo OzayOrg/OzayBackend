@@ -11,7 +11,6 @@ import com.ozay.backend.repository.UserRepository;
 import com.ozay.backend.security.SecurityUtils;
 import com.ozay.backend.service.util.RandomUtil;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;

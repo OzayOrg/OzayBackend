@@ -35,6 +35,8 @@ angular.module('ozayApp')
                     }
                 }
             }
+        }, function(){
+            $state.go('error');
         });
 
         if($state.current.name == 'organization-user-edit'){
@@ -60,6 +62,22 @@ angular.module('ozayApp')
             }
         }
 
+        $scope.sendInvitation = function(){
+            if(confirm("Would you like to send invitation email?")){
+                OrganizationUser.save({method:'invite'}, $scope.organizationUser, function (data) {
+                    $scope.successTextAlert = "Successfully sent";
+                }, function (error){
+                    if(error.data.message !== undefined){
+                        $scope.errorTextAlert = error.data.message;
+                    } else {
+                        $scope.errorTextAlert = "Error! Please try later.";
+                    }
+                }).$promise.finally(function(){
+                    $scope.button = true;
+                });
+            }
+        }
+
         $scope.submit = function (callback) {
             $scope.button = false;
             $scope.successTextAlert = null;
@@ -70,13 +88,10 @@ angular.module('ozayApp')
                 if($scope.organizationUser.id === undefined || $scope.organizationUser.id == 0){
                     $scope.organizationUser.organizationId = $stateParams.organizationId;
 
-                    var cb = callback || angular.noop;
-
                     OrganizationUser.save($scope.organizationUser, function (data) {
                         MessageService.setSuccessMessage('Successfully created');
-                        $state.go('organization-user-edit', {organizationId:$stateParams.organizationId, organizationUserId:data.data.id});
+                        $state.go('organization-user-edit', {organizationId:$stateParams.organizationId, organizationUserId:data.id});
                     }, function (error){
-
                         if(error.data.message !== undefined){
                             $scope.errorTextAlert = error.data.message;
                         } else {

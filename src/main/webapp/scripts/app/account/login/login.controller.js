@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('LoginController', function ($rootScope, $scope, $state, $timeout, Auth) {
+    .controller('LoginController', function ($rootScope, $scope, $state, $timeout, Auth, MessageService) {
         $scope.user = {};
         $scope.errors = {};
 
@@ -15,6 +15,7 @@ angular.module('ozayApp')
                 rememberMe: $scope.rememberMe
             }).then(function () {
                 $scope.authenticationError = false;
+                MessageService.clear();
                 if ($rootScope.previousStateName === 'register') {
                     $state.go('home');
                 } else {

@@ -2,7 +2,6 @@ package com.ozay.backend.web.rest.dto.pages;
 
 import com.ozay.backend.model.Building;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
-import com.ozay.backend.web.rest.dto.UserDTO;
 
 import java.util.List;
 

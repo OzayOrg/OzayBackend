@@ -194,6 +194,7 @@ public class PageResource {
         organizationUserDTO.setId(organizationUser.getId());
         organizationUserDTO.setOrganizationUserPermissions( new HashSet<OrganizationUserPermission>(organizationUserPermissionRepository.findAll(organizationUser.getId())));
         organizationUserDTO.setOrganizationId(organizationUser.getOrganizationId());
+        organizationUserDTO.setActivated(organizationUser.isActivated());
         if(organizationUser.isActivated() == true){
             User user = userRepository.findOne(organizationUser.getUserId());
             organizationUserDTO.setUserId(user.getId());

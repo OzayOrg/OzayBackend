@@ -1,6 +1,5 @@
 package com.ozay.backend.repository;
 
-import com.ozay.backend.model.OrganizationUser;
 import com.ozay.backend.model.OrganizationUserPermission;
 import com.ozay.backend.resultsetextractor.OrganizationUserPermissionSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

@@ -1,8 +1,6 @@
 package com.ozay.backend.repository;
 
-import com.ozay.backend.model.Permission;
 import com.ozay.backend.model.Role;
-import com.ozay.backend.resultsetextractor.PermissionSetExtractor;
 import com.ozay.backend.resultsetextractor.RoleRolePermissionSetExtractor;
 import com.ozay.backend.resultsetextractor.RoleSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

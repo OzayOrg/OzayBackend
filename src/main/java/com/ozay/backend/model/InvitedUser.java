@@ -10,7 +10,9 @@ public class InvitedUser {
     private String firstName;
     private String lastName;
     private String email;
+    private String activationKey;
     private boolean activated;
+
     private Set<OrganizationUserPermission> organizationUserPermissions;
 
     public Long getId() {
@@ -51,6 +53,14 @@ public class InvitedUser {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
     }
 
     public Set<OrganizationUserPermission> getOrganizationUserPermissions() {

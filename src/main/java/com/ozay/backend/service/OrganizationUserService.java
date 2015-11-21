@@ -1,13 +1,15 @@
 package com.ozay.backend.service;
 
+import com.ozay.backend.domain.User;
 import com.ozay.backend.model.InvitedUser;
-import com.ozay.backend.model.Organization;
 import com.ozay.backend.model.OrganizationUser;
 import com.ozay.backend.model.OrganizationUserPermission;
 import com.ozay.backend.repository.InvitedUserRepository;
 import com.ozay.backend.repository.OrganizationUserPermissionRepository;
 import com.ozay.backend.repository.OrganizationUserRepository;
+import com.ozay.backend.repository.UserRepository;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
+import com.ozay.backend.web.rest.form.OrganizationUserRegisterDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,12 @@ public class OrganizationUserService {
 
     @Inject
     OrganizationUserPermissionRepository organizationUserPermissionRepository;
+
+    @Inject
+    UserService userService;
+
+    @Inject
+    UserRepository userRepository;
 
     // If A user record exists in jhi_user table = Existing user
     public void processExistingUser(OrganizationUserDTO organizationUserDTO){
@@ -77,5 +85,19 @@ public class OrganizationUserService {
             organizationUserPermission.setOrganizationUserId(organizationUserDTO.getId());
             organizationUserPermissionRepository.create(organizationUserPermission);
         }
+    }
+
+    public void createUserInformation(OrganizationUserRegisterDTO organizationUserRegisterDTO, InvitedUser invitedUser, OrganizationUser organizationUser){
+        User user = userService.createUserInformation(organizationUserRegisterDTO.getLogin(), organizationUserRegisterDTO.getPassword(),
+            invitedUser.getFirstName(), invitedUser.getLastName(), invitedUser.getEmail().toLowerCase(),
+            organizationUserRegisterDTO.getLangKey());
+        user.setActivated(true);
+        user.setActivationKey(invitedUser.getActivationKey());
+        userRepository.save(user);
+
+        // Update organization user table
+        organizationUser.setUserId(user.getId());
+        organizationUser.setActivated(true);
+        organizationUserRepository.update(organizationUser);
     }
 }

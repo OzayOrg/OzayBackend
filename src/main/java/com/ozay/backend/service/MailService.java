@@ -2,11 +2,14 @@ package com.ozay.backend.service;
 
 import com.ozay.backend.config.JHipsterProperties;
 import com.ozay.backend.domain.User;
+import com.ozay.backend.model.InvitedUser;
+import com.ozay.backend.model.Organization;
+import com.ozay.backend.repository.OrganizationRepository;
+import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import org.apache.commons.lang.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -14,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 import java.util.Locale;
@@ -42,6 +44,9 @@ public class MailService {
 
     @Inject
     private SpringTemplateEngine templateEngine;
+
+    @Inject
+    private OrganizationRepository organizationRepository;
 
     /**
      * System default email address that sends the e-mails.
@@ -90,5 +95,35 @@ public class MailService {
         String content = templateEngine.process("passwordResetEmail", context);
         String subject = messageSource.getMessage("email.reset.title", null, locale);
         sendEmail(user.getEmail(), subject, content, false, true);
+    }
+
+    @Async
+    public void sendNewOrganizationUserWelcomeEmail(OrganizationUserDTO organizationUserDTO, String baseUrl) {
+        log.debug("Sending organization user welcome e-mail to '{}'", organizationUserDTO.getEmail());
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("user", organizationUserDTO);
+        context.setVariable("baseUrl", baseUrl);
+        String content = templateEngine.process("organizationUserWelcomeEmail", context);
+        String subject = messageSource.getMessage("email.organizationUserWelcome.title", null, locale);
+        sendEmail(organizationUserDTO.getEmail(), subject, content, false, true);
+    }
+
+    @Async
+    public void sendOrganizationUserInvitationMail(OrganizationUserDTO organizationUserDTO, String baseUrl, String activationKey) {
+        log.debug("Sending organization user invitation e-mail to '{}'", organizationUserDTO.getEmail());
+        Locale locale = Locale.forLanguageTag("en");
+
+        String name = organizationUserDTO.getFirstName() + " " + organizationUserDTO.getLastName();
+        Organization organization = organizationRepository.findOne(organizationUserDTO.getOrganizationId());
+        Context context = new Context(locale);
+        context.setVariable("user", organizationUserDTO);
+        context.setVariable("name", name);
+        context.setVariable("organization", organization.getName());
+        context.setVariable("activationKey", activationKey);
+        context.setVariable("baseUrl", baseUrl);
+        String content = templateEngine.process("organizationUserInvitationEmail", context);
+        String subject = messageSource.getMessage("email.organizationUser.title", null, locale);
+        sendEmail(organizationUserDTO.getEmail(), subject, content, false, true);
     }
 }

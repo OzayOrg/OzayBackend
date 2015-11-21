@@ -1,15 +1,13 @@
 package com.ozay.backend.repository;
 
-import com.ozay.backend.model.Building;
 import com.ozay.backend.model.Permission;
-import com.ozay.backend.resultsetextractor.BuildingSetExtractor;
 import com.ozay.backend.resultsetextractor.PermissionSetExtractor;
-import java.util.List;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by naofumiezaki on 11/17/15.

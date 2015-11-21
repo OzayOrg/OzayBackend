@@ -22,6 +22,10 @@ angular.module('ozayApp')
                 _errorMessage = undefined;
                 return message;
             },
+            clear:function(){
+                _successMessage = undefined;
+                _errorMessage = undefined;
+            }
 
 
         };

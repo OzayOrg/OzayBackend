@@ -29,6 +29,26 @@ public class OrganizationUserRepository {
         }
     }
 
+    public OrganizationUser findOneByUserId(Long userId){
+        String query = "SELECT * FROM organization_user WHERE user_id=:userId";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("userId", userId);
+        List <OrganizationUser> organizationUsers = (List<OrganizationUser>)namedParameterJdbcTemplate.query(query, params, new OrganizationUserSetExtractor());
+        if(organizationUsers.size() == 1){
+            return organizationUsers.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public Long countAllNonExistingUserByOrganizationIdAndEmail(Long organizationId, String email){
+        String query = "SELECT * FROM invited_user iu INNER JOIN organization_user ou ON iu.id = ou.user_id AND ou.activated = false WHERE ou.organization_id = :organizationId AND email=:email AND iu.activated = false";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("organizationId", organizationId);
+        params.addValue("email", email);
+        return namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
+    }
+
     public void create(OrganizationUser organizationUser){
         String query = "INSERT INTO organization_user (user_id, organization_id, activated) VALUES(:userId, :organizationId, :activated) RETURNING id";
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -37,6 +57,15 @@ public class OrganizationUserRepository {
         params.addValue("activated", organizationUser.isActivated());
         Long id = namedParameterJdbcTemplate.queryForObject(query,params, Long.class);
         organizationUser.setId(id);
+    }
+
+    public void update(OrganizationUser organizationUser){
+        String query = "UPDATE organization_user SET user_id=:userId, activated = :activated WHERE id=:id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("userId", organizationUser.getUserId());
+        params.addValue("id", organizationUser.getId());
+        params.addValue("activated", organizationUser.isActivated());
+        namedParameterJdbcTemplate.update(query,params);
     }
 
     public void deleteAllByUser(Long id){

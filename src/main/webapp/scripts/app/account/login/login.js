@@ -10,7 +10,7 @@ angular.module('ozayApp')
                     pageTitle: 'Sign in'
                 },
                 views: {
-                    'login@': {
+                    'other@': {
                         templateUrl: 'scripts/app/account/login/login.html',
                         controller: 'LoginController'
                     }

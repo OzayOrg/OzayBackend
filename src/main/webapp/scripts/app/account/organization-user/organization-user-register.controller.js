@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('RegisterController', function ($scope, $timeout, Auth) {
+    .controller('OrganizationUserRegisterController', function ($scope, $state, $timeout, $stateParams, OrganizationUser, MessageService) {
+        if($stateParams.key == undefined){
+            $state.go('error');
+        }
         $scope.success = null;
         $scope.error = null;
         $scope.doNotMatch = null;
@@ -17,20 +20,23 @@ angular.module('ozayApp')
                 $scope.doNotMatch = null;
                 $scope.error = null;
                 $scope.errorUserExists = null;
-                $scope.errorEmailExists = null;
 
-                Auth.createAccount($scope.registerAccount).then(function () {
-                    $scope.success = 'OK';
-                }).catch(function (response) {
+                OrganizationUser.save({method:'register', key:$stateParams.key}, $scope.registerAccount, function (data) {
+                    MessageService.setSuccessMessage('Registration completed');
+                    $state.go('organization-user-register-complete');
+                }, function (error){
                     $scope.success = null;
-                    if (response.status === 400 && response.data === 'login already in use') {
+                    if (error.status === 400 && error.data.message === 'login already in use') {
                         $scope.errorUserExists = 'ERROR';
-                    } else if (response.status === 400 && response.data === 'e-mail address already in use') {
-                        $scope.errorEmailExists = 'ERROR';
                     } else {
                         $scope.error = 'ERROR';
                     }
+
+                }).$promise.finally(function(){
+
                 });
             }
         };
+
+
     });

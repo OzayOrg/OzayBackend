@@ -24,6 +24,8 @@ public class OrganizationUserDTO {
     @Size(min = 5, max = 100)
     private String email;
 
+    private boolean activated;
+
     private Long organizationId;
     private Set<OrganizationUserPermission> organizationUserPermissions;
 
@@ -79,6 +81,14 @@ public class OrganizationUserDTO {
         return organizationUserPermissions;
     }
 
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
+
     public void setOrganizationUserPermissions(Set<OrganizationUserPermission> organizationUserPermissions) {
         this.organizationUserPermissions = organizationUserPermissions;
     }
@@ -90,6 +100,7 @@ public class OrganizationUserDTO {
             ", userId='" + userId + '\'' +
             ", organizationId='" + organizationId + '\'' +
             ", lastName='" + lastName + '\'' +
+            ", activated='" + activated + '\'' +
             ", organizationUserPermissions='" + organizationUserPermissions + '\'' +
             '}';
     }

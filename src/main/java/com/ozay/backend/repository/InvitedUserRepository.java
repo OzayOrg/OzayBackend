@@ -38,6 +38,18 @@ public class InvitedUserRepository {
         }
     }
 
+    public InvitedUser findOneByActivationKey(String activationKey){
+        String query = "SELECT * FROM invited_user WHERE activation_key=:activationKey";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("activationKey", activationKey);
+        List<InvitedUser>  invitedUsers = (List<InvitedUser>)namedParameterJdbcTemplate.query(query, params, new InvitedUserSetExtractor());
+        if(invitedUsers.size() == 1){
+            return invitedUsers.get(0);
+        } else{
+            return null;
+        }
+    }
+
     public List<InvitedUser>findAllByOrganizationIdAndEmail(Long organizationId, String email){
         String query = "SELECT * FROM invited_user iu INNER JOIN organization_user ou ON iu.id = ou.user_id AND ou.activated = false WHERE ou.organization_id = :organizationId AND email=:email AND iu.activated = false";
         MapSqlParameterSource params = new MapSqlParameterSource();

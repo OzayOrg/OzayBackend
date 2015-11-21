@@ -1,6 +1,5 @@
 package com.ozay.backend.resultsetextractor;
 
-import com.ozay.backend.model.Role;
 import com.ozay.backend.model.RolePermission;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;

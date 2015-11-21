@@ -24,7 +24,7 @@
 
 <div class="row" ng-controller="PageController">
     <div ui-view="navbar" ng-cloak=""></div>
-    <div ui-view="login"></div>
+    <div ui-view="other"></div>
     <div ng-cloak>
         <div id="content" class="">
             <div class="side-body" ng-class="{'body-slide-in' : button_state.getState(), 'loaded': loaded}">
@@ -167,6 +167,11 @@
 <script src="scripts/components/organization-user/organization-user.service.js"></script>
 
 <script src="scripts/components/alert/message.service.js"></script>
+
+<script src="scripts/app/account/organization-user/organization-user.js"></script>
+<script src="scripts/app/account/organization-user/organization-user-register.controller.js"></script>
+
+<script src="scripts/app/account/organization-user/organization-user-register-complete.controller.js"></script>
 
 <!-- endbuild -->
 </body>

@@ -1,7 +1,6 @@
 package com.ozay.backend.resultsetextractor;
 
 import com.ozay.backend.model.InvitedUser;
-import com.ozay.backend.model.RolePermission;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -24,6 +23,7 @@ public class InvitedUserSetExtractor implements ResultSetExtractor {
             invitedUser.setLastName(resultSet.getString("last_name"));
             invitedUser.setEmail(resultSet.getString("email"));
             invitedUser.setActivated(resultSet.getBoolean("activated"));
+            invitedUser.setActivationKey(resultSet.getString("activation_key"));
             invitedUsers.add(invitedUser);
         }
         return invitedUsers;

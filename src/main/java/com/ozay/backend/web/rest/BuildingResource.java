@@ -79,7 +79,7 @@ public class BuildingResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> updateBuilding(@RequestBody Building building) {
-        log.debug("REST request to udate Building : {}", building);
+        log.debug("REST request to update Building : {}", building);
         User user = userService.getUserWithAuthorities();
         building.setLastModifiedBy(user.getId());
         buildingRepository.update(building);

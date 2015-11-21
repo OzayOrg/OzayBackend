@@ -1,4 +1,4 @@
-<div class="side-body-content">
+<div ng-cloak class="side-body-content">
     <div class="row">
         <div class="col-xs-12">
             <div my-shared-scope></div>
@@ -9,6 +9,7 @@
                             <h4 class="col-xs-12">
                                 {{contentTitle}}
                                 <span class="pull-right">
+                                    <button ng-show="organizationUser.activated == false" type="button" ng-click="sendInvitation()" ng-disabled="!button || form.$dirty" class="btn button">Invite</button>
                                     <button type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
                                     <a ui-sref="organization-detail({organizationId:organizationId})">
                                         <button class="btn">Cancel</button>

@@ -1,7 +1,5 @@
 package com.ozay.backend.resultsetextractor;
 
-import com.ozay.backend.domain.User;
-import com.ozay.backend.model.RolePermission;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -25,6 +23,7 @@ public class OrganizationUserDTOSetExtractor implements ResultSetExtractor {
             organizationUserDTO.setFirstName(resultSet.getString("first_name"));
             organizationUserDTO.setLastName(resultSet.getString("last_name"));
             organizationUserDTO.setEmail(resultSet.getString("email"));
+            organizationUserDTO.setActivated(resultSet.getBoolean("activated"));
             organizationUserDTOs.add(organizationUserDTO);
         }
         return organizationUserDTOs;
