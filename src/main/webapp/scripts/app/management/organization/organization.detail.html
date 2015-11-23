@@ -8,12 +8,12 @@
                             Organization User List
                             <span class="pull-right" hasAnyAuthority="['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS']">
                                 <a ui-sref='organization-user-new({organizationId:organizationId})'>
-                                    <button class="btn button">
+                                    <button class="btn btn-default">
                                         Add
                                     </button>
                                 </a>
                                 <a ui-sref="management">
-                                    <button class="btn button">
+                                    <button class="btn btn-default">
                                         Back
                                     </button>
                                 </a>
@@ -36,7 +36,9 @@
                                         <td>{{user.firstName}}</td>
                                         <td>{{user.lastName}}</td>
                                         <td>
-                                            <a ui-sref="organization-user-edit({organizationId:organizationId, organizationUserId:user.id})">Edit</a>
+                                            <a ui-sref="organization-user-edit({organizationId:organizationId, organizationUserId:user.id})"><button class="btn btn-default">
+                                                Edit
+                                            </button></a>
                                         </td>
                                         </tbody>
                                     </table>
@@ -58,12 +60,12 @@
                             Building List
                             <span class="pull-right" hasAnyAuthority="['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS']">
                                 <a ui-sref="building-new({organizationId:organizationId})">
-                                    <button class="btn button">
+                                    <button class="btn btn-default">
                                         Add
                                     </button>
                                 </a>
                                 <a ui-sref="management">
-                                    <button class="btn button">
+                                    <button class="btn btn-default">
                                         Back
                                     </button>
                                 </a>
@@ -84,9 +86,13 @@
                                         <tbody ng-repeat="building in buildings | orderBy:predicate2:reverse1">
                                         <td>{{building.name}}</td>
                                         <td>
-                                            <a ui-sref="building-edit({organizationId:organizationId, buildingId:building.id})">Edit</a>
+                                            <a ui-sref="building-edit({organizationId:organizationId, buildingId:building.id})"><button class="btn btn-default">
+                                                Edit
+                                            </button></a>
                                             &nbsp;
-                                            <a ui-sref="role({organizationId:organizationId, buildingId:building.id})">Roles</a>
+                                            <a ui-sref="role({organizationId:organizationId, buildingId:building.id})"><button class="btn btn-default">
+                                                Roles
+                                            </button></a>
                                         </td>
                                         </tbody>
                                     </table>

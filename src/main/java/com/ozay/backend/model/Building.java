@@ -16,6 +16,8 @@ public class Building {
     private Long createdBy;
     private String email;
     private int totalUnits;
+    // Exception
+    private String organizationName;
 
 
     private Long lastModifiedBy;
@@ -117,6 +119,13 @@ public class Building {
         this.organizationId = organizationId;
     }
 
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
 
     public String getCity() {
         return city;

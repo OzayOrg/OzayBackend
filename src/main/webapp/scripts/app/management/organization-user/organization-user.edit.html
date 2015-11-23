@@ -9,10 +9,10 @@
                             <h4 class="col-xs-12">
                                 {{contentTitle}}
                                 <span class="pull-right">
-                                    <button ng-show="organizationUser.activated == false" type="button" ng-click="sendInvitation()" ng-disabled="!button || form.$dirty" class="btn button">Invite</button>
-                                    <button type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
+                                    <button class="btn btn-default" ng-show="organizationUser.activated == false" type="button" ng-click="sendInvitation()" ng-disabled="!button || form.$dirty" class="btn button">Invite</button>
+                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
                                     <a ui-sref="organization-detail({organizationId:organizationId})">
-                                        <button class="btn">Cancel</button>
+                                        <button class="btn btn-default">Cancel</button>
                                     </a>
                                 </span>
                             </h4>

@@ -18,7 +18,7 @@ public class RoleRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Role> findAll(Long buildingId){
+    public List<Role> findAllByBuildingId(Long buildingId){
         String query = "SELECT * FROM ROLE WHERE building_id = :buildingId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", buildingId);

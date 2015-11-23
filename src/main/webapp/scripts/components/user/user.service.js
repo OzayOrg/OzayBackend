@@ -20,7 +20,7 @@ angular.module('ozayApp')
     .service('UserInformation', function UserInformation($q, $cookies, Building) {
         var building;
         var buildingList = [];
-        var organization = null;
+        var organizationId;
 
         return {
             getBuilding:function(){
@@ -28,6 +28,16 @@ angular.module('ozayApp')
             },
             getBuildingList : function(){
                 return buildingList;
+            },
+            getOrganizationId:function(){
+                return organizationId;
+            },
+            setBuilding:function(newBuildingId){
+                for(var i = 0; i<buildingList.length;i++){
+                    if(newBuildingId ==buildingList[i].id){
+                        building = buildingList[i];
+                    }
+                }
             },
             process: function () {
                 var deferred = $q.defer();
@@ -50,8 +60,18 @@ angular.module('ozayApp')
 
                         var cookieBuildingId = $cookies.get('selectedBuilding');
 
+                        for(var i = 0; i<buildingList.length;i++){
+                            if(cookieBuildingId ==buildingList[i].id){
+                                building = buildingList[i];
+                            }
+                        }
+
                         if(building === undefined){
-                            building = buildingList[0].id;
+                            building = buildingList[0];
+                        }
+                        if(building !== undefined){
+                            organizationId = building.organizationId;
+                            $cookies.get('selectedOrganization', organizationId);
                         }
 
 
@@ -60,119 +80,10 @@ angular.module('ozayApp')
                     .catch(function() {
                         building = undefined;
                         buildingList = [];
-                        organization = null;
+                        organizationId = null;
                         deferred.resolve(building);
                     });
                 return deferred.promise;
             }
         };
     });
-
-
-
-
-//angular.module('ozayApp')
-//    .service('UserInformation', function UserInformation($q, $cookies, Building) {
-//        var building = null ;
-//        var buildingList = [];
-//        var organization = null;
-//        return {
-//            clear:function(){
-//                building = null;
-//                buildingList = [];
-//                organization = null;
-//            },
-//            getOrganization: function(){
-//                return organization;
-//            },
-//            setOrganization: function(organizationId){
-//                organization = organizationId;
-//            },
-//            getBuilding: function(){
-//                return building;
-//            },
-//            setBuilding : function(buildingId){
-//                building = buildingId;
-//            },
-//            getBuildingList: function(){
-//                return buildingList;
-//            },
-//            setBuildingList:function(list){
-//                buildingList = list;
-//            },
-//
-//
-//            processcopy: function (force) {
-//                var deferred = $q.defer();
-//
-//                if (force === true) {
-//                    building = undefined;
-//                }
-//
-//                // check and see if we have retrieved the identity data from the server.
-//                // if we have, reuse it by immediately resolving
-//                if (angular.isDefined(building)) {
-//                    deferred.resolve(building);
-//                    return deferred.promise;
-//                }
-//
-//                // retrieve the identity data from the server, update the identity object, and then resolve.
-//                 Building.query().$promise
-//                    .then(function (list) {
-//                        building = 1;
-//                        buildingList = list;
-//                        deferred.resolve(building);
-//                    })
-//                    .catch(function() {
-//                        building = undefined;
-//                        buildingList = [];
-//                        deferred.resolve(building);
-//                    });
-//                return deferred.promise;
-//            },
-//
-//            copy : function(){
-//                var deferred = $q.defer();
-//
-//
-//
-//                if(buildingList.length == 0){
-//                    building = undefined;
-//                    buildingList = [];
-//                    $cookies.remove('selectedBuilding');
-//                }
-//                if (angular.isDefined(building)) {
-//                    deferred.resolve(building);
-//                    return deferred.promise;
-//                }
-//
-//                var cookieBuildingId = $cookies.get('selectedBuilding');
-//
-//                Building.query().$promise
-//                    .then(function (list) {
-//                        buildingList = list;
-//                        if(cookieBuildingId === undefined || cookieBuildingId == null){
-//                            if(buildingList.length > 0){
-//                                building = list[0].id;
-//                                $cookies.put('selectedBuilding', building);
-//                            }
-//                        }else{
-//                            for(var i = 0; i < this.getBuildingList().length;i++){
-//                                if(buildingId[i].id == cookieBuildingId){
-//                                    building = buildingId[i].id;
-//                                    $cookies.put('selectedBuilding', building);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    })
-//                    .catch(function() {
-//                        building = null;
-//                        buildingList = [];
-//                        $cookies.remove('selectedBuilding');
-//                    });
-//            console.log(deferred.promise);
-//            return deferred.promise;
-//            }
-//        };
-//    });

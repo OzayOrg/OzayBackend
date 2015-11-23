@@ -24,6 +24,8 @@ angular.module('ozayApp')
                 $scope.roles = data.roles;
             }
 
+            $scope.organizationUserRoleDTOs = data.organizationUserRoleDTOs;
+
             for (var i = 0; i < data.permissions.length; i++) {
                 $scope.accessList.push({
                     id: data.permissions[i].id,
@@ -76,7 +78,7 @@ angular.module('ozayApp')
             if (confirm("Would you like to save?")) {
                 var form = {};
                 form['role'] = $scope.role;
-                form['OrganizationUserRoleDTO'] = [];
+                form['organizationUserRoleDTOs'] = $scope.organizationUserRoleDTOs;
                 console.log(form);
                 if ($scope.role.id === undefined || $scope.role.id == 0) {
                     $scope.role.buildingId = $stateParams.buildingId;

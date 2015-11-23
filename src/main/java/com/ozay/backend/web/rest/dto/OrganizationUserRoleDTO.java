@@ -4,26 +4,19 @@ package com.ozay.backend.web.rest.dto;
  * Created by naofumiezaki on 11/18/15.
  */
 public class OrganizationUserRoleDTO {
-    private Long userId;
+    private Long id; // organizationUserId
     private String firstName;
     private String lastName;
     private boolean assigned;
 
     public OrganizationUserRoleDTO(){}
 
-    public OrganizationUserRoleDTO(Long userId, String firstName, String lastName, boolean assigned) {
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.assigned = assigned;
+    public Long getId() {
+        return id;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -49,4 +42,5 @@ public class OrganizationUserRoleDTO {
     public void setAssigned(boolean assigned) {
         this.assigned = assigned;
     }
+
 }

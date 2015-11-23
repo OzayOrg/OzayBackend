@@ -1,13 +1,10 @@
 package com.ozay.backend.service;
 
 import com.ozay.backend.domain.User;
-import com.ozay.backend.model.InvitedUser;
+import com.ozay.backend.model.TempUser;
 import com.ozay.backend.model.OrganizationUser;
 import com.ozay.backend.model.OrganizationUserPermission;
-import com.ozay.backend.repository.InvitedUserRepository;
-import com.ozay.backend.repository.OrganizationUserPermissionRepository;
-import com.ozay.backend.repository.OrganizationUserRepository;
-import com.ozay.backend.repository.UserRepository;
+import com.ozay.backend.repository.*;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.form.OrganizationUserRegisterDTO;
 import org.springframework.stereotype.Service;
@@ -23,7 +20,7 @@ import javax.inject.Inject;
 public class OrganizationUserService {
 
     @Inject
-    InvitedUserRepository invitedUserRepository;
+    TempUserRepository TempUserRepository;
 
     @Inject
     OrganizationUserRepository organizationUserRepository;
@@ -37,6 +34,9 @@ public class OrganizationUserService {
     @Inject
     UserRepository userRepository;
 
+    @Inject
+    MemberRepository memberRepository;
+
     // If A user record exists in jhi_user table = Existing user
     public void processExistingUser(OrganizationUserDTO organizationUserDTO){
         processPermissions(organizationUserDTO);
@@ -46,16 +46,16 @@ public class OrganizationUserService {
 
     public void createNonExistingUser(OrganizationUserDTO organizationUserDTO){
         // Create Invited User Record
-        InvitedUser invitedUser = new InvitedUser();
-        invitedUser.setFirstName(organizationUserDTO.getFirstName());
-        invitedUser.setLastName(organizationUserDTO.getLastName());
-        invitedUser.setEmail(organizationUserDTO.getEmail());
-        invitedUserRepository.create(invitedUser);
+        TempUser tempUser = new TempUser();
+        tempUser.setFirstName(organizationUserDTO.getFirstName());
+        tempUser.setLastName(organizationUserDTO.getLastName());
+        tempUser.setEmail(organizationUserDTO.getEmail());
+        TempUserRepository.create(tempUser);
 
         // Create a record for bridge
-        organizationUserDTO.setUserId(invitedUser.getId());
+        organizationUserDTO.setUserId(tempUser.getId());
         OrganizationUser organizationUser = new OrganizationUser();
-        organizationUser.setUserId(invitedUser.getId());
+        organizationUser.setTempUserId(tempUser.getId());
         organizationUser.setOrganizationId(organizationUserDTO.getOrganizationId());
         organizationUser.setActivated(false);
 
@@ -70,12 +70,12 @@ public class OrganizationUserService {
     }
 
     public void updateNonExistingUser(OrganizationUserDTO organizationUserDTO){
-        InvitedUser invitedUser = new InvitedUser();
-        invitedUser.setId(organizationUserDTO.getUserId());
-        invitedUser.setFirstName(organizationUserDTO.getFirstName());
-        invitedUser.setLastName(organizationUserDTO.getLastName());
-        invitedUser.setEmail(organizationUserDTO.getEmail());
-        invitedUserRepository.update(invitedUser);
+        TempUser tempUser = new TempUser();
+        tempUser.setId(organizationUserDTO.getUserId());
+        tempUser.setFirstName(organizationUserDTO.getFirstName());
+        tempUser.setLastName(organizationUserDTO.getLastName());
+        tempUser.setEmail(organizationUserDTO.getEmail());
+        TempUserRepository.update(tempUser);
         processPermissions(organizationUserDTO);
     }
 
@@ -87,17 +87,26 @@ public class OrganizationUserService {
         }
     }
 
-    public void createUserInformation(OrganizationUserRegisterDTO organizationUserRegisterDTO, InvitedUser invitedUser, OrganizationUser organizationUser){
-        User user = userService.createUserInformation(organizationUserRegisterDTO.getLogin(), organizationUserRegisterDTO.getPassword(),
-            invitedUser.getFirstName(), invitedUser.getLastName(), invitedUser.getEmail().toLowerCase(),
-            organizationUserRegisterDTO.getLangKey());
+    public void processOrganizationUserInformation(OrganizationUserRegisterDTO organizationUserRegisterDTO, TempUser tempUser, OrganizationUser organizationUser){
+        User user = userService.createUserInformation(
+            organizationUserRegisterDTO.getLogin(),
+            organizationUserRegisterDTO.getPassword(),
+            tempUser.getFirstName(),
+            tempUser.getLastName(),
+            tempUser.getEmail().toLowerCase(),
+            organizationUserRegisterDTO.getLangKey()
+        );
+
         user.setActivated(true);
-        user.setActivationKey(invitedUser.getActivationKey());
+        user.setActivationKey(tempUser.getActivationKey());
         userRepository.save(user);
 
         // Update organization user table
         organizationUser.setUserId(user.getId());
         organizationUser.setActivated(true);
         organizationUserRepository.update(organizationUser);
+
+        // Update Member table by organization user id
+        memberRepository.updateUserIdByOrganizationId(user.getId(), organizationUser.getId());
     }
 }

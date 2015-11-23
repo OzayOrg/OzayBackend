@@ -5,13 +5,12 @@ import java.util.Set;
 /**
  * Created by naofumiezaki on 11/19/15.
  */
-public class InvitedUser {
+public class TempUser {
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
     private String activationKey;
-    private boolean activated;
 
     private Set<OrganizationUserPermission> organizationUserPermissions;
 
@@ -45,14 +44,6 @@ public class InvitedUser {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
     }
 
     public String getActivationKey() {

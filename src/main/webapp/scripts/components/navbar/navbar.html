@@ -131,9 +131,26 @@
                     </div>
                 </li>
 
-                <li ng-class="{'active' : activeMenu.current.name=='management'}">
-                    <a ui-sref="management">Manage</a>
+                <li class="panel panel-default">
+                    <a data-toggle="collapse" data-target="#dropdown-management">
+                        Manage<span class="caret"></span>
+                    </a>
+
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-management" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li><a ui-sref="management">Organization</a></li>
+                                <li><a ng-show="organizationMenuExtra" ui-sref="organization-detail({organizationId:organizationId})">{{orgName}} Info</a></li>
+                                <li><a ng-show="organizationMenuExtra" ui-sref="role({organizationId:organizationId, buildingId:selectedBuilding})">{{buildingName}} Roles</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </li>
+
+                <!--<li ng-class="{'active' : activeMenu.current.name=='management'}">-->
+                    <!--<a ui-sref="management">Manage</a>-->
+                <!--</li>-->
                 <!-- Dropdown-->
                 <li class="panel panel-default">
                     <a data-toggle="collapse" data-target="#dropdown-account">

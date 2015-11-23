@@ -36,7 +36,7 @@ public class OrganizationRepository {
     }
 
     public List<OrganizationUserDTO> findAllOrganizationInactivatedUser(Long organizationId){
-        String query = "SELECT u.*, ou.id as organization_user_id, ou.id as user_id, ou.activated as activated FROM invited_user u INNER JOIN organization_user ou ON u.id = ou.user_id AND ou.activated = false WHERE ou.organization_id = :organizationId";
+        String query = "SELECT u.*, ou.id as organization_user_id, ou.id as user_id, ou.activated as activated FROM temp_user u INNER JOIN organization_user ou ON u.id = ou.temp_user_id AND ou.activated = false WHERE ou.organization_id = :organizationId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("organizationId", organizationId);
         return (List<OrganizationUserDTO>) namedParameterJdbcTemplate.query(query, params, new OrganizationUserDTOSetExtractor());

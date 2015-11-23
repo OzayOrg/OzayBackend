@@ -6,9 +6,9 @@
                     <div class="row">
                         <h4 class="col-xs-12">
                             Organization List
-                            <span class="pull-right" has-authority="ROLE_SUBSCRIBER" has-authroity="ROLE_ADMIN">
+                            <span class="pull-right" hasAnyAuthority="['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS']">
                                 <a ui-sref='organization-new'>
-                                    <button class="btn button">
+                                    <button class="btn btn-default">
                                         Add
                                     </button>
                                 </a>
@@ -30,9 +30,17 @@
                                         <tbody ng-repeat="organization in organizations| orderBy:predicate:reverse">
                                         <td>{{organization.name}}</td>
                                         <td>
-                                            <a ui-sref="organization-edit({organizationId:organization.id})">Edit</a>
+                                            <a ui-sref="organization-edit({organizationId:organization.id})">
+                                                <button class="btn btn-default">
+                                                    Edit
+                                                </button>
+                                            </a>
                                             &nbsp;
-                                            <a ui-sref="organization-detail({organizationId:organization.id})">Detail</a>
+                                            <a ui-sref="organization-detail({organizationId:organization.id})">
+                                                <button class="btn btn-default">
+                                                    Detail
+                                                </button>
+                                            </a>
                                         </td>
                                         </tbody>
                                     </table>

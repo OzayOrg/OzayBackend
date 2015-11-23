@@ -20,6 +20,7 @@ public class OrganizationUserSetExtractor implements ResultSetExtractor {
             OrganizationUser organizationUser = new OrganizationUser();
             organizationUser.setId(resultSet.getLong("id"));
             organizationUser.setUserId(resultSet.getLong("user_id"));
+            organizationUser.setTempUserId(resultSet.getLong("temp_user_id"));
             organizationUser.setOrganizationId(resultSet.getLong("organization_id"));
             organizationUser.setActivated(resultSet.getBoolean("activated"));
             organizationUsers.add(organizationUser);

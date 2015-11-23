@@ -6,6 +6,7 @@ package com.ozay.backend.model;
 public class OrganizationUser {
     private Long id;
     private Long userId;
+    private Long tempUserId;
     private Long organizationId;
     private boolean activated;
 
@@ -41,11 +42,20 @@ public class OrganizationUser {
         this.activated = activated;
     }
 
+    public Long getTempUserId() {
+        return tempUserId;
+    }
+
+    public void setTempUserId(Long tempUserId) {
+        this.tempUserId = tempUserId;
+    }
+
     @Override
     public String toString() {
         return "OrganizationUser{" +
             "id='" + id + '\'' +
             "userId='" + userId + '\'' +
+            "tempUserId='" + tempUserId + '\'' +
             "organizationId='" + organizationId + '\'' +
             "activated='" + activated + '\'' +
             "}";

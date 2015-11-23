@@ -41,8 +41,20 @@ public class OrganizationUserRepository {
         }
     }
 
+    public OrganizationUser findOneByTempUserId(Long tempUserId){
+        String query = "SELECT * FROM organization_user WHERE temp_user_id=:tempUserId";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("tempUserId", tempUserId);
+        List <OrganizationUser> organizationUsers = (List<OrganizationUser>)namedParameterJdbcTemplate.query(query, params, new OrganizationUserSetExtractor());
+        if(organizationUsers.size() == 1){
+            return organizationUsers.get(0);
+        } else {
+            return null;
+        }
+    }
+
     public Long countAllNonExistingUserByOrganizationIdAndEmail(Long organizationId, String email){
-        String query = "SELECT * FROM invited_user iu INNER JOIN organization_user ou ON iu.id = ou.user_id AND ou.activated = false WHERE ou.organization_id = :organizationId AND email=:email AND iu.activated = false";
+        String query = "SELECT * FROM temp_user iu INNER JOIN organization_user ou ON iu.id = ou.user_id AND ou.activated = false WHERE ou.organization_id = :organizationId AND email=:email AND iu.activated = false";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("organizationId", organizationId);
         params.addValue("email", email);
@@ -50,9 +62,10 @@ public class OrganizationUserRepository {
     }
 
     public void create(OrganizationUser organizationUser){
-        String query = "INSERT INTO organization_user (user_id, organization_id, activated) VALUES(:userId, :organizationId, :activated) RETURNING id";
+        String query = "INSERT INTO organization_user (user_id, temp_user_id, organization_id, activated) VALUES(:userId, :tempUserId, :organizationId, :activated) RETURNING id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", organizationUser.getUserId());
+        params.addValue("tempUserId", organizationUser.getTempUserId());
         params.addValue("organizationId", organizationUser.getOrganizationId());
         params.addValue("activated", organizationUser.isActivated());
         Long id = namedParameterJdbcTemplate.queryForObject(query,params, Long.class);

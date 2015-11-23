@@ -32,6 +32,7 @@ public class BuildingSetExtractor implements ResultSetExtractor {
             building.setLastModifiedBy(resultSet.getLong("last_modified_by"));
             building.setTotalUnits(resultSet.getInt("total_units"));
             building.setOrganizationId(resultSet.getLong("organization_id"));
+            building.setOrganizationName(resultSet.getString("organizationName"));
             list.add(building);
 
         }

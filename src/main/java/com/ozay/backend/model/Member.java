@@ -13,69 +13,17 @@ public class Member implements Comparable<Member> {
     private String lastName;
     private String email;
     private String phone;
-    private String login;
     private Long buildingId;
     private Long userId;
     private Double ownership;
     private String parking;
     private String unit;
-    private DateTime expirationDate;
-    private boolean organizationUser;
+    private Long organizationUserId;
     private boolean deleted;
 
     private Set<Role> roles;
-
     // Special email
     private String userEmail;
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public Long getBuildingId() {
-        return buildingId;
-    }
-
-    public void setBuildingId(Long buildingId) {
-        this.buildingId = buildingId;
-    }
-
-    public Double getOwnership() {
-        return ownership;
-    }
-
-    public void setOwnership(Double ownership) {
-        this.ownership = ownership;
-    }
-
-
-    public String getParking() {
-        return parking;
-    }
-
-    public void setParking(String parking) {
-        this.parking = parking;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public DateTime getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(DateTime expirationDate) {
-        this.expirationDate = expirationDate;
-    }
 
 
     public Long getId() {
@@ -118,12 +66,52 @@ public class Member implements Comparable<Member> {
         this.phone = phone;
     }
 
+    public Long getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(Long buildingId) {
+        this.buildingId = buildingId;
+    }
+
     public Long getUserId() {
         return userId;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Double getOwnership() {
+        return ownership;
+    }
+
+    public void setOwnership(Double ownership) {
+        this.ownership = ownership;
+    }
+
+    public String getParking() {
+        return parking;
+    }
+
+    public void setParking(String parking) {
+        this.parking = parking;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Long getOrganizationUserId() {
+        return organizationUserId;
+    }
+
+    public void setOrganizationUserId(Long organizationUserId) {
+        this.organizationUserId = organizationUserId;
     }
 
     public boolean isDeleted() {
@@ -134,14 +122,6 @@ public class Member implements Comparable<Member> {
         this.deleted = deleted;
     }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -150,19 +130,18 @@ public class Member implements Comparable<Member> {
         this.roles = roles;
     }
 
-    public boolean isOrganizationUser() {
-        return organizationUser;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setOrganizationUser(boolean organizationUser) {
-        this.organizationUser = organizationUser;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     @Override
     public String toString() {
         return "Member{" +
             "id='" + id + '\'' +
-            "login='" + login + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +

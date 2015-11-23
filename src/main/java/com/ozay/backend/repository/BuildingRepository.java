@@ -20,26 +20,26 @@ public class BuildingRepository {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public List<Building> findAll(){
-        String query = "SELECT * FROM building order by id";
+        String query = "SELECT b.*, o.name as organizationName FROM building b INNER JOIN organization o ON b.organization_id = o.id order by b.id";
         return (List<Building>)namedParameterJdbcTemplate.query(query, new BuildingSetExtractor(){});
     }
 
     public List<Building> findAllUserCanAccess(User user){
-        String query = "SELECT b.* FROM building b LEFT JOIN organization o ON o.id = b.organization_id LEFT JOIN member m ON b.id = m.building_id LEFT JOIN subscription s ON s.user_id = o.user_id WHERE s.user_id = :userId OR m.user_id = :userId GROUP BY b.id ORDER BY b.id";
+        String query = "SELECT DISTINCT ON (b.id) b.*, o.name as organizationName FROM building b LEFT JOIN organization o ON o.id = b.organization_id LEFT JOIN member m ON b.id = m.building_id LEFT JOIN subscription s ON s.user_id = o.user_id WHERE s.user_id = :userId OR m.user_id = :userId ORDER BY b.id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", user.getId());
         return (List<Building>)namedParameterJdbcTemplate.query(query, params, new BuildingSetExtractor(){});
     }
 
     public List<Building> findAllOrganizationBuildings(long organizationId){
-        String query = "SELECT * FROM building WHERE organization_id = :organizationId";
+        String query = "SELECT b.*, o.name as organizationName FROM building b INNER JOIN organization o ON b.organization_id = o.id WHERE organization_id = :organizationId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("organizationId", organizationId);
         return (List<Building>)namedParameterJdbcTemplate.query(query, params, new BuildingSetExtractor(){});
     }
 
     public Building findOne(long id){
-        String query = "SELECT * FROM building WHERE id = :id";
+        String query = "SELECT b.*, o.name as organizationName FROM building b INNER JOIN organization o ON b.organization_id = o.id WHERE b.id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
         List<Building> list =  (List<Building>)namedParameterJdbcTemplate.query(query, params, new BuildingSetExtractor(){});

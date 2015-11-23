@@ -1,6 +1,6 @@
 package com.ozay.backend.resultsetextractor;
 
-import com.ozay.backend.model.InvitedUser;
+import com.ozay.backend.model.TempUser;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -15,17 +15,16 @@ import java.util.List;
 public class InvitedUserSetExtractor implements ResultSetExtractor {
     @Override
     public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-        List<InvitedUser> invitedUsers = new ArrayList<InvitedUser>();
+        List<TempUser> tempUsers = new ArrayList<TempUser>();
         while(resultSet.next()){
-            InvitedUser invitedUser = new InvitedUser();
-            invitedUser.setId(resultSet.getLong("id"));
-            invitedUser.setFirstName(resultSet.getString("first_name"));
-            invitedUser.setLastName(resultSet.getString("last_name"));
-            invitedUser.setEmail(resultSet.getString("email"));
-            invitedUser.setActivated(resultSet.getBoolean("activated"));
-            invitedUser.setActivationKey(resultSet.getString("activation_key"));
-            invitedUsers.add(invitedUser);
+            TempUser tempUser = new TempUser();
+            tempUser.setId(resultSet.getLong("id"));
+            tempUser.setFirstName(resultSet.getString("first_name"));
+            tempUser.setLastName(resultSet.getString("last_name"));
+            tempUser.setEmail(resultSet.getString("email"));
+            tempUser.setActivationKey(resultSet.getString("activation_key"));
+            tempUsers.add(tempUser);
         }
-        return invitedUsers;
+        return tempUsers;
     }
 }

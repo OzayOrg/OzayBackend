@@ -1,13 +1,9 @@
 package com.ozay.backend.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.ozay.backend.domain.User;
-import com.ozay.backend.model.InvitedUser;
+import com.ozay.backend.model.TempUser;
 import com.ozay.backend.model.OrganizationUser;
-import com.ozay.backend.repository.InvitedUserRepository;
-import com.ozay.backend.repository.OrganizationRepository;
-import com.ozay.backend.repository.OrganizationUserRepository;
-import com.ozay.backend.repository.UserRepository;
+import com.ozay.backend.repository.*;
 import com.ozay.backend.service.MailService;
 import com.ozay.backend.service.OrganizationUserService;
 import com.ozay.backend.service.UserService;
@@ -54,7 +50,7 @@ public class OrganizationUserResource {
     private OrganizationUserService organizationUserService;
 
     @Inject
-    InvitedUserRepository invitedUserRepository;
+    TempUserRepository tempUserRepository;
 
     @Inject
     private MailService mailService;
@@ -67,23 +63,13 @@ public class OrganizationUserResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> createOrganizationUser(@RequestBody OrganizationUserDTO organizationUserDTO, HttpServletRequest request) {
-        return userRepository.findOneByEmail(organizationUserDTO.getEmail())
-            .map(user -> {
-                organizationUserDTO.setUserId(user.getId());
-                organizationUserService.processExistingUser(organizationUserDTO);
-                String baseUrl = UrlUtil.baseUrlGenerator(request);
-                mailService.sendNewOrganizationUserWelcomeEmail(organizationUserDTO, baseUrl);
-                return new ResponseEntity<>(HttpStatus.CREATED);
-            })
-            .orElseGet(() -> {
-                List<InvitedUser> invitedUsers = invitedUserRepository.findAllByOrganizationIdAndEmail(organizationUserDTO.getOrganizationId(), organizationUserDTO.getEmail());
-                if(invitedUsers.size() == 0){
-                    organizationUserService.createNonExistingUser(organizationUserDTO);
-                } else {
-                    return new ResponseEntity<>(new ErrorDTO("email already in use"), HttpStatus.BAD_REQUEST);
-                }
-                return new ResponseEntity<>(organizationUserDTO, HttpStatus.CREATED);
-            });
+        List<TempUser> tempUsers = tempUserRepository.findAllByOrganizationIdAndEmail(organizationUserDTO.getOrganizationId(), organizationUserDTO.getEmail());
+        if(tempUsers.size() == 0){
+            organizationUserService.createNonExistingUser(organizationUserDTO);
+        } else {
+            return new ResponseEntity<>(new ErrorDTO("email already in use"), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(organizationUserDTO, HttpStatus.CREATED);
     }
 
     /**
@@ -101,11 +87,11 @@ public class OrganizationUserResource {
                 if(organizationUser.isActivated()){
                     organizationUserService.processPermissions(organizationUserDTO);
                 } else {
-                    List<InvitedUser> invitedUsers = invitedUserRepository.findAllByOrganizationIdAndEmail(organizationUserDTO.getOrganizationId(), organizationUserDTO.getEmail());
-                    if(invitedUsers.size() == 0){
+                    List<TempUser> tempUsers = tempUserRepository.findAllByOrganizationIdAndEmail(organizationUserDTO.getOrganizationId(), organizationUserDTO.getEmail());
+                    if(tempUsers.size() == 0){
                         organizationUserService.updateNonExistingUser(organizationUserDTO);
                     } else {
-                        if(invitedUsers.get(0).getId() != organizationUserDTO.getUserId()){
+                        if(tempUsers.get(0).getId() != organizationUserDTO.getUserId()){
                             return new ResponseEntity<>(new ErrorDTO("email already in use"), HttpStatus.BAD_REQUEST);
                         }else{
                             organizationUserService.updateNonExistingUser(organizationUserDTO);
@@ -127,17 +113,19 @@ public class OrganizationUserResource {
     public ResponseEntity<?> sendInvitationEmail(@Valid @RequestBody OrganizationUserDTO organizationUserDTO, HttpServletRequest request) {
         String activateKey = "";
         if(organizationUserDTO.isActivated() == false){
-            InvitedUser invitedUser = invitedUserRepository.findOne(organizationUserDTO.getUserId());
-            activateKey = invitedUser.getActivationKey();
+            TempUser tempUser = tempUserRepository.findOne(organizationUserDTO.getUserId());
+            activateKey = tempUser.getActivationKey();
             String baseUrl = UrlUtil.baseUrlGenerator(request);
             mailService.sendOrganizationUserInvitationMail(organizationUserDTO, baseUrl, activateKey);
             return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            // User already exists..
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
-     * POST  create Invitation Email
+     * POST  register Invitation Email
      */
     @RequestMapping(
         value = "/register",
@@ -147,22 +135,20 @@ public class OrganizationUserResource {
     public ResponseEntity<?> organizationUserRegister(@Valid @RequestBody OrganizationUserRegisterDTO organizationUserRegisterDTO, @RequestParam(value = "key") String key, HttpServletRequest request) {
         return userRepository.findOneByLogin(organizationUserRegisterDTO.getLogin())
             .map(user -> {
-                ErrorDTO errorDTO = new ErrorDTO("login already in use");
-                return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ErrorDTO("login already in use"), HttpStatus.BAD_REQUEST);
             })
-                .orElseGet(() -> {
-
-                    InvitedUser invitedUser = invitedUserRepository.findOneByActivationKey(key);
-                    if(invitedUser == null){
-                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                    }
-                    OrganizationUser organizationUser = organizationUserRepository.findOneByUserId(invitedUser.getId());
-                    if(organizationUser == null){
-                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                    }
-                    organizationUserService.createUserInformation(organizationUserRegisterDTO, invitedUser, organizationUser);
-                    return new ResponseEntity<>(HttpStatus.CREATED);
-                });
+            .orElseGet(() -> {
+                TempUser tempUser = tempUserRepository.findOneByActivationKey(key);
+                if(tempUser == null){
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+                OrganizationUser organizationUser = organizationUserRepository.findOneByTempUserId(tempUser.getId());
+                if(organizationUser == null){
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+                organizationUserService.processOrganizationUserInformation(organizationUserRegisterDTO, tempUser, organizationUser);
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            });
 
     }
 }

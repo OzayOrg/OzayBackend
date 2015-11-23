@@ -2,7 +2,6 @@ package com.ozay.backend.service;
 
 import com.ozay.backend.config.JHipsterProperties;
 import com.ozay.backend.domain.User;
-import com.ozay.backend.model.InvitedUser;
 import com.ozay.backend.model.Organization;
 import com.ozay.backend.repository.OrganizationRepository;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;

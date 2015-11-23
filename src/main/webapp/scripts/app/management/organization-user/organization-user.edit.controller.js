@@ -105,8 +105,8 @@ angular.module('ozayApp')
                     OrganizationUser.update($scope.organizationUser, function (data) {
                         $scope.successTextAlert = 'Successfully updated';
                     }, function (error){
-                        if(error.message !== undefined){
-                            $scope.errorTextAlert = error.message;
+                        if(error.data.message !== undefined){
+                            $scope.errorTextAlert = error.data.message;
                         } else {
                             $scope.errorTextAlert = "Error! Please try later.";
                         }

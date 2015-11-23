@@ -207,10 +207,10 @@ ul#strength {
   margin-right: -1px;
   border-right: 5px solid black;
 }
-.side-menu .navbar-nav li {
+.side-menu .navbar-nav li, .side-menu .navbar-nav li:focus, .side-menu .navbar-nav li:hover {
   display: block;
   width: 100%;
-  border-bottom: 1px solid $first_gray;
+  border-bottom: 1px solid $first_gray !important;
 }
 .side-menu .navbar-nav li a {
   padding: 15px;
@@ -516,9 +516,18 @@ ul#strength {
 /* Custom */
 $global_orange : #FFC600;
 
-input{
-    font-size:16px;
+input, textarea, select{
+    font-size:16px !important;
 }
+.table > thead > tr > th,
+  .table > thead > tr > td,
+  .table > tbody > tr > th,
+  .table > tbody > tr > td,
+  .table > tfoot > tr > th,
+  .table > tfoot > tr > td {
+    vertical-align:middle !important;
+}
+
 
 #content{
     overflow-x: hidden;
@@ -696,6 +705,7 @@ div.side-body{
     }
     .side-body-content{
         padding-top:15px;
+        padding-bottom:15px;
     }
     .side-body-inner-content{
         padding-top:15px;
