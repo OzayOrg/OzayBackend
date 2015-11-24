@@ -70,6 +70,7 @@ public class DatabaseConfiguration  {
         } else {
             config.addDataSourceProperty("password", ""); // HikariCP doesn't allow null password
         }
+        config.setMaximumPoolSize(5);
 
         if (metricRegistry != null) {
             config.setMetricRegistry(metricRegistry);
