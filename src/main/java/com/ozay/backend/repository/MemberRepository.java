@@ -39,8 +39,15 @@ public class MemberRepository {
 //        }
 //    }
 
+    public List<Member> findAllByBuildingId(Long buildingId){
+        String query = "SELECT m.*, u.email as user_email, r.id as role_id, r.name as role_name, r.belong_to as role_belong_to, r.sort_order as role_sort_order from member m LEFT JOIN jhi_user u ON m.user_id = u.id LEFT JOIN role_member rm ON m.id = rm.member_id LEFT JOIN role r ON r.id = rm.role_id WHERE m.building_id = :buildingId AND m.deleted= false ORDER BY m.id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("buildingId", buildingId);
+        return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
+    }
+
     public Member findOneByUserId(Long userId){
-        String query = "SELECT id from member WHERE user_id = :userId";
+        String query = "SELECT * from member WHERE user_id = :userId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", userId);
         List<Member> members = (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());

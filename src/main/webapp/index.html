@@ -8,9 +8,15 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css assets/styles/vendor.css -->
+    <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+    <link rel='stylesheet' href='bower_components/textAngular/dist/textAngular.css'>
+    <link rel='stylesheet' href='bower_components/font-awesome/css/font-awesome.min.css'>
+
+
     <!-- bower:css -->
     <!-- endbower -->
     <!-- endbuild -->
+
     <!-- build:css assets/styles/main.css -->
     <link rel="stylesheet" href="assets/styles/main.css">
     <!-- endbuild -->
@@ -68,6 +74,17 @@
 <script src="bower_components/json3/lib/json3.js"></script>
 <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
 <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src='bower_components/textAngular/dist/textAngular-rangy.min.js'></script>
+<script src='bower_components/textAngular/dist/textAngular-sanitize.min.js'></script>
+<script src='bower_components/textAngular/dist/textAngular.min.js'></script>
+<script src='bower_components/rangy/rangy-core.min.js'></script>
+<script src='bower_components/rangy/rangy-selectionsaverestore.min.js'></script>
+<script src='bower_components/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js'></script>
+<script src='bower_components/lodash/dist/lodash.min.js'></script>
+
+
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -139,22 +156,35 @@
 <script src="scripts/app/admin/user-management/user-management.js"></script>
 <script src="scripts/app/entities/entity.js"></script>
 <script src="scripts/app/error/error.js"></script>
+
+<script src="assets/plug-in/angularjs-naturalsort/dist/naturalSortVersion.min.js"></script>
+<script src="assets/plug-in/angularjs-naturalsort/dist/naturalSortVersionCaching.min.js"></script>
+<script src="assets/plug-in/angularjs-naturalsort/dist/naturalSortVersionDates.min.js"></script>
+<script src="assets/plug-in/angularjs-naturalsort/dist/naturalSortVersionDatesCaching.min.js"></script>
+
+
+
+
+
 <script src="scripts/app/main/main.js"></script>
 <script src="scripts/app/main/main.controller.js"></script>
 <script src="scripts/components/auth/provider/auth.oauth2.service.js"></script>
 
 <script src="scripts/components/building/building.service.js"></script>
+
 <script src="scripts/app/management/management.js"></script>
 <script src="scripts/app/management/organization/organization.controller.js"></script>
 <script src="scripts/app/management/organization/organization.edit.controller.js"></script>
 <script src="scripts/app/management/organization/organization.js"></script>
 <script src="scripts/app/management/organization/organization.detail.controller.js"></script>
+
 <script src="scripts/components/page/page.service.js"></script>
 <script src="scripts/components/page/page.directive.js"></script>
 <script src="scripts/app/notification/notification.js"></script>
 <script src="scripts/app/notification/notification.controller.js"></script>
 <script src="scripts/components/organization/organization.service.js"></script>
 <script src="scripts/components/page/page.controller.js"></script>
+
 <script src="scripts/app/management/building/building.js"></script>
 <script src="scripts/app/management/building/building.edit.controller.js"></script>
 <script src="scripts/app/management/role/role.js"></script>

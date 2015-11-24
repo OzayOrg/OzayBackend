@@ -41,11 +41,6 @@ angular.module('ozayApp')
             },
             process: function () {
                 var deferred = $q.defer();
-
-                if (angular.isDefined(building)) {
-                    deferred.resolve(building);
-                    return deferred.promise;
-                }
                 // retrieve the identity data from the server, update the identity object, and then resolve.
                 Building.query().$promise
                     .then(function (list) {

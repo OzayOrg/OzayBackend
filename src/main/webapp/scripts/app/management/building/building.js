@@ -5,7 +5,7 @@ angular.module('ozayApp')
         $stateProvider
             .state('building-edit', {
                 parent: 'manage',
-                url: '/management/organization/:organizationId/building/{buildingId:int}',
+                url: '/management/organization/{organizationId:int}/building/{buildingId:int}',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
                     pageTitle: 'Building Edit'

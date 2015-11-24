@@ -57,7 +57,7 @@ public class BuildingResource {
     }
 
     /**
-     * POST  /buidling -> Create a new buidling.
+     * POST  /building -> Create a new building.
      */
     @RequestMapping(
         method = RequestMethod.POST,
@@ -68,7 +68,7 @@ public class BuildingResource {
         User user = userService.getUserWithAuthorities();
         building.setCreatedBy(user.getId());
         buildingRepository.create(building);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(building, HttpStatus.CREATED);
     }
 
     /**

@@ -689,6 +689,21 @@ a > button{
     }
 }
 
+#notification-content{
+    .form-group{
+        margin-bottom:0;
+    }
+    .row{
+        margin-bottom:15px;
+    }
+    label{
+        margin-top:7px;
+    }
+    textarea {
+        resize: none;
+    }
+}
+
 @media screen and (max-width:767px){
     .navbar-nav{
         margin: 7.5px -10px;

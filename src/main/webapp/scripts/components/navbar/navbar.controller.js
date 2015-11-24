@@ -7,8 +7,6 @@ angular.module('ozayApp')
         $scope.$state = $state;
         $scope.inProduction = ENV === 'prod';
 
-
-
         $scope.logout = function () {
 //            UserInformation.clear();
             Auth.logout();
@@ -29,11 +27,8 @@ angular.module('ozayApp')
                 $scope.buildingName = UserInformation.getBuilding().name;
                 $scope.organizationMenuExtra = true;
             }
-
             $scope.organizationId = UserInformation.getBuilding().organizationId;
-
         }
-
 
         $scope.changeBuilding = function(){
             UserInformation.setBuilding($scope.selectedBuilding);

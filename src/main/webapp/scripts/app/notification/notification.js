@@ -18,5 +18,22 @@ angular.module('ozayApp')
                 resolve: {
 
                 }
-            });
+            })
+            .state('notification-archive', {
+                    parent: 'site',
+                    url: '/notification-archive',
+                    data: {
+                        authorities: ['ROLE_USER']
+                    },
+                    views: {
+                        'content@': {
+                            templateUrl: 'scripts/app/notification/notification.html',
+                            controller: 'NotificationController'
+                        }
+                    },
+                    resolve: {
+
+                    }
+                })
+            ;
     });

@@ -2,7 +2,11 @@
 
 angular.module('ozayApp', ['LocalStorageModule',
     'ui.bootstrap', // for modal dialogs
-    'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'
+    'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll',
+    'naturalSort',
+    'ui.bootstrap',
+    'textAngular',
+    'angularjs-dropdown-multiselect',
 ])
 
 .run(function($rootScope, $location, $window, $http, $state, $q, $stateParams, Auth, Principal, Building, UserInformation, $cookies, ENV, VERSION) {
@@ -60,6 +64,9 @@ angular.module('ozayApp', ['LocalStorageModule',
                 'navbar@': {
                     templateUrl: 'scripts/components/navbar/navbar.html',
                     controller: 'NavbarController'
+                },
+                'title@': {
+                    templateUrl: 'scripts/components/layout/title.html',
                 }
             },
             resolve: {

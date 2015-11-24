@@ -11,7 +11,7 @@ public class Notification{
 
     private Long id;
 
-    private Integer buildingId;
+    private Long buildingId;
 
     private String notice;
 
@@ -19,12 +19,11 @@ public class Notification{
 
     private DateTime issueDate;
 
-
     private String createdBy;
 
     private DateTime createdDate;
 
-    private Integer  emailCount;
+    private Long emailCount;
 
     private List<NotificationRecord> notificationRecordList;
 
@@ -36,11 +35,11 @@ public class Notification{
         this.id = id;
     }
 
-    public Integer getBuildingId() {
+    public Long getBuildingId() {
         return buildingId;
     }
 
-    public void setBuildingId(Integer buildingId) {
+    public void setBuildingId(Long buildingId) {
         this.buildingId = buildingId;
     }
 
@@ -50,6 +49,14 @@ public class Notification{
 
     public void setNotice(String notice) {
         this.notice = notice;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public DateTime getIssueDate() {
@@ -76,18 +83,13 @@ public class Notification{
         this.createdDate = createdDate;
     }
 
-    public String getSubject() {
-        return subject;
+    public Long getEmailCount() {
+        return emailCount;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setEmailCount(Long emailCount) {
+        this.emailCount = emailCount;
     }
-
-    public Integer getEmailCount() { return emailCount; }
-
-    public void setEmailCount(int emailCount) { this.emailCount = emailCount; }
-
 
     public List<NotificationRecord> getNotificationRecordList() {
         return notificationRecordList;

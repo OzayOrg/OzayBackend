@@ -65,6 +65,12 @@ public class PageResource {
     @Inject
     RoleMemberRepository roleMemberRepository;
 
+    @Inject
+    NotificationRepository notificationRepository;
+
+    @Inject
+    MemberRepository memberRepository;
+
     @RequestMapping(
         value = "/management",
         method = RequestMethod.GET,
@@ -261,6 +267,70 @@ public class PageResource {
         PageOrganizationUserDTO pageOrganizationUserDTO = new PageOrganizationUserDTO();
         pageOrganizationUserDTO.setOrganizationUserDTO(organizationUserDTO);
         pageOrganizationUserDTO.setPermissions(permissionRepository.findOrganizationPermissions());
+        return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value = "/notification",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<PageNotificationDTO> notificationCreate(@RequestParam(value = "building") Long buildingId){
+        if(buildingId == null|| buildingId == 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.debug("REST page notification create");
+
+        PageNotificationDTO pageOrganizationUserDTO = new PageNotificationDTO();
+        pageOrganizationUserDTO.setNotifications(notificationRepository.searchNotificationWithLimit(buildingId, (long)10));
+        pageOrganizationUserDTO.setMembers(memberRepository.findAllByBuildingId(buildingId));
+        pageOrganizationUserDTO.setRoles(roleRepository.findAllByBuildingId(buildingId));
+        pageOrganizationUserDTO.setMembers(memberRepository.findAllByBuildingId(buildingId));
+
+        return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value = "/notification-archive",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<PageNotificationDTO> notificationArchive(@RequestParam(value = "building") Long buildingId){
+        if(buildingId == null|| buildingId == 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.debug("REST page notification history");
+
+        PageNotificationDTO pageOrganizationUserDTO = new PageNotificationDTO();
+
+        pageOrganizationUserDTO.setMembers(memberRepository.findAllByBuildingId(buildingId));
+        pageOrganizationUserDTO.setRoles(roleRepository.findAllByBuildingId(buildingId));
+
+        return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value = "/notification-archive/{notificationId}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<PageNotificationDTO> notificationArchiveDetail(@RequestParam(value = "building") Long buildingId, @PathVariable Long notificationId){
+        if(buildingId == null|| buildingId == 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.debug("REST page notification Details");
+
+        PageNotificationDTO pageOrganizationUserDTO = new PageNotificationDTO();
+        pageOrganizationUserDTO.setNotifications(notificationRepository.searchNotificationWithLimit(buildingId, (long)10));
+        pageOrganizationUserDTO.setMembers(memberRepository.findAllByBuildingId(buildingId));
+        pageOrganizationUserDTO.setRoles(roleRepository.findAllByBuildingId(buildingId));
+
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
 
