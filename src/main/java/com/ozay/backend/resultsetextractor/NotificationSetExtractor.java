@@ -2,6 +2,7 @@ package com.ozay.backend.resultsetextractor;
 
 import com.ozay.backend.model.Building;
 import com.ozay.backend.model.Notification;
+import org.joda.time.DateTime;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -25,6 +26,8 @@ public class NotificationSetExtractor implements ResultSetExtractor {
             notification.setNotice(resultSet.getString("notice"));
             notification.setCreatedBy(resultSet.getString("created_by"));
             notification.setBuildingId(resultSet.getLong("building_id"));
+            notification.setEmailCount(resultSet.getLong("email_count"));
+            notification.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
             list.add(notification);
         }
         return list;

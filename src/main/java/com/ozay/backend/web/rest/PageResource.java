@@ -71,6 +71,9 @@ public class PageResource {
     @Inject
     MemberRepository memberRepository;
 
+    @Inject
+    NotificationRecordRepository notificationRecordRepository;
+
     @RequestMapping(
         value = "/management",
         method = RequestMethod.GET,
@@ -293,28 +296,33 @@ public class PageResource {
     }
 
     @RequestMapping(
-        value = "/notification-archive",
+        value = "/notification-record",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<PageNotificationDTO> notificationArchive(@RequestParam(value = "building") Long buildingId){
+    public ResponseEntity<PageNotificationRecordDTO> notificationArchive(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+
         if(buildingId == null|| buildingId == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        long offset = 0;
 
-        log.debug("REST page notification history");
+        if(page != null && page > 1){
+            offset = page - 1;
+        }
 
-        PageNotificationDTO pageOrganizationUserDTO = new PageNotificationDTO();
+        log.debug("REST page notification history with page {}", page);
 
-        pageOrganizationUserDTO.setMembers(memberRepository.findAllByBuildingId(buildingId));
-        pageOrganizationUserDTO.setRoles(roleRepository.findAllByBuildingId(buildingId));
+        PageNotificationRecordDTO pageOrganizationUserDTO = new PageNotificationRecordDTO();
+        pageOrganizationUserDTO.setTotalNumOfPages(notificationRecordRepository.countAllByNotificationId(buildingId));
+        pageOrganizationUserDTO.setNotificationRecords(notificationRepository.findAllByBuildingId(buildingId, offset));
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
 
     @RequestMapping(
-        value = "/notification-archive/{notificationId}",
+        value = "/notification-record/{notificationId}/{notificationArchiveId}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed

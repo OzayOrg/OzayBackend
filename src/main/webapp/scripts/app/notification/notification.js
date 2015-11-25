@@ -19,7 +19,7 @@ angular.module('ozayApp')
 
                 }
             })
-            .state('notification-archive', {
+            .state('notification-record', {
                     parent: 'site',
                     url: '/notification-archive',
                     data: {
@@ -27,8 +27,8 @@ angular.module('ozayApp')
                     },
                     views: {
                         'content@': {
-                            templateUrl: 'scripts/app/notification/notification.html',
-                            controller: 'NotificationController'
+                            templateUrl: 'scripts/app/notification/notification-record.html',
+                            controller: 'NotificationRecordController'
                         }
                     },
                     resolve: {

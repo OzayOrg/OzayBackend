@@ -1,22 +1,26 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('NotificationController', function($scope, $state, Principal, MenuSearchState, Page, UserInformation) {
+    .controller('NotificationController', function($scope, $state, Notification, MenuSearchState, Page, UserInformation) {
         $scope.button = true;
         $scope.role = [];
         $scope.memberList = [];
         $scope.returnedMemberList = [];
         $scope.selectedUsers = [];
-
+        $scope.resetButton = 'Reset';
 
         Page.get({
             state: $state.current.name,
             building: UserInformation.getBuilding().id
         }).$promise.then(function(data) {
             $scope.roleList = data.roles;
+            $scope.subjects = data.notifications;
 
             angular.forEach(data.roles, function(role, key) {
-                $scope.memberList.push({id:role.id, list:[]});
+                $scope.memberList.push({
+                    id: role.id,
+                    list: []
+                });
             });
             $scope.individualList = [];
             $scope.returnedMemberList = data.members;
@@ -30,7 +34,7 @@ angular.module('ozayApp')
                 });
             });
             angular.forEach(data.members, function(value, key) {
-                if(value.unit == null){
+                if (value.unit == null) {
                     value.unit = "N/A";
                 }
                 $scope.individualList.push({
@@ -157,7 +161,6 @@ angular.module('ozayApp')
             });
         }
 
-
         $scope.multiSelectSettings = {
             enableSearch: true,
             scrollableHeight: '350px',
@@ -181,4 +184,52 @@ angular.module('ozayApp')
             }
         }
 
+        $scope.onSelect = function(item){
+            $scope.notification.notice = item.notice;
+        }
+        $scope.reset = function(){
+            $state.reload();
+        }
+
+        $scope.submit = function() {
+            $scope.button = false;
+            $scope.successTextAlert = null;
+            $scope.errorTextAlert = null;
+            var numOfRecipients = $scope.selectedUsers.length;
+            var errorMessage = false;
+
+            if (numOfRecipients == 0) {
+                errorMessage = "You need to choose at least one recipient";
+            }
+
+            if (errorMessage !== false) {
+                $scope.errorTextAlert = errorMessage;
+                $scope.button = true;
+                return false;
+            }
+
+
+            if (confirm("Would you like to send to " + $scope.selectedUsers.length + " people?")) {
+                $scope.notification.buildingId = UserInformation.getBuilding().id;
+                var form = {};
+                form['notification'] = $scope.notification;
+                form['members'] = $scope.selectedUsers;
+                var roles = []
+                for(var key in $scope.role){
+                    roles.push({roleId:key, checked:$scope.role[key]});
+                }
+                form['roles'] = roles;
+
+                Notification.save(form, function(data) {
+                    $scope.successTextAlert = "Successfully sent";
+                    $scope.resetButton = 'Send New Notification';
+                    $scope.success = true;
+                }, function(error) {
+                    $scope.errorTextAlert = "Error! Please try later.";
+                }).$promise.finally(function() {
+                    $scope.button = true;
+                });
+
+            }
+        }
     });

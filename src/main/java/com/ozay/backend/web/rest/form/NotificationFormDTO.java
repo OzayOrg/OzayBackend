@@ -12,7 +12,8 @@ import java.util.List;
 public class NotificationFormDTO {
     private Notification notification;
     private List<Member> members;
-    private List<NotificationRole> roles;
+    private List<NotificationRoleFormDTO> roles;
+    private boolean result;
 
     public Notification getNotification() {
         return notification;
@@ -30,32 +31,28 @@ public class NotificationFormDTO {
         this.members = members;
     }
 
-    public List<NotificationRole> getRoles() {
+    public List<NotificationRoleFormDTO> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<NotificationRole> roles) {
+    public void setRoles(List<NotificationRoleFormDTO> roles) {
         this.roles = roles;
     }
 
-    public class NotificationRole{
-        private Long roleId;
-        private boolean checked;
+    public boolean isResult() {
+        return result;
+    }
 
-        public Long getRoleId() {
-            return roleId;
-        }
+    public void setResult(boolean result) {
+        this.result = result;
+    }
 
-        public void setRoleId(Long roleId) {
-            this.roleId = roleId;
-        }
-
-        public boolean isChecked() {
-            return checked;
-        }
-
-        public void setChecked(boolean checked) {
-            this.checked = checked;
-        }
+    @Override
+    public String toString() {
+        return "NotificationFormDTO{" +
+            "notification='" + notification + '\'' +
+            "List<Member>='" + members + '\'' +
+            "roles='" + roles + '\'' +
+            "}";
     }
  }

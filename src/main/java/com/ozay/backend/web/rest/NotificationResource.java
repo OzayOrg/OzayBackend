@@ -4,6 +4,8 @@ import com.codahale.metrics.annotation.Timed;
 import com.ozay.backend.model.Building;
 import com.ozay.backend.model.Notification;
 import com.ozay.backend.repository.NotificationRepository;
+import com.ozay.backend.service.NotificationService;
+import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,9 @@ public class NotificationResource {
     @Inject
     NotificationRepository notificationRepository;
 
+    @Inject
+    NotificationService notificationService;
+
 
     /**
      * POST  /notification -> Create a new notification.
@@ -36,9 +41,15 @@ public class NotificationResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<?> createBuilding(@RequestBody Notification notification) {
-        log.debug("REST request to save Notification : {}", notification);
+    public ResponseEntity<?> createBuilding(@RequestBody NotificationFormDTO notificationFormDTO) {
+        log.debug("REST request to save Notification : {}", notificationFormDTO);
+        try{
+            notificationService.processNotification(notificationFormDTO);
 
-        return new ResponseEntity<>(notification, HttpStatus.CREATED);
+            return new ResponseEntity<>(notificationFormDTO, HttpStatus.CREATED);
+
+        } catch(Exception e){
+            return new ResponseEntity<>(notificationFormDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.ozay.backend.repository;
 
 import com.ozay.backend.model.Notification;
 import com.ozay.backend.resultsetextractor.NotificationSetExtractor;
+import com.ozay.backend.security.SecurityUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,19 @@ import java.util.List;
 public class NotificationRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    public List<Notification> findAllByBuildingId(Long buildingId, Long offset){
+        int limit = 20;
+        offset = offset * 20;
+        String query = "SELECT * FROM notification WHERE building_id = :buildingId LIMIT 20 OFFSET :offset";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("buildingId", buildingId);
+        params.addValue("offset", offset);
+
+        return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationSetExtractor());
+    }
 
     public List<Notification> searchNotificationWithLimit(Long buildingId, Long limit){
 
@@ -43,9 +57,20 @@ public class NotificationRepository {
         params.addValue("buildingId", notification.getBuildingId());
         params.addValue("notice", notification.getNotice());
         params.addValue("issueDate", new Timestamp(notification.getIssueDate().getMillis()));
-        params.addValue("createdBy", notification.getCreatedBy());
+        params.addValue("createdBy", SecurityUtils.getCurrentLogin());
         params.addValue("subject", notification.getSubject());
 
-        namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
+        Long id = namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
+        notification.setId(id);
+    }
+
+    public void update(Notification notification){
+        String query = "UPDATE notification SET email_count=:emailCount WHERE id=:id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", notification.getId());
+        params.addValue("emailCount", notification.getEmailCount());
+
+        namedParameterJdbcTemplate.update(query, params);
+
     }
 }

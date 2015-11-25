@@ -2,9 +2,11 @@ package com.ozay.backend.service;
 
 import com.ozay.backend.config.JHipsterProperties;
 import com.ozay.backend.domain.User;
+import com.ozay.backend.model.Notification;
 import com.ozay.backend.model.Organization;
 import com.ozay.backend.repository.OrganizationRepository;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
+import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.apache.commons.lang.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,5 +126,38 @@ public class MailService {
         String content = templateEngine.process("organizationUserInvitationEmail", context);
         String subject = messageSource.getMessage("email.organizationUser.title", null, locale);
         sendEmail(organizationUserDTO.getEmail(), subject, content, false, true);
+    }
+    @Async
+    public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
+        Notification notification = notificationFormDTO.getNotification();
+        log.debug("Sending notification e-mail to {}", to);
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("body", notification.getNotice());
+        String content = templateEngine.process("notificationEmail", context);
+        String subject = notification.getSubject();
+        log.debug("About to send email");
+        sendNotification(notificationFormDTO, to, subject, content, false, true);
+    }
+
+    @Async
+    public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to, String subject, String content, boolean isMultipart, boolean isHtml) {
+        log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
+            isMultipart, isHtml, to, subject, content);
+
+        // Prepare message using a Spring helper
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
+            message.setTo(to);
+            message.setFrom(jHipsterProperties.getMail().getFrom());
+            message.setSubject(subject);
+            message.setText(content, isHtml);
+            javaMailSender.send(mimeMessage);
+
+        } catch (Exception e) {
+            log.warn("E-mail could not be sent to users '{}', exception is: {}", to, e.getMessage());
+        }
+        log.debug("Sent e-mail to Emails '{}'", to);
     }
 }
