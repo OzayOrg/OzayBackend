@@ -137,7 +137,7 @@ public class MailService {
         String content = templateEngine.process("notificationEmail", context);
         String subject = notification.getSubject();
         log.debug("About to send email");
-//        sendNotification(notificationFormDTO, to, subject, content, false, true);
+        sendNotification(notificationFormDTO, to, subject, content, false, true);
     }
 
     @Async
