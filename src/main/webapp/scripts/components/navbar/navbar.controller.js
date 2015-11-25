@@ -6,6 +6,7 @@ angular.module('ozayApp')
         $scope.isAuthenticated = Principal.isAuthenticated;
         $scope.$state = $state;
         $scope.inProduction = ENV === 'prod';
+        $scope.buildingReady = false;
 
         $scope.logout = function () {
 //            UserInformation.clear();
@@ -29,6 +30,12 @@ angular.module('ozayApp')
             }
             $scope.organizationId = UserInformation.getBuilding().organizationId;
         }
+
+        if(UserInformation.getBuilding() !== undefined){
+            $scope.buildingReady = true;
+        }
+
+
 
         $scope.changeBuilding = function(){
             UserInformation.setBuilding($scope.selectedBuilding);
