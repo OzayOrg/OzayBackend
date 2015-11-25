@@ -17,15 +17,14 @@ public class NotificationRecordRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<NotificationRecord> findAllByBuildingId(Long notificationId, Long offset){
-        int limit = 20;
-        offset = offset * 20;
-        String query = "SELECT nr.*, m.first_name, m.last_name, m.unit FROM notification_record nr INNER JOIN member m ON nr.member_id = m.id WHERE nr.notification_id = :notificationId LIMIT 20 OFFSET :offset";
+
+    public List<NotificationRecord> findAllByNotificationId(Long notificationId){
+
+        String query = "SELECT nr.*, m.first_name, m.last_name, m.unit FROM notification_record nr INNER JOIN member m ON nr.member_id = m.id WHERE nr.notification_id = :notificationId";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("notificationId", notificationId);
-        params.addValue("offset", offset);
 
         return (List<NotificationRecord>)namedParameterJdbcTemplate.query(query, params, new NotificationRecordResultSetExtractor());
     }

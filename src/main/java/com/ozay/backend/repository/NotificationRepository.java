@@ -22,12 +22,13 @@ public class NotificationRepository {
 
     public List<Notification> findAllByBuildingId(Long buildingId, Long offset){
         int limit = 20;
-        offset = offset * 20;
-        String query = "SELECT * FROM notification WHERE building_id = :buildingId LIMIT 20 OFFSET :offset";
+        offset = offset * limit;
+        String query = "SELECT * FROM notification WHERE building_id = :buildingId LIMIT :limit OFFSET :offset";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("buildingId", buildingId);
+        params.addValue("limit", limit);
         params.addValue("offset", offset);
 
         return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationSetExtractor());
@@ -49,6 +50,21 @@ public class NotificationRepository {
 
         return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationSetExtractor());
     };
+
+    public Notification findOne(Long notificationId){
+
+        String query = "SELECT * FROM notification WHERE id = :notificationId";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("notificationId", notificationId);
+        List<Notification> notifications = (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationSetExtractor());
+        if(notifications.size() == 1){
+            return notifications.get(0);
+        } else {
+            return null;
+        }
+    }
 
 
     public void create(Notification notification){

@@ -5,29 +5,34 @@ angular.module('ozayApp')
         $scope.button = true;
         $scope.contentTitle = 'Notification Archive';
 
-        // pagination
+        $scope.process = function(pageNumber){
+            Page.get({
+                state: $state.current.name,
+                building: UserInformation.getBuilding().id,
+                page:pageNumber
+            }).$promise.then(function(data) {
+                $scope.totalItems = data.totalNumOfPages/2;
+                $scope.notifications = data.notificationRecords;
+            });
+        }
 
+        // pagination
 
         $scope.setPage = function(pageNo) {
             $scope.currentPage = pageNo;
         };
 
         $scope.pageChanged = function() {
-            $log.log('Page changed to: ' + $scope.currentPage);
+            $scope.process($scope.currentPage);
         };
 
-        $scope.maxSize = 5;
-        $scope.bigTotalItems = 15;
-        $scope.bigCurrentPage = 1;
+        $scope.maxSize = 8;
+        $scope.currentPage = 1;
+        $scope.process();
 
 
 
-        Page.get({
-            state: $state.current.name,
-            building: UserInformation.getBuilding().id
-        }).$promise.then(function(data) {
-            console.log(data);
-            $scope.notifications = data.notificationRecords;
-        });
+
+
 
     });

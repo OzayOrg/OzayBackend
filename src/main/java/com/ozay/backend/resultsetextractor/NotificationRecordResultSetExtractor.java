@@ -34,7 +34,6 @@ public class NotificationRecordResultSetExtractor implements ResultSetExtractor 
             list.add(notificationRecord);
         }
 
-
         return list;
     }
 }

@@ -322,22 +322,22 @@ public class PageResource {
     }
 
     @RequestMapping(
-        value = "/notification-record/{notificationId}/{notificationArchiveId}",
+        value = "/notification-record-detail/{notificationId}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<PageNotificationDTO> notificationArchiveDetail(@RequestParam(value = "building") Long buildingId, @PathVariable Long notificationId){
+    public ResponseEntity<PageNotificationRecordDetailDTO> notificationArchiveDetail(@RequestParam(value = "building") Long buildingId, @PathVariable Long notificationId){
         if(buildingId == null|| buildingId == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         log.debug("REST page notification Details");
 
-        PageNotificationDTO pageOrganizationUserDTO = new PageNotificationDTO();
-        pageOrganizationUserDTO.setNotifications(notificationRepository.searchNotificationWithLimit(buildingId, (long)10));
-        pageOrganizationUserDTO.setMembers(memberRepository.findAllByBuildingId(buildingId));
-        pageOrganizationUserDTO.setRoles(roleRepository.findAllByBuildingId(buildingId));
+       PageNotificationRecordDetailDTO pageOrganizationUserDTO = new PageNotificationRecordDetailDTO();
+
+        pageOrganizationUserDTO.setNotification(notificationRepository.findOne(notificationId));
+        pageOrganizationUserDTO.setNotificationRecords(notificationRecordRepository.findAllByNotificationId(notificationId));
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
