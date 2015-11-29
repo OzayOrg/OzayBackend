@@ -1,6 +1,8 @@
 package com.ozay.backend.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ozay.backend.model.Member;
+import com.ozay.backend.repository.MemberRepository;
 import com.ozay.backend.service.MemberService;
 import com.ozay.backend.web.rest.form.MemberFormDTO;
 import com.ozay.backend.web.rest.form.RoleFormDTO;
@@ -9,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 
@@ -28,6 +27,9 @@ public class MemberResource {
     @Inject
     MemberService memberService;
 
+    @Inject
+    MemberRepository memberRepository;
+
     @RequestMapping(
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,12 +42,14 @@ public class MemberResource {
     }
 
     @RequestMapping(
-        method = RequestMethod.PUT,
+        value = "/{memberId}",
+        method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<?> updateMember(@RequestBody MemberFormDTO memberFormDTO) {
-        log.debug("REST request to create Role : {}", memberFormDTO);
-        memberService.updateMember(memberFormDTO);
+    public ResponseEntity<?> updateMember(@PathVariable Long memberId) {
+        log.debug("REST request to delte : {}", memberId);
+        Member member = memberRepository.findOne(memberId);
+        memberService.deleteMember(member);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

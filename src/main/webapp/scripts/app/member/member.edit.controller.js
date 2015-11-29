@@ -10,18 +10,42 @@ angular.module('ozayApp')
             id: $stateParams.memberId,
         }).$promise.then(function(data) {
             if($state.current.name == 'member-edit'){
-                $scope.deleteBtn = true;
+                $scope.pageTitle = 'Directory Edit';
+                $scope.showDeleteBtn = true;
                 var message = MessageService.getSuccessMessage();
                 if(message !== undefined){
                     $scope.successTextAlert = message;
                 }
                 $scope.member = data.member;
+            }else {
+                $scope.pageTitle = 'Directory Create';
             }
+
             $scope.roles = data.roles;
         });
 
-        $scope.deleteBtn = function(){
-            alert(1);
+        $scope.deleteClicked = function(){
+            $scope.button = false;
+            $scope.successTextAlert = null;
+            $scope.errorTextAlert = null;
+
+            if (confirm("Would you like to save?")) {
+                Member.remove({id:$scope.member.id}, function(data) {
+                    MessageService.setSuccessMessage('Successfully deleted');
+                    $state.go('member');
+                }, function(error) {
+                    if(error.data.message !== undefined){
+                        $scope.errorTextAlert = error.data.message;
+                    }else {
+                        $scope.errorTextAlert = "Error! Please try later.";
+                    }
+
+                }).$promise.finally(function() {
+                    $scope.button = true;
+                });
+            } else {
+                $scope.button = true;
+            }
         }
 
         $scope.memberRoleClicked = function(model){

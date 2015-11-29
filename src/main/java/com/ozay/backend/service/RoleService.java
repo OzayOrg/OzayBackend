@@ -43,7 +43,6 @@ public class RoleService {
 
 
     public void delete(Role role){
-
         rolePermissionRepository.deleteAllByRoleId(role.getId());
         roleMemberRepository.deleteAllByRoleId(role.getId());
         roleRepository.delete(role);

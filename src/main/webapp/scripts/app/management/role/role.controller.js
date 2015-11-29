@@ -14,7 +14,6 @@ angular.module('ozayApp')
             $scope.successTextAlert = message;
         }
 
-
         Page.get({
             state: $state.current.name,
             building: $stateParams.buildingId

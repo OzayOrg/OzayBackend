@@ -1,11 +1,16 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('MemberController', function($scope, $state, Notification, MenuSearchState, Page, UserInformation) {
-
+    .controller('MemberController', function($scope, $state, MessageService, Page, UserInformation) {
+        $scope.pageTitle = 'Directory';
         $scope.memberList = [];
 
         $scope.predicate = 'unit';
+
+        var message = MessageService.getSuccessMessage();
+        if(message !== undefined){
+            $scope.successTextAlert = message;
+        }
 
         Page.query({
             state: $state.current.name,

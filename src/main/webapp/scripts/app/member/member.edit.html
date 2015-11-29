@@ -7,10 +7,11 @@
                     <div class="main-content-title">
                         <div class="row">
                             <h4 class="col-xs-12">
-                                {{contentTitle}}
+                                {{pageTitle}}
                                 <span class="pull-right">
                                     <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
-                                    <button class="btn btn-danger" type="button" ng-show="deleteBtn" ng-click="deleteBtn();">Delete</button>
+                                    <a ui-sref="member"><button class="btn btn-default" type="button">Back</button></a>
+                                    <button ng-show="showDeleteBtn" class="btn btn-danger" type="button" ng-click="deleteClicked();">Delete</button>
                                 </span>
                             </h4>
                         </div>

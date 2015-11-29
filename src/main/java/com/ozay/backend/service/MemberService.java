@@ -32,8 +32,13 @@ public class MemberService {
         this.updateRoleMember(memberFormDTO);
     }
 
+    public void deleteMember(Member member){
+        roleMemberRepository.deleteAllByMemberId(member.getId());
+        memberRepository.softDelete(member);
+    }
+
     private void updateRoleMember(MemberFormDTO memberFormDTO){
-        roleMemberRepository.deleteAll(memberFormDTO.getMember().getId());
+        roleMemberRepository.deleteAllByMemberId(memberFormDTO.getMember().getId());
         for(MemberRoleFormDTO memberRoleFormDTO : memberFormDTO.getRoles()){
             roleMemberRepository.create(memberRoleFormDTO.getId(), memberFormDTO.getMember().getId());
         }

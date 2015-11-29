@@ -2,7 +2,7 @@
 
 angular.module('ozayApp')
     .factory('Member', function ($resource) {
-        return $resource('api/member', {}, {
+        return $resource('api/member/:id', {}, {
                 'query': {method: 'GET', isArray: true},
                 'get': {
                     method: 'GET',
@@ -11,7 +11,8 @@ angular.module('ozayApp')
                         return data;
                     }
                 },
-                'update': { method:'PUT' }
+                'update': { method:'PUT' },
+                'remove': { method:'DELETE' }
             });
         });
 

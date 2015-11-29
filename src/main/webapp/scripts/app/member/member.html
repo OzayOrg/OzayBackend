@@ -1,11 +1,12 @@
 <div class="side-body-content">
     <div class="row">
         <div class="col-xs-12">
+            <div my-shared-scope></div>
             <div class="main-content-wrapper">
                 <div class="main-content-title">
                     <div class="row">
                         <h4 class="col-xs-12">
-                            Organization List
+                            {{pageTitle}}
                             <span class="pull-right">
                                 <a ui-sref='member-new'>
                                     <button class="btn btn-default">
@@ -29,7 +30,7 @@
                                         <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Email</a></th>
                                         <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Phone</a></th>
                                         </thead>
-                                        <tbody ng-repeat="member in memberList| orderBy:predicate:reverse">
+                                        <tbody ng-repeat="member in memberList  | orderBy:natural(predicate):reverse">
                                         <td><a ui-sref="member-edit({memberId:member.id})">{{member.name}}</a></td>
                                         <td>{{member.unit}}</td>
                                         <td>{{member.email}}</td>

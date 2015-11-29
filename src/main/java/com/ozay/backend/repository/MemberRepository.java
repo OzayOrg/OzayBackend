@@ -43,14 +43,14 @@ public class MemberRepository {
     }
 
     public List<Member> findAllByIds(Set<Long> ids){
-        String query = this.MemberSetExtractorQuery + "this.MemberSetExtractorQuery WHERE m.id IN (:ids) ORDER BY m.id";
+        String query = this.MemberSetExtractorQuery + "WHERE m.id IN (:ids) AND m.deleted=false ORDER BY m.id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ids", ids);
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
     }
 
     public Member findOneByUserId(Long userId){
-        String query = this.MemberSetExtractorQuery + "WHERE user_id = :userId";
+        String query = this.MemberSetExtractorQuery + "WHERE user_id = :userId AND m.deleted = false";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", userId);
         List<Member> members = (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
@@ -71,7 +71,7 @@ public class MemberRepository {
 
 
     public Member findOneByOrganizationUserId(Long organizationUserId, Long buildingId){
-        String query = this.MemberSetExtractorQuery + "WHERE organization_user_id = :organizationUserId AND m.building_id =:buildingId";
+        String query = this.MemberSetExtractorQuery + "WHERE organization_user_id = :organizationUserId AND m.building_id =:buildingId AND m.deleted = false";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("organizationUserId", organizationUserId);
         params.addValue("buildingId", buildingId);
@@ -121,6 +121,14 @@ public class MemberRepository {
         params.addValue("ownership", member.getOwnership());
         params.addValue("parking", member.getParking());
         params.addValue("deleted", member.isDeleted());
+        namedParameterJdbcTemplate.update(query, params);
+    }
+
+    public void softDelete(Member member){
+        String query = "UPDATE member SET deleted=:deleted WHERE id=:id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", member.getId());
+        params.addValue("deleted", true);
         namedParameterJdbcTemplate.update(query, params);
     }
 }
