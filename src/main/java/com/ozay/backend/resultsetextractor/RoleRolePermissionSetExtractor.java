@@ -27,6 +27,7 @@ public class RoleRolePermissionSetExtractor implements ResultSetExtractor {
                 role.setId(resultSet.getLong("id"));
                 role.setName(resultSet.getString("name"));
                 role.setBelongTo(resultSet.getLong("belong_to"));
+                role.setSortOrder(resultSet.getLong("sort_order"));
                 role.setOrganizationUserRole((resultSet.getBoolean("organization_user_role")));
                 role.setBuildingId(resultSet.getLong("building_id"));
             }

@@ -9,8 +9,6 @@
                             <h4 class="col-xs-12">
                                 Role List
                                 <span class="pull-right" hasAnyAuthority="['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS']">
-                                    <label><input ng-model="deleteBtn" type="checkbox" value="">Delete</label>
-                                    <button ng-show="deleteBtn == true" class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Delete</button>
                                     <a ui-sref='role-new({organizationId:organizationId, buildingId:buildingId})'>
                                         <button class="btn btn-default">
                                             Add
@@ -21,7 +19,6 @@
                                             Back
                                         </button>
                                     </a>
-
                                 </span>
                             </h4>
                         </div>
@@ -34,12 +31,10 @@
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
-                                            <th class="delete-td" ng-show="deleteBtn == true">Delete</th>
                                             <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Name</a></th>
                                             <th>Action</th>
                                             </thead>
                                             <tbody ng-repeat="role in roles | orderBy:predicate:reverse">
-                                            <td ng-show="deleteBtn == true" class="delete-td"><input  ng-model="role.deleted" type="checkbox"/></td>
                                             <td>{{role.name}}</td>
                                             <td>
                                                 <a ui-sref="role-edit({organizationId:organizationId, buildingId:buildingId, roleId:role.id})"><button class="btn btn-default">Edit</button></a>

@@ -2,9 +2,7 @@ package com.ozay.backend.web.rest.dto.pages;
 
 import com.ozay.backend.model.Permission;
 import com.ozay.backend.model.Role;
-import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.dto.OrganizationUserRoleDTO;
-import com.ozay.backend.web.rest.form.RoleFormDTO;
 
 import java.util.List;
 

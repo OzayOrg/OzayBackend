@@ -22,8 +22,6 @@ public class Member implements Comparable<Member> {
     private boolean deleted;
 
     private Set<Role> roles;
-    // Special email
-    private String userEmail;
 
 
     public Long getId() {
@@ -130,13 +128,6 @@ public class Member implements Comparable<Member> {
         this.roles = roles;
     }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
 
     @Override
     public String toString() {

@@ -1,11 +1,8 @@
 package com.ozay.backend.service;
 
-import com.ozay.backend.domain.User;
 import com.ozay.backend.model.*;
 import com.ozay.backend.repository.*;
-import com.ozay.backend.web.rest.dto.OrganizationUserRoleDTO;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
-import com.ozay.backend.web.rest.form.RoleFormDTO;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,11 +55,7 @@ public class NotificationService {
         for(Member member:members){
             NotificationRecord notificationRecord = new NotificationRecord();
             notificationRecord.setNotificationId(notification.getId());
-            if(member.getUserEmail() != null){
-                notificationRecord.setEmail(member.getUserEmail());
-            } else{
-                notificationRecord.setEmail(member.getEmail());
-            }
+            notificationRecord.setEmail(member.getEmail());
             notificationRecord.setMemberId(member.getId());
             if(notificationRecord.getEmail().matches(EMAIL_PATTERN)){
                 validEmailCount++;

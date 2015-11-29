@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('RoleEditController', function($scope, $state, $stateParams, Page, Principal, Role) {
+    .controller('RoleEditController', function($scope, $state, $stateParams, Page, MessageService, Role) {
         $scope.pageTitle = 'Role New';
         $scope.contentTitle = 'Role New';
         $scope.button = true;
@@ -47,8 +47,13 @@ angular.module('ozayApp')
         });
 
         if ($state.current.name == 'role-edit') {
+            $scope.showDeleteBtn = true;
             $scope.contentTitle = 'Role Edit';
             $scope.pageTitle = 'Role Edit';
+            var message = MessageService.getSuccessMessage();
+            if(message !== undefined){
+                $scope.successTextAlert = message;
+            }
         } else {
             $scope.role = {};
             $scope.role.buildingId = $stateParams.buildingId;
@@ -70,6 +75,30 @@ angular.module('ozayApp')
             }
         }
 
+        $scope.deleteClicked = function(){
+            $scope.button = false;
+            $scope.successTextAlert = null;
+            $scope.errorTextAlert = null;
+
+            if (confirm("Would you like to save?")) {
+                Role.remove({id:roleId}, function(data) {
+                    MessageService.setSuccessMessage('Successfully deleted');
+                    $state.go('role', {organizationId:$stateParams.organizationId, buildingId:$stateParams.buildingId});
+                }, function(error) {
+                    if(error.data.message !== undefined){
+                        $scope.errorTextAlert = error.data.message;
+                    }else {
+                        $scope.errorTextAlert = "Error! Please try later.";
+                    }
+
+                }).$promise.finally(function() {
+                    $scope.button = true;
+                });
+            } else {
+                $scope.button = true;
+            }
+        }
+
         $scope.submit = function() {
             $scope.button = false;
             $scope.successTextAlert = null;
@@ -84,7 +113,9 @@ angular.module('ozayApp')
                     $scope.role.buildingId = $stateParams.buildingId;
 
                     Role.save(form, function(data) {
-                        $scope.successTextAlert = 'Successfully created';
+                        console.log(data);
+                        MessageService.setSuccessMessage('Successfully created');
+                        $state.go('role-edit', {organizationId:$stateParams.organizationId, buildingId:$stateParams.buildingId, roleId:data.id});
                     }, function(error) {
                         $scope.errorTextAlert = "Error! Please try later.";
                     }).$promise.finally(function() {
@@ -99,6 +130,8 @@ angular.module('ozayApp')
                         $scope.button = true;
                     });
                 }
+            } else {
+                $scope.button = true;
             }
         };
     });

@@ -20,7 +20,14 @@ public class RoleRepository {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public List<Role> findAllByBuildingId(Long buildingId){
-        String query = "SELECT * FROM ROLE WHERE building_id = :buildingId";
+        String query = "SELECT * FROM ROLE WHERE building_id = :buildingId ORDER BY sort_order";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("buildingId", buildingId);
+        return (List<Role>)namedParameterJdbcTemplate.query(query, params, new RoleSetExtractor(){});
+    }
+
+    public List<Role> findAllNonOrganizationRolesByBuildingId(Long buildingId){
+        String query = "SELECT * FROM ROLE WHERE building_id = :buildingId AND organization_user_role = false ORDER BY sort_order";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", buildingId);
         return (List<Role>)namedParameterJdbcTemplate.query(query, params, new RoleSetExtractor(){});

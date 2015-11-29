@@ -34,6 +34,8 @@ public class MemberSetExtractor implements ResultSetExtractor {
             member.setId(resultSet.getLong("id"));
             member.setFirstName(resultSet.getString("first_name"));
             member.setLastName(resultSet.getString("last_name"));
+            member.setUnit(resultSet.getString("unit"));
+            member.setPhone(resultSet.getString("phone"));
 
             member.setBuildingId(resultSet.getLong("building_id"));
             member.setUserId(resultSet.getLong("user_id"));

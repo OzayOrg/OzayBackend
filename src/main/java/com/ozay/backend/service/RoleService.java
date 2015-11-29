@@ -42,9 +42,11 @@ public class RoleService {
     OrganizationUserRepository organizationUserRepository;
 
 
-    public void delete( Set<Long> ids){
-        rolePermissionRepository.deleteAllByRoleIds(ids);
-        roleRepository.deleteByIds(ids);
+    public void delete(Role role){
+
+        rolePermissionRepository.deleteAllByRoleId(role.getId());
+        roleMemberRepository.deleteAllByRoleId(role.getId());
+        roleRepository.delete(role);
     }
 
     public void create(RoleFormDTO roleFormDTO){

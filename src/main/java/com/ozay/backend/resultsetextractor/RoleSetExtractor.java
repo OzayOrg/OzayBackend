@@ -23,6 +23,7 @@ public class RoleSetExtractor implements ResultSetExtractor {
             role.setBelongTo(resultSet.getLong("belong_to"));
             role.setOrganizationUserRole((resultSet.getBoolean("organization_user_role")));
             role.setBuildingId(resultSet.getLong("building_id"));
+            role.setSortOrder(resultSet.getLong("sort_order"));
 
             roles.add(role);
         }

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ozayApp')
-    .factory('Role', function ($resource) {
-        return $resource('api/role/:id', {}, {
+    .factory('Member', function ($resource) {
+        return $resource('api/member', {}, {
                 'query': {method: 'GET', isArray: true},
                 'get': {
                     method: 'GET',
@@ -11,8 +11,7 @@ angular.module('ozayApp')
                         return data;
                     }
                 },
-                'update': { method:'PUT' },
-                'remove': { method:'DELETE' }
+                'update': { method:'PUT' }
             });
         });
 

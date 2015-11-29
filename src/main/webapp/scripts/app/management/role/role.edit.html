@@ -9,10 +9,12 @@
                             <h4 class="col-xs-12">
                                 {{contentTitle}}
                                 <span class="pull-right">
+
                                     <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
                                     <a ui-sref="role({organizationId:organizationId, buildingId:buildingId})">
-                                        <button class="btn btn-default">Cancel</button>
+                                        <button class="btn btn-default">Back</button>
                                     </a>
+                                    <button class="btn btn-danger" ng-show="showDeleteBtn" type="button" ng-click="deleteClicked();" ng-disabled="!button" class="btn button">Delete</button>
                                 </span>
                             </h4>
                         </div>
@@ -25,6 +27,11 @@
                                         <label for="name">Role Name</label>
                                         <input type="text" class="form-control" id="name" name="name" placeholder="" ng-model="role.name" required>
                                         <p ng-show="submitted && form.name.$error.required" class="help-block has-error">Required</p>
+                                    </div>
+                                    <div class="form-group" ng-class="{ 'has-error' : submitted && form.sortOrder.$invalid}">
+                                        <label for="sortOrder">Sort Order</label>
+                                        <input type="number" class="form-control" id="sortOrder" name="sortOrder" placeholder="" ng-model="role.sortOrder" required>
+                                        <p ng-show="submitted && form.sortOrder.$error.required" class="help-block has-error">Required</p>
                                     </div>
 
                                     <div class="form-group">

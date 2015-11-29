@@ -30,8 +30,20 @@ public class MemberRepository {
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
     }
 
+    public Member findOne(Long id){
+        String query = this.MemberSetExtractorQuery + "WHERE m.deleted= false AND m.id=:id ORDER BY m.id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+        List<Member> members =  (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
+        if(members.size() == 1){
+            return members.get(0);
+        } else {
+            return null;
+        }
+    }
+
     public List<Member> findAllByIds(Set<Long> ids){
-        String query = this.MemberSetExtractorQuery + "this.MemberSetExtractorQuery +WHERE m.id IN (:ids) ORDER BY m.id";
+        String query = this.MemberSetExtractorQuery + "this.MemberSetExtractorQuery WHERE m.id IN (:ids) ORDER BY m.id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ids", ids);
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
@@ -48,6 +60,14 @@ public class MemberRepository {
             return null;
         }
     }
+
+    public List<Member> findAllByRole(Role role){
+        String query = this.MemberSetExtractorQuery + "WHERE rm.role_id = :roleId AND m.deleted= false ORDER BY m.id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("roleId", role.getId());
+        return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
+    }
+
 
 
     public Member findOneByOrganizationUserId(Long organizationUserId, Long buildingId){

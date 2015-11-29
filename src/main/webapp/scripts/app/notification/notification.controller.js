@@ -184,10 +184,10 @@ angular.module('ozayApp')
             }
         }
 
-        $scope.onSelect = function(item){
+        $scope.onSelect = function(item) {
             $scope.notification.notice = item.notice;
         }
-        $scope.reset = function(){
+        $scope.reset = function() {
             $state.reload();
         }
 
@@ -215,8 +215,11 @@ angular.module('ozayApp')
                 form['notification'] = $scope.notification;
                 form['members'] = $scope.selectedUsers;
                 var roles = []
-                for(var key in $scope.role){
-                    roles.push({roleId:key, checked:$scope.role[key]});
+                for (var key in $scope.role) {
+                    roles.push({
+                        roleId: key,
+                        checked: $scope.role[key]
+                    });
                 }
                 form['roles'] = roles;
 

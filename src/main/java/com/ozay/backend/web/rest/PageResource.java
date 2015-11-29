@@ -9,6 +9,8 @@ import com.ozay.backend.web.rest.dto.OrganizationRoleMemberDTO;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.dto.OrganizationUserRoleDTO;
 import com.ozay.backend.web.rest.dto.pages.*;
+import com.ozay.backend.web.rest.form.MemberFormDTO;
+import com.ozay.backend.web.rest.form.MemberRoleFormDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -288,9 +291,13 @@ public class PageResource {
 
         PageNotificationDTO pageOrganizationUserDTO = new PageNotificationDTO();
         pageOrganizationUserDTO.setNotifications(notificationRepository.searchNotificationWithLimit(buildingId, (long)10));
-        pageOrganizationUserDTO.setMembers(memberRepository.findAllByBuildingId(buildingId));
+
         pageOrganizationUserDTO.setRoles(roleRepository.findAllByBuildingId(buildingId));
         pageOrganizationUserDTO.setMembers(memberRepository.findAllByBuildingId(buildingId));
+
+        List<Member> members = memberRepository.findAllByBuildingId(buildingId);
+        Collections.sort(members);
+        pageOrganizationUserDTO.setMembers(members);
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
@@ -340,6 +347,97 @@ public class PageResource {
         pageOrganizationUserDTO.setNotificationRecords(notificationRecordRepository.findAllByNotificationId(notificationId));
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value = "/member",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> getMembers(@RequestParam(value = "building") Long buildingId){
+        if(buildingId == null|| buildingId == 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.debug("REST page get member building id {}", buildingId);
+
+        List<Member> members = memberRepository.findAllByBuildingId(buildingId);
+
+        return new ResponseEntity<>(members, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value = "/member-edit/{memberId}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> getMemberNew(@RequestParam(value = "building") Long buildingId, @PathVariable Long memberId){
+        if(buildingId == null|| buildingId == 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.debug("REST page get member building id {}", buildingId);
+
+        Member member = memberRepository.findOne(memberId);
+
+        MemberFormDTO memberFormDTO = new MemberFormDTO();
+        memberFormDTO.setMember(member);
+
+        List<MemberRoleFormDTO> list = new ArrayList<MemberRoleFormDTO>();
+
+        List<RoleMember> roleMembers = roleMemberRepository.findRoleMembersByMemberId(memberId);
+
+        for(Role role: roleRepository.findAllNonOrganizationRolesByBuildingId(buildingId)){
+            MemberRoleFormDTO memberRoleFormDTO = new MemberRoleFormDTO();
+            memberRoleFormDTO.setId(role.getId());
+            memberRoleFormDTO.setName(role.getName());
+            memberRoleFormDTO.setSortOrder(role.getSortOrder());
+            memberRoleFormDTO.setBelongTo(role.getBelongTo());
+            for(RoleMember roleMember : roleMembers){
+                if(roleMember.getRoleId() == role.getId()){
+                    memberRoleFormDTO.setAssign(true);
+                    break;
+                }
+            }
+
+            list.add(memberRoleFormDTO);
+        }
+
+        memberFormDTO.setRoles(list);
+
+        return new ResponseEntity<>(memberFormDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value = "/member-new",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> getMemberNew(@RequestParam(value = "building") Long buildingId){
+        if(buildingId == null|| buildingId == 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.debug("REST page get member building id {}", buildingId);
+
+        MemberFormDTO memberFormDTO = new MemberFormDTO();
+
+        List<MemberRoleFormDTO> list = new ArrayList<MemberRoleFormDTO>();
+        for(Role role: roleRepository.findAllNonOrganizationRolesByBuildingId(buildingId)){
+            MemberRoleFormDTO memberRoleFormDTO = new MemberRoleFormDTO();
+            memberRoleFormDTO.setId(role.getId());
+            memberRoleFormDTO.setName(role.getName());
+            memberRoleFormDTO.setSortOrder(role.getSortOrder());
+            memberRoleFormDTO.setBelongTo(role.getBelongTo());
+            list.add(memberRoleFormDTO);
+        }
+
+        memberFormDTO.setRoles(list);
+
+        return new ResponseEntity<>(memberFormDTO, HttpStatus.OK);
     }
 
 }

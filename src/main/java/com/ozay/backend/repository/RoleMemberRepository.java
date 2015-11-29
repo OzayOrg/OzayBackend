@@ -1,7 +1,9 @@
 package com.ozay.backend.repository;
 
+import com.ozay.backend.model.RoleMember;
 import com.ozay.backend.resultsetextractor.OrganizationRoleMemberDTOSetExtractor;
 import com.ozay.backend.resultsetextractor.OrganizationUserDTOSetExtractor;
+import com.ozay.backend.resultsetextractor.RoleMemberSetExtractor;
 import com.ozay.backend.web.rest.dto.OrganizationRoleMemberDTO;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -24,6 +26,13 @@ public class RoleMemberRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("roleId", roleId);
         return (List<OrganizationRoleMemberDTO>)namedParameterJdbcTemplate.query(query, params, new OrganizationRoleMemberDTOSetExtractor());
+    }
+
+    public List<RoleMember> findRoleMembersByMemberId(Long memberId){
+        String query = "SELECT * FROM role_member WHERE member_id = :memberId";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("memberId", memberId);
+        return (List<RoleMember>)namedParameterJdbcTemplate.query(query, params, new RoleMemberSetExtractor());
     }
 
 
