@@ -21,41 +21,24 @@ public class MemberRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-//    public Member findOne(Long id){
-//        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-//        parameterSource.addValue("id", id);
-//        List<Member> list = (List<Member>)namedParameterJdbcTemplate.query("SELECT m.*, u.email as u_email," +
-//            "r.id as r_id, " +
-//            "r.name as r_name, " +
-//            "r.building_id as r_building_id, " +
-//            "r.sort_order as r_sort_order, " +
-//            "r.organization_user_role as r_organization_user_role, " +
-//            "r.belong_to as r_belong_to, " +
-//            "ou.user_id as organization_user_id " +
-//            "FROM member m LEFT JOIN t_user u ON u.id = m.user_id LEFT JOIN role_member rm ON m.id = rm.member_id LEFT JOIN role r ON r.id = rm.role_id INNER JOIN building b ON b.id = m.building_id INNER JOIN organization o ON o.id = b.organization_id LEFT JOIN organization_user ou ON ou.user_id = m.user_id WHERE m.id =:id", parameterSource, new MemberResultSetExtractor());
-//        if(list.size()  == 1){
-//            return list.get(0);
-//        } else {
-//            return null;
-//        }
-//    }
+    private final static String MemberSetExtractorQuery = "SELECT m.*, u.email as user_email, r.id as role_id, r.name as role_name, r.belong_to as role_belong_to, r.sort_order as role_sort_order from member m LEFT JOIN jhi_user u ON m.user_id = u.id LEFT JOIN role_member rm ON m.id = rm.member_id LEFT JOIN role r ON r.id = rm.role_id ";
 
     public List<Member> findAllByBuildingId(Long buildingId){
-        String query = "SELECT m.*, u.email as user_email, r.id as role_id, r.name as role_name, r.belong_to as role_belong_to, r.sort_order as role_sort_order from member m LEFT JOIN jhi_user u ON m.user_id = u.id LEFT JOIN role_member rm ON m.id = rm.member_id LEFT JOIN role r ON r.id = rm.role_id WHERE m.building_id = :buildingId AND m.deleted= false ORDER BY m.id";
+        String query = this.MemberSetExtractorQuery + "WHERE m.building_id = :buildingId AND m.deleted= false ORDER BY m.id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", buildingId);
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
     }
 
     public List<Member> findAllByIds(Set<Long> ids){
-        String query = "SELECT m.*, u.email as user_email, r.id as role_id, r.name as role_name, r.belong_to as role_belong_to, r.sort_order as role_sort_order from member m LEFT JOIN jhi_user u ON m.user_id = u.id LEFT JOIN role_member rm ON m.id = rm.member_id LEFT JOIN role r ON r.id = rm.role_id WHERE m.id IN (:ids) ORDER BY m.id";
+        String query = this.MemberSetExtractorQuery + "this.MemberSetExtractorQuery +WHERE m.id IN (:ids) ORDER BY m.id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ids", ids);
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
     }
 
     public Member findOneByUserId(Long userId){
-        String query = "SELECT * from member WHERE user_id = :userId";
+        String query = this.MemberSetExtractorQuery + "WHERE user_id = :userId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", userId);
         List<Member> members = (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
@@ -68,7 +51,7 @@ public class MemberRepository {
 
 
     public Member findOneByOrganizationUserId(Long organizationUserId, Long buildingId){
-        String query = "SELECT * from member WHERE organization_user_id = :organizationUserId AND building_id =:buildingId";
+        String query = this.MemberSetExtractorQuery + "WHERE organization_user_id = :organizationUserId AND m.building_id =:buildingId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("organizationUserId", organizationUserId);
         params.addValue("buildingId", buildingId);

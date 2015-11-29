@@ -36,7 +36,6 @@ angular.module('ozayApp')
         }
 
 
-
         $scope.changeBuilding = function(){
             UserInformation.setBuilding($scope.selectedBuilding);
             $cookies.put('selectedBuilding', $scope.selectedBuilding);

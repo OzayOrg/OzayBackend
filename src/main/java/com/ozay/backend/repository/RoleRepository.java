@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by naofumiezaki on 11/1/15.
@@ -74,6 +75,13 @@ public class RoleRepository {
         String query = "DELETE FROM role WHERE id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", role.getId());
+        namedParameterJdbcTemplate.update(query, params);
+    }
+
+    public void deleteByIds(Set<Long> ids){
+        String query = "DELETE FROM role WHERE id IN (:ids)";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("ids", ids);
         namedParameterJdbcTemplate.update(query, params);
     }
 }

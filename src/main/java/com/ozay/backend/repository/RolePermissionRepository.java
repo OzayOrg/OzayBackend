@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by naofumiezaki on 11/18/15.
@@ -36,6 +37,13 @@ public class RolePermissionRepository {
         String query="DELETE FROM role_permission WHERE role_id=:roleId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("roleId", id);
+        namedParameterJdbcTemplate.update(query,params);
+    }
+
+    public void deleteAllByRoleIds(Set<Long> ids){
+        String query="DELETE FROM role_permission WHERE role_id IN (:ids) ";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("ids", ids);
         namedParameterJdbcTemplate.update(query,params);
     }
 }

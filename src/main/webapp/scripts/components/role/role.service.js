@@ -2,7 +2,7 @@
 
 angular.module('ozayApp')
     .factory('Role', function ($resource) {
-        return $resource('api/role', {}, {
+        return $resource('api/role/:method', {}, {
                 'query': {method: 'GET', isArray: true},
                 'get': {
                     method: 'GET',

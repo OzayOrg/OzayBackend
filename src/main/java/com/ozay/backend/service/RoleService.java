@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by naofumiezaki on 11/18/15.
@@ -39,14 +42,24 @@ public class RoleService {
     OrganizationUserRepository organizationUserRepository;
 
 
+    public void delete( Set<Long> ids){
+        rolePermissionRepository.deleteAllByRoleIds(ids);
+        roleRepository.deleteByIds(ids);
+    }
+
     public void create(RoleFormDTO roleFormDTO){
         roleRepository.create(roleFormDTO.getRole());
-        processRolePermission(roleFormDTO.getRole());
-        processRoleAssignedMember(roleFormDTO);
+//        processRolePermission(roleFormDTO.getRole());
+//        processRoleAssignedMember(roleFormDTO);
+        this.rest(roleFormDTO);
     }
 
     public void update(RoleFormDTO roleFormDTO){
         roleRepository.update(roleFormDTO.getRole());
+        this.rest(roleFormDTO);
+
+    }
+    private void rest(RoleFormDTO roleFormDTO){
         processRolePermission(roleFormDTO.getRole());
         processRoleAssignedMember(roleFormDTO);
     }
