@@ -156,6 +156,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
+        System.out.println("???????????");
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
         user.getAuthorities().size(); // eagerly load the association
 
@@ -178,7 +179,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getUserWithAuthorities(Long buildingId, Long organizationId) {
-        User user = this.getUserWithAuthorities();
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
+        user.getAuthorities().size(); // eagerly load the association
 
         if(SecurityUtils.isUserInRole("ROLE_ADMIN") == false){
             AccountInformation accountInformation = accountRepository.getLoginUserInformation(user, buildingId, organizationId);

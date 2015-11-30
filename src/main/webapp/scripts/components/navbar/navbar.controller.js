@@ -39,7 +39,9 @@ angular.module('ozayApp')
         $scope.changeBuilding = function(){
             UserInformation.setBuilding($scope.selectedBuilding);
             $cookies.put('selectedBuilding', $scope.selectedBuilding);
-//            $state.transitionTo('home', null, {'reload':true});
-            $state.reload();
+
+            Auth.authorize(true).then(function(){
+                $state.reload();
+            });
         }
     });

@@ -7,7 +7,7 @@ angular.module('ozayApp')
                 parent: 'manage',
                 url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'ROLE_GET'],
                     pageTitle: 'Role List'
                 },
                 views: {
@@ -24,7 +24,7 @@ angular.module('ozayApp')
                 parent: 'manage',
                 url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role/edit/{roleId:int}',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'ROLE_PUT', 'ROLE_DELETE'],
                     pageTitle: 'Role Edit'
                 },
                 views: {
@@ -41,7 +41,7 @@ angular.module('ozayApp')
                 parent: 'manage',
                 url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role/new',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'ROLE_POST'],
                     pageTitle: 'Role New'
                 },
                 views: {

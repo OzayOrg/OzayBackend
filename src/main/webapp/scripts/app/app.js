@@ -13,6 +13,7 @@ angular.module('ozayApp', ['LocalStorageModule',
 
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
+        $rootScope.firstAuthentication = false;// When true and building or organization
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
             $rootScope.toState = toState;
@@ -20,7 +21,12 @@ angular.module('ozayApp', ['LocalStorageModule',
 
             if (Principal.isIdentityResolved()) {
                 Auth.authorize();
+                $rootScope.firstAuthentication = true;
+            } else {
+                $rootScope.firstAuthentication = false;
             }
+
+
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -70,16 +76,16 @@ angular.module('ozayApp', ['LocalStorageModule',
                 }
             },
             resolve: {
+//                userInfo: ['UserInformation',
+//                    function(UserInformation) {
+//                        return UserInformation.process();
+//                    }
+//                ],
                 authorize: ['Auth',
                     function(Auth) {
                         return Auth.authorize();
                     }
                 ],
-                userInfo: ['UserInformation',
-                    function(UserInformation) {
-                        return UserInformation.process();
-                    }
-                ]
             }
         });
 

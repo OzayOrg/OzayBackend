@@ -7,7 +7,7 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/member',
                 data: {
-                    authorities: ['ROLE_USER'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'MEMBER_GET'],
                     pageTitle: 'Directory'
                 },
                 views: {
@@ -24,7 +24,7 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/member/edit/{memberId:int}',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'MEMBER_PUT', 'MEMBER_DELETE', 'MEMBER_GET'],
                 },
                 views: {
                     'content@': {
@@ -40,7 +40,7 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/member/new',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'MEMBER_POST', 'MEMBER_GET'],
                 },
                 views: {
                     'content@': {

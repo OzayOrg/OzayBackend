@@ -38,7 +38,9 @@ public class ApplicationConfigurerAdapter extends WebMvcConfigurerAdapter implem
     @Override
     public void addInterceptors(final InterceptorRegistry registry)  {
         registry.addInterceptor(pagePopulationInterceptor())
-            .addPathPatterns("/api/buildings");
+            .addPathPatterns("/api/building")
+            .addPathPatterns("/api/page/*")
+            .excludePathPatterns("/api/page/management");
 
     }
 

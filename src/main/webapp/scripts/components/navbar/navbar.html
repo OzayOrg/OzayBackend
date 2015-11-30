@@ -99,7 +99,7 @@
                 </li>
 
                 <!-- Dropdown-->
-                <li class="panel panel-default" ng-show="buildingReady">
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET">
                     <a data-toggle="collapse" data-target="#dropdown-notification">
                         Notification<span class="caret"></span>
                     </a>
@@ -108,14 +108,14 @@
                     <div id="dropdown-notification" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="notification">Create</a></li>
-                                <li><a ui-sref="notification-record">Archive</a></li>
+                                <li><a ui-sref="notification" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST">Create</a></li>
+                                <li><a ui-sref="notification-record" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET">Archive</a></li>
                             </ul>
                         </div>
                     </div>
                 </li>
                 <!-- Dropdown-->
-                <li class="panel panel-default" ng-show="buildingReady">
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET, MEMBER_POST, MEMBER_PUT">
                     <a data-toggle="collapse" data-target="#dropdown-directory">
                         Directory<span class="caret"></span>
                     </a>
@@ -124,8 +124,8 @@
                     <div id="dropdown-directory" class="panel-collapse collapse">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="member">List</a></li>
-                                <li><a ui-sref="member-new">Create</a></li>
+                                <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET">List</a></li>
+                                <li><a ui-sref="member-new" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST">Create</a></li>
                             </ul>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                             <ul class="nav navbar-nav">
                                 <li><a ui-sref="management">Organization</a></li>
                                 <li><a ng-show="organizationMenuExtra" ui-sref="organization-detail({organizationId:organizationId})">{{orgName}} Info</a></li>
-                                <li><a ng-show="organizationMenuExtra" ui-sref="role({organizationId:organizationId, buildingId:selectedBuilding})">{{buildingName}} Roles</a></li>
+                                <li><a ng-show="organizationMenuExtra" ui-sref="role({organizationId:organizationId, buildingId:selectedBuilding})" has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ROLE_GET">{{buildingName}} Roles</a></li>
                             </ul>
                         </div>
                     </div>

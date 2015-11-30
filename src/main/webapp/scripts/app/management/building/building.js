@@ -7,7 +7,7 @@ angular.module('ozayApp')
                 parent: 'manage',
                 url: '/management/organization/{organizationId:int}/building/{buildingId:int}',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER'],
                     pageTitle: 'Building Edit'
                 },
                 views: {
@@ -24,7 +24,7 @@ angular.module('ozayApp')
                 parent: 'manage',
                 url: '/management/organization/:organizationId/building/new',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER'],
                     pageTitle: 'Building New'
                 },
                 views: {

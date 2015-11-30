@@ -8,6 +8,7 @@ import java.util.List;
 public class AccountInformation {
     private Long subscriberId;
     private Long subscriptionId;
+    private Long organizationSubscriberId;
     private Long organizationId;
     private List<String> authorities;
 
@@ -33,6 +34,14 @@ public class AccountInformation {
 
     public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
+    }
+
+    public Long getOrganizationSubscriberId() {
+        return organizationSubscriberId;
+    }
+
+    public void setOrganizationSubscriberId(Long organizationSubscriberId) {
+        this.organizationSubscriberId = organizationSubscriberId;
     }
 
     public List<String> getAuthorities() {

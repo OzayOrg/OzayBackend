@@ -9,9 +9,9 @@
                             <h4 class="col-xs-12">
                                 {{pageTitle}}
                                 <span class="pull-right">
-                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
+                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST, MEMBER_PUT">Save</button>
                                     <a ui-sref="member"><button class="btn btn-default" type="button">Back</button></a>
-                                    <button ng-show="showDeleteBtn" class="btn btn-danger" type="button" ng-click="deleteClicked();">Delete</button>
+                                    <button ng-show="showDeleteBtn" class="btn btn-danger" type="button" ng-click="deleteClicked();" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_DELETE">Delete</button>
                                 </span>
                             </h4>
                         </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .factory('Principal', function Principal($q, $stateParams, Account) {
+    .factory('Principal', function Principal($q, $stateParams, Account, UserInformation) {
         var _identity,
             _authenticated = false;
 
@@ -55,18 +55,34 @@ angular.module('ozayApp')
                     return deferred.promise;
                 }
 
+
+
                 // retrieve the identity data from the server, update the identity object, and then resolve.
-                Account.get({building:$stateParams.building, organization:$stateParams.organization}).$promise
-                    .then(function (account) {
-                        _identity = account.data;
-                        _authenticated = true;
-                        deferred.resolve(_identity);
-                    })
-                    .catch(function() {
-                        _identity = null;
-                        _authenticated = false;
-                        deferred.resolve(_identity);
-                    });
+                UserInformation.process().then(function(){
+                    var buildingId = undefined;
+                     var organizationId = undefined;
+                    if(UserInformation.getBuilding() !== undefined){
+                        buildingId = UserInformation.getBuilding().id;
+                        organizationId = UserInformation.getBuilding().organizationId;
+                    }
+                    if($stateParams.organization !== undefined){
+                        organizationId = $stateParams.organization;
+                    }
+                    Account.get({building:buildingId, organization:organizationId}).$promise
+                        .then(function (account) {
+                            _identity = account.data;
+                            _authenticated = true;
+                            deferred.resolve(_identity);
+                        })
+                        .catch(function() {
+                            _identity = null;
+                            _authenticated = false;
+                            deferred.resolve(_identity);
+                        });
+                });
+
+
+
                 return deferred.promise;
             }
         };

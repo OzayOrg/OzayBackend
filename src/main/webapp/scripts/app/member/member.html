@@ -9,7 +9,7 @@
                             {{pageTitle}}
                             <span class="pull-right">
                                 <a ui-sref='member-new'>
-                                    <button class="btn btn-default">
+                                    <button class="btn btn-default" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST">
                                         Add
                                     </button>
                                 </a>

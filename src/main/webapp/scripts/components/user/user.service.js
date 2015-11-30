@@ -69,7 +69,6 @@ angular.module('ozayApp')
                             $cookies.get('selectedOrganization', organizationId);
                         }
 
-
                         deferred.resolve(building);
                     })
                     .catch(function() {

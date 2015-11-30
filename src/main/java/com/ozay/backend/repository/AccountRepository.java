@@ -2,13 +2,17 @@ package com.ozay.backend.repository;
 
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.AccountInformation;
-import com.ozay.backend.resultsetextractor.AccountResultSetExtractor;
+import com.ozay.backend.model.AccountPermission;
+import com.ozay.backend.resultsetextractor.AccountPermissionResultSetExtractor;
 import com.ozay.backend.resultsetextractor.AccountSimpleResultSetExtractor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,16 +20,11 @@ import java.util.List;
  */
 @Repository
 public class AccountRepository {
+
+    private final Logger log = LoggerFactory.getLogger(AccountRepository.class);
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
-    public List<AccountInformation> getAllByBuildingId(long buildingId){
-        String query = "SELECT * FROM account where building_id = :building_id";
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-
-        return null;
-    }
 
     public AccountInformation getLoginUserInformation(User user){
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -37,51 +36,76 @@ public class AccountRepository {
         if(accountInformationList.size() > 0){
             accountInformation = accountInformationList.get(0);
         }
+        System.out.println("simple");
+        System.out.println(accountInformation);
         return accountInformation;
     }
 
     public AccountInformation getLoginUserInformation(User user, Long buildingId, Long organizationId){
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-
-        params.addValue("id", user.getId());
-
-        String query = "SELECT DISTINCT s.id as s_id, s.user_id as s_user_id, o.id as organization_id, rp.name as rp_name, op.name as op_name " +
+        String query = "SELECT s.id as subscription_id, p.key " +
             "FROM jhi_user u " +
-            "LEFT JOIN subscription s ON s.user_id = u.id " +
-            "LEFT JOIN organization o ON o.user_id = s.user_id  " +
-            "LEFT JOIN member m ON  u.id =  m.user_id " +
+            "LEFT JOIN member m ON u.id =  m.user_id AND m.building_id = :buildingId " +
             "LEFT JOIN role_member rm ON rm.member_id = m.id " +
             "LEFT JOIN role_permission rp ON rp.role_id = rm.role_id " +
-            "LEFT JOIN organization_permission op ON op.user_id = u.id AND organization_id = ";
+            "LEFT JOIN permission p ON p.id = rp.permission_id " +
+            "LEFT JOIN subscription s ON s.user_id = u.id AND s.deleted = false " +
+            "LEFT JOIN organization o ON o.user_id = u.id " +
+            "LEFT JOIN building b ON b.organization_id = o.id AND b.id = :buildingId " +
+            "WHERE u.id = :userId";
 
-        if(organizationId != null){
-            query += " :organizationId ";
-            params.addValue("organizationId", organizationId);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("userId", user.getId());
+        params.addValue("buildingId", buildingId);
 
-            query +=
-                "WHERE u.id = :id AND ((rp.role_id is not null) OR op.name is not null OR o.id is not null)";
+        List<AccountPermission> list1 = (List<AccountPermission>)namedParameterJdbcTemplate.query(query, params, new AccountPermissionResultSetExtractor());
+        log.debug("list1 {}", list1);
+
+
+        String query2 = "SELECT s.id as subscription_id , p.key " +
+            "FROM jhi_user u " +
+            "LEFT JOIN subscription s ON s.user_id = u.id AND s.deleted = false " +
+            "LEFT JOIN organization o ON o.user_id = u.id  or o.id = :organizationId " +
+            "LEFT JOIN organization_user ou ON o.id = ou.organization_id AND ou.user_id = u.id " +
+            "LEFT JOIN organization_user_permission oup ON ou.id = oup.organization_user_id " +
+            "LEFT JOIN permission p ON p.id = oup.permission_id " +
+            "WHERE u.id = :userId";
+
+        params = new MapSqlParameterSource();
+        params.addValue("userId", user.getId());
+        params.addValue("organizationId", organizationId);
+
+        List<AccountPermission> list2 = (List<AccountPermission>)namedParameterJdbcTemplate.query(query2, params, new AccountPermissionResultSetExtractor());
+        log.debug("list2 {}", list2);
+
+        AccountInformation accountInformation = new AccountInformation();
+        accountInformation.setAuthorities(new ArrayList<String>());
+
+        for(AccountPermission accountPermission : list1){
+            if(accountPermission.getSubscriberId() != null && accountPermission.getSubscriberId() > 0){
+                accountInformation.setSubscriberId(accountPermission.getSubscriberId());
+                accountInformation.getAuthorities().add("ROLE_SUBSCRIBER");
+            }
+            if(accountPermission.getKey() != null){
+                accountInformation.getAuthorities().add(accountPermission.getKey());
+            }
         }
-        else if(buildingId != null){
-            query += " (SELECT organization_id from building where id = :buildingId) ";
-            params.addValue("buildingId", buildingId);
-            query +=
-                "WHERE u.id = :id AND ((rp.role_id is not null AND m.building_id = :buildingId) OR op.name is not null OR o.id is not null)";
+        boolean organizationHasAccess = false;
+
+        for(AccountPermission accountPermission : list2){
+            if(accountPermission.getSubscriberId() != null && accountPermission.getSubscriberId() > 0){
+                accountInformation.setOrganizationSubscriberId(accountPermission.getSubscriberId());
+                accountInformation.getAuthorities().add("ROLE_ORGANIZATION_SUBSCRIBER");
+            }
+            if(accountPermission.getKey() != null){
+                accountInformation.getAuthorities().add(accountPermission.getKey());
+                if(organizationHasAccess == false){
+                    accountInformation.getAuthorities().add("ORGANIZATION_HAS_ACCESS");
+                }
+            }
         }
-
-
-
-        List<AccountInformation> accountInformationList = (List<AccountInformation>)namedParameterJdbcTemplate.query(query, params, new AccountResultSetExtractor());
-        AccountInformation accountInformation = null;
-        if(accountInformationList.size() > 0){
-            accountInformation = accountInformationList.get(0);
-        }
-
-
-////        HashMap<String,Authority> map = new HashMap<String,Authority>();
-//        System.out.println(account);
-
-
+        System.out.println("complicated");
+        System.out.println(accountInformation);
         return accountInformation;
     }
 }

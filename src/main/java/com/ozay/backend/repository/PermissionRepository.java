@@ -20,6 +20,19 @@ public class PermissionRepository {
     private static final int MEMBER_TYPE = 1;
     private static final int ORGANIZATION_TYPE = 2;
 
+    public boolean validateMemberInterceptor(Long buildingId, String key){
+        String query="SELECT COUNT(*) FROM jhi_user u INNER JOIN member m ON u.id = m.user_id AND m.deleted = false INNER JOIN role_member rm ON m.id = rm.member_id  INNER JOIN role_permission rp ON rm.role_id = rp.role_id INNER JOIN permission p ON p.id = rp.permission_id WHERE m.building_id = :buildingId AND p.key = :key";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("buildingId", buildingId);
+        params.addValue("key", key);
+        Long count = namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
+        if(count > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public List<Permission> findOrganizationPermissions(){
         String query="SELECT * FROM permission WHERE type=:type";
         MapSqlParameterSource params = new MapSqlParameterSource();

@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('MainController', function ($scope, Principal) {
-        $scope.pageTitle = 'Directory';
-        $scope.contentTitle = 'Directory';
+    .controller('MainController', function ($scope, UserInformation) {
+        $scope.pageTitle = 'Dashboard';
+        if(UserInformation.getBuilding !== undefined){
+            $scope.selectedBuildingName = "to " + UserInformation.getBuilding().name;
+        }
+
+
+
     });

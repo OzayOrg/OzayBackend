@@ -7,7 +7,7 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/notification',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_POST']
                 },
                 views: {
                     'content@': {
@@ -23,7 +23,7 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/notification-archive',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
                 },
                 views: {
                     'content@': {
@@ -39,7 +39,7 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/notification-archive/{notificationId:int}',
                 data: {
-                    authorities: ['ROLE_USER']
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
                 },
                 views: {
                     'content@': {
