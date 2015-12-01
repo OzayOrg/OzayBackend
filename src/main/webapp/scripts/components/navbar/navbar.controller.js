@@ -36,6 +36,23 @@ angular.module('ozayApp')
         }
 
 
+        $scope.keywordChange = function(newKey){
+            $scope.mobileKeyword = newKey;
+        }
+        $scope.mobileKeywordChange = function(newKey){
+            $scope.keyword = newKey;
+        }
+        $scope.searchBtnClicked = function(){
+            if($scope.keyword != ""){
+                $state.go("search", {key:$scope.keyword});
+            }
+        }
+        $scope.searchBtnMobileClicked = function(){
+            if($scope.mobileKeyword != ""){
+                $state.go("search", {key:$scope.mobileKeyword});
+            }
+        }
+
         $scope.changeBuilding = function(){
             UserInformation.setBuilding($scope.selectedBuilding);
             $cookies.put('selectedBuilding', $scope.selectedBuilding);

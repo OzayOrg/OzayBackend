@@ -8,7 +8,6 @@ angular.module('ozayApp')
         $scope.process = function(pageNumber){
             Page.get({
                 state: $state.current.name,
-                building: UserInformation.getBuilding().id,
                 page:pageNumber
             }).$promise.then(function(data) {
                 $scope.totalItems = data.totalNumOfPages/2;

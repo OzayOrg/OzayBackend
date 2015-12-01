@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('RoleEditController', function($scope, $state, $stateParams, Page, MessageService, Role) {
+    .controller('RoleEditController', function($scope, $state, $stateParams, Page, MessageService, Role, Auth, UserInformation) {
+        if(UserInformation.getOrganizationId() != $stateParams.organizationId){
+            Auth.authorize(true).then(function(){
+                $state.reload();
+            });
+        }
         $scope.pageTitle = 'Role New';
         $scope.contentTitle = 'Role New';
         $scope.button = true;
@@ -17,6 +22,7 @@ angular.module('ozayApp')
             id: roleId,
             building: $stateParams.buildingId
         }).$promise.then(function(data) {
+
             $scope.permissions = data.permissions;
 
             if (data.roles.length > 0) {
@@ -33,7 +39,9 @@ angular.module('ozayApp')
                 });
             }
             if ($state.current.name == 'role-edit') {
+                console.log(data.role);
                 $scope.role = data.role;
+
 
                 if (data.role.rolePermissions.length == 0) {
                     $scope.role.rolePermissions = [];

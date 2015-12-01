@@ -7,7 +7,6 @@ angular.module('ozayApp')
 
         Page.get({
             state: $state.current.name,
-            building: UserInformation.getBuilding().id,
             id:$stateParams.notificationId
         }).$promise.then(function(data) {
             $scope.notification = data.notification;

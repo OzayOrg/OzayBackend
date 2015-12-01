@@ -25,8 +25,6 @@ angular.module('ozayApp', ['LocalStorageModule',
             } else {
                 $rootScope.firstAuthentication = false;
             }
-
-
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
@@ -76,11 +74,6 @@ angular.module('ozayApp', ['LocalStorageModule',
                 }
             },
             resolve: {
-//                userInfo: ['UserInformation',
-//                    function(UserInformation) {
-//                        return UserInformation.process();
-//                    }
-//                ],
                 authorize: ['Auth',
                     function(Auth) {
                         return Auth.authorize();

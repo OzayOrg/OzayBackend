@@ -40,7 +40,7 @@ angular.module('ozayApp')
                 parent: 'manage',
                 url: '/management/organization/edit/:organizationId',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'ORGANIZATION_PUT'],
                     pageTitle: 'Organization Edit'
                 },
                 views: {

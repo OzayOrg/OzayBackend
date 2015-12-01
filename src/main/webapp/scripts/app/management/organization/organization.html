@@ -6,13 +6,12 @@
                     <div class="row">
                         <h4 class="col-xs-12">
                             Organization List
-                            <span class="pull-right" hasAnyAuthority="['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS']">
+                            <span class="pull-right" has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER">
                                 <a ui-sref='organization-new'>
                                     <button class="btn btn-default">
                                         Add
                                     </button>
                                 </a>
-
                             </span>
                         </h4>
                     </div>
@@ -30,7 +29,7 @@
                                         <tbody ng-repeat="organization in organizations| orderBy:predicate:reverse">
                                         <td>{{organization.name}}</td>
                                         <td>
-                                            <a ui-sref="organization-edit({organizationId:organization.id})">
+                                            <a ui-sref="organization-edit({organizationId:organization.id})" has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ORGANIZATION_PUT">
                                                 <button class="btn btn-default">
                                                     Edit
                                                 </button>

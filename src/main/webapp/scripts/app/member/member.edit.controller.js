@@ -6,7 +6,6 @@ angular.module('ozayApp')
 
         Page.get({
             state: $state.current.name,
-            building: UserInformation.getBuilding().id,
             id: $stateParams.memberId,
         }).$promise.then(function(data) {
             if($state.current.name == 'member-edit'){

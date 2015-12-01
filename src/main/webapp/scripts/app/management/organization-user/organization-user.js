@@ -24,7 +24,7 @@ angular.module('ozayApp')
                 parent: 'manage',
                 url: '/management/organization/{organizationId:int}/organization-user/edit/{organizationUserId:int}',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'ORGANIZATIN-USER_PUT', 'ORGANIZATION-USER_DELETE'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'ORGANIZATION-USER_PUT', 'ORGANIZATION-USER_DELETE'],
                     pageTitle: 'Organization User Edit'
                 },
                 views: {

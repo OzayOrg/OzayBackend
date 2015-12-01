@@ -42,12 +42,23 @@ public class MemberResource {
     }
 
     @RequestMapping(
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<?> updateMember(@RequestBody MemberFormDTO memberFormDTO) {
+        log.debug("REST request to create Member : {}", memberFormDTO);
+        memberService.updateMember(memberFormDTO);
+
+        return new ResponseEntity<>(memberFormDTO.getMember(), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(
         value = "/{memberId}",
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> updateMember(@PathVariable Long memberId) {
-        log.debug("REST request to delte : {}", memberId);
+        log.debug("REST request to delete : {}", memberId);
         Member member = memberRepository.findOne(memberId);
         memberService.deleteMember(member);
 

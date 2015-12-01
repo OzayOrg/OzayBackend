@@ -77,6 +77,9 @@ public class PageResource {
     @Inject
     NotificationRecordRepository notificationRecordRepository;
 
+    @Inject
+    AccountRepository accountRepository;
+
     @RequestMapping(
         value = "/management",
         method = RequestMethod.GET,
@@ -439,5 +442,29 @@ public class PageResource {
 
         return new ResponseEntity<>(memberFormDTO, HttpStatus.OK);
     }
+    @RequestMapping(
+        value = "/search",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> getSearchResult(@RequestParam(value = "keyword") String keywords, @RequestParam(value = "building") Long buildingId){
+        PageSearchDTO pageSearchDTO = new PageSearchDTO();
+        String[] items = keywords.split(" ");
+        boolean isSubscriber = accountRepository.isSubscriber(buildingId);
 
+        if(isSubscriber == true){
+            pageSearchDTO.setNotifications(notificationRepository.searchNotifications(buildingId, items));
+            pageSearchDTO.setMembers(memberRepository.searchMembers(buildingId, items));
+        } else {
+            if(permissionRepository.validateMemberInterceptor(buildingId, "NOTIFICATION_GET") == true){
+                pageSearchDTO.setNotifications(notificationRepository.searchNotifications(buildingId, items));
+            }
+            if(permissionRepository.validateMemberInterceptor(buildingId, "MEMBER_GET") == true){
+                pageSearchDTO.setMembers(memberRepository.searchMembers(buildingId, items));
+            }
+        }
+
+        return new ResponseEntity<>(pageSearchDTO, HttpStatus.OK);
+    }
 }

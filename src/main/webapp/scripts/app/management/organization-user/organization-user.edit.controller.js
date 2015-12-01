@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('OrganizationUserEditController', function ($scope, $state, $stateParams, Page, Principal, OrganizationUser, MessageService) {
+    .controller('OrganizationUserEditController', function ($scope, $state, $stateParams, Page, Auth, OrganizationUser, MessageService) {
+        if(UserInformation.getOrganizationId() != $stateParams.organizationId){
+            Auth.authorize(true).then(function(){
+                $state.reload();
+            });
+        }
         $scope.pageTitle = 'Organization User New';
         $scope.contentTitle = 'Organization User New';
         $scope.button = true;

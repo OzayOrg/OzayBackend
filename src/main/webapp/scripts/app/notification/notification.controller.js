@@ -10,8 +10,7 @@ angular.module('ozayApp')
         $scope.resetButton = 'Reset';
 
         Page.get({
-            state: $state.current.name,
-            building: UserInformation.getBuilding().id
+            state: $state.current.name
         }).$promise.then(function(data) {
             $scope.roleList = data.roles;
             $scope.subjects = data.notifications;

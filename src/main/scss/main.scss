@@ -570,13 +570,20 @@ input, textarea, select{
     div.side-menu-container > ul > li:not(#profile-li){
         background-color:$second_gray;
     }
-    ul{
-        width:250px;
-    }
+
     .panel-body ul li{
         border-bottom:1px solid #FFF;
     }
+    .panel-collapse ul li{
+        background-color:$first_gray;
+    }
 }
+.side-menu-container > ul{
+    width:250px;
+    background-color:$second_gray;
+    padding-bottom:50px;
+    border:none;
+ }
 
 select#building-list {
     margin: 0 auto;
@@ -606,6 +613,7 @@ li#profile-li {
     padding-right: 10px;
     padding-bottom: 5px;
     min-height: 82px;
+    background-color:$first_gray;
 }
 
 #login-page{

@@ -7,7 +7,7 @@
                         <h4 class="col-xs-12">
                             Organization User List
                             <span class="pull-right" hasAnyAuthority="['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS']">
-                                <a ui-sref='organization-user-new({organizationId:organizationId})'>
+                                <a ui-sref='organization-user-new({organizationId:organizationId})' has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ORGANIZATION-USER_POST">
                                     <button class="btn btn-default">
                                         Add
                                     </button>
@@ -36,7 +36,7 @@
                                         <td>{{user.firstName}}</td>
                                         <td>{{user.lastName}}</td>
                                         <td>
-                                            <a ui-sref="organization-user-edit({organizationId:organizationId, organizationUserId:user.id})"><button class="btn btn-default">
+                                            <a has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ORGANIZATION-USER_POST" ui-sref="organization-user-edit({organizationId:organizationId, organizationUserId:user.id})"><button class="btn btn-default">
                                                 Edit
                                             </button></a>
                                         </td>
@@ -58,8 +58,8 @@
                     <div class="row">
                         <h4 class="col-xs-12">
                             Building List
-                            <span class="pull-right" hasAnyAuthority="['ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS']">
-                                <a ui-sref="building-new({organizationId:organizationId})">
+                            <span class="pull-right">
+                                <a ui-sref="building-new({organizationId:organizationId})" has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, BUILDING_POST">
                                     <button class="btn btn-default">
                                         Add
                                     </button>
@@ -86,7 +86,7 @@
                                         <tbody ng-repeat="building in buildings | orderBy:predicate2:reverse1">
                                         <td>{{building.name}}</td>
                                         <td>
-                                            <a ui-sref="building-edit({organizationId:organizationId, buildingId:building.id})"><button class="btn btn-default">
+                                            <a has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, BUILDING_PUT" ui-sref="building-edit({organizationId:organizationId, buildingId:building.id})"><button class="btn btn-default">
                                                 Edit
                                             </button></a>
                                             &nbsp;

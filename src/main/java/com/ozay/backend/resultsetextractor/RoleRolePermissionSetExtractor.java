@@ -34,7 +34,9 @@ public class RoleRolePermissionSetExtractor implements ResultSetExtractor {
             RolePermission rolePermission = new RolePermission();
             rolePermission.setRoleId(resultSet.getLong("role_id"));
             rolePermission.setPermissionId(resultSet.getLong("permission_id"));
-            rolePermissions.add(rolePermission);
+            if(rolePermission.getRoleId() != 0 && rolePermission.getPermissionId() != 0){
+                rolePermissions.add(rolePermission);
+            }
         }
         role.setRolePermissions(rolePermissions);
         roles.add(role);

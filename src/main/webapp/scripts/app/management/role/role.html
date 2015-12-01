@@ -9,7 +9,7 @@
                             <h4 class="col-xs-12">
                                 Role List
                                 <span class="pull-right" has-any-authority="'ROLE_ADMIN', 'ORGANIZATION_HAS_ACCESS'">
-                                    <a ui-sref='role-new({organizationId:organizationId, buildingId:buildingId})'>
+                                    <a ui-sref='role-new({organizationId:organizationId, buildingId:buildingId})' has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ROLE_POST">
                                         <button class="btn btn-default">
                                             Add
                                         </button>
@@ -37,7 +37,7 @@
                                             <tbody ng-repeat="role in roles | orderBy:predicate:reverse">
                                             <td>{{role.name}}</td>
                                             <td>
-                                                <a ui-sref="role-edit({organizationId:organizationId, buildingId:buildingId, roleId:role.id})"><button class="btn btn-default">Edit</button></a>
+                                                <a ui-sref="role-edit({organizationId:organizationId, buildingId:buildingId, roleId:role.id})" has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ROLE_PUT"><button class="btn btn-default">Edit</button></a>
                                             </td>
                                             </tbody>
                                         </table>

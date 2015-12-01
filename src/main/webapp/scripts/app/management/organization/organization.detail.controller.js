@@ -1,7 +1,14 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('OrganizationDetailController', function($scope, $state, $stateParams, Page, Principal, Organization, UserInformation) {
+    .controller('OrganizationDetailController', function($scope, $state, $stateParams, Page, Auth, Organization, UserInformation) {
+        if(UserInformation.getOrganizationId() != $stateParams.organizationId){
+            Auth.authorize(true).then(function(){
+                UserInformation.setOrganizationId($stateParams.organizationId);
+                $state.reload();
+            });
+            return false;
+        }
         $scope.pageTitle = 'Organization Detail';
         $scope.predicate1 = 'lastName';
         $scope.predicate2 = 'name';

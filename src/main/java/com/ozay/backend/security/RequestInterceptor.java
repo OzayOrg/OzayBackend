@@ -1,5 +1,6 @@
 package com.ozay.backend.security;
 
+import com.ozay.backend.repository.AccountRepository;
 import com.ozay.backend.repository.PermissionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,9 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 
     @Inject
     private PermissionRepository permissionRepository;
+
+    @Inject
+    private AccountRepository accountRepository;
 
     private Long buildingId;
     private Long organizationId;
@@ -47,6 +51,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 
         if(result == false){
             System.out.println("!!!!!Interceptor false!!!!");
+
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
@@ -60,7 +65,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
 
-        this.method = this.request.getMethod().toLowerCase();
+        this.method = this.request.getMethod().toUpperCase();
         System.out.println("Method: " + this.method);
         String path = this.request.getServletPath();
         System.out.println(path);
@@ -81,16 +86,18 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
             System.out.println("Page true");
             return validatePageRequest(pathComponents[3]);
         } else {
-            System.out.println("Else true");
-            return true;
+            return this.validateRequest(apiName);
         }
-//        return true;
+    }
+
+    // Non page requests
+    private boolean validateRequest(String apiName){
+        String key = apiName.toUpperCase() + "_" + this.method.toUpperCase();
+        return this.checkPermission(key);
     }
 
     private boolean validatePageRequest(String path){
-        if(path.equals("organization") || path.equals("organization-detail")){
-            System.out.println("!!!!!Organization page special access!!!!");
-        }
+
         if(path.contains("-") == true){
             String[] splits = path.split("-");
             path = splits[0];
@@ -102,24 +109,51 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
             } else {
                 return this.checkPermission("NOTIFICATION_GET");
             }
+        } else if(path.equals("organization") == true) {
+            return this.checkPermission("ORGANIZATION_PUT");
+        } else {
+            return this.checkPermission(path.toUpperCase() + "_GET");
         }
-
-        return true;
     }
 
     private boolean checkPermission(String permission) {
         if(organizationId != null){
-            System.out.println("!!!!!Organization key null!!!!" + permission);
-            return true;
+            System.out.println("!!!!!Organization key !!!!" + permission);
+            return this.organizationPermissionCheck(this.organizationId, permission);
         } else {
             System.out.println("!!!!!building Interceptor check!!!!" + permission);
             return this.memberPermissionCheck(this.buildingId, permission);
         }
     }
 
+    private boolean organizationPermissionCheck(Long buildingId, String permission) {
+        System.out.println("!!!!!Interceptor key!!!!" + permission);
+        boolean result =  permissionRepository.validateOrganizationInterceptor(buildingId, permission);
+        if(result == false){
+            System.out.println("!!!!!Interceptor Organization false, check if subscriber!!!!");
+            return this.isOrganizationSubscriber();
+        }
+        return result;
+    }
+
     private boolean memberPermissionCheck(Long buildingId, String permission) {
         System.out.println("!!!!!Interceptor key!!!!" + permission);
-        return permissionRepository.validateMemberInterceptor(buildingId, permission);
+
+        boolean result =  permissionRepository.validateMemberInterceptor(buildingId, permission);
+
+        if(result == false){
+            System.out.println("!!!!!Interceptor Member false, check if subscriber!!!!");
+            return this.isSubscriber();
+        }
+        return result;
+    }
+
+    private boolean isSubscriber(){
+        return accountRepository.isSubscriber(this.buildingId);
+    }
+
+    private boolean isOrganizationSubscriber(){
+        return accountRepository.isOrganizationSubscriber(this.organizationId);
     }
 
     private boolean parameterCheck(HttpServletRequest request) {

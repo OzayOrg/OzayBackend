@@ -10,11 +10,11 @@
                                 {{contentTitle}}
                                 <span class="pull-right">
 
-                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
+                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button" has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ROLE_POST, ROLE_PUT">Save</button>
                                     <a ui-sref="role({organizationId:organizationId, buildingId:buildingId})">
                                         <button class="btn btn-default">Back</button>
                                     </a>
-                                    <button class="btn btn-danger" ng-show="showDeleteBtn" type="button" ng-click="deleteClicked();" ng-disabled="!button" class="btn button">Delete</button>
+                                    <button class="btn btn-danger" ng-show="showDeleteBtn" type="button" ng-click="deleteClicked();" ng-disabled="!button" class="btn button" has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ROLE_DELETE">Delete</button>
                                 </span>
                             </h4>
                         </div>

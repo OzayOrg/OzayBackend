@@ -55,20 +55,9 @@ angular.module('ozayApp')
                     return deferred.promise;
                 }
 
-
-
                 // retrieve the identity data from the server, update the identity object, and then resolve.
                 UserInformation.process().then(function(){
-                    var buildingId = undefined;
-                     var organizationId = undefined;
-                    if(UserInformation.getBuilding() !== undefined){
-                        buildingId = UserInformation.getBuilding().id;
-                        organizationId = UserInformation.getBuilding().organizationId;
-                    }
-                    if($stateParams.organization !== undefined){
-                        organizationId = $stateParams.organization;
-                    }
-                    Account.get({building:buildingId, organization:organizationId}).$promise
+                    Account.get().$promise
                         .then(function (account) {
                             _identity = account.data;
                             _authenticated = true;

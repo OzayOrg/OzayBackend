@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('RoleController', function($scope, $state, $stateParams, Page, Role, MessageService) {
+    .controller('RoleController', function($scope, $state, $stateParams, Page, Role, Auth, MessageService, UserInformation) {
+        if(UserInformation.getOrganizationId() != $stateParams.organizationId){
+            Auth.authorize(true).then(function(){
+                $state.reload();
+            });
+        }
         $scope.pageTitle = 'Role List';
         $scope.contentTitle = 'Role list';
         $scope.roles = [];

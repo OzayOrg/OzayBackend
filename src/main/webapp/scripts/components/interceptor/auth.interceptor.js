@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .factory('authInterceptor', function ($rootScope, $q, $location, $stateParams, localStorageService) {
+    .factory('authInterceptor', function ($rootScope, $q, $location, $stateParams, localStorageService, $cookies, $injector) {
         return {
             // Add authorization token to headers
             request: function (config) {
@@ -13,16 +13,29 @@ angular.module('ozayApp')
                 }
                 var str = config.url;
 
-                if(str.indexOf("api/building") == -1){
-                    if($stateParams.organizationId !== undefined){
-                        config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
-                        config.url += 'organization=' + $stateParams.organizationId;
-                    }
-                    if($stateParams.buildingId !== undefined){
-                        config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
-                        config.url += 'building=' + $stateParams.buildingId;
+                if(str.indexOf('.html') == -1){
+                    if(str.indexOf("api/building") == -1){
+                        var userInformation = $injector.get('UserInformation');
+                        if(userInformation.getBuilding() !== undefined){
+                            config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
+                            config.url += 'building=' + userInformation.getBuilding().id;
+                        }
+                        var state  = $injector.get('$state');
+                        if(state.current.parent !== undefined && state.current.parent != 'manage'){
+                        }
+                        else {
+                             if($stateParams.organizationId !== undefined){
+                                config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
+                                config.url += 'organization=' + $stateParams.organizationId;
+                             } else if(userInformation.getOrganizationId() !== undefined){
+                                 config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
+                                 config.url += 'organization=' + userInformation.getOrganizationId();
+                             }
+                        }
+
                     }
                 }
+
                 return config;
             }
         };

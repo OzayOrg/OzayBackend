@@ -7,7 +7,7 @@ angular.module('ozayApp')
                 parent: 'manage',
                 url: '/management/organization/{organizationId:int}/building/{buildingId:int}/role',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'ROLE_GET'],
+                    authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'ORGANIZATION_HAS_ACCESS', 'ROLE_GET'],
                     pageTitle: 'Role List'
                 },
                 views: {

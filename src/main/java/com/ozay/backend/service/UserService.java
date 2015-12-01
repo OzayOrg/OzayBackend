@@ -161,7 +161,7 @@ public class UserService {
         user.getAuthorities().size(); // eagerly load the association
 
         if(SecurityUtils.isUserInRole("ROLE_ADMIN") == false){
-            AccountInformation accountInformation = accountRepository.getLoginUserInformation(user);
+            AccountInformation accountInformation = accountRepository.getLoginUserInformation();
             this.addAuthorities(user, accountInformation);
         }
         return user;
@@ -183,7 +183,7 @@ public class UserService {
         user.getAuthorities().size(); // eagerly load the association
 
         if(SecurityUtils.isUserInRole("ROLE_ADMIN") == false){
-            AccountInformation accountInformation = accountRepository.getLoginUserInformation(user, buildingId, organizationId);
+            AccountInformation accountInformation = accountRepository.getLoginUserInformation(buildingId, organizationId);
             this.addAuthorities(user, accountInformation);
         }
 

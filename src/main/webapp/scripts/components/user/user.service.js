@@ -17,7 +17,7 @@ angular.module('ozayApp')
 
 
 angular.module('ozayApp')
-    .service('UserInformation', function UserInformation($q, $cookies, Building) {
+    .service('UserInformation', function UserInformation($q, $cookies, Building, $stateParams, $state) {
         var building;
         var buildingList = [];
         var organizationId;
@@ -38,6 +38,9 @@ angular.module('ozayApp')
                         building = buildingList[i];
                     }
                 }
+            },
+            setOrganizationId:function(id){
+                organizationId = id;
             },
             process: function () {
                 var deferred = $q.defer();
@@ -64,11 +67,30 @@ angular.module('ozayApp')
                         if(building === undefined){
                             building = buildingList[0];
                         }
+
                         if(building !== undefined){
                             organizationId = building.organizationId;
-                            $cookies.get('selectedOrganization', organizationId);
+                            $cookies.put('selectedBuilding', building.id);
+                        }
+                        if($stateParams.organizationId !== undefined){
+                            organizationId = $stateParams.organizationId;
                         }
 
+                        if(Object.keys($stateParams).length == 0){ // Maybe $stateparmas are not initialized
+                            var url = window.location.toString();
+
+                            if(url.indexOf('/organization/') !== -1){
+                                var pieces = url.split("/");
+                                for(var i = 0; i < pieces.length;i++){
+                                    if(pieces[i] == 'organization'){
+                                        if(pieces[i+1]!==undefined){
+                                            organizationId = pieces[i+1];
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                         deferred.resolve(building);
                     })
                     .catch(function() {

@@ -83,6 +83,35 @@ public class MemberRepository {
         }
     }
 
+    public List<Member> searchMembers(Long buildingId, String[] items){
+        String query =this.MemberSetExtractorQuery + "WHERE deleted = false AND m.building_id =:buildingId ";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("buildingId", buildingId);
+
+        String queryForList = "";
+        for(int i = 0; i< items.length;i++){
+            String param = "param" + i;
+            params.addValue(param, items[i]);
+            if(i != 0){
+                queryForList += " OR ";
+            }
+            queryForList += " LOWER(m.first_name) LIKE :" + param +
+                " OR LOWER(m.last_name) LIKE :" + param +
+                " OR LOWER(m.phone) LIKE :" + param +
+                " OR LOWER(m.email) LIKE :" + param +
+                " OR LOWER(m.unit) LIKE :" + param +
+                " OR LOWER(m.parking) LIKE :" + param;
+        }
+        if(items.length > 0){
+            query += " AND (";
+            query += queryForList;
+            query += ")";
+        }
+
+
+        return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
+    }
+
     public void create(Member member){
         String insert = "INSERT INTO member(user_id, first_name, last_name, email, phone, building_id, ownership, unit, parking, organization_user_id) VALUES (:userId, :firstName, :lastName, :email, :phone, :buildingId, :ownership, :unit, :parking, :organizationUserId) RETURNING id";
         MapSqlParameterSource params = new MapSqlParameterSource();
