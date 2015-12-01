@@ -206,7 +206,10 @@ ul#strength {
 .side-menu .navbar-nav .active a {
   background-color: transparent;
   margin-right: -1px;
-  border-right: 5px solid black;
+
+}
+.navbar-nav > li.active > a, .navbar-nav > li.active > a:hover, .navbar-nav > li.active > a:focus{
+    border-right: 5px solid black !important;
 }
 .side-menu .navbar-nav li, .side-menu .navbar-nav li:focus, .side-menu .navbar-nav li:hover {
   display: block;

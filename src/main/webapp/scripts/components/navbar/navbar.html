@@ -81,18 +81,18 @@
                     </div>
 
                 </li>
-                <li ng-class="{'active' : activeMenu.current.name=='home'}">
+                <li ng-class="{'active' : activeMenu=='home'}">
                     <a ui-sref="home">Dashboard</a>
                 </li>
 
                 <!-- Dropdown-->
-                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET">
-                    <a data-toggle="collapse" data-target="#dropdown-notification">
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET" ng-class="{'active' : activeMenu=='notification'}">
+                    <a data-toggle="collapse" data-target="#dropdown-notification" id="parent-notification" class="parent-li" ng-click="panelClicked('notification')">
                         Notification<span class="caret"></span>
                     </a>
 
                     <!-- Dropdown level 1 -->
-                    <div id="dropdown-notification" class="panel-collapse collapse">
+                    <div id="dropdown-notification" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='notification'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
                                 <li><a ui-sref="notification" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST">Create</a></li>
@@ -103,12 +103,12 @@
                 </li>
                 <!-- Dropdown-->
                 <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET, MEMBER_POST, MEMBER_PUT">
-                    <a data-toggle="collapse" data-target="#dropdown-directory">
+                    <a data-toggle="collapse" data-target="#dropdown-directory" id="parent-directory" class="parent-li" ng-click="panelClicked('directory')">
                         Directory<span class="caret"></span>
                     </a>
 
                     <!-- Dropdown level 1 -->
-                    <div id="dropdown-directory" class="panel-collapse collapse">
+                    <div id="dropdown-directory" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='directory'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
                                 <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET">List</a></li>
@@ -119,12 +119,12 @@
                 </li>
 
                 <li class="panel panel-default" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, ORGANIZATION_HAS_ACCESS">
-                    <a data-toggle="collapse" data-target="#dropdown-management">
+                    <a data-toggle="collapse" data-target="#dropdown-management" id="parent-management" class="parent-li" ng-click="panelClicked('management')">
                         Manage<span class="caret"></span>
                     </a>
 
                     <!-- Dropdown level 1 -->
-                    <div id="dropdown-management" class="panel-collapse collapse">
+                    <div id="dropdown-management" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='management'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
                                 <li><a ui-sref="management">Organization</a></li>
@@ -140,12 +140,12 @@
                 <!--</li>-->
                 <!-- Dropdown-->
                 <li class="panel panel-default">
-                    <a data-toggle="collapse" data-target="#dropdown-account">
+                    <a data-toggle="collapse" data-target="#dropdown-account" id="parent-account" class="parent-li" ng-click="panelClicked('account')">
                         Account<span class="caret"></span>
                     </a>
 
                     <!-- Dropdown level 1 -->
-                    <div id="dropdown-account" class="panel-collapse collapse">
+                    <div id="dropdown-account" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='account'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
                                 <li><a ui-sref="settings">Settings</a></li>
