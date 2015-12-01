@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('OrganizationUserEditController', function ($scope, $state, $stateParams, Page, Auth, OrganizationUser, MessageService) {
+    .controller('OrganizationUserEditController', function ($scope, $state, $stateParams, Page, Auth, OrganizationUser, MessageService, UserInformation) {
         if(UserInformation.getOrganizationId() != $stateParams.organizationId){
             Auth.authorize(true).then(function(){
                 $state.reload();

@@ -63,6 +63,7 @@
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
@@ -73,17 +74,17 @@
 <script src="bower_components/json3/lib/json3.js"></script>
 <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
 <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-<script src='bower_components/textAngular/dist/textAngular-rangy.min.js'></script>
-<script src='bower_components/textAngular/dist/textAngular-sanitize.min.js'></script>
-<script src='bower_components/textAngular/dist/textAngular.min.js'></script>
-<script src='bower_components/rangy/rangy-core.min.js'></script>
-<script src='bower_components/rangy/rangy-selectionsaverestore.min.js'></script>
-<script src='bower_components/angularjs-dropdown-multiselect/dist/angularjs-dropdown-multiselect.min.js'></script>
-<script src='bower_components/lodash/dist/lodash.min.js'></script>
-
-
+<script src="bower_components/rangy/rangy-core.js"></script>
+<script src="bower_components/rangy/rangy-classapplier.js"></script>
+<script src="bower_components/rangy/rangy-highlighter.js"></script>
+<script src="bower_components/rangy/rangy-selectionsaverestore.js"></script>
+<script src="bower_components/rangy/rangy-serializer.js"></script>
+<script src="bower_components/rangy/rangy-textrange.js"></script>
+<script src="bower_components/textAngular/dist/textAngular.js"></script>
+<script src="bower_components/textAngular/dist/textAngular-sanitize.js"></script>
+<script src="bower_components/textAngular/dist/textAngularSetup.js"></script>
+<script src="bower_components/lodash/dist/lodash.compat.js"></script>
+<script src="bower_components/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -103,10 +104,10 @@
 <script src="scripts/components/form/minbytes.directive.js"></script>
 <script src="scripts/components/form/pager.directive.js"></script>
 <script src="scripts/components/form/pagination.directive.js"></script>
-<!--<script src="scripts/components/admin/audits.service.js"></script>-->
-<!--<script src="scripts/components/admin/logs.service.js"></script>-->
-<!--<script src="scripts/components/admin/configuration.service.js"></script>-->
-<!--<script src="scripts/components/admin/monitoring.service.js"></script>-->
+<script src="scripts/components/admin/audits.service.js"></script>
+<script src="scripts/components/admin/logs.service.js"></script>
+<script src="scripts/components/admin/configuration.service.js"></script>
+<script src="scripts/components/admin/monitoring.service.js"></script>
 <script src="scripts/components/interceptor/auth.interceptor.js"></script>
 <script src="scripts/components/interceptor/errorhandler.interceptor.js"></script>
 <script src="scripts/components/interceptor/notification.interceptor.js"></script>
@@ -136,23 +137,23 @@
 <script src="scripts/app/account/reset/finish/reset.finish.js"></script>
 <script src="scripts/app/account/reset/request/reset.request.controller.js"></script>
 <script src="scripts/app/account/reset/request/reset.request.js"></script>
-<!--<script src="scripts/app/admin/admin.js"></script>-->
-<!--<script src="scripts/app/admin/audits/audits.js"></script>-->
-<!--<script src="scripts/app/admin/audits/audits.controller.js"></script>-->
-<!--<script src="scripts/app/admin/configuration/configuration.js"></script>-->
-<!--<script src="scripts/app/admin/configuration/configuration.controller.js"></script>-->
-<!--<script src="scripts/app/admin/docs/docs.js"></script>-->
-<!--<script src="scripts/app/admin/health/health.js"></script>-->
-<!--<script src="scripts/app/admin/health/health.controller.js"></script>-->
-<!--<script src="scripts/app/admin/health/health.modal.controller.js"></script>-->
-<!--<script src="scripts/app/admin/logs/logs.js"></script>-->
-<!--<script src="scripts/app/admin/logs/logs.controller.js"></script>-->
-<!--<script src="scripts/app/admin/metrics/metrics.js"></script>-->
-<!--<script src="scripts/app/admin/metrics/metrics.controller.js"></script>-->
-<!--<script src="scripts/app/admin/metrics/metrics.modal.controller.js"></script>-->
-<!--<script src="scripts/app/admin/user-management/user-management-detail.controller.js"></script>-->
-<!--<script src="scripts/app/admin/user-management/user-management.controller.js"></script>-->
-<!--<script src="scripts/app/admin/user-management/user-management.js"></script>-->
+<script src="scripts/app/admin/admin.js"></script>
+<script src="scripts/app/admin/audits/audits.js"></script>
+<script src="scripts/app/admin/audits/audits.controller.js"></script>
+<script src="scripts/app/admin/configuration/configuration.js"></script>
+<script src="scripts/app/admin/configuration/configuration.controller.js"></script>
+<script src="scripts/app/admin/docs/docs.js"></script>
+<script src="scripts/app/admin/health/health.js"></script>
+<script src="scripts/app/admin/health/health.controller.js"></script>
+<script src="scripts/app/admin/health/health.modal.controller.js"></script>
+<script src="scripts/app/admin/logs/logs.js"></script>
+<script src="scripts/app/admin/logs/logs.controller.js"></script>
+<script src="scripts/app/admin/metrics/metrics.js"></script>
+<script src="scripts/app/admin/metrics/metrics.controller.js"></script>
+<script src="scripts/app/admin/metrics/metrics.modal.controller.js"></script>
+<script src="scripts/app/admin/user-management/user-management-detail.controller.js"></script>
+<script src="scripts/app/admin/user-management/user-management.controller.js"></script>
+<script src="scripts/app/admin/user-management/user-management.js"></script>
 <script src="scripts/app/entities/entity.js"></script>
 <script src="scripts/app/error/error.js"></script>
 
