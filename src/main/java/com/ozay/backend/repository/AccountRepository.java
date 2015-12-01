@@ -1,9 +1,6 @@
 package com.ozay.backend.repository;
 
-import com.ozay.backend.domain.User;
 import com.ozay.backend.model.AccountInformation;
-import com.ozay.backend.model.AccountPermission;
-import com.ozay.backend.resultsetextractor.AccountPermissionResultSetExtractor;
 import com.ozay.backend.resultsetextractor.AccountSimpleResultSetExtractor;
 import com.ozay.backend.security.SecurityUtils;
 import org.slf4j.Logger;
@@ -37,8 +34,7 @@ public class AccountRepository {
         if(accountInformationList.size() > 0){
             accountInformation = accountInformationList.get(0);
         }
-        System.out.println("simple");
-        System.out.println(accountInformation);
+
         return accountInformation;
     }
 
@@ -105,19 +101,28 @@ public class AccountRepository {
         AccountInformation accountInformation = new AccountInformation();
         accountInformation.setAuthorities(new ArrayList<String>());
 
-        for(String s1 : list1){
-            accountInformation.getAuthorities().add(s1);
-        }
-
-        boolean organizationHasAccess = false;
-
-        for(String s2 : list2){
-            if(organizationHasAccess == false){
-                organizationHasAccess = true;
-                accountInformation.getAuthorities().add("ORGANIZATION_HAS_ACCESS");
+        if(list1 != null){
+            for(String s1 : list1){
+                if(s1 != null){
+                    accountInformation.getAuthorities().add(s1);
+                }
             }
-            accountInformation.getAuthorities().add(s2);
         }
+
+        if(list2 != null){
+            boolean organizationHasAccess = false;
+
+            for(String s2 : list2){
+                if(s2 != null){
+                    if(organizationHasAccess == false){
+                        organizationHasAccess = true;
+                        accountInformation.getAuthorities().add("ORGANIZATION_HAS_ACCESS");
+                    }
+                    accountInformation.getAuthorities().add(s2);
+                }
+            }
+        }
+
 
         if(this.isSubscriber(buildingId) == true){
             accountInformation.getAuthorities().add("ROLE_SUBSCRIBER");

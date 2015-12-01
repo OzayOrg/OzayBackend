@@ -42,7 +42,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         }
 
         if(request.getServletPath().equals("/api/building") && request.getMethod().toUpperCase().equals("GET")){
-            System.out.println("!!!!!Building GET!!!!");
+            System.out.println("!!!!!Building GET return true!!!!");
             return true;
         }
 
@@ -97,10 +97,15 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
     }
 
     private boolean validatePageRequest(String path){
-
+        String method = "GET";
         if(path.contains("-") == true){
             String[] splits = path.split("-");
             path = splits[0];
+            if(splits[splits.length - 1].toUpperCase().equals("NEW")){
+                method = "POST";
+            } else if(splits[splits.length - 1].toUpperCase().equals("EDIT")){
+                method = "PUT";
+            }
         }
         // notification exception
         if(path.equals("notification") == true){
@@ -112,7 +117,8 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         } else if(path.equals("organization") == true) {
             return this.checkPermission("ORGANIZATION_PUT");
         } else {
-            return this.checkPermission(path.toUpperCase() + "_GET");
+
+            return this.checkPermission(path.toUpperCase() + "_" + method);
         }
     }
 

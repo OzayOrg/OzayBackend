@@ -26,7 +26,7 @@ public class AccountSimpleResultSetExtractor implements ResultSetExtractor {
                 accountInformation.setSubscriptionId(rs.getLong("s_id"));
             }
             if(accountInformation.getSubscriberId() != null){
-                map.put("ROLE_SUBSCRIBER", "ROLE_SUBSCRIBER");
+                map.put("ROLE_SUBSCRIBER", "ROLE_ORGANIZATION_SUBSCRIBER");
             }
 
             if(accountInformation.getOrganizationId() != null){

@@ -168,6 +168,7 @@ public class UserService {
     }
 
     private User addAuthorities(User user, AccountInformation accountInformation){
+        System.out.println(user);
         if(accountInformation.getAuthorities() != null && accountInformation.getAuthorities().size() > 0){
             for(String auth : accountInformation.getAuthorities()){
                 user.getAuthorities().add(new Authority(auth));
@@ -184,7 +185,9 @@ public class UserService {
 
         if(SecurityUtils.isUserInRole("ROLE_ADMIN") == false){
             AccountInformation accountInformation = accountRepository.getLoginUserInformation(buildingId, organizationId);
-            this.addAuthorities(user, accountInformation);
+            if(accountInformation != null){
+                this.addAuthorities(user, accountInformation);
+            }
         }
 
         return user;

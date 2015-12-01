@@ -5,6 +5,7 @@ import com.ozay.backend.domain.Authority;
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.Building;
 import com.ozay.backend.repository.BuildingRepository;
+import com.ozay.backend.repository.UserRepository;
 import com.ozay.backend.security.SecurityUtils;
 import com.ozay.backend.service.UserService;
 import org.slf4j.Logger;
@@ -35,6 +36,9 @@ public class BuildingResource {
     @Inject
     UserService userService;
 
+    @Inject
+    UserRepository userRepository;
+
 
     @RequestMapping(
         method = RequestMethod.GET,
@@ -43,14 +47,15 @@ public class BuildingResource {
     @Transactional(readOnly = true)
     public ResponseEntity<List<Building>> getAll(){
 
-        User user = userService.getUserWithAuthorities();
-
         List<Building> buildingList = new ArrayList<Building>();
 
         if(SecurityUtils.isUserInRole("ROLE_ADMIN")){
             buildingList = buildingRepository.findAll();
         } else {
-            buildingList = buildingRepository.findAllUserCanAccess(user);
+            User user = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
+            if(user != null){
+                buildingList = buildingRepository.findAllUserCanAccess(user);
+            }
         }
 
         return new ResponseEntity<List<Building>>(buildingList, HttpStatus.OK);

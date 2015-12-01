@@ -6,6 +6,7 @@ import com.ozay.backend.repository.MemberRepository;
 import com.ozay.backend.service.MemberService;
 import com.ozay.backend.web.rest.form.MemberFormDTO;
 import com.ozay.backend.web.rest.form.RoleFormDTO;
+import com.ozay.backend.web.rest.util.UrlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by naofumiezaki on 11/23/15.
@@ -46,18 +48,32 @@ public class MemberResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> updateMember(@RequestBody MemberFormDTO memberFormDTO) {
-        log.debug("REST request to create Member : {}", memberFormDTO);
+        log.debug("REST request to update Member : {}", memberFormDTO);
         memberService.updateMember(memberFormDTO);
 
-        return new ResponseEntity<>(memberFormDTO.getMember(), HttpStatus.CREATED);
+        return new ResponseEntity<>(memberFormDTO.getMember(), HttpStatus.OK);
     }
+
+    @RequestMapping(
+        value = "/invite",
+        method = RequestMethod.PUT,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<?> inviteMember(@RequestBody Member member, HttpServletRequest request) {
+        log.debug("REST request to invite Member : {}", member);
+        String baseUrl = UrlUtil.baseUrlGenerator(request);
+        memberService.inviteMember(member, baseUrl);
+        return new ResponseEntity<>(member, HttpStatus.OK);
+    }
+
+
 
     @RequestMapping(
         value = "/{memberId}",
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<?> updateMember(@PathVariable Long memberId) {
+    public ResponseEntity<?> deleteMember(@PathVariable Long memberId) {
         log.debug("REST request to delete : {}", memberId);
         Member member = memberRepository.findOne(memberId);
         memberService.deleteMember(member);

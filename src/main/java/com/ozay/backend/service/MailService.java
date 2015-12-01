@@ -2,8 +2,7 @@ package com.ozay.backend.service;
 
 import com.ozay.backend.config.JHipsterProperties;
 import com.ozay.backend.domain.User;
-import com.ozay.backend.model.Notification;
-import com.ozay.backend.model.Organization;
+import com.ozay.backend.model.*;
 import com.ozay.backend.repository.OrganizationRepository;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
@@ -127,6 +126,21 @@ public class MailService {
         String subject = messageSource.getMessage("email.organizationUser.title", null, locale);
         sendEmail(organizationUserDTO.getEmail(), subject, content, false, true);
     }
+
+    @Async
+    public void inviteMember(Member member, Building building, InvitedMember invitedMember, String baseUrl){
+        log.debug("Sending invitation e-mail to {}", member);
+        Locale locale = Locale.forLanguageTag(invitedMember.getLangKey());
+        Context context = new Context(locale);
+        context.setVariable("name", member.getFirstName() + " " + member.getLastName());
+        context.setVariable("building", building.getName());
+        context.setVariable("activationKey", invitedMember.getActivationKey());
+        context.setVariable("baseUrl", baseUrl);
+        String content = templateEngine.process("memberInvitationEmail", context);
+        String subject = messageSource.getMessage("email.member.subject", null, locale);
+        sendEmail(member.getEmail(), subject, content, false, true);
+    }
+
     @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
         Notification notification = notificationFormDTO.getNotification();
@@ -137,11 +151,11 @@ public class MailService {
         String content = templateEngine.process("notificationEmail", context);
         String subject = notification.getSubject();
         log.debug("About to send email");
-        sendNotification(notificationFormDTO, to, subject, content, false, true);
+        this.sendMultipleEmails(notificationFormDTO, to, subject, content, false, true);
     }
 
     @Async
-    public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to, String subject, String content, boolean isMultipart, boolean isHtml) {
+    private void sendMultipleEmails(NotificationFormDTO notificationFormDTO, String[] to, String subject, String content, boolean isMultipart, boolean isHtml) {
         log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
             isMultipart, isHtml, to, subject, content);
 

@@ -49,7 +49,7 @@ angular.module('ozayApp')
 
         $scope.memberRoleClicked = function(model){
             angular.forEach($scope.roles, function(value, key) {
-                if(model.id != value.id && model.belongTo == value.id){
+                if(model.id != value.id && value.belongTo == model.id){
                     if(model.assign == true){
                         value.assign = true;
                     }
@@ -58,7 +58,23 @@ angular.module('ozayApp')
                     }
                 }
             });
+        }
+        $scope.invite = function(memberId){
+            $scope.button = false;
+            $scope.successTextAlert = null;
+            $scope.errorTextAlert = null;
 
+            if (confirm("Would you like to invite this member?")) {
+                Member.update({method:'invite'}, $scope.member, function(data) {
+                    $scope.successTextAlert = "Successfully Invited";
+                }, function(error) {
+                    $scope.errorTextAlert = "Error! Please try later.";
+                }).$promise.finally(function() {
+                    $scope.button = true;
+                });
+            } else{
+                $scope.button = true;
+            }
         }
         $scope.submit = function(form) {
             $scope.button = false;

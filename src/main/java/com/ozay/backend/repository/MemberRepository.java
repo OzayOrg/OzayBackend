@@ -140,9 +140,10 @@ public class MemberRepository {
     }
 
     public void update(Member member){
-        String query = "UPDATE member SET first_name=:firstName, last_name=:lastName, email=:email, unit=:unit, ownership=:ownership, parking =:parking, deleted=:deleted WHERE id=:id";
+        String query = "UPDATE member SET user_id=:userId, first_name=:firstName, last_name=:lastName, email=:email, unit=:unit, ownership=:ownership, parking =:parking, deleted=:deleted WHERE id=:id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", member.getId());
+        params.addValue("userId", member.getUserId());
         params.addValue("firstName", member.getFirstName());
         params.addValue("lastName", member.getLastName());
         params.addValue("email", member.getEmail());

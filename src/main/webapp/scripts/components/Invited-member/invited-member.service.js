@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ozayApp')
-    .factory('Member', function ($resource) {
-        return $resource('api/member/:method/:id', {}, {
+    .factory('InvitedMember', function ($resource) {
+        return $resource('api/invited-member/:method/:id', {}, {
                 'query': {method: 'GET', isArray: true},
                 'get': {
                     method: 'GET',
