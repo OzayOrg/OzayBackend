@@ -2,9 +2,9 @@
 
 angular.module('ozayApp')
     .controller('OrganizationDetailController', function($scope, $state, $stateParams, Page, Auth, Organization, UserInformation) {
+
         if(UserInformation.getOrganizationId() != $stateParams.organizationId){
             Auth.authorize(true).then(function(){
-                UserInformation.setOrganizationId($stateParams.organizationId);
                 $state.reload();
             });
             return false;

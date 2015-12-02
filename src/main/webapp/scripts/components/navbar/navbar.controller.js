@@ -11,6 +11,9 @@ angular.module('ozayApp')
         // Navigation
         $scope.panelClicked = function(panel) {
             var result = angular.element('#dropdown-' + panel).hasClass('in');
+            if(panel == 'home'){
+                result = false;
+            }
             if (result == false) {
                 angular.forEach(angular.element(".parent-li"), function(value, key) {
                     if (value.attributes['id'].value != 'parent-' + panel) {
@@ -18,7 +21,6 @@ angular.module('ozayApp')
                         var pieces = item.split('-');
                         var child = pieces[1];
                         if (angular.element('#dropdown-' + child).hasClass('in')) {
-
                             $timeout(function() {
                                 angular.element(value).trigger('click');
                             })
@@ -26,6 +28,10 @@ angular.module('ozayApp')
                     }
                 });
             }
+        }
+
+        $scope.menuClicked = function(menu){
+            $scope.activeMenu = menu;
         }
 
 

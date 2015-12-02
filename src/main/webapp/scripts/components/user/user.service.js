@@ -18,11 +18,16 @@ angular.module('ozayApp')
 
 angular.module('ozayApp')
     .service('UserInformation', function UserInformation($q, $cookies, Building, $stateParams, $state) {
-        var building;
+        var building = undefined;
         var buildingList = [];
-        var organizationId;
+        var organizationId = undefined;
 
         return {
+            clear:function(){
+                building = undefined;
+                buildingList = [];
+                organizationId = undefined;
+            },
             getBuilding:function(){
                 return building;
             },
@@ -74,16 +79,17 @@ angular.module('ozayApp')
                         }
                         if($stateParams.organizationId !== undefined){
                             organizationId = $stateParams.organizationId;
+                            console.log(organizationId);
                         }
 
-                        if(Object.keys($stateParams).length == 0){ // Maybe $stateparmas are not initialized
+                        if(Object.keys($stateParams).length == 0 && organizationId === undefined){ // Maybe $stateparmas are not initialized
                             var url = window.location.toString();
 
                             if(url.indexOf('/organization/') !== -1){
                                 var pieces = url.split("/");
                                 for(var i = 0; i < pieces.length;i++){
                                     if(pieces[i] == 'organization'){
-                                        if(pieces[i+1]!==undefined){
+                                        if(pieces[i+1]!==undefined && isNaN(pieces[i+1])){
                                             organizationId = pieces[i+1];
                                         }
                                         break;
@@ -91,6 +97,7 @@ angular.module('ozayApp')
                                 }
                             }
                         }
+                        console.log(organizationId);
                         deferred.resolve(building);
                     })
                     .catch(function() {

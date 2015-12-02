@@ -38,7 +38,7 @@ angular.module('ozayApp')
             })
             .state('organization-edit', {
                 parent: 'manage',
-                url: '/management/organization/edit/:organizationId',
+                url: '/management/organization/edit/{organizationId:int}',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'ORGANIZATION_PUT'],
                     pageTitle: 'Organization Edit'

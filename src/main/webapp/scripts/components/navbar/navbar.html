@@ -82,11 +82,11 @@
 
                 </li>
                 <li ng-class="{'active' : activeMenu=='home'}">
-                    <a ui-sref="home">Dashboard</a>
+                    <a ui-sref="home" ng-click="menuClicked('home');" ng-click="panelClicked('dashboard')">Dashboard</a>
                 </li>
 
                 <!-- Dropdown-->
-                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET" ng-class="{'active' : activeMenu=='notification'}">
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET" ng-class="{'active' : activeMenu =='notification'}">
                     <a data-toggle="collapse" data-target="#dropdown-notification" id="parent-notification" class="parent-li" ng-click="panelClicked('notification')">
                         Notification<span class="caret"></span>
                     </a>
@@ -95,14 +95,14 @@
                     <div id="dropdown-notification" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='notification'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="notification" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST">Create</a></li>
-                                <li><a ui-sref="notification-record" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET">Archive</a></li>
+                                <li><a ui-sref="notification" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST" ng-click="menuClicked('notification');">Create</a></li>
+                                <li><a ui-sref="notification-record" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">Archive</a></li>
                             </ul>
                         </div>
                     </div>
                 </li>
                 <!-- Dropdown-->
-                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET, MEMBER_POST, MEMBER_PUT">
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET, MEMBER_POST, MEMBER_PUT" ng-class="{'active' : activeMenu =='directory'}">
                     <a data-toggle="collapse" data-target="#dropdown-directory" id="parent-directory" class="parent-li" ng-click="panelClicked('directory')">
                         Directory<span class="caret"></span>
                     </a>
@@ -111,14 +111,14 @@
                     <div id="dropdown-directory" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='directory'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET">List</a></li>
-                                <li><a ui-sref="member-new" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST">Create</a></li>
+                                <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET" ng-click="menuClicked('directory');">List</a></li>
+                                <li><a ui-sref="member-new" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST" ng-click="menuClicked('directory');">Create</a></li>
                             </ul>
                         </div>
                     </div>
                 </li>
 
-                <li class="panel panel-default" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, ORGANIZATION_HAS_ACCESS">
+                <li class="panel panel-default" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, ORGANIZATION_HAS_ACCESS" ng-class="{'active' : activeMenu =='management'}">
                     <a data-toggle="collapse" data-target="#dropdown-management" id="parent-management" class="parent-li" ng-click="panelClicked('management')">
                         Manage<span class="caret"></span>
                     </a>
@@ -127,9 +127,9 @@
                     <div id="dropdown-management" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='management'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="management">Organization</a></li>
-                                <li><a ng-show="organizationMenuExtra" ui-sref="organization-detail({organizationId:organizationId})">{{orgName}} Info</a></li>
-                                <li><a ng-show="organizationMenuExtra" ui-sref="role({organizationId:organizationId, buildingId:selectedBuilding})" has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ROLE_GET">{{buildingName}} Roles</a></li>
+                                <li><a ui-sref="management" ng-click="menuClicked('management');">Organization</a></li>
+                                <li><a ng-show="organizationMenuExtra" ui-sref="organization-detail({organizationId:organizationId})" ng-click="menuClicked('management');">{{orgName}} Info</a></li>
+                                <li><a ng-show="organizationMenuExtra" ui-sref="role({organizationId:organizationId, buildingId:selectedBuilding})" has-any-authority="ROLE_ADMIN, ROLE_ORGANIZATION_SUBSCRIBER, ROLE_GET" ng-click="menuClicked('management');">{{buildingName}} Roles</a></li>
                             </ul>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                     <!--<a ui-sref="management">Manage</a>-->
                 <!--</li>-->
                 <!-- Dropdown-->
-                <li class="panel panel-default">
+                <li class="panel panel-default" ng-class="{'active' : activeMenu =='account'}">
                     <a data-toggle="collapse" data-target="#dropdown-account" id="parent-account" class="parent-li" ng-click="panelClicked('account')">
                         Account<span class="caret"></span>
                     </a>
@@ -148,8 +148,8 @@
                     <div id="dropdown-account" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='account'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="settings">Settings</a></li>
-                                <li><a ui-sref="password">Password</a></li>
+                                <li><a ui-sref="settings" ng-click="menuClicked('account');">Settings</a></li>
+                                <li><a ui-sref="password" ng-click="menuClicked('account');">Password</a></li>
                                 <li><a href="" ng-click="logout()">Logout</a></li>
                             </ul>
                         </div>

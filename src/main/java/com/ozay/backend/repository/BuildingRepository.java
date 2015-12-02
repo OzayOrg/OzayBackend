@@ -25,7 +25,7 @@ public class BuildingRepository {
     }
 
     public List<Building> findAllUserCanAccess(User user){
-        String query = "SELECT DISTINCT ON (b.id) b.*, o.name as organizationName FROM building b LEFT JOIN organization o ON o.id = b.organization_id LEFT JOIN member m ON b.id = m.building_id LEFT JOIN subscription s ON s.user_id = o.user_id WHERE s.user_id = :userId OR m.user_id = :userId ORDER BY b.id";
+        String query = "SELECT DISTINCT ON (b.id) b.*, o.name as organizationName FROM building b LEFT JOIN organization o ON o.id = b.organization_id LEFT JOIN member m ON b.id = m.building_id AND m.deleted = false LEFT JOIN subscription s ON s.user_id = o.user_id WHERE s.user_id = :userId OR m.user_id = :userId ORDER BY b.id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", user.getId());
         return (List<Building>)namedParameterJdbcTemplate.query(query, params, new BuildingSetExtractor(){});

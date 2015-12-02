@@ -8,6 +8,7 @@ angular.module('ozayApp')
         $scope.returnedMemberList = [];
         $scope.selectedUsers = [];
         $scope.resetButton = 'Reset';
+        $scope.contentTitle = 'Notification Create';
 
         Page.get({
             state: $state.current.name
