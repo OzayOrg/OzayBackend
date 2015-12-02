@@ -52,8 +52,8 @@ jhipster:
             oauth:
                 clientid: ozayapp
                 secret: mySecretOAuthSecret
-                # Token is valid 30 minutes
-                tokenValidityInSeconds: 1800
+                # Token is valid 10 hours
+                tokenValidityInSeconds: 36000
         rememberme:
             # security key (this key should be unique for your application, and kept secret)
             key: d0ad98419c3b64bf4581c98c98d03390ba5578cb
