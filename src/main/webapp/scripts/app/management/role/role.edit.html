@@ -46,7 +46,9 @@
                                     </div>
                                     <div class="form-group" ng-show="showBelongTo">
                                         <label for="belongTo">Belong To</label>
-                                        <select id="belongTo" class="form-control" ng-model="role.belongTo" ng-options="role.id as role.name for role in roles"></select>
+                                        <select id="belongTo" class="form-control" ng-model="role.belongTo" ng-options="role.id as role.name for role in roles">
+                                            <option value=""></option>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Access</label>

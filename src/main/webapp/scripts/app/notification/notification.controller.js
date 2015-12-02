@@ -34,7 +34,7 @@ angular.module('ozayApp')
                 });
             });
             angular.forEach(data.members, function(value, key) {
-                if (value.unit == null) {
+                if (value.unit == null || value.unit == 0) {
                     value.unit = "N/A";
                 }
                 $scope.individualList.push({
@@ -125,8 +125,14 @@ angular.module('ozayApp')
 
         $scope.checkSubCategories = function(model, id) {
             angular.forEach($scope.roleList, function(value, key) {
+                if($scope.role[value.id] == model){
+                    return;
+                }
                 if (value.id != id && value.belongTo == id) {
                     $scope.role[value.id] = model;
+                    if(value.belongTo != 0){
+                        $scope.checkSubCategories(model, value.id );
+                    }
                 }
             });
         }
