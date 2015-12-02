@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .factory('Auth', function Auth($rootScope, $state, $q, Principal, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish) {
+    .factory('Auth', function Auth($rootScope, $state, $q, Principal, UserInformation, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish) {
         return {
             login: function (credentials, callback) {
                 var cb = callback || angular.noop;
@@ -24,6 +24,7 @@ angular.module('ozayApp')
 
             logout: function () {
                 AuthServerProvider.logout();
+                UserInformation.clear();
                 Principal.authenticate(null);
                 // Reset state memory
                 $rootScope.previousStateName = undefined;

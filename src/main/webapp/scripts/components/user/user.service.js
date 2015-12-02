@@ -79,7 +79,6 @@ angular.module('ozayApp')
                         }
                         if($stateParams.organizationId !== undefined){
                             organizationId = $stateParams.organizationId;
-                            console.log(organizationId);
                         }
 
                         if(Object.keys($stateParams).length == 0 && organizationId === undefined){ // Maybe $stateparmas are not initialized
@@ -97,7 +96,6 @@ angular.module('ozayApp')
                                 }
                             }
                         }
-                        console.log(organizationId);
                         deferred.resolve(building);
                     })
                     .catch(function() {

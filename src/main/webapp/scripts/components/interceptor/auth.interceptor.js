@@ -46,11 +46,15 @@ angular.module('ozayApp')
                 // token has expired
                 if (response.status === 401 && (response.data.error == 'invalid_token' || response.data.error == 'Unauthorized')) {
                     localStorageService.remove('token');
+
                     var Principal = $injector.get('Principal');
+                    var UserInformation = $injector.get('UserInformation');
+
                     if (Principal.isAuthenticated()) {
                         var Auth = $injector.get('Auth');
                         Auth.authorize(true);
                     }
+                    UserInformation.clear();
                 }
                 return $q.reject(response);
             }
