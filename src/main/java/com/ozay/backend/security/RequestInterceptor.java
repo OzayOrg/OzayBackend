@@ -117,7 +117,6 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         } else if(path.equals("organization") == true) {
             return this.checkPermission("ORGANIZATION_PUT");
         } else {
-
             return this.checkPermission(path.toUpperCase() + "_" + method);
         }
     }
@@ -125,16 +124,16 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
     private boolean checkPermission(String permission) {
         if(organizationId != null){
             System.out.println("!!!!!Organization key !!!!" + permission);
-            return this.organizationPermissionCheck(this.organizationId, permission);
+            return this.organizationPermissionCheck(permission);
         } else {
             System.out.println("!!!!!building Interceptor check!!!!" + permission);
-            return this.memberPermissionCheck(this.buildingId, permission);
+            return this.memberPermissionCheck(permission);
         }
     }
 
-    private boolean organizationPermissionCheck(Long buildingId, String permission) {
+    private boolean organizationPermissionCheck(String permission) {
         System.out.println("!!!!!Interceptor key!!!!" + permission);
-        boolean result =  permissionRepository.validateOrganizationInterceptor(buildingId, permission);
+        boolean result =  permissionRepository.validateOrganizationInterceptor(this.organizationId, permission);
         if(result == false){
             System.out.println("!!!!!Interceptor Organization false, check if subscriber!!!!");
             return this.isOrganizationSubscriber();
@@ -142,10 +141,10 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         return result;
     }
 
-    private boolean memberPermissionCheck(Long buildingId, String permission) {
+    private boolean memberPermissionCheck( String permission) {
         System.out.println("!!!!!Interceptor key!!!!" + permission);
 
-        boolean result =  permissionRepository.validateMemberInterceptor(buildingId, permission);
+        boolean result =  permissionRepository.validateMemberInterceptor(this.buildingId, permission);
 
         if(result == false){
             System.out.println("!!!!!Interceptor Member false, check if subscriber!!!!");

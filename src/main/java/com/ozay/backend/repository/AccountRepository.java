@@ -76,7 +76,7 @@ public class AccountRepository {
             organizationId = building.getOrganizationId();
         }
 
-        String query = "SELECT p.key " +
+        String query = "SELECT DISTINCT p.key " +
             "FROM jhi_user u " +
             "LEFT JOIN member m ON u.id =  m.user_id AND m.building_id = :buildingId " +
             "LEFT JOIN role_member rm ON rm.member_id = m.id " +
@@ -92,9 +92,9 @@ public class AccountRepository {
         log.debug("list1 {}", list1);
 
 
-        String query2 = "SELECT p.key " +
+        String query2 = "SELECT DISTINCT p.key " +
             "FROM jhi_user u " +
-            "LEFT JOIN organization_user ou ON ou.user_id = u.id " +
+            "LEFT JOIN organization_user ou ON ou.user_id = u.id AND ou.organization_id=:organizationId " +
             "LEFT JOIN organization_user_permission oup ON ou.id = oup.organization_user_id " +
             "LEFT JOIN permission p ON p.id = oup.permission_id " +
             "WHERE u.login = :login";

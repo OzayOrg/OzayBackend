@@ -112,14 +112,23 @@ public class PageResource {
     @Timed
     @Transactional(readOnly = true)
     public ResponseEntity<PageOrganizationDetailDTO> getOrganizationDetailContents(@PathVariable Long organizationId){
+        boolean result1 =  permissionRepository.validateOrganizationInterceptor(organizationId, "ORGANIZATION-USER_GET");
+        boolean result2 =  permissionRepository.validateOrganizationInterceptor(organizationId, "BUILDING_GET");
+        boolean hasAllAccess = false;
+        if(result1 == false && result2 == false){
+            accountRepository.isOrganizationSubscriber(organizationId);
+            hasAllAccess = true;
+        }
         Organization organization = organizationRepository.findOne(organizationId);
         log.debug("REST request to get organization detail : {}", organization);
         PageOrganizationDetailDTO pageOrganizationDetailDTO = new PageOrganizationDetailDTO();
-        pageOrganizationDetailDTO.setBuildings(buildingRepository.findAllOrganizationBuildings(organizationId));
-
-        List<OrganizationUserDTO> organizationUserDTOs = this.getAllOrganizationUsers(organizationId);
-
-        pageOrganizationDetailDTO.setOrganizationUserDTOs(organizationUserDTOs);
+        if(result1 == true || hasAllAccess == true){
+            List<OrganizationUserDTO> organizationUserDTOs = this.getAllOrganizationUsers(organizationId);
+            pageOrganizationDetailDTO.setOrganizationUserDTOs(organizationUserDTOs);
+        }
+        if(result2 == true || hasAllAccess == true){
+            pageOrganizationDetailDTO.setBuildings(buildingRepository.findAllOrganizationBuildings(organizationId));
+        }
 
         return new ResponseEntity<>(pageOrganizationDetailDTO, HttpStatus.OK);
     }
