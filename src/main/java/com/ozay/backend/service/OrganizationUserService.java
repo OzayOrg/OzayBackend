@@ -20,7 +20,7 @@ import javax.inject.Inject;
 public class OrganizationUserService {
 
     @Inject
-    TempUserRepository TempUserRepository;
+    TempUserRepository tempUserRepository;
 
     @Inject
     OrganizationUserRepository organizationUserRepository;
@@ -38,10 +38,15 @@ public class OrganizationUserService {
     MemberRepository memberRepository;
 
     // If A user record exists in jhi_user table = Existing user
-    public void processExistingUser(OrganizationUserDTO organizationUserDTO){
+    public void processExistingUser(User user, OrganizationUserDTO organizationUserDTO){
+        OrganizationUser organizationUser = new OrganizationUser();
+        organizationUser.setUserId(user.getId());
+        organizationUser.setOrganizationId(organizationUserDTO.getOrganizationId());
+        organizationUser.setActivated(true);
+        organizationUserRepository.create(organizationUser);
+        organizationUserDTO.setId(organizationUser.getId());
         processPermissions(organizationUserDTO);
     }
-
 
 
     public void createNonExistingUser(OrganizationUserDTO organizationUserDTO){
@@ -50,7 +55,7 @@ public class OrganizationUserService {
         tempUser.setFirstName(organizationUserDTO.getFirstName());
         tempUser.setLastName(organizationUserDTO.getLastName());
         tempUser.setEmail(organizationUserDTO.getEmail());
-        TempUserRepository.create(tempUser);
+        tempUserRepository.create(tempUser);
 
         // Create a record for bridge
         organizationUserDTO.setUserId(tempUser.getId());
@@ -75,7 +80,7 @@ public class OrganizationUserService {
         tempUser.setFirstName(organizationUserDTO.getFirstName());
         tempUser.setLastName(organizationUserDTO.getLastName());
         tempUser.setEmail(organizationUserDTO.getEmail());
-        TempUserRepository.update(tempUser);
+        tempUserRepository.update(tempUser);
         processPermissions(organizationUserDTO);
     }
 
@@ -101,10 +106,14 @@ public class OrganizationUserService {
         user.setActivationKey(tempUser.getActivationKey());
         userRepository.save(user);
 
+        tempUser.setActivated(true);
+        tempUserRepository.update(tempUser);
+
         // Update organization user table
         organizationUser.setUserId(user.getId());
         organizationUser.setActivated(true);
         organizationUserRepository.update(organizationUser);
+
 
         // Update Member table by organization user id
         memberRepository.updateUserIdByOrganizationId(user.getId(), organizationUser.getId());

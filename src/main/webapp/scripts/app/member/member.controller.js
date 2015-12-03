@@ -13,8 +13,7 @@ angular.module('ozayApp')
         }
 
         Page.query({
-            state: $state.current.name,
-            building: UserInformation.getBuilding().id
+            state: $state.current.name
         }).$promise.then(function(data) {
             for(var i =0; i< data.length;i++){
                 data[i].name = data[i].firstName + " " + data[i].lastName;

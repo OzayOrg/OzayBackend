@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by naofumiezaki on 11/17/15.
  */
-public class InvitedUserSetExtractor implements ResultSetExtractor {
+public class TempUserSetExtractor implements ResultSetExtractor {
     @Override
     public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
         List<TempUser> tempUsers = new ArrayList<TempUser>();
@@ -23,6 +23,7 @@ public class InvitedUserSetExtractor implements ResultSetExtractor {
             tempUser.setLastName(resultSet.getString("last_name"));
             tempUser.setEmail(resultSet.getString("email"));
             tempUser.setActivationKey(resultSet.getString("activation_key"));
+            tempUser.setActivated(resultSet.getBoolean("activated"));
             tempUsers.add(tempUser);
         }
         return tempUsers;

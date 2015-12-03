@@ -1,6 +1,7 @@
 package com.ozay.backend.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ozay.backend.domain.User;
 import com.ozay.backend.model.TempUser;
 import com.ozay.backend.model.OrganizationUser;
 import com.ozay.backend.repository.*;
@@ -63,13 +64,20 @@ public class OrganizationUserResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> createOrganizationUser(@RequestBody OrganizationUserDTO organizationUserDTO, HttpServletRequest request) {
-        List<TempUser> tempUsers = tempUserRepository.findAllByOrganizationIdAndEmail(organizationUserDTO.getOrganizationId(), organizationUserDTO.getEmail());
-        if(tempUsers.size() == 0){
-            organizationUserService.createNonExistingUser(organizationUserDTO);
-        } else {
-            return new ResponseEntity<>(new ErrorDTO("email already in use"), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(organizationUserDTO, HttpStatus.CREATED);
+        return userRepository.findOneByEmail(organizationUserDTO.getEmail())
+            .map(user -> {
+                organizationUserService.processExistingUser(user, organizationUserDTO);
+                return new ResponseEntity<>(organizationUserDTO, HttpStatus.CREATED);
+            })
+            .orElseGet(() -> {
+                List<TempUser> tempUsers = tempUserRepository.findAllByOrganizationIdAndEmail(organizationUserDTO.getOrganizationId(), organizationUserDTO.getEmail());
+                if(tempUsers.size() == 0){
+                    organizationUserService.createNonExistingUser(organizationUserDTO);
+                } else {
+                    new ResponseEntity<>("e-mail address already in use", HttpStatus.BAD_REQUEST);
+                }
+                return new ResponseEntity<>(organizationUserDTO, HttpStatus.CREATED);
+            });
     }
 
     /**
@@ -91,11 +99,12 @@ public class OrganizationUserResource {
                     if(tempUsers.size() == 0){
                         organizationUserService.updateNonExistingUser(organizationUserDTO);
                     } else {
-                        if(tempUsers.get(0).getId() != organizationUserDTO.getUserId()){
-                            return new ResponseEntity<>(new ErrorDTO("email already in use"), HttpStatus.BAD_REQUEST);
-                        }else{
-                            organizationUserService.updateNonExistingUser(organizationUserDTO);
+                        for(TempUser tempUser : tempUsers){
+                            if(tempUser.getId() != organizationUserDTO.getUserId()){
+                                return new ResponseEntity<>(new ErrorDTO("email already in use"), HttpStatus.BAD_REQUEST);
+                            }
                         }
+                        organizationUserService.updateNonExistingUser(organizationUserDTO);
                     }
                 }
                 return new ResponseEntity<>(organizationUserDTO, HttpStatus.OK);
@@ -141,7 +150,10 @@ public class OrganizationUserResource {
                 TempUser tempUser = tempUserRepository.findOneByActivationKey(key);
                 if(tempUser == null){
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                } else if(tempUser.isActivated() == true){
+                    return new ResponseEntity<>(new ErrorDTO("You are already activated"), HttpStatus.BAD_REQUEST);
                 }
+
                 OrganizationUser organizationUser = organizationUserRepository.findOneByTempUserId(tempUser.getId());
                 if(organizationUser == null){
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

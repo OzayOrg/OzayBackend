@@ -11,6 +11,7 @@ public class TempUser {
     private String lastName;
     private String email;
     private String activationKey;
+    private boolean activated;
 
     private Set<OrganizationUserPermission> organizationUserPermissions;
 
@@ -48,6 +49,14 @@ public class TempUser {
 
     public String getActivationKey() {
         return activationKey;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public void setActivationKey(String activationKey) {

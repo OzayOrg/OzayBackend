@@ -1,8 +1,10 @@
 package com.ozay.backend.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ozay.backend.domain.User;
 import com.ozay.backend.model.Member;
 import com.ozay.backend.repository.MemberRepository;
+import com.ozay.backend.repository.UserRepository;
 import com.ozay.backend.service.MemberService;
 import com.ozay.backend.web.rest.form.MemberFormDTO;
 import com.ozay.backend.web.rest.form.RoleFormDTO;
@@ -31,6 +33,9 @@ public class MemberResource {
 
     @Inject
     MemberRepository memberRepository;
+
+    @Inject
+    UserRepository userRepository;
 
     @RequestMapping(
         method = RequestMethod.POST,
@@ -61,12 +66,19 @@ public class MemberResource {
     @Timed
     public ResponseEntity<?> inviteMember(@RequestBody Member member, HttpServletRequest request) {
         log.debug("REST request to invite Member : {}", member);
-        String baseUrl = UrlUtil.baseUrlGenerator(request);
-        memberService.inviteMember(member, baseUrl);
-        return new ResponseEntity<>(member, HttpStatus.OK);
+        return userRepository.findOneByLogin(member.getEmail())
+            .map(user -> {
+                member.setUserId(user.getId());
+                memberRepository.update(member);
+                return new ResponseEntity<>(member, HttpStatus.OK);
+            })
+            .orElseGet(() -> {
+                String baseUrl = UrlUtil.baseUrlGenerator(request);
+                memberService.inviteMember(member, baseUrl);
+                return new ResponseEntity<>(member, HttpStatus.OK);
+            });
+
     }
-
-
 
     @RequestMapping(
         value = "/{memberId}",

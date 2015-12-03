@@ -1,6 +1,7 @@
 package com.ozay.backend.repository;
 
 import com.ozay.backend.model.AccountInformation;
+import com.ozay.backend.model.Building;
 import com.ozay.backend.resultsetextractor.AccountSimpleResultSetExtractor;
 import com.ozay.backend.security.SecurityUtils;
 import org.slf4j.Logger;
@@ -22,6 +23,9 @@ public class AccountRepository {
     private final Logger log = LoggerFactory.getLogger(AccountRepository.class);
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Inject
+    private BuildingRepository buildingRepository;
 
 
     public AccountInformation getLoginUserInformation(){
@@ -66,6 +70,11 @@ public class AccountRepository {
     }
 
     public AccountInformation getLoginUserInformation(Long buildingId, Long organizationId){
+
+        if(organizationId == null){
+            Building building = buildingRepository.findOne(buildingId);
+            organizationId = building.getOrganizationId();
+        }
 
         String query = "SELECT p.key " +
             "FROM jhi_user u " +

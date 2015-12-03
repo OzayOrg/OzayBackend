@@ -82,10 +82,18 @@ angular.module('ozayApp')
             $scope.errorTextAlert = null;
             if (confirm("Would you like to save?")) {
                 if(form.$valid) {
-                   if(($scope.member.unit == null || $scope.member.unit == "") && $scope.member.organizationUserId != null){
+                   var validation = true;
+                   if(($scope.member.unit == null || $scope.member.unit == "") && $scope.member.organizationUserId == 0){
                         form.unit.$invalid = true;
-                        $scope.button = true;
-                        return false;
+                        validation = false;
+                   }
+                   if(($scope.member.phone == null || $scope.member.phone == "") && $scope.member.organizationUserId == 0){
+                       form.phone.$invalid = true;
+                       validation = false;
+                   }
+                   if(validation == false){
+                    $scope.button = true;
+                       return false;
                    }
                 }
                 $scope.member.buildingId = UserInformation.getBuilding().id;
