@@ -42,7 +42,7 @@ jhipster:
         host: smtp.sendgrid.net
         port: 25
         username: OzayOrg
-        password: Ozaysyzn1124
+        password: Ozaysyn1124
         protocol: smtp
         tls: false
         auth: false

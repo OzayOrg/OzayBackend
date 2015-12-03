@@ -163,12 +163,14 @@ public class MailService {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
-            message.setTo(to);
+
             message.setFrom(jHipsterProperties.getMail().getFrom());
             message.setSubject(subject);
             message.setText(content, isHtml);
-            javaMailSender.send(mimeMessage);
-
+            for(String emailAddress:to){
+                message.setTo(emailAddress);
+                javaMailSender.send(mimeMessage);
+            }
         } catch (Exception e) {
             log.warn("E-mail could not be sent to users '{}', exception is: {}", to, e.getMessage());
         }
