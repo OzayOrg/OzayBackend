@@ -138,6 +138,7 @@ public class AccountRepository {
         if(organizationHasAccess == false){
             boolean isOrganizationUser = organizationUserRepository.isOrganizationUser(organizationId);
             if(isOrganizationUser == true){
+                organizationHasAccess = true;
                 accountInformation.getAuthorities().add("ORGANIZATION_HAS_ACCESS");
             }
         }
@@ -145,10 +146,18 @@ public class AccountRepository {
 
         if(this.isSubscriber(buildingId) == true){
             accountInformation.getAuthorities().add("ROLE_SUBSCRIBER");
+            if(organizationHasAccess == false){
+                organizationHasAccess = true;
+                accountInformation.getAuthorities().add("ORGANIZATION_HAS_ACCESS");
+            }
         }
 
         if(this.isOrganizationSubscriber(organizationId)){
             accountInformation.getAuthorities().add("ROLE_ORGANIZATION_SUBSCRIBER");
+            if(organizationHasAccess == false){
+                organizationHasAccess = true;
+                accountInformation.getAuthorities().add("ORGANIZATION_HAS_ACCESS");
+            }
         }
 
 

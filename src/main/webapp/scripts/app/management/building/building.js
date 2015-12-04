@@ -22,7 +22,7 @@ angular.module('ozayApp')
             })
             .state('building-new', {
                 parent: 'manage',
-                url: '/management/organization/:organizationId/building/new',
+                url: '/management/organization/{organizationId:int}/building/new',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'BUILDING_POST'],
                     pageTitle: 'Building New'

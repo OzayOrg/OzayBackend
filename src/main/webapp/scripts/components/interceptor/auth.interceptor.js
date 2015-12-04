@@ -14,26 +14,27 @@ angular.module('ozayApp')
                 var str = config.url;
 
                 if(str.indexOf('.html') == -1){
-                    if(str.indexOf("api/building") == -1){
-                        var userInformation = $injector.get('UserInformation');
-                        if(userInformation.getBuilding() !== undefined){
-                            config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
-                            config.url += 'building=' + userInformation.getBuilding().id;
-                        }
-                        var state  = $injector.get('$state');
-                        if(state.current.parent !== undefined && state.current.parent != 'manage'){
-                        }
-                        else {
-                             if($stateParams.organizationId !== undefined){
-                                config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
-                                config.url += 'organization=' + $stateParams.organizationId;
-                             } else if(userInformation.getOrganizationId() !== undefined){
-                                 config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
-                                 config.url += 'organization=' + userInformation.getOrganizationId();
-                             }
-                        }
 
+                    var userInformation = $injector.get('UserInformation');
+                    if(userInformation.getBuilding() !== undefined){
+                        config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
+                        config.url += 'building=' + userInformation.getBuilding().id;
                     }
+                    var state  = $injector.get('$state');
+
+                    if(state.current.parent !== undefined && state.current.parent != 'manage'){
+                    }
+                    else {
+                         if($stateParams.organizationId !== undefined){
+                            config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
+                            config.url += 'organization=' + $stateParams.organizationId;
+                         } else if(userInformation.getOrganizationId() !== undefined){
+                             config.url+=config.url.indexOf('?') === -1 ? '?' : '&'
+                             config.url += 'organization=' + userInformation.getOrganizationId();
+                         }
+                    }
+
+
                 }
 
                 return config;

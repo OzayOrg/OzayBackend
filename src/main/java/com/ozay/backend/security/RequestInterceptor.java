@@ -117,6 +117,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         } else if(path.equals("organization") == true) {
             return this.checkPermission("ORGANIZATION_PUT");
         } else {
+            // common
             return this.checkPermission(path.toUpperCase() + "_" + method);
         }
     }

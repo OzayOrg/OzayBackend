@@ -55,8 +55,6 @@ angular.module('ozayApp')
                         if(list.length == 0){
                             building = undefined;
                             buildingList = [];
-                            deferred.resolve(building);
-                            return deferred.promise;
                         }
 
                         buildingList = list;
