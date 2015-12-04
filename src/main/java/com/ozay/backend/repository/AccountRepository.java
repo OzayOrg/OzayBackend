@@ -27,6 +27,9 @@ public class AccountRepository {
     @Inject
     private BuildingRepository buildingRepository;
 
+    @Inject
+    private OrganizationUserRepository organizationUserRepository;
+
 
     public AccountInformation getLoginUserInformation(){
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -62,6 +65,7 @@ public class AccountRepository {
         params.addValue("organizationId", organizationId);
 
         Long countForOrganizationSubscriber  = namedParameterJdbcTemplate.queryForObject(query4, params, Long.class);
+        System.out.println(countForOrganizationSubscriber);
         if(countForOrganizationSubscriber > 0){
             return true;
         } else {
@@ -109,6 +113,7 @@ public class AccountRepository {
 
         AccountInformation accountInformation = new AccountInformation();
         accountInformation.setAuthorities(new ArrayList<String>());
+        boolean organizationHasAccess = false;
 
         if(list1 != null){
             for(String s1 : list1){
@@ -119,8 +124,6 @@ public class AccountRepository {
         }
 
         if(list2 != null){
-            boolean organizationHasAccess = false;
-
             for(String s2 : list2){
                 if(s2 != null){
                     if(organizationHasAccess == false){
@@ -129,6 +132,13 @@ public class AccountRepository {
                     }
                     accountInformation.getAuthorities().add(s2);
                 }
+            }
+        }
+
+        if(organizationHasAccess == false){
+            boolean isOrganizationUser = organizationUserRepository.isOrganizationUser(organizationId);
+            if(isOrganizationUser == true){
+                accountInformation.getAuthorities().add("ORGANIZATION_HAS_ACCESS");
             }
         }
 

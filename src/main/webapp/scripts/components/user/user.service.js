@@ -83,7 +83,6 @@ angular.module('ozayApp')
 
                         if(Object.keys($stateParams).length == 0 && organizationId === undefined){ // Maybe $stateparmas are not initialized
                             var url = window.location.toString();
-
                             if(url.indexOf('/organization/') !== -1){
                                 var pieces = url.split("/");
                                 for(var i = 0; i < pieces.length;i++){

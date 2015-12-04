@@ -116,8 +116,10 @@ public class PageResource {
         boolean result2 =  permissionRepository.validateOrganizationInterceptor(organizationId, "BUILDING_GET");
         boolean hasAllAccess = false;
         if(result1 == false && result2 == false){
-            accountRepository.isOrganizationSubscriber(organizationId);
-            hasAllAccess = true;
+            boolean isOrganizationSubscriber = accountRepository.isOrganizationSubscriber(organizationId);
+            if(isOrganizationSubscriber == true){
+                hasAllAccess = true;
+            }
         }
         Organization organization = organizationRepository.findOne(organizationId);
         log.debug("REST request to get organization detail : {}", organization);

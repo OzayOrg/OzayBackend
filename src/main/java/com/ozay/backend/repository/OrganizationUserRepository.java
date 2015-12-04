@@ -2,6 +2,7 @@ package com.ozay.backend.repository;
 
 import com.ozay.backend.model.OrganizationUser;
 import com.ozay.backend.resultsetextractor.OrganizationUserSetExtractor;
+import com.ozay.backend.security.SecurityUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -29,15 +30,16 @@ public class OrganizationUserRepository {
         }
     }
 
-    public OrganizationUser findOneByUserId(Long userId){
-        String query = "SELECT * FROM organization_user WHERE user_id=:userId";
+    public boolean isOrganizationUser(Long organizationId){
+        String query = "SELECT COUNT(*) FROM organization_user WHERE user_id=(SELECT id from jhi_user WHERE login=:login) AND organization_id=:organizationId";
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("userId", userId);
-        List <OrganizationUser> organizationUsers = (List<OrganizationUser>)namedParameterJdbcTemplate.query(query, params, new OrganizationUserSetExtractor());
-        if(organizationUsers.size() == 1){
-            return organizationUsers.get(0);
+        params.addValue("login", SecurityUtils.getCurrentLogin());
+        params.addValue("organizationId", organizationId);
+        Long count = namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
+        if(count > 0){
+            return true;
         } else {
-            return null;
+            return false;
         }
     }
 
