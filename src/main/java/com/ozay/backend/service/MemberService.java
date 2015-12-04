@@ -55,7 +55,9 @@ public class MemberService {
     private void updateRoleMember(MemberFormDTO memberFormDTO){
         roleMemberRepository.deleteAllByMemberId(memberFormDTO.getMember().getId());
         for(MemberRoleFormDTO memberRoleFormDTO : memberFormDTO.getRoles()){
-            roleMemberRepository.create(memberRoleFormDTO.getId(), memberFormDTO.getMember().getId());
+            if(memberRoleFormDTO.isAssign() == true){
+                roleMemberRepository.create(memberRoleFormDTO.getId(), memberFormDTO.getMember().getId());
+            }
         }
     }
     public void inviteMember(Member member, String baseUrl){

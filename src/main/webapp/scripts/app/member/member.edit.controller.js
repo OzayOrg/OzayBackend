@@ -56,9 +56,13 @@ angular.module('ozayApp')
                     else {
                         value.assign = false;
                     }
+                    if(value.belongTo > 0){
+                        $scope.memberRoleClicked(value);
+                    }
                 }
             });
         }
+
         $scope.invite = function(memberId){
             $scope.button = false;
             $scope.successTextAlert = null;
@@ -103,7 +107,6 @@ angular.module('ozayApp')
                 if ($scope.member.id === undefined || $scope.member.id == 0) {
                     Member.save({buildingId:UserInformation.getBuilding().id}, form, function(data) {
                         MessageService.setSuccessMessage('Successfully created');
-                        console.log(data.id);
                         $state.transitionTo('member-edit', {memberId: data.id}, {
                             reload: true,
                             inherit: false,

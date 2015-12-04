@@ -110,17 +110,27 @@ angular.module('ozayApp')
             return existAll;
         }
 
-        $scope.checkWhichGroup = function(id) {
+        $scope.checkWhichGroup = function(id, result) {
             var member = null;
             angular.forEach($scope.returnedMemberList, function(value, key) {
                 if (value.id == id) {
                     member = value;
                 }
             });
+            if(result == false && member == null){
+                $scope.role[id] = true;
+                return;
+            }
 
-            angular.forEach(member.roles, function(value, key) {
-                $scope.role[value.id] = $scope.checkIfAllGroupItemSelected(value.id);
-            });
+            if(member !== null){
+                angular.forEach(member.roles, function(value, key) {
+                    $scope.role[value.id] = $scope.checkIfAllGroupItemSelected(value.id, true);
+                    if(value.belongTo > 0){
+                        $scope.checkWhichGroup(value.belongTo, false);
+                    }
+                });
+            }
+
         }
 
         $scope.checkSubCategories = function(model, id) {
@@ -131,7 +141,7 @@ angular.module('ozayApp')
                 if (value.id != id && value.belongTo == id) {
                     $scope.role[value.id] = model;
                     if(value.belongTo != 0){
-                        $scope.checkSubCategories(model, value.id );
+                        $scope.memberRoleClicked(value.id, model, value);
                     }
                 }
             });
