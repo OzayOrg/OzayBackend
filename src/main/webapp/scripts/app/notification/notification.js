@@ -35,6 +35,22 @@ angular.module('ozayApp')
 
                 }
             })
+            .state('notification-track', {
+                parent: 'site',
+                url: '/notification-track',
+                data: {
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
+                },
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/app/notification/notification-track.html',
+                        controller: 'NotificationRecordController'
+                    }
+                },
+                resolve: {
+
+                }
+            })
             .state('notification-record-detail', {
                 parent: 'site',
                 url: '/notification-archive/{notificationId:int}',
