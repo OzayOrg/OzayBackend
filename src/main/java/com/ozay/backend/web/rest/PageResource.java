@@ -342,7 +342,7 @@ public class PageResource {
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
 
-    /*
+
     @RequestMapping(
         value = "/notification-track",
         method = RequestMethod.GET,
@@ -350,7 +350,7 @@ public class PageResource {
     @Timed
     @Transactional(readOnly = true)
 
-    public ResponseEntity<PageNotificationRecordDTO> notificationArchive(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+    public ResponseEntity<PageNotificationRecordDTO> notificationTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
 
         if(buildingId == null|| buildingId == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -369,7 +369,7 @@ public class PageResource {
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
-    */
+
     @RequestMapping(
         value = "/notification-record-detail/{notificationId}",
         method = RequestMethod.GET,
