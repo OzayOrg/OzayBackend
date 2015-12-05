@@ -44,7 +44,7 @@ angular.module('ozayApp')
                 views: {
                     'content@': {
                         templateUrl: 'scripts/app/notification/notification-track.html',
-                        controller: 'NotificationRecordController'
+                        controller: 'NotificationTrackController'
                     }
                 },
                 resolve: {
