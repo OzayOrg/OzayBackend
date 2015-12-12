@@ -19,6 +19,8 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
+                                                    <th></th>
+                                                    <th>STATUS</th>
                                                     <th>Date</th>
                                                     <th>Sent By | To</th>
                                                     <th>Subject</th>
@@ -28,6 +30,8 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="notification in notifications">
+                                                    <td><input type="checkbox" ng-model="checkboxModel.value1"></td>
+                                                    <td>{{checkboxModel.value1}}</td>
                                                     <td>{{notification.createdDate | date: "MM/dd/yyyy"}}</td>
                                                     <td>{{notification.createdBy}} [ {{notification.emailCount}} ]</td>
                                                     <td>{{notification.subject}}</td>

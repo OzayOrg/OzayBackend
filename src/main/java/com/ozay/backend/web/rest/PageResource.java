@@ -371,6 +371,7 @@ public class PageResource {
     }
 
     @RequestMapping(
+
         value = "/notification-record-detail/{notificationId}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
