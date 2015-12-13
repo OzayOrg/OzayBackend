@@ -305,7 +305,7 @@ public class PageResource {
         log.debug("REST page notification create");
 
         PageNotificationDTO pageOrganizationUserDTO = new PageNotificationDTO();
-        pageOrganizationUserDTO.setNotifications(notificationRepository.searchNotificationWithLimit(buildingId, (long)10));
+        pageOrganizationUserDTO.setNotifications(notificationRepository.searchNotificationWithLimit(buildingId, (long) 10));
 
         pageOrganizationUserDTO.setRoles(roleRepository.findAllByBuildingId(buildingId));
         pageOrganizationUserDTO.setMembers(memberRepository.findAllByBuildingId(buildingId));
@@ -343,7 +343,36 @@ public class PageResource {
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
 
+
     @RequestMapping(
+        value = "/notification-track",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+
+    public ResponseEntity<PageNotificationRecordDTO> notificationTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+
+        if(buildingId == null|| buildingId == 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        long offset = 0;
+
+        if(page != null && page > 1){
+            offset = page - 1;
+        }
+
+        log.debug("REST page notification history with page {}", page);
+
+        PageNotificationRecordDTO pageOrganizationUserDTO = new PageNotificationRecordDTO();
+        pageOrganizationUserDTO.setTotalNumOfPages(notificationRecordRepository.countAllByNotificationId(buildingId));
+        pageOrganizationUserDTO.setNotificationRecords(notificationRepository.findAllByBuildingId(buildingId, offset));
+
+        return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+
         value = "/notification-record-detail/{notificationId}",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)

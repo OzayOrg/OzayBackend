@@ -3,13 +3,11 @@ package com.ozay.backend.model;
 /**
  * Created by naofumiezaki on 10/31/15.
  */
-public class NotificationRecord {
+public class NotificationTrack {
     public Long memberId;
     public Long notificationId;
 
     private boolean success;
-    private boolean track;
-    private boolean complete;
     private String email;
     private String note;
 
@@ -36,14 +34,6 @@ public class NotificationRecord {
         return success;
     }
 
-    public boolean isTrack() {
-        return track;
-    }
-
-    public boolean isComplete() {
-        return complete;
-    }
-
     public String getNote() {
         return note;
     }
@@ -56,14 +46,6 @@ public class NotificationRecord {
         this.success = success;
     }
 
-    public void setTrack(boolean track) {
-        this.track = track;
-    }
-
-    public void setComplete(boolean complete) {
-        this.complete = complete;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -72,6 +54,7 @@ public class NotificationRecord {
         this.email = email;
     }
 
+    /*
     public Member getMember() {
         return member;
     }
@@ -79,4 +62,5 @@ public class NotificationRecord {
     public void setMember(Member member) {
         this.member = member;
     }
+    */
 }

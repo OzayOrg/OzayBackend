@@ -38,6 +38,13 @@
                                         <span ng-if="notificationRecord.member.unit != null">
                                         {{notificationRecord.member.unit}}
                                         &nbsp;|&nbsp;
+                                        <span ng-if="notificationRecord.member.unit != null">
+                                        {{notificationRecord.track}}
+                                        &nbsp;|&nbsp;
+                                        <span ng-if="notificationRecord.member.unit != null">
+                                        {{notificationRecord.complete}}
+                                        &nbsp;|&nbsp;
+
                                         </span>
                                         <span ng-if="notificationRecord.success == true">Sent</span>
                                         <span ng-if="notificationRecord.success == false">Failed</span>

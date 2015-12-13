@@ -40,7 +40,7 @@ public class NotificationRecordRepository {
     }
 
     public void create(NotificationRecord notificationRecord){
-        String query = "INSERT INTO notification_record (notification_id, member_id, success, email, note) VALUES(:notificationId, :memberId, :success, :email, :note)";
+        String query = "INSERT INTO notification_record (notification_id, member_id, success, email, note, track, complete) VALUES(:notificationId, :memberId, :success, :email, :note, :track, :complete)";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("notificationId", notificationRecord.getNotificationId());
@@ -48,6 +48,8 @@ public class NotificationRecordRepository {
         params.addValue("success", notificationRecord.isSuccess());
         params.addValue("note", notificationRecord.getNote());
         params.addValue("email", notificationRecord.getEmail());
+        params.addValue("track", notificationRecord.isTrack());
+        params.addValue("complete", notificationRecord.isComplete());
 
         namedParameterJdbcTemplate.update(query, params);
     }
