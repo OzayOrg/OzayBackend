@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.*;
 import com.ozay.backend.repository.*;
+import com.ozay.backend.security.SecurityUtils;
 import com.ozay.backend.service.UserService;
 import com.ozay.backend.web.rest.dto.OrganizationRoleMemberDTO;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
@@ -462,9 +463,12 @@ public class PageResource {
     public ResponseEntity<?> getSearchResult(@RequestParam(value = "keyword") String keywords, @RequestParam(value = "building") Long buildingId){
         PageSearchDTO pageSearchDTO = new PageSearchDTO();
         String[] items = keywords.split(" ");
-        boolean isSubscriber = accountRepository.isSubscriber(buildingId);
+        boolean canAccess = SecurityUtils.isUserInRole("ROLE_ADMIN");
+        if(canAccess == false){
+            canAccess = accountRepository.isSubscriber(buildingId);
+        }
 
-        if(isSubscriber == true){
+        if(canAccess == true){
             pageSearchDTO.setNotifications(notificationRepository.searchNotifications(buildingId, items));
             pageSearchDTO.setMembers(memberRepository.searchMembers(buildingId, items));
         } else {
