@@ -30,6 +30,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="notification in notifications">
+                                               <!-- <ul data-ng-repeat="i in [1,2,3]"> //can i loop for emailCount-->
                                                     <td><input type="checkbox" ng-model="checkboxModel.value1"></td>
                                                     <td>{{checkboxModel.value1}}</td>
                                                     <td>{{notification.createdDate | date: "MM/dd/yyyy"}}</td>
@@ -38,9 +39,10 @@
                                                     <td ng-bind-html="notification.notice"></td>
                                                     <td>
                                                         <a ui-sref="notification-record-detail({notificationId:notification.id})">
-                                                            <button class="btn btn-default" type="button" ng-click="reset()">View</button>
+                                                            <button class="btn btn-default" type="button" ng-click="reset()">Details</button>
                                                         </a>
                                                     </td>
+                                                <!-- </ul>-->
                                                 </tr>
                                             </tbody>
 
