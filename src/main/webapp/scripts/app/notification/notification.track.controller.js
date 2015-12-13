@@ -12,13 +12,17 @@ angular.module('ozayApp')
             }).$promise.then(function(data) {
                 $scope.totalItems = data.totalNumOfPages/2;
                 $scope.notifications = data.notificationRecords; //this gets all the notifications
+
+                $scope.checkboxModel = {
+                                       value1 : data.totalNumOfPages-1, //find in path :totalNumOfPages
+                };
+
+
             });
         }
 
         $scope.checkboxModel = {
                        value1 : true,
-
-
         };
 
 
