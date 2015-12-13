@@ -20,7 +20,7 @@ public class NotificationRecordRepository {
 
     public List<NotificationRecord> findAllByNotificationId(Long notificationId){
 
-        String query = "SELECT nr.*, m.first_name, m.last_name, m.unit FROM notification_record nr INNER JOIN member m ON nr.member_id = m.id WHERE nr.notification_id = :notificationId ORDER BY n.created_date DESC";
+        String query = "SELECT nr.*, m.first_name, m.last_name, m.unit FROM notification_record nr INNER JOIN member m ON nr.member_id = m.id INNER JOIN notification n ON nr.notification_id = n.id WHERE nr.notification_id = :notificationId ORDER BY n.created_date DESC";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
