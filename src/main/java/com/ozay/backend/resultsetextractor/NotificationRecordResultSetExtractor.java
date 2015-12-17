@@ -26,7 +26,7 @@ public class NotificationRecordResultSetExtractor implements ResultSetExtractor 
             notificationRecord.setNote(resultSet.getString("note"));
             notificationRecord.setSuccess(resultSet.getBoolean("success"));
             notificationRecord.setTrack(resultSet.getBoolean("track"));
-            notificationRecord.setComplete(resultSet.getBoolean("complete"));
+            notificationRecord.setTrackComplete(resultSet.getBoolean("track_complete"));
 
             member.setFirstName(resultSet.getString("first_name"));
             member.setLastName(resultSet.getString("last_name"));

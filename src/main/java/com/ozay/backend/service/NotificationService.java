@@ -60,9 +60,9 @@ public class NotificationService {
             // insert the function to check if tracking is selected
             notificationRecord.setTrack(true);
             //insert the function to 1) check if tracking is selected and 2) if selected initially set to false
-            if (notificationRecord.isTrack()) {
-                notificationRecord.setComplete(false);
-            }
+//            if (notificationRecord.isTrack()) {
+//                notificationRecord.set(false);
+//            }
 
             if(notificationRecord.getEmail().matches(EMAIL_PATTERN)){
                 validEmailCount++;

@@ -2,7 +2,7 @@
 
 angular.module('ozayApp')
     .factory('NotificationRecord', function ($resource) {
-        return $resource('api/notification/:id', {}, {
+        return $resource('api/notification-record/:id', {}, {
                 'query': {method: 'GET', isArray: true},
                 'get': {
                     method: 'GET',

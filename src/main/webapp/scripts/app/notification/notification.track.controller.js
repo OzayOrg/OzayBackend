@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('NotificationTrackController', function($scope, $state, NotificationTrack, Page, UserInformation) {
+    .controller('NotificationTrackController', function($scope, $state, NotificationRecord, Page, UserInformation) {
         $scope.button = true;
         $scope.contentTitle = 'Notification Tracker';
 
@@ -13,17 +13,22 @@ angular.module('ozayApp')
                 $scope.totalItems = data.totalNumOfPages/2;
                 $scope.notifications = data.notificationRecords; //this gets all the notifications
 
-                $scope.checkboxModel = {
-                                       value1 : data.totalNumOfPages-1, //find in path :totalNumOfPages
-                };
-
-
             });
         }
 
-        $scope.checkboxModel = {
-                       value1 : true,
-        };
+        $scope.track = function(notificationRecord){
+            // call api
+
+            NotificationRecord.update(notificationRecord, function(data) {
+                              notificationRecord.trackComplete = !notificationRecord.trackComplete;
+                                $scope.success = true;
+                            }, function(error) {
+                                $scope.errorTextAlert = "Error! Please try later.";
+                            }).$promise.finally(function() {
+                                $scope.button = true;
+                            });
+        }
+
 
 
         // pagination

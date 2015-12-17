@@ -25,6 +25,8 @@ public class Notification{
 
     private Long emailCount;
 
+    private boolean track;
+
     private List<NotificationRecord> notificationRecordList;
 
     public Long getId() {
@@ -85,6 +87,14 @@ public class Notification{
 
     public Long getEmailCount() {
         return emailCount;
+    }
+
+    public boolean isTrack() {
+        return track;
+    }
+
+    public void setTrack(boolean track) {
+        this.track = track;
     }
 
     public void setEmailCount(Long emailCount) {

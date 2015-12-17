@@ -92,14 +92,14 @@ public class NotificationRepository {
 
 
     public void create(Notification notification){
-        String query = "INSERT INTO notification (building_id, notice, issue_date, created_by, created_date, subject) VALUES (:buildingId, :notice, :issueDate, :createdBy, NOW(), :subject) RETURNING id";
+        String query = "INSERT INTO notification (building_id, notice, issue_date, created_by, created_date, subject, track) VALUES (:buildingId, :notice, :issueDate, :createdBy, NOW(), :subject, :track) RETURNING id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", notification.getBuildingId());
         params.addValue("notice", notification.getNotice());
         params.addValue("issueDate", new Timestamp(notification.getIssueDate().getMillis()));
         params.addValue("createdBy", SecurityUtils.getCurrentLogin());
         params.addValue("subject", notification.getSubject());
-
+        params.addValue("track", notification.isTrack());
         Long id = namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
         notification.setId(id);
     }

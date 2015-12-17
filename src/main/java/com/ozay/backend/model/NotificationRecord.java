@@ -9,7 +9,7 @@ public class NotificationRecord {
 
     private boolean success;
     private boolean track;
-    private boolean complete;
+    private boolean trackComplete;
     private String email;
     private String note;
 
@@ -40,9 +40,6 @@ public class NotificationRecord {
         return track;
     }
 
-    public boolean isComplete() {
-        return complete;
-    }
 
     public String getNote() {
         return note;
@@ -60,8 +57,12 @@ public class NotificationRecord {
         this.track = track;
     }
 
-    public void setComplete(boolean complete) {
-        this.complete = complete;
+    public boolean isTrackComplete() {
+        return trackComplete;
+    }
+
+    public void setTrackComplete(boolean trackComplete) {
+        this.trackComplete = trackComplete;
     }
 
     public String getEmail() {
