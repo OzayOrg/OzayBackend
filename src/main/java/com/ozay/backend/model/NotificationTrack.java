@@ -100,7 +100,7 @@ public class NotificationTrack {
     public String toString() {
         return "NotificationTrack{" +
             "id=" + notificationId +
-
+            ", email='" + email + "'" +
             '}';
     }
 

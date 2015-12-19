@@ -60,7 +60,7 @@ public class NotificationRecordRepository {
         params.addValue("limit", limit);
         params.addValue("offset", offset);
 
-        return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationRecordResultSetExtractor());
+        return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationTrackResultSetExtractor());
     }
 
 

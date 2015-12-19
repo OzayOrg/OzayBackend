@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('NotificationTrackController', function($scope, $state, NotificationRecord, Page, UserInformation) {
+    .controller('NotificationTrackController', function($scope, $state, NotificationTrack, Page, UserInformation) {
         $scope.button = true;
         $scope.contentTitle = 'Notification Tracker';
 
