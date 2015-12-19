@@ -4,6 +4,7 @@ import com.ozay.backend.model.AccountInformation;
 import com.ozay.backend.model.Member;
 import com.ozay.backend.model.NotificationRecord;
 import com.ozay.backend.model.NotificationTrack;
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 import java.sql.ResultSet;
@@ -26,6 +27,8 @@ public class NotificationTrackResultSetExtractor implements ResultSetExtractor {
             notificationTrack.setEmail(resultSet.getString("email"));
             notificationTrack.setNote(resultSet.getString("note"));
             notificationTrack.setSuccess(resultSet.getBoolean("success"));
+            notificationTrack.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
+            notificationTrack.setSubject(resultSet.getString("subject"));
            // notificationTrack.setTrack(resultSet.getBoolean("track"));
            // notificationTrack.setTrackComplete(resultSet.getBoolean("track_complete"));
 

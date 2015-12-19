@@ -15,7 +15,29 @@ public class NotificationTrack {
     private String email;
     private String note;
 
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    private String subject;
+
     private Member member;
+
+    public DateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(DateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    private DateTime createdDate;
+
+
 
 
     public Long getMemberId() {
@@ -100,7 +122,10 @@ public class NotificationTrack {
     public String toString() {
         return "NotificationTrack{" +
             "id=" + notificationId +
-            ", email='" + email + "'" +
+            ", createdDate='" + createdDate + "'" +
+            ", member='" + member + "'" +
+
+
             '}';
     }
 

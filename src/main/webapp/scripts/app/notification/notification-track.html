@@ -20,26 +20,26 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>STATUS</th>
+                                                    <th>Complete</th>
                                                     <th>Date</th>
-                                                    <th>Sent By | To</th>
-                                                    <th>Subject</th>
+                                                    <th>Unit</th>
+                                                    <th>Name</th>
                                                     <th>Message</th>
-                                                    <th></th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="notification in notifications">
                                                <!-- <ul data-ng-repeat="i in [1,2,3]"> //can i loop for emailCount-->
                                                     <td><input type="checkbox" ng-model="notification.trackComplete"></td>
-                                                    <td>{{checkboxModel.value1}}</td>
-                                                    <td>{{notification.createdDate | date: "MM/dd/yyyy"}}</td>
-                                                    <td>{{notification.email}} [ {{notification.notificationId}} ]</td>
-                                                    <td>{{notification.subject}}</td>
-                                                    <td ng-bind-html="notification.notice"></td>
                                                     <td>
                                                         <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
                                                     </td>
+                                                    <td>{{notification.createdDate | date: "MM/dd/yyyy"}}</td>
+                                                    <td>{{notification.member.unit }}</td>
+                                                    <td>{{notification.member.firstName}} {{notification.member.lastName}}</td>
+                                                    <td ng-bind-html="notification.subject"></td>
+                                                    
                                                 <!-- </ul>-->
                                                 </tr>
                                             </tbody>
