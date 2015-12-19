@@ -9,6 +9,11 @@
                             <h4 class="col-xs-12">
                                 {{contentTitle}}
                                 <span class="pull-right">
+
+                                    <td><input type="checkbox" ng-model="notification.trackComplete"></td>
+                                    <td>Track {{checkboxModel.value1}}</td>
+
+
                                     <button class="btn btn-default" ng-hide="success" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Send</button>
                                     <button class="btn btn-default" type="button" ng-click="reset()">{{resetButton}}</button>
 

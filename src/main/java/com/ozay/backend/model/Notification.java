@@ -140,6 +140,7 @@ public class Notification{
             ", createdBy='" + createdBy + "'" +
             ", createdDate='" + createdDate + "'" +
             ", emailCount='" + emailCount + "'" +
+            ", track='" + track + "'" +
             '}';
     }
 }

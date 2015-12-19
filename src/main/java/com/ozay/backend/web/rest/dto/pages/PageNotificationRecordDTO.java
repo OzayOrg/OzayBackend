@@ -27,4 +27,6 @@ public class PageNotificationRecordDTO {
     public void setNotificationRecords(List<Notification> notificationRecords) {
         this.notifications = notificationRecords;
     }
+
+
 }

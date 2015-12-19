@@ -29,12 +29,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="notification in notifications">
+                                                <tr ng-repeat="notification in notificationRecord">
                                                <!-- <ul data-ng-repeat="i in [1,2,3]"> //can i loop for emailCount-->
                                                     <td><input type="checkbox" ng-model="notification.trackComplete"></td>
                                                     <td>{{checkboxModel.value1}}</td>
                                                     <td>{{notification.createdDate | date: "MM/dd/yyyy"}}</td>
-                                                    <td>{{notification.createdBy}} [ {{notification.emailCount}} ]</td>
+                                                    <td>{{notification.email}} [ {{notification.emailCount}} ]</td>
                                                     <td>{{notification.subject}}</td>
                                                     <td ng-bind-html="notification.notice"></td>
                                                     <td>

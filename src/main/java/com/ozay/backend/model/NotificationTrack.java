@@ -1,5 +1,9 @@
 package com.ozay.backend.model;
 
+import java.util.List;
+
+import org.joda.time.DateTime;
+
 /**
  * Created by naofumiezaki on 10/31/15.
  */
@@ -54,7 +58,7 @@ public class NotificationTrack {
         this.email = email;
     }
 
-    /*
+
     public Member getMember() {
         return member;
     }
@@ -62,5 +66,43 @@ public class NotificationTrack {
     public void setMember(Member member) {
         this.member = member;
     }
-    */
+
+  //  public List<NotificationTrack> getNotificationTrackList() {
+    //    return notificationTrackList;
+    //}
+
+ //   public void setNotificationRecordList(List<NotificationRecord> notificationRecordList) {
+   //     this.notificationRecordList = notificationRecordList;
+   // }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        NotificationTrack notificationTrack = (NotificationTrack) o;
+
+        if (notificationId != null ? !notificationId.equals(notificationTrack.notificationId) : notificationTrack.notificationId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (notificationId ^ (notificationId >>> 32));
+    }
+
+    @Override
+    public String toString() {
+        return "NotificationTrack{" +
+            "id=" + notificationId +
+
+            '}';
+    }
+
+
 }

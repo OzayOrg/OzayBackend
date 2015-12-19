@@ -28,6 +28,7 @@ public class NotificationSetExtractor implements ResultSetExtractor {
             notification.setBuildingId(resultSet.getLong("building_id"));
             notification.setEmailCount(resultSet.getLong("email_count"));
             notification.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
+            notification.setTrack(resultSet.getBoolean("track"));
             list.add(notification);
         }
         return list;

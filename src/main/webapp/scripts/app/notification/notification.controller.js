@@ -249,6 +249,11 @@ angular.module('ozayApp')
                     $scope.button = true;
                 });
 
+                $scope.checkboxModel = {
+                       value1 : true,
+                       value2 : 'YES'
+                     };
+
             }
         }
     });

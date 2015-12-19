@@ -36,9 +36,8 @@ public class NotificationRecord {
         return success;
     }
 
-    public boolean isTrack() {
-        return track;
-    }
+   // not needed as now part of notification
+   // public boolean isTrack() {   return track;   }
 
 
     public String getNote() {

@@ -2,7 +2,9 @@ package com.ozay.backend.repository;
 
 import com.ozay.backend.model.Notification;
 import com.ozay.backend.model.NotificationRecord;
+import com.ozay.backend.model.NotificationTrack;
 import com.ozay.backend.resultsetextractor.NotificationRecordResultSetExtractor;
+import com.ozay.backend.resultsetextractor.NotificationTrackResultSetExtractor;
 import com.ozay.backend.resultsetextractor.NotificationSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -31,11 +33,26 @@ public class NotificationRecordRepository {
         return (List<NotificationRecord>)namedParameterJdbcTemplate.query(query, params, new NotificationRecordResultSetExtractor());
     }
 
-    // Used for notification track
+/*    // Used for notification track
+    public List<NotificationTrack> findAllByBuildingId(Long buildingId, Long offset){
+        int limit = 20;
+        offset = offset * limit;
+        String query = "SELECT n.created_date, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id ORDER BY n.created_date DESC LIMIT :limit OFFSET :offset";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("buildingId", buildingId);
+        params.addValue("limit", limit);
+        params.addValue("offset", offset);
+
+        return (List<NotificationTrack>)namedParameterJdbcTemplate.query(query, params, new NotificationTrackResultSetExtractor());
+    }
+ */
+ //Old Notification Track using Notification.java and NotificationRecordResultSetExtractor
     public List<Notification> findAllByBuildingId(Long buildingId, Long offset){
         int limit = 20;
         offset = offset * limit;
-        String query = "SELECT nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id WHERE nr.notification_id = :notificationId ORDER BY n.created_date DESC LIMIT :limit OFFSET :offset";
+        String query = "SELECT n.created_date, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id ORDER BY n.created_date DESC LIMIT :limit OFFSET :offset";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
@@ -45,6 +62,10 @@ public class NotificationRecordRepository {
 
         return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationRecordResultSetExtractor());
     }
+
+
+
+
 
     public Long countAllByNotificationId(Long buildingId){
         String query = "SELECT COUNT(*) FROM notification_record nr JOIN notification n ON n.id = nr.notification_id WHERE building_id = :buildingId";

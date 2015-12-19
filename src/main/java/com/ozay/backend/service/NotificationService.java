@@ -58,7 +58,7 @@ public class NotificationService {
             notificationRecord.setEmail(member.getEmail());
             notificationRecord.setMemberId(member.getId());
             // insert the function to check if tracking is selected
-            notificationRecord.setTrack(true);
+//            notificationRecord.setTrack(true);
             //insert the function to 1) check if tracking is selected and 2) if selected initially set to false
 //            if (notificationRecord.isTrack()) {
 //                notificationRecord.set(false);
