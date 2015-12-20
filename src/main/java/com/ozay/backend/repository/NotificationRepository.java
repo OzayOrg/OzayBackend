@@ -58,6 +58,16 @@ public class NotificationRepository {
         return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationSetExtractor());
     };
 
+    public Long countAllByBuildingId(Long buildingId){
+        String query = "SELECT COUNT(*) FROM notification WHERE building_id = :buildingId";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("buildingId", buildingId);
+
+        return namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
+    }
+
     public List<Notification> searchNotificationWithLimit(Long buildingId, Long limit){
 
         String query = "SELECT * from notification WHERE id in(" +
