@@ -338,7 +338,7 @@ public class PageResource {
 
         PageNotificationRecordDTO pageOrganizationUserDTO = new PageNotificationRecordDTO();
         pageOrganizationUserDTO.setTotalNumOfPages(notificationRecordRepository.countAllByNotificationId(buildingId));
-        pageOrganizationUserDTO.setNotificationRecords(notificationRe.findAllByBuildingId(buildingId, offset));
+        pageOrganizationUserDTO.setNotificationRecords(notificationRepository.findAllByBuildingId(buildingId, offset));
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }
@@ -351,7 +351,7 @@ public class PageResource {
     @Timed
     @Transactional(readOnly = true)
 
-    public ResponseEntity<PageNotificationRecordDTO> notificationTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+    public ResponseEntity<PageNotificationTrackDTO> notificationTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
 
         if(buildingId == null|| buildingId == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -364,12 +364,11 @@ public class PageResource {
 
         log.debug("REST page notification history with page {}", page);
 
-        PageNotificationRecordDTO pageOrganizationUserDTO = new PageNotificationRecordDTO();
-        pageOrganizationUserDTO.setTotalNumOfPages(notificationRecordRepository.countAllByNotificationId(buildingId));
-        pageOrganizationUserDTO.setNotificationRecords(notificationRecordRepository.findAllByBuildingId(buildingId, offset));
+        PageNotificationTrackDTO pageNotificationTrackDTO = new PageNotificationTrackDTO();
+        pageNotificationTrackDTO.setNotificationRecords(notificationRecordRepository.findAllTrackedByBuildingId(buildingId, offset));
 
 
-        return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
+        return new ResponseEntity<>(pageNotificationTrackDTO, HttpStatus.OK);
     }
 
     @RequestMapping(

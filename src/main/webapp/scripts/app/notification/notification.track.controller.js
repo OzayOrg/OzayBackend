@@ -5,28 +5,28 @@ angular.module('ozayApp')
         $scope.button = true;
         $scope.contentTitle = 'Notification Tracker';
 
-        $scope.process = function(pageNumber){
+        $scope.process = function(pageNumber) {
             Page.get({
                 state: $state.current.name,
-                page:pageNumber
+                page: pageNumber
             }).$promise.then(function(data) {
-                $scope.totalItems = data.totalNumOfPages/2;
+                $scope.totalItems = data.totalNumOfPages / 2;
                 $scope.notifications = data.notificationRecords; //this gets all the notifications
 
             });
         }
 
-        $scope.track = function(notificationRecord){
+        $scope.track = function(notificationRecord) {
             // call api
-
+            notificationRecord.trackComplete = !notificationRecord.trackComplete;
             NotificationRecord.update(notificationRecord, function(data) {
-                              notificationRecord.trackComplete = !notificationRecord.trackComplete;
-                                $scope.success = true;
-                            }, function(error) {
-                                $scope.errorTextAlert = "Error! Please try later.";
-                            }).$promise.finally(function() {
-                                $scope.button = true;
-                            });
+
+                $scope.success = true;
+            }, function(error) {
+                $scope.errorTextAlert = "Error! Please try later.";
+            }).$promise.finally(function() {
+                $scope.button = true;
+            });
         }
 
 
@@ -44,10 +44,6 @@ angular.module('ozayApp')
         $scope.maxSize = 8;
         $scope.currentPage = 1;
         $scope.process();
-
-
-
-
 
 
     });
