@@ -338,7 +338,7 @@ public class PageResource {
 
         PageNotificationRecordDTO pageOrganizationUserDTO = new PageNotificationRecordDTO();
         pageOrganizationUserDTO.setTotalNumOfPages(notificationRecordRepository.countAllByNotificationId(buildingId));
-        pageOrganizationUserDTO.setNotificationRecords(notificationRepository.findAllByBuildingId(buildingId, offset));
+        pageOrganizationUserDTO.setNotificationRecords(notificationRe.findAllByBuildingId(buildingId, offset));
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
     }

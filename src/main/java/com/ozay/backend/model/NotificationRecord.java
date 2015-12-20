@@ -8,13 +8,21 @@ public class NotificationRecord {
     public Long notificationId;
 
     private boolean success;
-    private boolean track;
     private boolean trackComplete;
     private String email;
     private String note;
 
     private Member member;
+    private Notification notification;
 
+
+    public Notification getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Notification notification) {
+        this.notification = notification;
+    }
 
     public Long getMemberId() {
         return memberId;
@@ -51,10 +59,7 @@ public class NotificationRecord {
     public void setSuccess(boolean success) {
         this.success = success;
     }
-
-    public void setTrack(boolean track) {
-        this.track = track;
-    }
+    
 
     public boolean isTrackComplete() {
         return trackComplete;

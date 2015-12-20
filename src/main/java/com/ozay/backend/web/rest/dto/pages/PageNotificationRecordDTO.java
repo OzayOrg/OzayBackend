@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class PageNotificationRecordDTO {
     private Long totalNumOfPages;
-    private List<Notification> notifications;
+    private List<NotificationRecord> notifications;
 
     public Long getTotalNumOfPages() {
         return totalNumOfPages;
@@ -20,11 +20,11 @@ public class PageNotificationRecordDTO {
         this.totalNumOfPages = totalNumOfPages;
     }
 
-    public List<Notification> getNotificationRecords() {
+    public List<NotificationRecord> getNotificationRecords() {
         return notifications;
     }
 
-    public void setNotificationRecords(List<Notification> notificationRecords) {
+    public void setNotificationRecords(List<NotificationRecord> notificationRecords) {
         this.notifications = notificationRecords;
     }
 

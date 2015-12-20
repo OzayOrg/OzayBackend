@@ -1,9 +1,6 @@
 package com.ozay.backend.resultsetextractor;
 
-import com.ozay.backend.model.AccountInformation;
-import com.ozay.backend.model.Member;
-import com.ozay.backend.model.NotificationRecord;
-import com.ozay.backend.model.NotificationTrack;
+import com.ozay.backend.model.*;
 import org.joda.time.DateTime;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -17,27 +14,30 @@ import java.util.*;
 public class NotificationTrackResultSetExtractor implements ResultSetExtractor {
 
     public Object extractData(ResultSet resultSet) throws SQLException {
-        List<NotificationTrack> list = new ArrayList<NotificationTrack>();
+        List<NotificationRecord> list = new ArrayList<NotificationRecord>();
         while(resultSet.next()){
-            NotificationTrack notificationTrack = new NotificationTrack();
+            NotificationRecord notificationRecord = new NotificationRecord();
             Member member = new Member();
+            Notification notification = new Notification();
 
-            notificationTrack.setMemberId(resultSet.getLong("member_id"));
-            notificationTrack.setNotificationId(resultSet.getLong("notification_id"));
-            notificationTrack.setEmail(resultSet.getString("email"));
-            notificationTrack.setNote(resultSet.getString("note"));
-            notificationTrack.setSuccess(resultSet.getBoolean("success"));
-            notificationTrack.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
-            notificationTrack.setSubject(resultSet.getString("subject"));
-           // notificationTrack.setTrack(resultSet.getBoolean("track"));
-           // notificationTrack.setTrackComplete(resultSet.getBoolean("track_complete"));
+            notificationRecord.setMemberId(resultSet.getLong("member_id"));
+            notificationRecord.setNotificationId(resultSet.getLong("notification_id"));
+            notificationRecord.setEmail(resultSet.getString("email"));
+            notificationRecord.setNote(resultSet.getString("note"));
+            notificationRecord.setSuccess(resultSet.getBoolean("success"));
+            notification.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
+            notification.setSubject(resultSet.getString("subject"));
+            notificationRecord.setTrackComplete(resultSet.getBoolean("track_complete"));
+           // notificationRecord.setTrack(resultSet.getBoolean("track"));
+           // notificationRecord.setTrackComplete(resultSet.getBoolean("track_complete"));
 
             member.setFirstName(resultSet.getString("first_name"));
             member.setLastName(resultSet.getString("last_name"));
             member.setUnit(resultSet.getString("unit"));
 
-            notificationTrack.setMember(member);
-            list.add(notificationTrack);
+            notificationRecord.setMember(member);
+            notificationRecord.setNotification(notification);
+            list.add(notificationRecord);
         }
 
         return list;

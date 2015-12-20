@@ -243,6 +243,7 @@ angular.module('ozayApp')
                     $scope.successTextAlert = "Successfully sent";
                     $scope.resetButton = 'Send New Notification';
                     $scope.success = true;
+                    $scope.track = true;
                 }, function(error) {
                     $scope.errorTextAlert = "Error! Please try later.";
                 }).$promise.finally(function() {
@@ -250,9 +251,24 @@ angular.module('ozayApp')
                 });
 
                 $scope.checkboxModel = {
-                       value1 : true,
-                       value2 : 'YES'
-                     };
+                       value1 : true
+                      };
+
+
+                $scope.track = function(notification){
+                            // call api
+
+                            Notification.update(notification, function(data) {
+                                              notification.track = !notification.track;
+                                                $scope.track = true;
+                                            }, function(error) {
+                                                $scope.errorTextAlert = "Error! Please try later.";
+                                            }).$promise.finally(function() {
+                                                $scope.track = true;
+                                            });
+                }
+
+
 
             }
         }

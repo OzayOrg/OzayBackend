@@ -23,7 +23,7 @@ public class NotificationRepository {
     public List<Notification> findAllByBuildingId(Long buildingId, Long offset){
         int limit = 20;
         offset = offset * limit;
-        String query = "SELECT * FROM notification WHERE building_id = :buildingId LIMIT :limit OFFSET :offset";
+        String query = "SELECT * FROM notification WHERE building_id = :buildingId order by created_date desc LIMIT :limit OFFSET :offset";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
