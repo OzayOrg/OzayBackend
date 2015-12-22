@@ -21,7 +21,7 @@ angular.module('ozayApp')
             })
             .state('notification-record', {
                 parent: 'site',
-                url: '/notification-archive',
+                url: '/notification-archive/:pageId',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
                 },
