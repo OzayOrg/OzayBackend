@@ -19,29 +19,25 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th></th>
-                                                    <th>Complete</th>
+
                                                     <th>Date</th>
                                                     <th>Unit</th>
                                                     <th>Name</th>
                                                     <th>Message</th>
-
+                                                    <th>Complete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="notification in notifications">
-                                               <!-- <ul data-ng-repeat="i in [1,2,3]"> //can i loop for emailCount-->
-                                                    <!--<td><input type="checkbox" ng-model="notification.trackComplete"></td>
-                                                    -->
-                                                    <td>
-                                                        <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
-                                                    </td>
                                                     <td>{{notification.notification.createdDate | date: "MM/dd/yyyy"}}</td>
                                                     <td>{{notification.member.unit }}</td>
                                                     <td>{{notification.member.firstName}} {{notification.member.lastName}}</td>
-                                                    <td ng-bind-html="notification.subject"></td>
+                                                    <td>{{notification.notification.subject}}</td>
+                                                    <td>
+                                                        <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
+                                                    </td>
 
-                                                <!-- </ul>-->
+
                                                 </tr>
                                             </tbody>
 
