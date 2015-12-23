@@ -13,17 +13,9 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                             <!--   <label for="list">List</label>-->
-                            </div>
-                        </div>
+
                         <div class="col-sm-10">
-                            <div class="form-group">
-                                <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
-                                    <div ng-dropdown-multiselect="" options="individualList" selected-model="selectedUsers" extra-settings="multiSelectSettings" events="eventSettings"></div>
-                                </div>
-                            </div>
+                            <div ng-dropdown-multiselect="" options="individualList" selected-model="selectedUsers" extra-settings="multiSelectSettings"></div>
                         </div>
                     </div>
 

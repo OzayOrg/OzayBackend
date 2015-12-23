@@ -25,9 +25,11 @@ angular.module('ozayApp')
                                 }
                                 $scope.individualList.push({
                                     id: value.id,
-                                    label: value.member.unit + " " + value.member.firstName + " " + value.member.lastName
+                                    label: value.member.unit
                                 });
                             });
+
+
 
             });
         }
