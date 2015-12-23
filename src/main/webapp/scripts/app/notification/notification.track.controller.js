@@ -16,21 +16,7 @@ angular.module('ozayApp')
             }).$promise.then(function(data) {
                 $scope.totalItems = data.totalNumOfPages / 2;
                 $scope.notifications = data.notificationRecords; //this gets all the notifications
-
-                            $scope.individualList = [];
-
-                            angular.forEach(data.notificationRecords, function(value, key) {
-                                if (value.member.unit == null || value.member.unit == 0) {
-                                    value.member.unit = "NA";
-                                }
-                                $scope.individualList.push({
-                                    id: value.id,
-                                    label: value.member.unit
-                                });
-                            });
-
-
-
+                $scope.searchTrack   = '';     // set the default search/filter term
             });
         }
 
@@ -47,8 +33,6 @@ angular.module('ozayApp')
             });
         }
 
-
-
         // pagination
 
         $scope.setPage = function(pageNo) {
@@ -62,55 +46,5 @@ angular.module('ozayApp')
         $scope.maxSize = 8;
         $scope.currentPage = 1;
         $scope.process();
-
-        $scope.onItemSelect = function(item) {
-            $scope.checkWhichGroup(item.id);
-        }
-
-        $scope.onItemDeselect = function(item) {
-            $scope.deselectModel(item.id);
-
-        }
-        $scope.onSelectAll = function() {
-            angular.forEach($scope.roleList, function(value, key) {
-                $scope.role[value.id] = true;
-            });
-        }
-        $scope.onDeselectAll = function() {
-            angular.forEach($scope.roleList, function(value, key) {
-                $scope.role[value.id] = false;
-            });
-        }
-
-
-
-
-                $scope.multiSelectSettings = {
-                    enableSearch: true,
-                    scrollableHeight: '300px',
-                    scrollable: true,
-                    //			groupByTextProvider: function(groupValue) { if (groupValue === '1') { return 'Management'; }else if (groupValue === '2') { return 'Staff'; } else if (groupValue === '3') { return 'Board'; } else { return 'Resident'; } }
-
-                };
-
-                $scope.eventSettings = {
-                    onItemSelect: function(item) {
-                        $scope.onItemSelect(item);
-                    },
-                    onItemDeselect: function(item) {
-                        $scope.onItemDeselect(item);
-                    },
-                    onSelectAll: function() {
-                        $scope.onSelectAll();
-                    },
-                    onDeselectAll: function() {
-                        $scope.onDeselectAll();
-                    }
-                }
-
-
-
-
-
 
     });
