@@ -1,11 +1,10 @@
 package com.ozay.backend.repository;
 
-import com.ozay.backend.model.Notification;
-import com.ozay.backend.model.NotificationRecord;
-import com.ozay.backend.model.NotificationTrack;
+import com.ozay.backend.model.*;
 import com.ozay.backend.resultsetextractor.NotificationRecordResultSetExtractor;
 import com.ozay.backend.resultsetextractor.NotificationTrackResultSetExtractor;
 import com.ozay.backend.resultsetextractor.NotificationSetExtractor;
+import com.ozay.backend.service.MailService;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,6 +19,9 @@ import java.util.List;
 public class NotificationRecordRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Inject
+    MailService mailService;
 
 
     public List<NotificationRecord> findAllByNotificationId(Long notificationId){
@@ -97,7 +99,7 @@ public class NotificationRecordRepository {
         params.addValue("notificationId", notificationRecord.getNotificationId());
         params.addValue("memberId", notificationRecord.getMemberId());
         params.addValue("trackComplete", notificationRecord.isTrackComplete());
-
+        mailService.sendTrackComplete(notificationRecord.getEmail());
         namedParameterJdbcTemplate.update(query, params);
     }
 

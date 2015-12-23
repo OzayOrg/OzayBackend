@@ -142,6 +142,18 @@ public class MailService {
     }
 
     @Async
+    public void sendTrackComplete(String email){
+        log.debug("Sending invitation e-mail to {}", email);
+        //Locale locale = Locale.forLanguageTag(invitedMember.getLangKey());
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        //context.setVariable("name", member.getFirstName() + " " + member.getLastName());
+        context.setVariable("building", email);
+        //String content = templateEngine.process("memberInvitationEmail", context);
+        //String subject = messageSource.getMessage("email.member.subject", null, locale);
+        sendEmail(email, "Subject", "Test", false, true);
+    }
+    @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
         Notification notification = notificationFormDTO.getNotification();
         log.debug("Sending notification e-mail to {}", to);

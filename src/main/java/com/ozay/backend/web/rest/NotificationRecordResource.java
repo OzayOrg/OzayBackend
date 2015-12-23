@@ -41,6 +41,7 @@ public class NotificationRecordResource {
     public ResponseEntity<?> updateNotificationRecord(@RequestBody NotificationRecord notificationRecord) {
         log.debug("REST request to update NotificationRecord : {}", notificationRecord);
         notificationRecordRepository.update(notificationRecord);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
