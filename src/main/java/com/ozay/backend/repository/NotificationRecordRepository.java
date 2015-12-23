@@ -54,7 +54,7 @@ public class NotificationRecordRepository {
     public List<NotificationRecord> findAllTrackedByBuildingId(Long buildingId, Long offset){
         int limit = 20;
         offset = offset * limit;
-        String query = "SELECT n.created_date, n.subject, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
+        String query = "SELECT n.created_date, n.subject, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id where n.building_id = :buildingId ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
