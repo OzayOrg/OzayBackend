@@ -99,7 +99,7 @@ public class NotificationRecordRepository {
         params.addValue("notificationId", notificationRecord.getNotificationId());
         params.addValue("memberId", notificationRecord.getMemberId());
         params.addValue("trackComplete", notificationRecord.isTrackComplete());
-        mailService.sendTrackComplete(notificationRecord.getEmail());
+        mailService.sendTrackComplete(notificationRecord.getEmail(), notificationRecord.isTrackComplete(),notificationRecord.getNotification().getSubject(), notificationRecord.getNotification().getCreatedDate());
         namedParameterJdbcTemplate.update(query, params);
     }
 

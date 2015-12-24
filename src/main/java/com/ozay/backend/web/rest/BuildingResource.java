@@ -61,8 +61,8 @@ public class BuildingResource {
         return new ResponseEntity<List<Building>>(buildingList, HttpStatus.OK);
     }
 
-    /**
-     * POST  /building -> Create a new building.
+    /*
+      POST  /building -> Create a new building.
      */
     @RequestMapping(
         method = RequestMethod.POST,
@@ -76,8 +76,8 @@ public class BuildingResource {
         return new ResponseEntity<>(building, HttpStatus.CREATED);
     }
 
-    /**
-     * POST  /building -> Update a building.
+    /*
+      POST  /building -> Update a building.
      */
     @RequestMapping(
         method = RequestMethod.PUT,
