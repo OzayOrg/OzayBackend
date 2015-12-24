@@ -51,12 +51,17 @@ public class NotificationRecordRepository {
     }
  */
  //Old Notification Track using Notification.java and NotificationRecordResultSetExtractor
-    public List<NotificationRecord> findAllTrackedByBuildingId(Long buildingId, Long offset){
-        int limit = 20;
+    public List<NotificationRecord> findAllTrackedByBuildingId(Long buildingId, Long offset, String search){
+        int limit = 10;
         offset = offset * limit;
-        String query = "SELECT n.created_date, n.subject, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
-
         MapSqlParameterSource params = new MapSqlParameterSource();
+        String partialQuery = "";
+        if(search != null){
+            params.addValue("unit", search);
+            partialQuery = " AND m.unit=:unit ";
+        }
+        String query = "SELECT n.created_date, n.subject, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id " + partialQuery + " WHERE n.building_id = :buildingId ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
+
 
         params.addValue("buildingId", buildingId);
         params.addValue("limit", limit);
@@ -69,10 +74,14 @@ public class NotificationRecordRepository {
 
 
 
-    public Long countAllByNotificationId(Long buildingId){
-        String query = "SELECT COUNT(*) FROM notification_record nr JOIN notification n ON n.id = nr.notification_id WHERE building_id = :buildingId";
-
+    public Long countAllByNotificationId(Long buildingId, String search){
+        String partialQuery = "";
         MapSqlParameterSource params = new MapSqlParameterSource();
+        if(search != null){
+            params.addValue("unit", search);
+            partialQuery = " AND m.unit=:unit ";
+        }
+        String query = "SELECT COUNT(*) FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id " + partialQuery + " WHERE n.building_id = :buildingId";
 
         params.addValue("buildingId", buildingId);
 

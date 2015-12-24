@@ -351,7 +351,7 @@ public class PageResource {
     @Timed
     @Transactional(readOnly = true)
 
-    public ResponseEntity<PageNotificationTrackDTO> notificationTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+    public ResponseEntity<PageNotificationTrackDTO> notificationTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page, @RequestParam(value = "search", required = false) String unit){
 
         if(buildingId == null|| buildingId == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -361,12 +361,11 @@ public class PageResource {
         if(page != null && page > 1){
             offset = page - 1;
         }
-
         log.debug("REST page notification history with page {}", page);
 
         PageNotificationTrackDTO pageNotificationTrackDTO = new PageNotificationTrackDTO();
-        pageNotificationTrackDTO.setNotificationRecords(notificationRecordRepository.findAllTrackedByBuildingId(buildingId, offset));
-
+        pageNotificationTrackDTO.setNotificationRecords(notificationRecordRepository.findAllTrackedByBuildingId(buildingId, offset, unit));
+        pageNotificationTrackDTO.setNumberOfRecords(notificationRecordRepository.countAllByNotificationId(buildingId, unit));
 
         return new ResponseEntity<>(pageNotificationTrackDTO, HttpStatus.OK);
     }

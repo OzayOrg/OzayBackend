@@ -37,7 +37,7 @@ angular.module('ozayApp')
             })
             .state('notification-track', {
                 parent: 'site',
-                url: '/notification-track',
+                url: '/notification-track/:pageId?search',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
                 },

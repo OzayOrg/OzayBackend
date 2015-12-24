@@ -1,23 +1,13 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('NotificationTrackController', function($scope, $state, NotificationRecord, Page, UserInformation) {
+    .controller('NotificationTrackController', function($scope, $state, $stateParams, NotificationRecord, Page, UserInformation) {
         $scope.button = true;
         $scope.contentTitle = 'Notification Tracker';
-        //$scope.role = [];
-        //$scope.memberList = [];
-        //$scope.returnedMemberList = [];
-        $scope.selectedUsers = [];
 
-        $scope.process = function(pageNumber) {
-            Page.get({
-                state: $state.current.name,
-                page: pageNumber
-            }).$promise.then(function(data) {
-                $scope.totalItems = data.totalNumOfPages / 2;
-                $scope.notifications = data.notificationRecords; //this gets all the notifications
-                $scope.searchTrack   = '';     // set the default search/filter term
-            });
+        $scope.selectedUsers = [];
+        if($stateParams.search !== undefined){
+            $scope.searchKeyword = $stateParams.search;
         }
 
         $scope.track = function(notificationRecord) {
@@ -35,16 +25,23 @@ angular.module('ozayApp')
 
         // pagination
 
-        $scope.setPage = function(pageNo) {
-            $scope.currentPage = pageNo;
-        };
+        $scope.searchBtnClicked = function(){
+            $state.go('notification-track', {search:$scope.searchTrack});
+        }
 
         $scope.pageChanged = function() {
-            $scope.process($scope.currentPage);
+            $state.go('notification-track', {pageId:$scope.currentPage, search:$stateParams.search});
         };
 
         $scope.maxSize = 8;
-        $scope.currentPage = 1;
-        $scope.process();
+         Page.get({
+            state: $state.current.name,
+            page: $stateParams.pageId,
+            search:$stateParams.search
+        }).$promise.then(function(data) {
+            $scope.totalItems = data.numberOfRecords / 2;
+            $scope.notifications = data.notificationRecords; //this gets all the notifications\
+            $scope.currentPage = $stateParams.pageId;
+        });
 
     });
