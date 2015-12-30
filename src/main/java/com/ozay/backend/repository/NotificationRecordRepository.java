@@ -3,13 +3,15 @@ package com.ozay.backend.repository;
 import com.ozay.backend.model.*;
 import com.ozay.backend.resultsetextractor.NotificationRecordResultSetExtractor;
 import com.ozay.backend.resultsetextractor.NotificationTrackResultSetExtractor;
-import com.ozay.backend.resultsetextractor.NotificationSetExtractor;
 import com.ozay.backend.service.MailService;
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -102,13 +104,22 @@ public class NotificationRecordRepository {
     }
 
     public void update(NotificationRecord notificationRecord){
-        String query = "UPDATE notification_record SET track_complete=:trackComplete WHERE notification_id=:notificationId AND member_id=:memberId";
+        String query = "UPDATE notification_record SET track_complete=:trackComplete, track_completed_date=:trackCompletedDate WHERE notification_id=:notificationId AND member_id=:memberId";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
+        if(notificationRecord.isTrackComplete() == true){
+            notificationRecord.setTrackCompletedDate(new DateTime());
+            params.addValue("trackCompletedDate", new Timestamp(notificationRecord.getTrackCompletedDate().getMillisOfSecond()));
+        } else {
+            notificationRecord.setTrackCompletedDate(null);
+            params.addValue("trackCompletedDate", null);
+        }
+
         params.addValue("notificationId", notificationRecord.getNotificationId());
+
         params.addValue("memberId", notificationRecord.getMemberId());
         params.addValue("trackComplete", notificationRecord.isTrackComplete());
-        mailService.sendTrackComplete(notificationRecord.getEmail());
+
         namedParameterJdbcTemplate.update(query, params);
     }
 

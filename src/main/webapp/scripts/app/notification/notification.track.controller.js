@@ -14,7 +14,7 @@ angular.module('ozayApp')
             // call api
             notificationRecord.trackComplete = !notificationRecord.trackComplete;
             NotificationRecord.update(notificationRecord, function(data) {
-
+                notificationRecord = data;
                 $scope.success = true;
             }, function(error) {
                 $scope.errorTextAlert = "Error! Please try later.";
