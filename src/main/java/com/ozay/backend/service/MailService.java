@@ -7,6 +7,8 @@ import com.ozay.backend.repository.OrganizationRepository;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.apache.commons.lang.CharEncoding;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -16,9 +18,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
+import sun.util.calendar.BaseCalendar;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -142,7 +146,7 @@ public class MailService {
     }
 
     @Async
-    public void sendTrackComplete(String email){
+    public void sendTrackComplete(String email, boolean trackComplete,String Subject, DateTime created_date){
         log.debug("Sending invitation e-mail to {}", email);
         //Locale locale = Locale.forLanguageTag(invitedMember.getLangKey());
         Locale locale = Locale.forLanguageTag("en");
@@ -151,7 +155,13 @@ public class MailService {
         context.setVariable("building", email);
         //String content = templateEngine.process("memberInvitationEmail", context);
         //String subject = messageSource.getMessage("email.member.subject", null, locale);
-        sendEmail(email, "Subject", "Test", false, true);
+        String status = null;
+        if (trackComplete==true) {
+            status = "COMPLETE" ; }
+        if  (trackComplete==false) {
+            status="INCOMPLETE";}
+        Date dt = created_date.toDate();
+        sendEmail(email, status + ": " + Subject, "Task created on " + dt + " is now " + status, false, true);
     }
     @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {

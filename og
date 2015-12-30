@@ -1,0 +1,87 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building ozay 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] >>> spring-boot-maven-plugin:1.2.6.RELEASE:run (default-cli) > test-compile @ ozay >>>
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.3.1:enforce (enforce-versions) @ ozay ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.4.201502262128:prepare-agent (pre-unit-tests) @ ozay ---
+[INFO] surefireArgLine set to -javaagent:C:\\Users\\svarma\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.7.4.201502262128\\org.jacoco.agent-0.7.4.201502262128-runtime.jar=destfile=C:\\Users\\svarma\\Desktop\\Ozay\\Prod3\\OzayBackend\\target\\test-results\\coverage\\jacoco\\jacoco.exec
+[INFO] 
+[INFO] --- maven-processor-plugin:2.2.4:process (process) @ ozay ---
+[WARNING] diagnostic: warning: The following options were not recognized by any processor: '[mapstruct.defaultComponentModel, mapstruct.suppressGeneratorTimestamp]'
+[INFO] 
+[INFO] --- yeoman-maven-plugin:0.4:build (run-frontend-build) @ ozay ---
+[INFO] node version :
+v0.10.33
+[INFO] npm version :
+1.4.28
+[INFO] --------------------------------------
+[INFO]          NPM INSTALL
+[INFO] --------------------------------------
+[INFO] bower version :
+[INFO] --------------------------------------
+[INFO]          BOWER INSTALL --NO-COLOR
+[INFO] --------------------------------------
+bower angular-cookies extra-resolution Unnecessary resolution: angular-cookies#1.4.5
+[INFO] grunt version :
+grunt-cli v0.1.13
+grunt v0.4.5
+[INFO] --------------------------------------
+[INFO]          GRUNT TEST --NO-COLOR
+[INFO] --------------------------------------
+Loading "htmlmin.js" tasks...ERROR
+>> Error: Cannot find module 'chalk'
+
+Running "clean:server" (clean) task
+>> 0 paths cleaned.
+
+Running "wiredep:test" (wiredep) task
+
+Running "ngconstant:dev" (ngconstant) task
+Creating module ozayApp at src/main/webapp/scripts/app/app.constants.js...OK
+
+Running "sass:server" (sass) task
+
+Done, without errors.
+[INFO] --------------------------------------
+[INFO]          GRUNT BUILD --FORCE --NO-COLOR
+[INFO] --------------------------------------
+Loading "htmlmin.js" tasks...ERROR
+>> Error: Cannot find module 'chalk'
+Warning: Task "htmlmin" not found. Used --force, continuing.
+
+Done, but with warnings.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ ozay ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] Copying 15 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ ozay ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 183 source files to C:\Users\svarma\Desktop\Ozay\Prod3\OzayBackend\target\classes
+[WARNING] /C:/Users/svarma/Desktop/Ozay/Prod3/OzayBackend/src/main/java/com/ozay/backend/repository/RoleRepository.java: Some input files use unchecked or unsafe operations.
+[WARNING] /C:/Users/svarma/Desktop/Ozay/Prod3/OzayBackend/src/main/java/com/ozay/backend/repository/RoleRepository.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ ozay ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ ozay ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< spring-boot-maven-plugin:1.2.6.RELEASE:run (default-cli) < test-compile @ ozay <<<
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:1.2.6.RELEASE:run (default-cli) @ ozay ---
+[INFO] Attaching agents: []
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 02:32 min
+[INFO] Finished at: 2015-12-23T18:04:43-05:00
+[INFO] Final Memory: 43M/411M
+[INFO] ------------------------------------------------------------------------

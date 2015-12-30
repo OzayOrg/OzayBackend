@@ -1,0 +1,222 @@
+2015-12-29T19:53:30.874936+00:00 heroku[web.1]: State changed from crashed to starting
+2015-12-29T19:53:30.853959+00:00 heroku[web.1]: Process exited with status 137
+2015-12-29T19:53:34.109245+00:00 heroku[web.2]: Starting process with command `java -XX:+UseCompressedOops -jar target/ozay-0.0.1-SNAPSHOT.war  $JAR_OPTS`
+2015-12-29T19:53:34.826922+00:00 heroku[web.1]: Starting process with command `java -XX:+UseCompressedOops -jar target/ozay-0.0.1-SNAPSHOT.war  $JAR_OPTS`
+2015-12-29T19:53:36.088356+00:00 app[web.2]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T19:53:36.094489+00:00 app[web.2]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T19:53:36.287548+00:00 app[web.1]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T19:53:36.291575+00:00 app[web.1]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T19:53:38.405091+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Starting Application on 35327697-543a-4742-bbb1-302b2a0c9c56 with PID 3 (started by u3617 in /app)
+2015-12-29T19:53:42.646164+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Starting Application on 3c8d4c01-cc81-459f-b79c-4fc8be8cac58 with PID 3 (started by u49221 in /app)
+2015-12-29T19:53:52.126706+00:00 app[web.1]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T19:53:54.469231+00:00 app[web.2]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T19:54:07.870190+00:00 app[web.2]: [WARN] com.ozay.backend.config.liquibase.AsyncSpringLiquibase - Starting Liquibase asynchronously, your database might not be ready at startup!
+2015-12-29T19:54:07.916792+00:00 app[web.1]: [WARN] com.ozay.backend.config.liquibase.AsyncSpringLiquibase - Starting Liquibase asynchronously, your database might not be ready at startup!
+2015-12-29T19:54:23.163381+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Running with Spring profile(s) : [dev]
+2015-12-29T19:54:25.328798+00:00 app[web.1]: [INFO] com.ozay.backend.config.WebConfigurer - Web application configuration, using profiles: [dev]
+2015-12-29T19:54:25.391464+00:00 app[web.1]: [INFO] com.ozay.backend.config.WebConfigurer - Web application fully configured
+2015-12-29T19:54:26.618476+00:00 app[web.1]: [INFO] com.ozay.backend.config.ThymeleafConfiguration - loading non-reloadable mail messages resources
+2015-12-29T19:54:30.877939+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Running with Spring profile(s) : [dev]
+2015-12-29T19:54:36.324077+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Started Application in 58.709 seconds (JVM running for 60.032)
+2015-12-29T19:54:36.328481+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Access URLs:
+2015-12-29T19:54:36.328484+00:00 app[web.1]: ----------------------------------------------------------
+2015-12-29T19:54:36.328485+00:00 app[web.1]: 	Local: 		http://127.0.0.1:8080
+2015-12-29T19:54:36.328486+00:00 app[web.1]: 	External: 	http://172.16.9.194:8080
+2015-12-29T19:54:36.328487+00:00 app[web.1]: ----------------------------------------------------------
+2015-12-29T19:54:39.224708+00:00 app[web.2]: [INFO] com.ozay.backend.config.WebConfigurer - Web application configuration, using profiles: [dev]
+2015-12-29T19:54:39.259382+00:00 app[web.2]: [INFO] com.ozay.backend.config.WebConfigurer - Web application fully configured
+2015-12-29T19:54:41.987208+00:00 app[web.2]: [INFO] com.ozay.backend.config.ThymeleafConfiguration - loading non-reloadable mail messages resources
+2015-12-29T19:54:52.693831+00:00 heroku[router]: at=error code=H20 desc="App boot timeout" method=GET path="/" host=ozay-backend-staging.herokuapp.com request_id=5429ac86-f591-496e-9f78-301aae33b804 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T19:54:58.407101+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Started Application in 77.971 seconds (JVM running for 82.313)
+2015-12-29T19:54:58.408645+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Access URLs:
+2015-12-29T19:54:58.408648+00:00 app[web.2]: ----------------------------------------------------------
+2015-12-29T19:54:58.408649+00:00 app[web.2]: 	Local: 		http://127.0.0.1:8080
+2015-12-29T19:54:58.408650+00:00 app[web.2]: 	External: 	http://172.18.210.82:8080
+2015-12-29T19:54:58.408651+00:00 app[web.2]: ----------------------------------------------------------
+2015-12-29T19:55:17.915238+00:00 heroku[router]: at=error code=H20 desc="App boot timeout" method=GET path="/" host=ozay-backend-staging.herokuapp.com request_id=36edef41-de1a-4c16-ab86-cd18485f27bc fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T19:55:34.518524+00:00 heroku[web.2]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T19:55:34.518524+00:00 heroku[web.2]: Stopping process with SIGKILL
+2015-12-29T19:55:35.360915+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T19:55:35.360915+00:00 heroku[web.1]: Stopping process with SIGKILL
+2015-12-29T19:55:35.438901+00:00 heroku[web.2]: State changed from starting to crashed
+2015-12-29T19:55:35.449188+00:00 heroku[web.2]: Process exited with status 137
+2015-12-29T19:55:36.363822+00:00 heroku[web.1]: State changed from starting to crashed
+2015-12-29T19:55:36.371570+00:00 heroku[web.1]: Process exited with status 137
+2015-12-29T19:55:38.403534+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=ozay-backend-staging.herokuapp.com request_id=788e71fd-2346-476f-90c0-69e3c4bb1888 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T19:55:38.284162+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=ozay-backend-staging.herokuapp.com request_id=31064ab5-2280-4171-b96e-f2a5de72b6f7 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T19:55:38.506920+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=ozay-backend-staging.herokuapp.com request_id=a5f3b582-ea5e-4829-a723-20da693f5689 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T19:55:39.411904+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=ozay-backend-staging.herokuapp.com request_id=b3680706-3ee2-4f79-8d5e-1e03a64c553f fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T19:58:44.087548+00:00 heroku[web.2]: State changed from crashed to starting
+2015-12-29T19:58:44.030881+00:00 heroku[web.1]: State changed from crashed to starting
+2015-12-29T19:58:47.900128+00:00 heroku[web.2]: Starting process with command `java -XX:+UseCompressedOops -jar target/ozay-0.0.1-SNAPSHOT.war  $JAR_OPTS`
+2015-12-29T19:58:47.992019+00:00 heroku[web.1]: Starting process with command `java -XX:+UseCompressedOops -jar target/ozay-0.0.1-SNAPSHOT.war  $JAR_OPTS`
+2015-12-29T19:58:49.618675+00:00 app[web.1]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T19:58:49.627785+00:00 app[web.1]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T19:58:49.704999+00:00 app[web.2]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T19:58:49.708310+00:00 app[web.2]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T19:58:51.877759+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Starting Application on 8ba4c6b5-8691-425d-aed1-de5216848e25 with PID 3 (started by u6385 in /app)
+2015-12-29T19:58:52.015149+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Starting Application on 7c771b7a-341b-4c8c-89bc-de9f9a767f85 with PID 3 (started by u20457 in /app)
+2015-12-29T19:59:03.743574+00:00 app[web.1]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T19:59:04.885089+00:00 app[web.2]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T19:59:15.357821+00:00 app[web.1]: [WARN] com.ozay.backend.config.liquibase.AsyncSpringLiquibase - Starting Liquibase asynchronously, your database might not be ready at startup!
+2015-12-29T19:59:16.888982+00:00 app[web.2]: [WARN] com.ozay.backend.config.liquibase.AsyncSpringLiquibase - Starting Liquibase asynchronously, your database might not be ready at startup!
+2015-12-29T19:59:26.651905+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Running with Spring profile(s) : [dev]
+2015-12-29T19:59:28.302100+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Running with Spring profile(s) : [dev]
+2015-12-29T19:59:28.487066+00:00 app[web.1]: [INFO] com.ozay.backend.config.WebConfigurer - Web application configuration, using profiles: [dev]
+2015-12-29T19:59:28.512262+00:00 app[web.1]: [INFO] com.ozay.backend.config.WebConfigurer - Web application fully configured
+2015-12-29T19:59:29.076232+00:00 app[web.1]: [INFO] com.ozay.backend.config.ThymeleafConfiguration - loading non-reloadable mail messages resources
+2015-12-29T19:59:29.980080+00:00 app[web.2]: [INFO] com.ozay.backend.config.WebConfigurer - Web application configuration, using profiles: [dev]
+2015-12-29T19:59:29.999183+00:00 app[web.2]: [INFO] com.ozay.backend.config.WebConfigurer - Web application fully configured
+2015-12-29T19:59:31.196119+00:00 app[web.2]: [INFO] com.ozay.backend.config.ThymeleafConfiguration - loading non-reloadable mail messages resources
+2015-12-29T19:59:35.659005+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Started Application in 44.539 seconds (JVM running for 46.035)
+2015-12-29T19:59:35.659982+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Access URLs:
+2015-12-29T19:59:35.659984+00:00 app[web.1]: ----------------------------------------------------------
+2015-12-29T19:59:35.659985+00:00 app[web.1]: 	Local: 		http://127.0.0.1:8080
+2015-12-29T19:59:35.659986+00:00 app[web.1]: 	External: 	http://172.17.16.226:8080
+2015-12-29T19:59:35.659987+00:00 app[web.1]: ----------------------------------------------------------
+2015-12-29T19:59:40.293595+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Started Application in 49.089 seconds (JVM running for 50.585)
+2015-12-29T19:59:40.294744+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Access URLs:
+2015-12-29T19:59:40.294746+00:00 app[web.2]: ----------------------------------------------------------
+2015-12-29T19:59:40.294748+00:00 app[web.2]: 	External: 	http://172.16.53.2:8080
+2015-12-29T19:59:40.294747+00:00 app[web.2]: 	Local: 		http://127.0.0.1:8080
+2015-12-29T19:59:40.294749+00:00 app[web.2]: ----------------------------------------------------------
+2015-12-29T20:00:48.020918+00:00 heroku[web.2]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:00:48.020918+00:00 heroku[web.2]: Stopping process with SIGKILL
+2015-12-29T20:00:48.488561+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:00:48.488561+00:00 heroku[web.1]: Stopping process with SIGKILL
+2015-12-29T20:00:48.972275+00:00 heroku[web.2]: Process exited with status 137
+2015-12-29T20:00:49.294002+00:00 heroku[web.1]: Process exited with status 137
+2015-12-29T20:00:51.052783+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=ozay-backend-staging.herokuapp.com request_id=e3455b71-95e9-4809-9100-8a1584929720 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T20:00:51.183783+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=ozay-backend-staging.herokuapp.com request_id=f34c7cce-34aa-4caf-8a3a-51e1d277f352 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T20:04:42.866264+00:00 heroku[web.1]: State changed from crashed to starting
+2015-12-29T20:04:47.113930+00:00 heroku[web.1]: Starting process with command `java -XX:+UseCompressedOops -jar target/ozay-0.0.1-SNAPSHOT.war  $JAR_OPTS`
+2015-12-29T20:04:49.158737+00:00 app[web.1]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T20:04:49.187449+00:00 app[web.1]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T20:04:55.953323+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Starting Application on 646f3b7d-d676-4cf7-bc11-bf1ea9ec0ca9 with PID 3 (started by u40997 in /app)
+2015-12-29T20:05:20.739892+00:00 app[web.1]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T20:05:42.875589+00:00 app[web.1]: [WARN] com.ozay.backend.config.liquibase.AsyncSpringLiquibase - Starting Liquibase asynchronously, your database might not be ready at startup!
+2015-12-29T20:06:08.383208+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Running with Spring profile(s) : [dev]
+2015-12-29T20:06:12.130993+00:00 app[web.1]: [INFO] com.ozay.backend.config.WebConfigurer - Web application configuration, using profiles: [dev]
+2015-12-29T20:06:12.236654+00:00 app[web.1]: [INFO] com.ozay.backend.config.WebConfigurer - Web application fully configured
+2015-12-29T20:06:14.436838+00:00 app[web.1]: [INFO] com.ozay.backend.config.ThymeleafConfiguration - loading non-reloadable mail messages resources
+2015-12-29T20:06:31.953684+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Started Application in 98.703 seconds (JVM running for 102.766)
+2015-12-29T20:06:31.962061+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Access URLs:
+2015-12-29T20:06:31.962066+00:00 app[web.1]: ----------------------------------------------------------
+2015-12-29T20:06:31.962067+00:00 app[web.1]: 	Local: 		http://127.0.0.1:8080
+2015-12-29T20:06:31.962068+00:00 app[web.1]: 	External: 	http://172.18.81.210:8080
+2015-12-29T20:06:31.962069+00:00 app[web.1]: ----------------------------------------------------------
+2015-12-29T20:06:47.301577+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:06:47.301577+00:00 heroku[web.1]: Stopping process with SIGKILL
+2015-12-29T20:06:48.323985+00:00 heroku[web.1]: State changed from starting to crashed
+2015-12-29T20:06:48.301872+00:00 heroku[web.1]: Process exited with status 137
+2015-12-29T20:06:50.281200+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=ozay-backend-staging.herokuapp.com request_id=1f934641-e60e-449a-a609-1100e33c5101 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T20:06:50.425688+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=ozay-backend-staging.herokuapp.com request_id=c875dad2-1ee9-4234-bee3-15670df001b6 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T20:06:52.904331+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=ozay-backend-staging.herokuapp.com request_id=219a6a32-2aec-4f8a-a59b-50faf13d2e2c fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T20:06:52.989102+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=ozay-backend-staging.herokuapp.com request_id=6689cc99-e7bc-4854-a89e-8b4486eacc33 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T20:06:54.837939+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=ozay-backend-staging.herokuapp.com request_id=57fec700-2ea8-4df6-a5b3-697e3d803ca9 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T20:06:54.780307+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=ozay-backend-staging.herokuapp.com request_id=f087e57f-1e33-474c-ba90-932c3084d0ad fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T20:08:52.111620+00:00 heroku[api]: Deploy 4a7b396 by sandeep@ozay.us
+2015-12-29T20:08:52.111620+00:00 heroku[api]: Release v37 created by sandeep@ozay.us
+2015-12-29T20:08:52.394138+00:00 heroku[web.1]: State changed from crashed to starting
+2015-12-29T20:08:52.638102+00:00 heroku[slug-compiler]: Slug compilation started
+2015-12-29T20:08:52.638111+00:00 heroku[slug-compiler]: Slug compilation finished
+2015-12-29T20:08:52.441815+00:00 heroku[web.2]: State changed from crashed to starting
+2015-12-29T20:08:56.291968+00:00 heroku[web.2]: Starting process with command `java -jar target/*.war --spring.profiles.active=prod,heroku --server.port=51405 --spring.datasource.heroku-url=postgres://pymqxayzqcupig:bbfQfAnPae6Fk4jrJDChq4qOpN@ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7iegu76smkaqb --metrics.jmx.enabled=false --spring.datasource.jmx-enabled=false --spring.jmx.enabled=false --management.security.enabled=false --endpoints.jmx.enabled=false`
+2015-12-29T20:08:56.744888+00:00 heroku[web.1]: Starting process with command `java -jar target/*.war --spring.profiles.active=prod,heroku --server.port=3991 --spring.datasource.heroku-url=postgres://pymqxayzqcupig:bbfQfAnPae6Fk4jrJDChq4qOpN@ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7iegu76smkaqb --metrics.jmx.enabled=false --spring.datasource.jmx-enabled=false --spring.jmx.enabled=false --management.security.enabled=false --endpoints.jmx.enabled=false`
+2015-12-29T20:08:57.886106+00:00 app[web.2]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T20:08:57.882907+00:00 app[web.2]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T20:08:58.857944+00:00 app[web.1]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T20:08:58.866591+00:00 app[web.1]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T20:09:00.427319+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Starting Application on 1e456565-d521-4564-9e8d-a6046c70e52f with PID 3 (started by u47260 in /app)
+2015-12-29T20:09:02.946506+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Starting Application on b0f7132d-53bc-413a-8660-6f5b7d4bc119 with PID 3 (started by u13927 in /app)
+2015-12-29T20:09:09.608505+00:00 app[web.2]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T20:09:14.451535+00:00 app[web.2]: [INFO] com.ozay.backend.config.HerokuDatabaseConfiguration - Using Heroku, parsing their $DATABASE_URL to use it with JDBC
+2015-12-29T20:09:21.221302+00:00 app[web.1]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T20:09:35.082037+00:00 app[web.1]: [INFO] com.ozay.backend.config.HerokuDatabaseConfiguration - Using Heroku, parsing their $DATABASE_URL to use it with JDBC
+2015-12-29T20:10:56.465410+00:00 heroku[web.2]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:10:56.465410+00:00 heroku[web.2]: Stopping process with SIGKILL
+2015-12-29T20:10:56.799869+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:10:56.799869+00:00 heroku[web.1]: Stopping process with SIGKILL
+2015-12-29T20:10:57.413016+00:00 heroku[web.2]: State changed from starting to crashed
+2015-12-29T20:10:57.414348+00:00 heroku[web.2]: State changed from crashed to starting
+2015-12-29T20:10:57.397475+00:00 heroku[web.2]: Process exited with status 137
+2015-12-29T20:10:57.805778+00:00 heroku[web.1]: State changed from starting to crashed
+2015-12-29T20:10:57.781242+00:00 heroku[web.1]: Process exited with status 137
+2015-12-29T20:11:01.133386+00:00 heroku[web.2]: Starting process with command `java -jar target/*.war --spring.profiles.active=prod,heroku --server.port=24238 --spring.datasource.heroku-url=postgres://pymqxayzqcupig:bbfQfAnPae6Fk4jrJDChq4qOpN@ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7iegu76smkaqb --metrics.jmx.enabled=false --spring.datasource.jmx-enabled=false --spring.jmx.enabled=false --management.security.enabled=false --endpoints.jmx.enabled=false`
+2015-12-29T20:11:03.009659+00:00 app[web.2]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T20:11:03.014234+00:00 app[web.2]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T20:11:05.689412+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Starting Application on 9b1fec3c-ca4d-4fc7-acee-9093ea1f0c34 with PID 3 (started by u3698 in /app)
+2015-12-29T20:11:16.626439+00:00 app[web.2]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T20:11:28.650054+00:00 app[web.2]: [INFO] com.ozay.backend.config.HerokuDatabaseConfiguration - Using Heroku, parsing their $DATABASE_URL to use it with JDBC
+2015-12-29T20:13:01.418748+00:00 heroku[web.2]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:13:01.418748+00:00 heroku[web.2]: Stopping process with SIGKILL
+2015-12-29T20:13:02.218168+00:00 heroku[web.2]: Process exited with status 137
+2015-12-29T20:13:02.235855+00:00 heroku[web.2]: State changed from starting to crashed
+2015-12-29T20:16:42.931818+00:00 heroku[web.1]: State changed from crashed to starting
+2015-12-29T20:16:48.265637+00:00 heroku[web.1]: Starting process with command `java -jar target/*.war --spring.profiles.active=prod,heroku --server.port=43474 --spring.datasource.heroku-url=postgres://pymqxayzqcupig:bbfQfAnPae6Fk4jrJDChq4qOpN@ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7iegu76smkaqb --metrics.jmx.enabled=false --spring.datasource.jmx-enabled=false --spring.jmx.enabled=false --management.security.enabled=false --endpoints.jmx.enabled=false`
+2015-12-29T20:16:50.475769+00:00 app[web.1]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T20:16:50.491544+00:00 app[web.1]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T20:16:58.481084+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Starting Application on a8bc15bd-915e-47ea-b5ea-67c90c2af83b with PID 3 (started by u14958 in /app)
+2015-12-29T20:17:16.673907+00:00 app[web.1]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T20:17:22.279303+00:00 app[web.1]: [INFO] com.ozay.backend.config.HerokuDatabaseConfiguration - Using Heroku, parsing their $DATABASE_URL to use it with JDBC
+2015-12-29T20:18:48.426060+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:18:48.426060+00:00 heroku[web.1]: Stopping process with SIGKILL
+2015-12-29T20:18:49.469058+00:00 heroku[web.1]: Process exited with status 137
+2015-12-29T20:18:49.483644+00:00 heroku[web.1]: State changed from starting to crashed
+2015-12-29T20:21:30.031243+00:00 heroku[api]: Deploy 4a7b396 by sandeep@ozay.us
+2015-12-29T20:21:30.031291+00:00 heroku[api]: Release v38 created by sandeep@ozay.us
+2015-12-29T20:21:30.179182+00:00 heroku[slug-compiler]: Slug compilation started
+2015-12-29T20:21:30.179194+00:00 heroku[slug-compiler]: Slug compilation finished
+2015-12-29T20:21:30.308582+00:00 heroku[web.1]: State changed from crashed to starting
+2015-12-29T20:21:30.355210+00:00 heroku[web.2]: State changed from crashed to starting
+2015-12-29T20:21:34.317830+00:00 heroku[web.1]: Starting process with command `java -jar target/*.war --spring.profiles.active=prod,heroku --server.port=25964 --spring.datasource.heroku-url=postgres://pymqxayzqcupig:bbfQfAnPae6Fk4jrJDChq4qOpN@ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7iegu76smkaqb --metrics.jmx.enabled=false --spring.datasource.jmx-enabled=false --spring.jmx.enabled=false --management.security.enabled=false --endpoints.jmx.enabled=false`
+2015-12-29T20:21:34.817273+00:00 heroku[web.2]: Starting process with command `java -jar target/*.war --spring.profiles.active=prod,heroku --server.port=28872 --spring.datasource.heroku-url=postgres://pymqxayzqcupig:bbfQfAnPae6Fk4jrJDChq4qOpN@ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7iegu76smkaqb --metrics.jmx.enabled=false --spring.datasource.jmx-enabled=false --spring.jmx.enabled=false --management.security.enabled=false --endpoints.jmx.enabled=false`
+2015-12-29T20:21:35.917585+00:00 app[web.1]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T20:21:35.913694+00:00 app[web.1]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T20:21:37.137259+00:00 app[web.2]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T20:21:37.132754+00:00 app[web.2]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T20:21:37.956094+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Starting Application on 49464801-2f61-413c-bf2e-a28d65c6f944 with PID 3 (started by u41735 in /app)
+2015-12-29T20:21:37.971032+00:00 app[web.1]: [DEBUG] com.ozay.backend.Application - Running with Spring Boot v1.2.6.RELEASE, Spring v4.1.7.RELEASE
+2015-12-29T20:21:43.690543+00:00 app[web.1]: [DEBUG] org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
+2015-12-29T20:21:43.859762+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Starting Application on 6d667b50-ed83-4226-a28d-4446c777d2b5 with PID 3 (started by u51211 in /app)
+2015-12-29T20:21:43.860010+00:00 app[web.2]: [DEBUG] com.ozay.backend.Application - Running with Spring Boot v1.2.6.RELEASE, Spring v4.1.7.RELEASE
+2015-12-29T20:21:44.122222+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.AsyncConfiguration - Creating Async Task Executor
+2015-12-29T20:21:44.947127+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.MetricsConfiguration - Registering JVM gauges
+2015-12-29T20:21:45.021173+00:00 app[web.1]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T20:21:49.243369+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.HerokuDatabaseConfiguration - Configuring Heroku Datasource
+2015-12-29T20:21:49.243751+00:00 app[web.1]: [INFO] com.ozay.backend.config.HerokuDatabaseConfiguration - Using Heroku, parsing their $DATABASE_URL to use it with JDBC
+2015-12-29T20:21:53.964638+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.DatabaseConfiguration - Configuring Liquibase
+2015-12-29T20:21:54.038988+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.liquibase.AsyncSpringLiquibase - Starting Liquibase synchronously
+2015-12-29T20:21:58.418462+00:00 app[web.2]: [DEBUG] org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
+2015-12-29T20:22:00.065925+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.AsyncConfiguration - Creating Async Task Executor
+2015-12-29T20:22:03.630128+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.MetricsConfiguration - Registering JVM gauges
+2015-12-29T20:22:03.823577+00:00 app[web.2]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T20:22:14.320770+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.HerokuDatabaseConfiguration - Configuring Heroku Datasource
+2015-12-29T20:22:14.321096+00:00 app[web.2]: [INFO] com.ozay.backend.config.HerokuDatabaseConfiguration - Using Heroku, parsing their $DATABASE_URL to use it with JDBC
+2015-12-29T20:22:33.019996+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.DatabaseConfiguration - Configuring Liquibase
+2015-12-29T20:22:33.129241+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.liquibase.AsyncSpringLiquibase - Starting Liquibase synchronously
+2015-12-29T20:23:34.560940+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:23:34.560940+00:00 heroku[web.1]: Stopping process with SIGKILL
+2015-12-29T20:23:35.053265+00:00 heroku[web.2]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:23:35.053265+00:00 heroku[web.2]: Stopping process with SIGKILL
+2015-12-29T20:23:35.163354+00:00 heroku[web.1]: State changed from starting to crashed
+2015-12-29T20:23:35.143072+00:00 heroku[web.1]: Process exited with status 137
+2015-12-29T20:23:36.301434+00:00 heroku[web.2]: Process exited with status 137
+2015-12-29T20:23:40.093627+00:00 heroku[web.2]: Starting process with command `java -jar target/*.war --spring.profiles.active=prod,heroku --server.port=18504 --spring.datasource.heroku-url=postgres://pymqxayzqcupig:bbfQfAnPae6Fk4jrJDChq4qOpN@ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7iegu76smkaqb --metrics.jmx.enabled=false --spring.datasource.jmx-enabled=false --spring.jmx.enabled=false --management.security.enabled=false --endpoints.jmx.enabled=false`
+2015-12-29T20:23:41.506184+00:00 app[web.2]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T20:23:41.502093+00:00 app[web.2]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T20:23:43.295726+00:00 app[web.2]: [INFO] com.ozay.backend.Application - Starting Application on 99e72411-9bb2-445f-b140-a52d50649c1a with PID 3 (started by u29416 in /app)
+2015-12-29T20:23:43.297232+00:00 app[web.2]: [DEBUG] com.ozay.backend.Application - Running with Spring Boot v1.2.6.RELEASE, Spring v4.1.7.RELEASE
+2015-12-29T20:23:47.830740+00:00 app[web.2]: [DEBUG] org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
+2015-12-29T20:23:48.265954+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.AsyncConfiguration - Creating Async Task Executor
+2015-12-29T20:23:49.028930+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.MetricsConfiguration - Registering JVM gauges
+2015-12-29T20:23:49.103681+00:00 app[web.2]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T20:23:52.785518+00:00 app[web.2]: [INFO] com.ozay.backend.config.HerokuDatabaseConfiguration - Using Heroku, parsing their $DATABASE_URL to use it with JDBC
+2015-12-29T20:23:52.785227+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.HerokuDatabaseConfiguration - Configuring Heroku Datasource
+2015-12-29T20:23:57.814846+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.DatabaseConfiguration - Configuring Liquibase
+2015-12-29T20:23:57.932594+00:00 app[web.2]: [DEBUG] com.ozay.backend.config.liquibase.AsyncSpringLiquibase - Starting Liquibase synchronously
+2015-12-29T20:25:40.626206+00:00 heroku[web.2]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 120 seconds of launch
+2015-12-29T20:25:40.626206+00:00 heroku[web.2]: Stopping process with SIGKILL
+2015-12-29T20:25:41.457161+00:00 heroku[web.2]: Process exited with status 137
+2015-12-29T20:25:41.476207+00:00 heroku[web.2]: State changed from starting to crashed
+Terminate batch job (Y/N)? 

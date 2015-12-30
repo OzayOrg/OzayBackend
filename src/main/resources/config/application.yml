@@ -40,13 +40,13 @@ jhipster:
         queueCapacity: 10000
     mail:
         host: smtp.sendgrid.net
-        port: 25
+        port: 587
         username: OzayOrg
         password: Ozaysyn1124
         protocol: smtp
         tls: false
         auth: false
-        from: ozay@ozay.us
+        from: noreply@ozay.us
     security:
         authentication:
             oauth:
