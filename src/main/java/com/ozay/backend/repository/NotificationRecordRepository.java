@@ -51,17 +51,12 @@ public class NotificationRecordRepository {
     }
  */
  //Old Notification Track using Notification.java and NotificationRecordResultSetExtractor
-    public List<NotificationRecord> findAllTrackedByBuildingId(Long buildingId, Long offset, String search){
-        int limit = 10;
+    public List<NotificationRecord> findAllTrackedByBuildingId(Long buildingId, Long offset){
+        int limit = 20;
         offset = offset * limit;
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        String partialQuery = "";
-        if(search != null){
-            params.addValue("unit", search);
-            partialQuery = " AND m.unit=:unit ";
-        }
-        String query = "SELECT n.created_date, n.subject, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id " + partialQuery + " WHERE n.building_id = :buildingId ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
+        String query = "SELECT n.created_date, n.subject, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id where n.building_id = :buildingId ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
 
+        MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("buildingId", buildingId);
         params.addValue("limit", limit);
@@ -74,14 +69,10 @@ public class NotificationRecordRepository {
 
 
 
-    public Long countAllByNotificationId(Long buildingId, String search){
-        String partialQuery = "";
+    public Long countAllByNotificationId(Long buildingId){
+        String query = "SELECT COUNT(*) FROM notification_record nr JOIN notification n ON n.id = nr.notification_id WHERE building_id = :buildingId";
+
         MapSqlParameterSource params = new MapSqlParameterSource();
-        if(search != null){
-            params.addValue("unit", search);
-            partialQuery = " AND m.unit=:unit ";
-        }
-        String query = "SELECT COUNT(*) FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id " + partialQuery + " WHERE n.building_id = :buildingId";
 
         params.addValue("buildingId", buildingId);
 
@@ -108,7 +99,7 @@ public class NotificationRecordRepository {
         params.addValue("notificationId", notificationRecord.getNotificationId());
         params.addValue("memberId", notificationRecord.getMemberId());
         params.addValue("trackComplete", notificationRecord.isTrackComplete());
-        mailService.sendTrackComplete(notificationRecord.getEmail());
+        mailService.sendTrackComplete(notificationRecord.getEmail(), notificationRecord.isTrackComplete(),notificationRecord.getNotification().getSubject(), notificationRecord.getNotification().getCreatedDate());
         namedParameterJdbcTemplate.update(query, params);
     }
 
