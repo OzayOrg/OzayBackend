@@ -89,7 +89,12 @@ public class PageResource {
     @Transactional(readOnly = true)
     public ResponseEntity<PageManagementDTO> getManagementContents(){
         PageManagementDTO pageManagementDTO = new PageManagementDTO();
-        pageManagementDTO.setOrganizations(organizationRepository.findAllUserCanAccess(userService.getUserWithAuthorities()));
+        if(SecurityUtils.isUserInRole("ROLE_ADMIN")){
+            pageManagementDTO.setOrganizations(organizationRepository.findAll());
+        } else {
+            pageManagementDTO.setOrganizations(organizationRepository.findAllUserCanAccess(userService.getUserWithAuthorities()));
+        }
+
         log.debug("REST request to update organization : {}", pageManagementDTO);
         return new ResponseEntity<>(pageManagementDTO, HttpStatus.OK);
     }
@@ -113,15 +118,23 @@ public class PageResource {
     @Timed
     @Transactional(readOnly = true)
     public ResponseEntity<PageOrganizationDetailDTO> getOrganizationDetailContents(@PathVariable Long organizationId){
-        boolean result1 =  permissionRepository.validateOrganizationInterceptor(organizationId, "ORGANIZATION-USER_GET");
-        boolean result2 =  permissionRepository.validateOrganizationInterceptor(organizationId, "BUILDING_GET");
+        boolean result1 = false;
+        boolean result2 = false;
         boolean hasAllAccess = false;
-        if(result1 == false && result2 == false){
-            boolean isOrganizationSubscriber = accountRepository.isOrganizationSubscriber(organizationId);
-            if(isOrganizationSubscriber == true){
-                hasAllAccess = true;
+        if(SecurityUtils.isUserInRole("ROLE_ADMIN")){
+            hasAllAccess = true;
+        } else {
+            result1 =  permissionRepository.validateOrganizationInterceptor(organizationId, "ORGANIZATION-USER_GET");
+            result2 =  permissionRepository.validateOrganizationInterceptor(organizationId, "BUILDING_GET");
+
+            if(result1 == false && result2 == false){
+                boolean isOrganizationSubscriber = accountRepository.isOrganizationSubscriber(organizationId);
+                if(isOrganizationSubscriber == true){
+                    hasAllAccess = true;
+                }
             }
         }
+
         Organization organization = organizationRepository.findOne(organizationId);
         log.debug("REST request to get organization detail : {}", organization);
         PageOrganizationDetailDTO pageOrganizationDetailDTO = new PageOrganizationDetailDTO();
