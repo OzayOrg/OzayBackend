@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('OrganizationDetailController', function($scope, $state, $stateParams, Page, Auth, Principal, Organization, UserInformation) {
-        if(UserInformation.getOrganizationId() != $stateParams.organizationId){
+    .controller('OrganizationDetailController', function($scope, $state, $stateParams, Page, Auth, Principal, Organization, UserInformation, Principal) {
+        if(Principal.hasAuthority("ROLE_ADMIN") == false && UserInformation.getOrganizationId() != $stateParams.organizationId){
             Auth.authorize(true).then(function(){
                 $state.reload();
             });

@@ -21,6 +21,13 @@ public class OrganizationRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    public List<Organization> findAll(){
+                String query = "SELECT * FROM organization";
+                MapSqlParameterSource params = new MapSqlParameterSource();
+
+        return (List<Organization>) namedParameterJdbcTemplate.query(query, params, new OrganizationSetExtractor());
+    }
+
     public List<Organization> findAllUserCanAccess(User user){
         String query = "SELECT DISTINCT ON (o.id) * FROM organization o LEFT JOIN organization_user ou ON o.id = ou.organization_id WHERE o.user_id = :userId OR ou.user_id = :userId";
         MapSqlParameterSource params = new MapSqlParameterSource();
