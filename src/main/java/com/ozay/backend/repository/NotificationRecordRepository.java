@@ -60,7 +60,7 @@ public class NotificationRecordRepository {
         String partialQuery = "";
         if(search != null){
             params.addValue("unit", search);
-            partialQuery = " AND m.unit=:unit ";
+            partialQuery = " AND (lower(m.unit)=lower(:unit) or lower(m.first_name) = lower(:unit) or lower(m.last_name) = lower(:unit))  ";
         }
         String query = "SELECT n.created_date, n.subject, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id " + partialQuery + " WHERE n.building_id = :buildingId ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
 

@@ -25,39 +25,22 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="table-responsive">
-                                    <div ng-show="searchKeyword">
-                                        <p>
-                                        <b>Filtered by:</b>
-                                        {{searchKeyword}}
-                                        </p>
-                                    </div>
-                                        <!--
-                                        <form>
-                                            <div class="form-group">
-
-                                                <div class="input-group">
-
-                                                    <input type="text" class="form-control" placeholder="Search By Unit..." ng-model="searchTrack">
-                                                    <span class="input-group-btn">
-                                                        <button ng-click="searchBtnClicked();" class="search-submit btn" type="button"><i class="fa fa-search"></i> </button>
-                                                    </span>
-
-                                                </div>
-                                            </div>
-                                        </form>
-                                        -->
-
+                                    
                                         <form name="name" class="form" ng-submit="searchBtnClicked()">
 
                                                 <div class="form-group">
 
                                                     <button type="submit" ng-click="searchBtnClicked();" class="search-submit btn">
-                                                        <!--<i class="fa fa-search"></i>-->
 
-
-                                                    <input type="text" class="form-control" placeholder="Search By Unit..." ng-model="searchTrack"/>
+                                                    <input type="text" class="form-control" placeholder="Search..." ng-model="searchTrack"/>
                                                     </button>
 
+                                                    <spam ng-show="searchKeyword">
+
+                                                            <b> Filter: </b>
+                                                            {{searchKeyword}}
+
+                                                    </spam>
 
                                                 </div>
 
