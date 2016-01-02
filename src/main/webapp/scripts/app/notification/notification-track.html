@@ -66,8 +66,8 @@
 
                                                     <td>{{notification.member.firstName}} {{notification.member.lastName}}</td>
                                                     <td>{{notification.notification.subject}}</td>
-                                                    <td>{{notification.trackCompletedDate | date: "MM/dd/yyyy" : '+0430'}}</td>
-
+                                                    <!--<td>{{notification.trackCompletedDate | date: "MM/dd/yyyy " : '+0430'}}</td>-->
+                                                    <td>{{notification.trackCompletedDate | date: "MM/dd/yyyy"}}</td>
                                                     <td>
                                                         <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
                                                     </td>

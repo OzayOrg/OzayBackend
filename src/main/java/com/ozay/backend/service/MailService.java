@@ -146,7 +146,7 @@ public class MailService {
     }
 
     @Async
-    public void sendTrackComplete(String email, boolean trackComplete,String Subject, DateTime createdDate){
+    public void sendTrackComplete(String email, boolean trackComplete,String Subject, DateTime createdDate, DateTime trackedDate){
         log.debug("Sending invitation e-mail to {}", email);
         //Locale locale = Locale.forLanguageTag(invitedMember.getLangKey());
         Locale locale = Locale.forLanguageTag("en");
@@ -161,7 +161,8 @@ public class MailService {
         if  (trackComplete==false) {
             status="INCOMPLETE";}
         Date dt = createdDate.toDate();
-        sendEmail(email, status + ": " + Subject, "Task created on " + dt + " is now " + status, false, true);
+        Date dt_track = trackedDate.toDate();
+        sendEmail(email, status + ": " + Subject, "Task created on " + dt + ". " + status + " on " + dt_track , false, true);
     }
     @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
