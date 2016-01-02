@@ -31,6 +31,7 @@
                                         {{searchKeyword}}
                                         </p>
                                     </div>
+                                        <!--
                                         <form>
                                             <div class="form-group">
 
@@ -44,12 +45,29 @@
                                                 </div>
                                             </div>
                                         </form>
+                                        -->
+
+                                        <form name="name" class="form" ng-submit="searchBtnClicked()">
+
+                                                <div class="form-group">
+
+                                                    <button type="submit" ng-click="searchBtnClicked();" class="search-submit btn">
+                                                        <!--<i class="fa fa-search"></i>-->
+
+
+                                                    <input type="text" class="form-control" placeholder="Search By Unit..." ng-model="searchTrack"/>
+                                                    </button>
+
+
+                                                </div>
+
+                                        </form>
 
                                          <table class="table table-striped">
                                             <thead>
                                                 <tr>
 
-                                                    <th>Date</th>
+                                                    <th>Issue Date</th>
                                                     <th>Unit</th>
                                                     <th>Name</th>
                                                     <th>Message</th>
