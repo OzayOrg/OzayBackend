@@ -41,7 +41,12 @@ angular.module('ozayApp')
         }).$promise.then(function(data) {
             $scope.totalItems = data.numberOfRecords / 2;
             $scope.notifications = data.notificationRecords; //this gets all the notifications\
+            $scope.notes = data.notificationsRecords;
             $scope.currentPage = $stateParams.pageId;
         });
+
+        $scope.onSelect = function(item) {
+                    $scope.notification.note = item.note;
+                }
 
     });

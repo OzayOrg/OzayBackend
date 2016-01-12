@@ -70,16 +70,14 @@
                                                     <!--<td>{{notification.trackCompletedDate | date: "MM/dd/yyyy " : '+0430'}}</td>-->
                                                     <td>{{notification.trackCompletedDate | date: "MM/dd/yyyy"}}</td>
 
+                                                    <!--<td>{{notification.note}}</td>-->
 
-                                                    <td class="form-group" ng-class="{ 'has-error' : submitted && form.subject.$invalid}">
+                                                    <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
 
-                                                        <input id="list"  name="subject" type="text" ng-model="notification.subject" placeholder="[ Type comment here ]" typeahead="subject.subject for subject in subjects | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                                                        <input id="list"  name="note" type="text" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
                                                         <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
 
                                                     </td>
-
-
-
 
 
                                                     <td>
