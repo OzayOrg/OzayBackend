@@ -102,6 +102,24 @@
                         </div>
                     </div>
                 </li>
+
+                <!-- Dropdown events -->
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER" ng-class="{'active' : activeMenu =='events'}">
+                    <a data-toggle="collapse" data-target="#dropdown-events" id="parent-events" class="parent-li" ng-click="panelClicked('events')">
+                        Events<span class="caret"></span>
+                    </a>
+
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-events" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='events'}">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li><a ui-sref="events" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER" ng-click="menuClicked('events');">Create</a></li>
+                                <li><a ui-sref="events-record" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER" ng-click="menuClicked('events');">Track</a></li>
+                                <li><a ui-sref="events-track" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER" ng-click="menuClicked('events');">Archive</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
                 <!-- Dropdown-->
                 <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET, MEMBER_POST, MEMBER_PUT" ng-class="{'active' : activeMenu =='directory'}">
                     <a data-toggle="collapse" data-target="#dropdown-directory" id="parent-directory" class="parent-li" ng-click="panelClicked('directory')">
