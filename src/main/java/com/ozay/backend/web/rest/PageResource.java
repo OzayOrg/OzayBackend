@@ -503,7 +503,7 @@ public class PageResource {
     @Transactional(readOnly = true)
     public ResponseEntity<?> getSearchResult(@RequestParam(value = "keyword") String keywords, @RequestParam(value = "building") Long buildingId){
         PageSearchDTO pageSearchDTO = new PageSearchDTO();
-        String[] items = keywords.split(" ");
+        String[] items = keywords.toLowerCase().split(" ");
         boolean canAccess = SecurityUtils.isUserInRole("ROLE_ADMIN");
         if(canAccess == false){
             canAccess = accountRepository.isSubscriber(buildingId);
