@@ -4,6 +4,12 @@ angular.module('ozayApp')
     .controller('NotificationRecordController', function($scope, $state, $stateParams, NotificationRecord, Page, UserInformation) {
         $scope.contentTitle = 'Notification Archive';
 
+        //$scope.selectedUsers = [];
+        if($stateParams.search !== undefined){
+            $scope.searchKeyword = $stateParams.search;
+        }
+
+
         // pagination
 
         $scope.setPage = function(pageNo) {
@@ -20,11 +26,20 @@ angular.module('ozayApp')
             $state.go('notification-record', {pageId:$scope.currentPage});
         };
 
+        $scope.searchBtnClicked = function(){
+            $state.go('notification-record', {search:$scope.searchArchive});
+        }
+
+        $scope.pageChanged = function() {
+            $state.go('notification-record', {pageId:$scope.currentPage, search:$stateParams.search});
+        };
+
         $scope.maxSize = 8;
 
         Page.get({
             state: $state.current.name,
             page:$stateParams.pageId
+            //search:$stateParams.search
         }).$promise.then(function(data) {
             $scope.totalItems = data.totalNumOfPages/2;
             $scope.notifications = data.notificationRecords;
