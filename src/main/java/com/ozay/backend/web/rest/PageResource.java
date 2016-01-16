@@ -336,7 +336,7 @@ public class PageResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<PageNotificationRecordDTO> notificationArchive(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+    public ResponseEntity<PageNotificationRecordDTO> notificationArchive(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page, @RequestParam(value = "search", required = false) String unit){
 
         if(buildingId == null|| buildingId == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -351,9 +351,11 @@ public class PageResource {
 
         PageNotificationRecordDTO pageOrganizationUserDTO = new PageNotificationRecordDTO();
         pageOrganizationUserDTO.setTotalNumOfPages(notificationRepository.countAllByBuildingId(buildingId));
-        pageOrganizationUserDTO.setNotificationRecords(notificationRepository.findAllByBuildingId(buildingId, offset));
+        pageOrganizationUserDTO.setNotificationRecords(notificationRepository.findAllByBuildingId(buildingId, offset, unit));
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
+
+
     }
 
 

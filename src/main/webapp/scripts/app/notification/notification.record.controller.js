@@ -2,6 +2,7 @@
 
 angular.module('ozayApp')
     .controller('NotificationRecordController', function($scope, $state, $stateParams, NotificationRecord, Page, UserInformation) {
+        $scope.button = true;
         $scope.contentTitle = 'Notification Archive';
 
         //$scope.selectedUsers = [];
@@ -27,7 +28,7 @@ angular.module('ozayApp')
         };
 
         $scope.searchBtnClicked = function(){
-            $state.go('notification-record', {search:$scope.searchArchive});
+            $state.go('notification-record', {search:$scope.searchTrack});
         }
 
         $scope.pageChanged = function() {
@@ -38,8 +39,8 @@ angular.module('ozayApp')
 
         Page.get({
             state: $state.current.name,
-            page:$stateParams.pageId
-            //search:$stateParams.search
+            page:$stateParams.pageId,
+            search:$stateParams.search
         }).$promise.then(function(data) {
             $scope.totalItems = data.totalNumOfPages/2;
             $scope.notifications = data.notificationRecords;

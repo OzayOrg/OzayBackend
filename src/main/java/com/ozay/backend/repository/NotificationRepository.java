@@ -20,12 +20,21 @@ public class NotificationRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Notification> findAllByBuildingId(Long buildingId, Long offset){
+    public List<Notification> findAllByBuildingId(Long buildingId, Long offset, String search){
         int limit = 20;
         offset = offset * limit;
-        String query = "SELECT * FROM notification WHERE building_id = :buildingId order by created_date desc LIMIT :limit OFFSET :offset";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
+        String partialQuery = "";
+        if(search != null){
+            params.addValue("unit", search);
+            partialQuery = " AND subject=:unit ";
+        }
+
+
+        String query = "SELECT * FROM notification WHERE building_id = :buildingId " + partialQuery +  "order by created_date desc LIMIT :limit OFFSET :offset";
+
+        //MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("buildingId", buildingId);
         params.addValue("limit", limit);
