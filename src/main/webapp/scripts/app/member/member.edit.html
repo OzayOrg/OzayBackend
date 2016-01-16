@@ -45,11 +45,21 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="side-body-inner-content">
-                                    <div class="form-group" ng-class="{ 'has-error' : submitted && form.phone.$invalid}">
+                                    <!--
+                                    <div class="form-group" ng-class="{ 'has-error' : submitted }">
                                         <label for="phone">Phone</label>
                                         <input type="text" class="form-control" id="phone" name="phone" placeholder="" ng-model="member.phone">
-                                        <p ng-show="submitted && form.phone.$invalid" class="help-block has-error">Required</p>
+                                        <p ng-show="submitted" class="help-block has-error">Required</p>
                                     </div>
+                                    -->
+                                    <div class="form-group">
+
+                                        <label for="phone">Phone</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="" ng-model="member.phone">
+
+                                        
+                                    </div>
+
                                     <div>
                                         <label>Role</label>
 

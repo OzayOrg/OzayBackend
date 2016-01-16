@@ -91,10 +91,12 @@ angular.module('ozayApp')
                         form.unit.$invalid = true;
                         validation = false;
                    }
+                   /*
                    if(($scope.member.phone == null || $scope.member.phone == "") && $scope.member.organizationUserId == 0){
                        form.phone.$invalid = true;
                        validation = false;
                    }
+                   */
                    if(validation == false){
                     $scope.button = true;
                        return false;
