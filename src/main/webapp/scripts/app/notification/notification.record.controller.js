@@ -5,7 +5,7 @@ angular.module('ozayApp')
         $scope.button = true;
         $scope.contentTitle = 'Notification Archive';
 
-        //$scope.selectedUsers = [];
+        $scope.selectedUsers = [];
         if($stateParams.search !== undefined){
             $scope.searchKeyword = $stateParams.search;
         }
@@ -23,10 +23,11 @@ angular.module('ozayApp')
             $scope.currentPage = $stateParams.pageId;
         }
 
+       /*
         $scope.pageChanged = function() {
             $state.go('notification-record', {pageId:$scope.currentPage});
         };
-
+        */
         $scope.searchBtnClicked = function(){
             $state.go('notification-record', {search:$scope.searchTrack});
         }

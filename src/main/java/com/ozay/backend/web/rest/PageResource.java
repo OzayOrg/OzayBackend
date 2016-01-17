@@ -350,7 +350,7 @@ public class PageResource {
         log.debug("REST page notification history with page {}", page);
 
         PageNotificationRecordDTO pageOrganizationUserDTO = new PageNotificationRecordDTO();
-        pageOrganizationUserDTO.setTotalNumOfPages(notificationRepository.countAllByBuildingId(buildingId));
+        pageOrganizationUserDTO.setTotalNumOfPages(notificationRepository.countAllByBuildingId(buildingId, unit));
         pageOrganizationUserDTO.setNotificationRecords(notificationRepository.findAllByBuildingId(buildingId, offset, unit));
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
