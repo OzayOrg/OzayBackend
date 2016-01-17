@@ -8,6 +8,9 @@ import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.apache.commons.lang.CharEncoding;
 import org.joda.time.DateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -161,8 +164,13 @@ public class MailService {
         if  (trackComplete==false) {
             status="INCOMPLETE";}
         Date dt = createdDate.toDate();
+
+        Date input = new Date();
+        LocalDate date = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
         Date dt_track = trackedDate.toDate();
-        sendEmail(email, status + ": " + Subject, "Task created on " + dt + ". " + status + " on " + dt_track , false, true);
+
+        sendEmail(email, status + ": " + Subject, "Task created on " + date + ". " + status + " on " + dt_track , false, true);
     }
     @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
@@ -172,7 +180,7 @@ public class MailService {
         Context context = new Context(locale);
         context.setVariable("body", notification.getNotice());
         String content = templateEngine.process("notificationEmail", context);
-        String subject = notification.getSubject();
+        String subject = notification.getBuildingId()+notification.getSubject();
         log.debug("About to send email");
         this.sendMultipleEmails(notificationFormDTO, to, subject, content, false, true);
     }

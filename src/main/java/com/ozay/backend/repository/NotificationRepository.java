@@ -1,6 +1,8 @@
 package com.ozay.backend.repository;
 
 import com.ozay.backend.model.Notification;
+import com.ozay.backend.model.NotificationRecord;
+import com.ozay.backend.resultsetextractor.NotificationRecordResultSetExtractor;
 import com.ozay.backend.resultsetextractor.NotificationSetExtractor;
 import com.ozay.backend.security.SecurityUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -44,7 +46,6 @@ public class NotificationRepository {
     }
 
     public List<Notification> searchNotifications(Long buildingId, String[] items){
-
         String query = "SELECT * FROM notification where building_id = :buildingId ";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", buildingId);
