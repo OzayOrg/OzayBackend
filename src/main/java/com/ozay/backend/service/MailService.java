@@ -4,6 +4,7 @@ import com.ozay.backend.config.JHipsterProperties;
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.*;
 import com.ozay.backend.repository.OrganizationRepository;
+import com.ozay.backend.repository.BuildingRepository;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.apache.commons.lang.CharEncoding;
@@ -54,6 +55,9 @@ public class MailService {
 
     @Inject
     private OrganizationRepository organizationRepository;
+
+    @Inject
+    private BuildingRepository buildingRepository;
 
     /**
      * System default email address that sends the e-mails.
@@ -180,7 +184,8 @@ public class MailService {
         Context context = new Context(locale);
         context.setVariable("body", notification.getNotice());
         String content = templateEngine.process("notificationEmail", context);
-        String subject = notification.getBuildingId()+notification.getSubject();
+        Building building = buildingRepository.findOne(notification.getBuildingId());
+        String subject = building.getName()+" : "+notification.getSubject();
         log.debug("About to send email");
         this.sendMultipleEmails(notificationFormDTO, to, subject, content, false, true);
     }

@@ -46,7 +46,7 @@ public class NotificationRepository {
     }
 
     public List<Notification> searchNotifications(Long buildingId, String[] items){
-        String query = "SELECT * FROM notification where building_id = :buildingId ";
+        String query = "SELECT * FROM notification where building_id =:buildingId ";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", buildingId);
 
@@ -57,14 +57,17 @@ public class NotificationRepository {
             if(i != 0){
                 queryForList += " OR ";
             }
-            queryForList += " LOWER(notice) LIKE :" + param +
-                " OR LOWER(subject) LIKE :" + param;
+            queryForList += " LOWER(notice) like '%"+items[i]+"%'" +
+                " OR LOWER(subject) LIKE '%"+items[i]+"%'";
+            //System.out.println(param[items(0)]);
+
         }
         if(items.length > 0){
             query += " AND (";
             query += queryForList;
             query += ")";
         }
+        System.out.println(query);
         return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationSetExtractor());
     };
 
