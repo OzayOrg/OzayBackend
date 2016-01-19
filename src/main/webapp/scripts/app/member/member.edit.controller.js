@@ -50,6 +50,7 @@ angular.module('ozayApp')
         $scope.memberRoleClicked = function(model){
             angular.forEach($scope.roles, function(value, key) {
                 if(model.id != value.id && value.id == model.belongTo){
+
                     if(model.assign == true){
                         value.assign = true;
                     }
