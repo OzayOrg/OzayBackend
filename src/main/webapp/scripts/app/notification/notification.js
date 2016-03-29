@@ -3,22 +3,23 @@
 angular.module('ozayApp')
     .config(function($stateProvider) {
         $stateProvider
-            .state('notification', {
+            .state('AnalyticsPage', {
                 parent: 'site',
-                url: '/notification',
-                data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_POST']
-                },
+                //url: '/notification',
+                url:'/AnalyticsPage',
+
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/notification/notification.html',
-                        controller: 'NotificationController'
+                        //templateUrl: 'scripts/app/notification/notification.html',
+                        //controller: 'NotificationController'
+                        templateUrl: 'scripts/app/notification/AnalyticsPage.html'
                     }
                 },
                 resolve: {
 
                 }
             })
+
             .state('notification-record', {
                 parent: 'site',
                 url: '/notification-archive/:pageId',
