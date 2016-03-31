@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.ozay.backend.model.NotificationRecord;
 import com.ozay.backend.repository.NotificationRecordRepository;
 import com.ozay.backend.repository.NotificationRepository;
+import com.ozay.backend.service.MailService;
 import com.ozay.backend.service.NotificationService;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class NotificationRecordResource {
     @Inject
     NotificationRecordRepository notificationRecordRepository;
 
+    @Inject
+    MailService mailService;
+
 
     /**
      * PUT  /notification -> Create a new notification.
@@ -41,6 +45,7 @@ public class NotificationRecordResource {
     public ResponseEntity<?> updateNotificationRecord(@RequestBody NotificationRecord notificationRecord) {
         log.debug("REST request to update NotificationRecord : {}", notificationRecord);
         notificationRecordRepository.update(notificationRecord);
-        return new ResponseEntity<>(HttpStatus.OK);
+        mailService.sendTrackComplete(notificationRecord.getEmail(), notificationRecord.isTrackComplete(), notificationRecord.getNotification().getSubject() , notificationRecord.getNotification().getCreatedDate(),notificationRecord.getTrackCompletedDate());
+        return new ResponseEntity<>(notificationRecord, HttpStatus.OK);
     }
 }

@@ -1,6 +1,8 @@
 package com.ozay.backend.repository;
 
 import com.ozay.backend.model.Notification;
+import com.ozay.backend.model.NotificationRecord;
+import com.ozay.backend.resultsetextractor.NotificationRecordResultSetExtractor;
 import com.ozay.backend.resultsetextractor.NotificationSetExtractor;
 import com.ozay.backend.security.SecurityUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -20,12 +22,21 @@ public class NotificationRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Notification> findAllByBuildingId(Long buildingId, Long offset){
+    public List<Notification> findAllByBuildingId(Long buildingId, Long offset, String search){
         int limit = 20;
         offset = offset * limit;
-        String query = "SELECT * FROM notification WHERE building_id = :buildingId order by created_date desc LIMIT :limit OFFSET :offset";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
+        String partialQuery = "";
+        if(search != null){
+            params.addValue("unit", search);
+            partialQuery = " AND subject=:unit ";
+        }
+
+
+        String query = "SELECT * FROM notification WHERE building_id = :buildingId " + partialQuery +  "order by created_date desc LIMIT :limit OFFSET :offset";
+
+        //MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("buildingId", buildingId);
         params.addValue("limit", limit);
@@ -35,8 +46,7 @@ public class NotificationRepository {
     }
 
     public List<Notification> searchNotifications(Long buildingId, String[] items){
-
-        String query = "SELECT * FROM notification where building_id = :buildingId ";
+        String query = "SELECT * FROM notification where building_id =:buildingId ";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", buildingId);
 
@@ -47,21 +57,31 @@ public class NotificationRepository {
             if(i != 0){
                 queryForList += " OR ";
             }
-            queryForList += " LOWER(notice) LIKE :" + param +
-                " OR LOWER(subject) LIKE :" + param;
+            queryForList += " LOWER(notice) like '%"+items[i]+"%'" +
+                " OR LOWER(subject) LIKE '%"+items[i]+"%'";
+            //System.out.println(param[items(0)]);
+
         }
         if(items.length > 0){
             query += " AND (";
             query += queryForList;
             query += ")";
         }
+        System.out.println(query);
         return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationSetExtractor());
     };
 
-    public Long countAllByBuildingId(Long buildingId){
-        String query = "SELECT COUNT(*) FROM notification WHERE building_id = :buildingId";
+    public Long countAllByBuildingId(Long buildingId, String search){
 
+        String partialQuery = "";
         MapSqlParameterSource params = new MapSqlParameterSource();
+        if(search != null){
+            params.addValue("unit", search);
+            partialQuery = " AND subject=:unit ";
+        }
+
+        String query = "SELECT COUNT(*) FROM notification WHERE building_id = :buildingId " + partialQuery + "";
+
 
         params.addValue("buildingId", buildingId);
 

@@ -28,13 +28,13 @@
                                         <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Name</a></th>
                                         <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Unit</a></th>
                                         <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Email</a></th>
-                                        <th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Phone</a></th>
+                                        <!--<th><a href="" ng-click="predicate = 'name'; reverse=!reverse">Phone</a></th>-->
                                         </thead>
                                         <tbody ng-repeat="member in memberList  | orderBy:natural(predicate):reverse">
                                         <td><a ui-sref="member-edit({memberId:member.id})">{{member.name}}</a></td>
                                         <td>{{member.unit}}</td>
                                         <td>{{member.email}}</td>
-                                        <td>{{member.phone}}</td>
+                                        <!--<td>{{member.phone}}</td>-->
                                         </tbody>
                                     </table>
                                 </div>

@@ -49,7 +49,8 @@ angular.module('ozayApp')
 
         $scope.memberRoleClicked = function(model){
             angular.forEach($scope.roles, function(value, key) {
-                if(model.id != value.id && value.belongTo == model.id){
+                if(model.id != value.id && value.id == model.belongTo){
+
                     if(model.assign == true){
                         value.assign = true;
                     }
@@ -91,10 +92,12 @@ angular.module('ozayApp')
                         form.unit.$invalid = true;
                         validation = false;
                    }
+                   /*
                    if(($scope.member.phone == null || $scope.member.phone == "") && $scope.member.organizationUserId == 0){
                        form.phone.$invalid = true;
                        validation = false;
                    }
+                   */
                    if(validation == false){
                     $scope.button = true;
                        return false;
