@@ -1,0 +1,101 @@
+<div class="side-body-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div my-shared-scope></div>
+            <form name="form" class="form" role="form" ng-submit="form.$valid && submit()" novalidate>
+                <div class="main-content-wrapper">
+                    <div class="main-content-title">
+                        <div class="row">
+                            <h4 class="col-xs-12">
+                                {{contentTitle}}
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-10">
+                        </div>
+                    </div>
+
+
+
+                    <div class="main-content">
+                        <div class="side-body-inner-content">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="table-responsive">
+
+                                        <form name="name" class="form" ng-submit="searchBtnClicked()">
+
+                                            <div class="form-group">
+
+                                                <button type="submit" ng-click="searchBtnClicked();" class="search-submit btn">
+
+                                                    <input type="text" class="form-control" placeholder="Search Unit" ng-model="searchTrack"/>
+                                                </button>
+
+                                                <spam ng-show="searchKeyword">
+
+                                                    <b> Filter: </b>
+                                                    {{searchKeyword}}
+
+                                                </spam>
+
+                                            </div>
+
+                                        </form>
+
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+
+
+                                                <th>Unit</th>
+                                                <th>Name</th>
+                                                <th>Issue</th>
+                                                <th>Survey Start Date</th>
+                                                <th>Description</th>
+                                                <th>Complete</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="collaborate in collaborate">
+
+                                                <td>{{collaborate.member.unit}}</td>
+
+                                                <td>{{collaborate.member.firstName}} {{collaborate.member.lastName}}</td>
+                                                <td>{{collaborate.subject}}</td>
+                                                <td>{{collaborate.trackStartDate | date: "MM/dd/yyyy"}}</td>
+
+                                                <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
+
+                                                    <input id="list"  name="note" type="text" ng-model="collaborate.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                                                    <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
+
+                                                </td>
+
+
+                                                <td>
+                                                    <button class="btn" ng-class="{'btn-success' : collaborate.trackComplete, 'btn-error': collaborate.trackComplete == false}" type="button" ng-click="track(collaborate)"><span ng-show="collaborate.trackComplete">Yes</span><span ng-show="!collaborate.trackComplete">No</span></button>
+                                                </td>
+
+
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                        <hr/>
+                                        <div style="text-align:center;">
+                                            <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" ng-change="pageChanged()" boundary-links="true" rotate="false" num-pages="numPages" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

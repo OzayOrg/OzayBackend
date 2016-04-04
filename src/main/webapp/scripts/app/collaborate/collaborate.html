@@ -1,0 +1,51 @@
+<div class="side-body-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div my-shared-scope></div>
+            <form name="form" class="form" role="form" ng-submit="form.$valid && submit()" novalidate>
+                <div class="main-content-wrapper">
+                    <div class="main-content-title">
+                        <div class="row">
+                            <h4 class="col-xs-12">
+                                {{contentTitle}}
+                                <span class="pull-right">
+                                    <button class="btn btn-default" ng-hide="success" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Post</button>
+                                    <button class="btn btn-default" type="button" ng-click="reset()">{{resetButton}}</button>
+
+                                </span>
+                            </h4>
+                        </div>
+                    </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="list">Subject</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-10">
+                                    <div class="form-group" ng-class="{ 'has-error' : submitted && form.subject.$invalid}">
+                                        <input id="list"  name="subject" type="text" ng-model="collaborate.subject" placeholder="[ Type subject here ]" typeahead="subject.subject for subject in subjects | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                                        <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label id="collaborate-message">Message</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-10">
+                                    <div class="form-group" ng-class="{ 'has-error' : submitted && form.notice.$invalid}">
+                                        <div text-angular ng-model="collaborate.notice" required name="notice" ta-toolbar="[['bold', 'italics', 'underline','ul', 'ol']]"></div>
+                                        <p ng-show="submitted && form.notice.$error.required" class="help-block has-error">Required</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+        </div>
+    </div>
+</div>

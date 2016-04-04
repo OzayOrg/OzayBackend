@@ -1,0 +1,45 @@
+<div class="side-body-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div my-shared-scope></div>
+            <form name="form" class="form" role="form" ng-submit="form.$valid && submit()" novalidate>
+                <div class="main-content-wrapper">
+                    <div class="main-content-title">
+                        <div class="row">
+                            <h4 class="col-xs-12">
+                                {{contentTitle}}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="main-content">
+                        <div class="side-body-inner-content">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <hr/>
+                                    <label>Subject</label>
+                                    <p>{{collaborate.subject}}</p>
+                                    <hr/>
+                                    <label>Date</label>
+                                    <p>{{collaborate.surveycompletedate | date: "MM/dd/yyyy"}}</p>
+                                    <hr/>
+                                    <label>Recipients</label>
+                                    <div ng-repeat="collaborateRecord in collaborateRecords">
+                                        <span ng-class="{ 'text-danger' : collaborateRecord.success == false}">
+                                        {{collaborateRecord.member.firstName}}&nbsp;{{collaborateRecord.member.lastName}}
+                                        &nbsp;|&nbsp;
+                                        &nbsp;&nbsp;|&nbsp;
+                                        </span>
+                                        <span ng-if="collaborateRecord.success == true">Survey Posted</span>
+                                        <span ng-if="collaborateRecord.success == false">Survey Post Failed</span>
+                                        </span>
+                                    </div>
+                                    <hr/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
