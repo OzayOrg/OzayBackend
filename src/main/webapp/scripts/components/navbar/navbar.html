@@ -88,16 +88,17 @@
                 <!-- Dropdown-->
                 <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET" ng-class="{'active' : activeMenu =='notification'}">
                     <a data-toggle="collapse" data-target="#dropdown-notification" id="parent-notification" class="parent-li" ng-click="panelClicked('notification')">
-                        Notification<span class="caret"></span>
+                        Screening & Idea Gen<span class="caret"></span>
                     </a>
 
                     <!-- Dropdown level 1 -->
                     <div id="dropdown-notification" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='notification'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="AnalyticsPage" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST" ng-click="menuClicked('notification');">Create</a></li>
-                                <li><a ui-sref="notification-record" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">Archive</a></li>
-                                <li><a ui-sref="notification-track" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">Track</a></li>
+                                <li><a ui-sref="xsectional" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">X-Sectional</a></li>
+                                <li><a ui-sref="historical" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">Historical</a></li>
+                                <li><a ui-sref="short-interest" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">Short Interest</a></li>
+                                <li><a ui-sref="mean-reversion" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">Mean Reversion</a></li>
                             </ul>
                         </div>
                     </div>
