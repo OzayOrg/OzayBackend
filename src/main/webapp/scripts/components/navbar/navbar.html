@@ -106,15 +106,17 @@
                 <!-- Dropdown-->
                 <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET, MEMBER_POST, MEMBER_PUT" ng-class="{'active' : activeMenu =='directory'}">
                     <a data-toggle="collapse" data-target="#dropdown-directory" id="parent-directory" class="parent-li" ng-click="panelClicked('directory')">
-                        Directory<span class="caret"></span>
+                        Portfolio<span class="caret"></span>
                     </a>
 
                     <!-- Dropdown level 1 -->
                     <div id="dropdown-directory" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='directory'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET" ng-click="menuClicked('directory');">List</a></li>
-                                <li><a ui-sref="member-new" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST" ng-click="menuClicked('directory');">Create</a></li>
+                                <li><a ui-sref="alpha-theory" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET" ng-click="menuClicked('notification');"> Alpha Theory</a></li>
+                                <li><a ui-sref="light-keeper" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST" ng-click="menuClicked('notification');"> LightKeeper</a></li>
+                                <li><a ui-sref="portfolio-tearsheets" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST" ng-click="menuClicked('notification');"> Portfolio Tearsheets </a></li>
+                                <li><a ui-sref="earnings-tracker" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST" ng-click="menuClicked('notification');"> Earnings Tracker </a></li>
                             </ul>
                         </div>
                     </div>

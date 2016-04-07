@@ -74,21 +74,71 @@ angular.module('ozayApp')
 
 
 
-
-            .state('notification-record-detail', {
+            .state('alpha-theory', {
                 parent: 'site',
-                url: '/notification-archive/{notificationId:int}',
-                data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
-                },
+                //url: '/notification',
+                url:'/alpha-theory',
+
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/notification/notification-record-detail.html',
-                        controller: 'NotificationRecordDetailController'
+                        //templateUrl: 'scripts/app/notification/notification.html',
+                        //controller: 'NotificationController'
+                        templateUrl: 'scripts/app/notification/alpha-theory.html'
                     }
                 },
                 resolve: {
 
                 }
-            });
+            })
+
+            .state('light-keeper', {
+                parent: 'site',
+                //url: '/notification',
+                url:'/light-keeper',
+
+                views: {
+                    'content@': {
+                        //templateUrl: 'scripts/app/notification/notification.html',
+                        //controller: 'NotificationController'
+                        templateUrl: 'scripts/app/notification/light-keeper.html'
+                    }
+                },
+                resolve: {
+
+                }
+            })
+
+            .state('portfolio-tearsheets', {
+                parent: 'site',
+                //url: '/notification',
+                url:'/portfolio-tearsheets',
+
+                views: {
+                    'content@': {
+                        //templateUrl: 'scripts/app/notification/notification.html',
+                        //controller: 'NotificationController'
+                        templateUrl: 'scripts/app/notification/portfolio-tearsheets.html'
+                    }
+                },
+                resolve: {
+
+                }
+            })
+
+             .state('earnings-tracker', {
+                     parent: 'site',
+                     //url: '/notification',
+                     url:'/earnings-tracker',
+
+                     views: {
+                         'content@': {
+                             //templateUrl: 'scripts/app/notification/notification.html',
+                             //controller: 'NotificationController'
+                             templateUrl: 'scripts/app/notification/earnings-tracker.html'
+                         }
+                     },
+                     resolve: {
+
+                     }
+                 })
     });
