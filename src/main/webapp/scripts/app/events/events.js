@@ -7,8 +7,7 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/events',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER'],
-                    pageTitle: 'Events'
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER']
                 },
                 views: {
                     'content@': {

@@ -43,6 +43,7 @@ public class ApplicationConfigurerAdapter extends WebMvcConfigurerAdapter implem
             .addPathPatterns("/api/notification/**")
             .addPathPatterns("/api/member/**")
             .addPathPatterns("/api/role/**")
+            .addPathPatterns("/api/events/**")
             .addPathPatterns("/api/organization-user/**")
             .excludePathPatterns("/api/page/management/**")
             .excludePathPatterns("/api/page/search")
