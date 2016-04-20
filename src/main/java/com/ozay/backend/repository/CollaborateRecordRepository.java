@@ -71,11 +71,10 @@ public class CollaborateRecordRepository {
         String query = "INSERT INTO collaborate_record (collaborate_id, member_id, sent) VALUES(:collaborateId, :memberId, :success)";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
-    //    params.addValue("collaborateId", collaborateRecord.getCollaborateId());
+     //params.addValue("collaborateId", collaborateRecord.getCollaborateId());
         params.addValue("memberId", collaborateRecord.getMemberId());
-       // getting error : has to be taken care
         // params.addValue("sent", collaborateRecord.setSurveySent());
-        //params.addValue("email", collaborateRecord.getEmail());
+
 
         namedParameterJdbcTemplate.update(query, params);
     }
@@ -85,7 +84,7 @@ public class CollaborateRecordRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         //params.addValue("collaborateId", collaborateRecord.getCollaborateId());
         params.addValue("memberId", collaborateRecord.getMemberId());
-        //params.addValue("trackComplete", collaborateRecord.isTrackComplete());
+
 
         namedParameterJdbcTemplate.update(query, params);
     }

@@ -21,19 +21,17 @@
                                             <thead>
                                             <tr>
                                                 <th>Date</th>
-                                                <th>Sent By | To</th>
+                                                <th>Sent By</th>
                                                 <th>Subject</th>
-                                                <th>Message</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr ng-repeat="notification in notifications">
-                                                <td>{{collaborate.createdDate | date: "MM/dd/yyyy"}}</td>
-                                                <td>{{collaborate.createdBy}} [ {{collaborate.emailCount}} ]</td>
+                                                <td>{{collaborate.surveyissueDate | date: "MM/dd/yyyy"}}</td>
+                                                <td>{{collaborate.postedby}}</td>
                                                 <td>{{collaborate.subject}}</td>
-                                                <td ng-bind-html="collaborate.notice"></td>
-                                                <td>
+                                                 <td>
                                                     <a ui-sref="collaborate-record-detail({collaborateId:collaborate.id})">
                                                         <button class="btn btn-default" type="button" ng-click="reset()">View</button>
                                                     </a>
@@ -55,3 +53,4 @@
         </div>
     </div>
 </div>
+

@@ -1,4 +1,4 @@
-package com.ozay.backend.web.rest;
+/* package com.ozay.backend.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.ozay.backend.model.CollaborateRecord;
@@ -18,9 +18,10 @@ import javax.inject.Inject;
 /**
  * Created by RGV Krushnan on 07-04-2016.
  */
-@RestController
-@RequestMapping("/api/collaborate-record")
-public class CollaborateRecordResource {
+//@RestController
+//@RequestMapping("/api/collaborate-record")
+
+/* public class CollaborateRecordResource {
 
     private final Logger log = LoggerFactory.getLogger(CollaborateRecordResource.class);
 
@@ -38,3 +39,4 @@ public class CollaborateRecordResource {
     }
 
 }
+*/
