@@ -17,8 +17,8 @@ spring:
         driver-class-name: org.postgresql.ds.PGSimpleDataSource
         url: jdbc:postgresql://ec2-54-243-55-9.compute-1.amazonaws.com/dej2t33e1tmpqk?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
         name: dej2t33e1tmpqk
-        username: xbjrhkpzzadwln
-        password: SHwP0xRnCkhGyJKU_8r8Apx7PB
+        username: nmxwrlceuoscjn
+        password: F0xhGbhxZGzZjz5_PcBu6m6XEo
     jpa:
         database-platform: com.ozay.backend.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
