@@ -3,6 +3,7 @@ package com.ozay.backend.repository;
 import com.ozay.backend.model.Collaborate;
 import com.ozay.backend.resultsetextractor.CollaborateSetExtractor;
 import com.ozay.backend.security.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by RGV Krushnan on 25-03-2016.
  */
 public class CollaborateRepository {
+    @Autowired(required=true)
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public List<Collaborate> findAllByBuildingId(Long buildingId, Long offset, String search){
@@ -38,7 +40,7 @@ public class CollaborateRepository {
         return (List<Collaborate>)namedParameterJdbcTemplate.query(query, params, (ResultSetExtractor<Object>) new CollaborateSetExtractor());
     }
 
-    public List<Collaborate> searchCollaborates(Long buildingId, String[] items){
+    public List<Collaborate> searchCollaborate(Long buildingId, String[] items){
         String query = "SELECT * FROM collaborate where building_id =:buildingId ";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", buildingId);
@@ -89,7 +91,7 @@ public class CollaborateRepository {
             "WHERE building_id=:buildingId " +
             "GROUP BY subject " +
             ") " +
-            "ORDER BY issueDate DESC " +
+            "ORDER BY surveyissueDate DESC " +
             "LIMIT :limit ";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", buildingId);
@@ -115,22 +117,16 @@ public class CollaborateRepository {
 
 
     public void create(Collaborate collaborate){
-        String query = "INSERT INTO collaborate (building_id, issueDate, postedBy, subject) VALUES (:buildingId, :issueDate, :postedBy, NOW(), :subject) RETURNING id";
+        String query = "INSERT INTO collaborate (building_id, surveyissueDate, postedBy, subject) VALUES (:buildingId, :surveyissueDate, :postedBy, NOW(), :subject) RETURNING id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buildingId", collaborate.getBuildingId());
-        params.addValue("issueDate", new Timestamp(collaborate.getSurveyissueDate().getMillis()));
+        params.addValue("surveyissueDate", new Timestamp(collaborate.getSurveyissueDate().getMillis()));
         params.addValue("postedBy", SecurityUtils.getCurrentLogin());
         params.addValue("subject", collaborate.getSubject());
         Long id = namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
         collaborate.setId(id);
     }
 
-   // public void update(Collaborate collaborate){
-     //   String query = "UPDATE collaborate SET email_count=:emailCount WHERE id=:id";
-       // MapSqlParameterSource params = new MapSqlParameterSource();
-       // params.addValue("id", collaborate.getId());
-
-       // namedParameterJdbcTemplate.update(query, params);
 
     }
 

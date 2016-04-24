@@ -8,6 +8,6 @@ import java.util.List;
  * Created by RGV Krushnan on 06-04-2016.
  */
 public class PageCollaborateArchiveDTO {
-    private List<Collaborate> notifications;
+    private List<Collaborate> collaborate;
 
 }

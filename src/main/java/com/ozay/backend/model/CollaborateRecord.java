@@ -51,4 +51,8 @@ public class CollaborateRecord {
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
     }
+
+    public void update(CollaborateRecord collaborateRecord) {
+
+    }
 }

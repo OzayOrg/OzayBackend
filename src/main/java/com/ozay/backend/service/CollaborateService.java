@@ -9,6 +9,7 @@ import com.ozay.backend.repository.CollaborateRepository;
 import com.ozay.backend.repository.MemberRepository;
 import com.ozay.backend.web.rest.form.CollaborateFormDTO;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class CollaborateService {
     MemberRepository memberRepository;
 
     @Inject
+    @Autowired(required = true)
     CollaborateRecordRepository collaborateRecordRepository;
 
     @Inject
@@ -45,7 +47,7 @@ public class CollaborateService {
         collaborate.setSurveyissueDate(new DateTime());
         collaborateRepository.create(collaborate);
 
-        ArrayList<String> emails = new ArrayList<String>();
+        //ArrayList<String> emails = new ArrayList<String>();
         List<CollaborateRecord> collaborateRecords = new ArrayList<CollaborateRecord>();
 
         Set<Long> ids = new HashSet<Long>();
@@ -53,15 +55,11 @@ public class CollaborateService {
             ids.add(member.getId());
         }
 
-        long validEmailCount = 0;
         List<Member> members = memberRepository.findAllByIds(ids);
 
         for(Member member:members){
             CollaborateRecord collaborateRecord = new CollaborateRecord();
             collaborateRecord.setCollaborateId(collaborate.getId());
-
-            collaborateRecord.setMemberId(member.getId());
-
             collaborateRecordRepository.create(collaborateRecord);
         }
 

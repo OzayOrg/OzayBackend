@@ -4,6 +4,7 @@ import com.ozay.backend.model.CollaborateRecord;
 import com.ozay.backend.resultsetextractor.CollaborateRecordResultSetExtractor;
 import com.ozay.backend.resultsetextractor.CollaborateTrackResultSetExtractor;
 import com.ozay.backend.service.MailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,6 +18,8 @@ import java.util.List;
 public class CollaborateRecordRepository {
 
     @Inject
+    @Autowired(required = true)
+
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Inject

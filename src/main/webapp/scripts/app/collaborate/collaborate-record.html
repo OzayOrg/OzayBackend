@@ -23,6 +23,7 @@
                                                 <th>Date</th>
                                                 <th>Sent By</th>
                                                 <th>Subject</th>
+                                                <th>Poll</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -31,6 +32,7 @@
                                                 <td>{{collaborate.surveyissueDate | date: "MM/dd/yyyy"}}</td>
                                                 <td>{{collaborate.postedby}}</td>
                                                 <td>{{collaborate.subject}}</td>
+                                                <td>{{collaborate.yes}}</td>
                                                  <td>
                                                     <a ui-sref="collaborate-record-detail({collaborateId:collaborate.id})">
                                                         <button class="btn btn-default" type="button" ng-click="reset()">View</button>
