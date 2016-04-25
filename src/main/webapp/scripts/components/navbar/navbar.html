@@ -1,4 +1,4 @@
-<div id="ozay-header" class="text-center">
+0<div id="ozay-header" class="text-center">
     <a href="/#/"><img src="/assets/images/OZAY_LOGIN_TOP.png" height="50px"/></a>
 </div>
 
@@ -103,6 +103,24 @@
                     </div>
                 </li>
                 <!-- Dropdown-->
+
+                <!-- collaborate-->
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET" ng-class="{'active' : activeMenu =='notification'}">
+                    <a data-toggle="collapse" data-target="#dropdown-notification" id="parent-notification" class="parent-li" ng-click="panelClicked('notification')">
+                        Notification<span class="caret"></span>
+                    </a>
+
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-collaborate" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='collaborate'}">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li><a ui-sref="collaborate" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, COLLABORATE_POST" ng-click="menuClicked('collaborate');">Create</a></li>
+                                <li><a ui-sref="collaborate-record" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, COLLABORATE_GET" ng-click="menuClicked('collaborate');">Archive</a></li>
+                                <li><a ui-sref="collaborate-track" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, COLLABORATE_GET" ng-click="menuClicked('collaborate');">Track</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
                 <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET, MEMBER_POST, MEMBER_PUT" ng-class="{'active' : activeMenu =='directory'}">
                     <a data-toggle="collapse" data-target="#dropdown-directory" id="parent-directory" class="parent-li" ng-click="panelClicked('directory')">
                         Directory<span class="caret"></span>
