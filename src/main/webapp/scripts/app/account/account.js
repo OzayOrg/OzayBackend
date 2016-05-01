@@ -7,4 +7,5 @@ angular.module('ozayApp')
                 abstract: true,
                 parent: 'site'
             });
+
     });

@@ -141,4 +141,21 @@ angular.module('ozayApp')
 
                      }
                  })
+
+            .state('payment', {
+                parent: 'site',
+                //url: '/notification',
+                url:'/payment',
+
+                views: {
+                    'content@': {
+                        //templateUrl: 'scripts/app/notification/notification.html',
+                        //controller: 'NotificationController'
+                        templateUrl: 'scripts/app/notification/payment.html'
+                    }
+                },
+                resolve: {
+
+                }
+            })
     });
