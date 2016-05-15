@@ -11,28 +11,75 @@
                             </h4>
                         </div>
                     </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-10">
+                        </div>
+                    </div>
+
+
+
                     <div class="main-content">
                         <div class="side-body-inner-content">
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="table-responsive">
-                                        <table class="table">
+
+                                        <form name="name" class="form" ng-submit="searchBtnClicked()">
+
+                                                <div class="form-group">
+
+                                                    <button type="submit" ng-click="searchBtnClicked();" class="search-submit btn">
+
+                                                    <input type="text" class="form-control" placeholder="Search Unit" ng-model="searchTrack"/>
+                                                    </button>
+
+                                                    <spam ng-show="searchKeyword">
+
+                                                            <b> Filter: </b>
+                                                            {{searchKeyword}}
+
+                                                    </spam>
+
+                                                </div>
+
+                                        </form>
+
+                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
 
-                                                    <th>Date</th>
+                                                    <th>Issue Date</th>
                                                     <th>Unit</th>
                                                     <th>Name</th>
                                                     <th>Message</th>
+                                                    <th>Completed Date</th>
+                                                    <th>Comment</th>
                                                     <th>Complete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="notification in notifications">
                                                     <td>{{notification.notification.createdDate | date: "MM/dd/yyyy"}}</td>
-                                                    <td>{{notification.member.unit }}</td>
+
+                                                    <td>{{notification.member.unit}}</td>
+
                                                     <td>{{notification.member.firstName}} {{notification.member.lastName}}</td>
                                                     <td>{{notification.notification.subject}}</td>
+                                                    <!--<td>{{notification.trackCompletedDate | date: "MM/dd/yyyy " : '+0430'}}</td>-->
+                                                    <td>{{notification.trackCompletedDate | date: "MM/dd/yyyy"}}</td>
+
+                                                    <!--<td>{{notification.note}}</td>-->
+
+                                                    <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
+
+                                                        <input id="list"  name="note" type="text" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                                                        <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
+
+                                                    </td>
+
+
                                                     <td>
                                                         <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
                                                     </td>

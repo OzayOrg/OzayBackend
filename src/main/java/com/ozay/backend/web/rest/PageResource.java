@@ -89,7 +89,12 @@ public class PageResource {
     @Transactional(readOnly = true)
     public ResponseEntity<PageManagementDTO> getManagementContents(){
         PageManagementDTO pageManagementDTO = new PageManagementDTO();
-        pageManagementDTO.setOrganizations(organizationRepository.findAllUserCanAccess(userService.getUserWithAuthorities()));
+        if(SecurityUtils.isUserInRole("ROLE_ADMIN")){
+            pageManagementDTO.setOrganizations(organizationRepository.findAll());
+        } else {
+            pageManagementDTO.setOrganizations(organizationRepository.findAllUserCanAccess(userService.getUserWithAuthorities()));
+        }
+
         log.debug("REST request to update organization : {}", pageManagementDTO);
         return new ResponseEntity<>(pageManagementDTO, HttpStatus.OK);
     }
@@ -113,15 +118,23 @@ public class PageResource {
     @Timed
     @Transactional(readOnly = true)
     public ResponseEntity<PageOrganizationDetailDTO> getOrganizationDetailContents(@PathVariable Long organizationId){
-        boolean result1 =  permissionRepository.validateOrganizationInterceptor(organizationId, "ORGANIZATION-USER_GET");
-        boolean result2 =  permissionRepository.validateOrganizationInterceptor(organizationId, "BUILDING_GET");
+        boolean result1 = false;
+        boolean result2 = false;
         boolean hasAllAccess = false;
-        if(result1 == false && result2 == false){
-            boolean isOrganizationSubscriber = accountRepository.isOrganizationSubscriber(organizationId);
-            if(isOrganizationSubscriber == true){
-                hasAllAccess = true;
+        if(SecurityUtils.isUserInRole("ROLE_ADMIN")){
+            hasAllAccess = true;
+        } else {
+            result1 =  permissionRepository.validateOrganizationInterceptor(organizationId, "ORGANIZATION-USER_GET");
+            result2 =  permissionRepository.validateOrganizationInterceptor(organizationId, "BUILDING_GET");
+
+            if(result1 == false && result2 == false){
+                boolean isOrganizationSubscriber = accountRepository.isOrganizationSubscriber(organizationId);
+                if(isOrganizationSubscriber == true){
+                    hasAllAccess = true;
+                }
             }
         }
+
         Organization organization = organizationRepository.findOne(organizationId);
         log.debug("REST request to get organization detail : {}", organization);
         PageOrganizationDetailDTO pageOrganizationDetailDTO = new PageOrganizationDetailDTO();
@@ -323,7 +336,7 @@ public class PageResource {
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<PageNotificationRecordDTO> notificationArchive(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+    public ResponseEntity<PageNotificationRecordDTO> notificationArchive(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page, @RequestParam(value = "search", required = false) String unit){
 
         if(buildingId == null|| buildingId == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -337,10 +350,12 @@ public class PageResource {
         log.debug("REST page notification history with page {}", page);
 
         PageNotificationRecordDTO pageOrganizationUserDTO = new PageNotificationRecordDTO();
-        pageOrganizationUserDTO.setTotalNumOfPages(notificationRepository.countAllByBuildingId(buildingId));
-        pageOrganizationUserDTO.setNotificationRecords(notificationRepository.findAllByBuildingId(buildingId, offset));
+        pageOrganizationUserDTO.setTotalNumOfPages(notificationRepository.countAllByBuildingId(buildingId, unit));
+        pageOrganizationUserDTO.setNotificationRecords(notificationRepository.findAllByBuildingId(buildingId, offset, unit));
 
         return new ResponseEntity<>(pageOrganizationUserDTO, HttpStatus.OK);
+
+
     }
 
 
@@ -351,7 +366,7 @@ public class PageResource {
     @Timed
     @Transactional(readOnly = true)
 
-    public ResponseEntity<PageNotificationTrackDTO> notificationTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+    public ResponseEntity<PageNotificationTrackDTO> notificationTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page, @RequestParam(value = "search", required = false) String unit){
 
         if(buildingId == null|| buildingId == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -361,12 +376,11 @@ public class PageResource {
         if(page != null && page > 1){
             offset = page - 1;
         }
-
         log.debug("REST page notification history with page {}", page);
 
         PageNotificationTrackDTO pageNotificationTrackDTO = new PageNotificationTrackDTO();
-        pageNotificationTrackDTO.setNotificationRecords(notificationRecordRepository.findAllTrackedByBuildingId(buildingId, offset));
-
+        pageNotificationTrackDTO.setNotificationRecords(notificationRecordRepository.findAllTrackedByBuildingId(buildingId, offset, unit));
+        pageNotificationTrackDTO.setNumberOfRecords(notificationRecordRepository.countAllByNotificationId(buildingId, unit));
 
         return new ResponseEntity<>(pageNotificationTrackDTO, HttpStatus.OK);
     }
@@ -491,7 +505,7 @@ public class PageResource {
     @Transactional(readOnly = true)
     public ResponseEntity<?> getSearchResult(@RequestParam(value = "keyword") String keywords, @RequestParam(value = "building") Long buildingId){
         PageSearchDTO pageSearchDTO = new PageSearchDTO();
-        String[] items = keywords.split(" ");
+        String[] items = keywords.toLowerCase().split(" ");
         boolean canAccess = SecurityUtils.isUserInRole("ROLE_ADMIN");
         if(canAccess == false){
             canAccess = accountRepository.isSubscriber(buildingId);

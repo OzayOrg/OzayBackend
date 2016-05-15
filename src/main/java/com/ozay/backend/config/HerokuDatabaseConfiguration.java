@@ -53,7 +53,11 @@ public class HerokuDatabaseConfiguration implements EnvironmentAware {
 
 
             HikariConfig config = new HikariConfig();
+<<<<<<< HEAD
             config.setMaximumPoolSize(3);
+=======
+            config.setMaximumPoolSize(5);
+>>>>>>> a8b2aa70565282c3e90d36f80b034204f2487b86
             //config.setDataSourceClassName(propertyResolver.getProperty("dataSourceClassName"));
             //config.addDataSourceProperty("url", dbUrl);
             //config.addDataSourceProperty("user", username);
@@ -61,8 +65,13 @@ public class HerokuDatabaseConfiguration implements EnvironmentAware {
 
             config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
             config.addDataSourceProperty("url", dbUrl);
+<<<<<<< HEAD
             config.addDataSourceProperty("user", "nmxwrlceuoscjn");
             config.addDataSourceProperty("password", "F0xhGbhxZGzZjz5_PcBu6m6XEo");
+=======
+            config.addDataSourceProperty("user", "pymqxayzqcupig");
+            config.addDataSourceProperty("password", "bbfQfAnPae6Fk4jrJDChq4qOpN");
+>>>>>>> a8b2aa70565282c3e90d36f80b034204f2487b86
 
 
 

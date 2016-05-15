@@ -21,7 +21,7 @@ public class MemberRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final static String MemberSetExtractorQuery = "SELECT m.*, u.email as user_email, r.id as role_id, r.name as role_name, r.belong_to as role_belong_to, r.sort_order as role_sort_order from member m LEFT JOIN jhi_user u ON m.user_id = u.id LEFT JOIN role_member rm ON m.id = rm.member_id LEFT JOIN role r ON r.id = rm.role_id ";
+    private final static String MemberSetExtractorQuery = "select m.*, u.email as user_email, r.id as role_id, r.name as role_name, r.belong_to as role_belong_to, r.sort_order as role_sort_order from member m LEFT JOIN jhi_user u ON m.user_id = u.id LEFT JOIN role_member rm ON m.id = rm.member_id LEFT JOIN role r ON r.id = rm.role_id ";
 
     public List<Member> findAllByBuildingId(Long buildingId){
         String query = this.MemberSetExtractorQuery + "WHERE m.building_id = :buildingId AND m.deleted= false ORDER BY m.id";
@@ -107,7 +107,6 @@ public class MemberRepository {
             query += queryForList;
             query += ")";
         }
-
 
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
     }

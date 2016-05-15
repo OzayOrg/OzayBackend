@@ -85,6 +85,8 @@
                     <a ui-sref="home" ng-click="menuClicked('home');" ng-click="panelClicked('dashboard')">Dashboard</a>
                 </li>
 
+
+
                 <!-- Dropdown-->
                 <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET" ng-class="{'active' : activeMenu =='notification'}">
                     <a data-toggle="collapse" data-target="#dropdown-notification" id="parent-notification" class="parent-li" ng-click="panelClicked('notification')">
@@ -96,8 +98,40 @@
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
                                 <li><a ui-sref="notification" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST" ng-click="menuClicked('notification');">Create</a></li>
-                                <li><a ui-sref="notification-record" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">Archive</a></li>
                                 <li><a ui-sref="notification-track" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">Track</a></li>
+                                <li><a ui-sref="notification-record" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_GET" ng-click="menuClicked('notification');">Archive</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET" ng-class="{'active' : activeMenu =='collaborate'}">
+                    <a data-toggle="collapse" data-target="#dropdown-event" id="parent-collaborate" class="parent-li" ng-click="panelClicked('event')">
+                        Collaborate<span style="color:white; font-size:14px;"> Coming soon</span><span class="caret"></span>
+                    </a>
+
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-events" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='events'}">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li><a ui-sref="event" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, EVENT_POST" ng-click="menuClicked('event');">Create</a></li>
+                                <li><a ui-sref="event-track" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, EVENT_GET" ng-click="menuClicked('event');">Track</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, NOTIFICATION_POST, NOTIFICATION_GET" ng-class="{'active' : activeMenu =='event'}">
+                    <a data-toggle="collapse" data-target="#dropdown-event" id="parent-event" class="parent-li" ng-click="panelClicked('event')">
+                        Events<span style="color:white; font-size:14px;"> Coming soon</span><span class="caret"></span>
+                    </a>
+
+                    <!-- Dropdown level 1 -->
+                    <div id="dropdown-event" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='events'}">
+                        <div class="panel-body">
+                            <ul class="nav navbar-nav">
+                                <li><a ui-sref="event" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, EVENT_POST" ng-click="menuClicked('event');">Create</a></li>
+                                <li><a ui-sref="event-track" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, EVENT_GET" ng-click="menuClicked('event');">Track</a></li>
                             </ul>
                         </div>
                     </div>
