@@ -4,7 +4,7 @@ angular.module('ozayApp')
     .config(function($stateProvider) {
         $stateProvider
             .state('home', {
-                parent: 'site',
+                parent: 'default',
                 url: '/',
                 data: {
                     authorities: ['ROLE_USER']

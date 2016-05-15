@@ -11,7 +11,7 @@ angular.module('ozayApp')
                     pageTitle: 'Organization User List'
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/management/organization-user/organization-user.html',
                         controller: 'OrganizationUserController'
                     }
@@ -28,7 +28,7 @@ angular.module('ozayApp')
                     pageTitle: 'Organization User Edit'
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/management/organization-user/organization-user.edit.html',
                         controller: 'OrganizationUserEditController'
                     }
@@ -45,7 +45,7 @@ angular.module('ozayApp')
                     pageTitle: 'Organization User New'
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/management/organization-user/organization-user.edit.html',
                         controller: 'OrganizationUserEditController'
                     }

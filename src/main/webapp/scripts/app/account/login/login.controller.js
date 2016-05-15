@@ -9,6 +9,7 @@ angular.module('ozayApp')
         $timeout(function (){angular.element('[ng-model="username"]').focus();});
         $scope.login = function (event) {
             event.preventDefault();
+            $scope.authenticationError = false;
             Auth.login({
                 username: $scope.username,
                 password: $scope.password,

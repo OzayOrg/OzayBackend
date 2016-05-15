@@ -1,26 +1,4 @@
-<div class="side-body-content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div my-shared-scope></div>
-            <form name="form" class="form" role="form" ng-submit="form.$valid && submit()" novalidate>
-                <div class="main-content-wrapper">
-                    <div class="main-content-title">
-                        <div class="row">
-                            <h4 class="col-xs-12">
-                                {{contentTitle}}
-                                <span class="pull-right">
-                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
-                                    <a ui-sref="management">
-                                        <button class="btn btn-default">Cancel</button>
-                                    </a>
-                                </span>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="main-content">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="side-body-inner-content">
+
                                     <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
                                         <label for="name">Organization Name</label>
                                         <input type="text" class="form-control" id="name" name="name" placeholder="" ng-model="organization.name" required>
@@ -50,12 +28,3 @@
                                         <label for="phone">Phone</label>
                                         <input type="text" class="form-control" id="phone" placeholder="" ng-model="organization.phone">
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>

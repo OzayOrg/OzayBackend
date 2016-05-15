@@ -42,6 +42,8 @@ angular.module('ozayApp')
                     label: value.unit + " " + value.firstName + " " + value.lastName
                 });
             });
+            $scope.button = false;
+            alert(1);
         });
 
         $scope.groupChanged = function(model, list) {

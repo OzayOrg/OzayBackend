@@ -1,26 +1,6 @@
-<div class="side-body-content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div my-shared-scope></div>
-            <form name="form" class="form" role="form" ng-submit="form.$valid && submit(form)" novalidate>
-                <div class="main-content-wrapper">
-                    <div class="main-content-title">
-                        <div class="row">
-                            <h4 class="col-xs-12">
-                                {{pageTitle}}
-                                <span class="pull-right">
-                                    <button class="btn btn-default" ng-show="member.userId == 0" type="button" ng-click="invite(member.id);" ng-disabled="!button" class="btn button" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST, MEMBER_PUT">Invite</button>
-                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST, MEMBER_PUT">Save</button>
-                                    <a ui-sref="member"><button class="btn btn-default" type="button" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET">Back</button></a>
-                                    <button ng-show="showDeleteBtn" class="btn btn-danger" type="button" ng-click="deleteClicked();" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_DELETE">Delete</button>
-                                </span>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="main-content">
-                        <div class="row">
+
                             <div class="col-sm-6">
-                                <div class="side-body-inner-content">
+
                                     <div class="form-group" ng-class="{ 'has-error' : submitted && form.firstName.$invalid}">
                                         <label for="firstName">First Name</label>
                                         <input type="text" class="form-control" id="firstName" name="firsName" placeholder="" ng-model="member.firstName" required>
@@ -41,26 +21,9 @@
                                         <input type="email" name="email" class="form-control" id="email" placeholder="" ng-model="member.email" ng-disabled="member.userId > 0;"required>
                                         <p ng-show="submitted && form.email.$error.required" class="help-block has-error">Required</p>
                                     </div>
-                                </div>
+
                             </div>
                             <div class="col-sm-6">
-                                <div class="side-body-inner-content">
-                                    <!--
-                                    <div class="form-group" ng-class="{ 'has-error' : submitted }">
-                                        <label for="phone">Phone</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="" ng-model="member.phone">
-                                        <p ng-show="submitted" class="help-block has-error">Required</p>
-                                    </div>
-                                    -->
-                                    <!--
-                                    <div class="form-group">
-
-                                        <label for="phone">Phone</label>
-                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="" ng-model="member.phone">
-
-                                        
-                                    </div>
-                                    -->
 
                                     <div>
                                         <label>Role</label>
@@ -73,12 +36,4 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>

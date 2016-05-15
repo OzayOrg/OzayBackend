@@ -11,7 +11,7 @@ angular.module('ozayApp')
                     pageTitle: 'Building Edit'
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/management/building/building.edit.html',
                         controller: 'BuildingEditController'
                     }
@@ -28,7 +28,7 @@ angular.module('ozayApp')
                     pageTitle: 'Building New'
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/management/building/building.edit.html',
                         controller: 'BuildingEditController'
                     }

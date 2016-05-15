@@ -5,7 +5,7 @@ angular.module('ozayApp')
         $stateProvider
             .state('manage', {
                 abstract: true,
-                parent: 'site',
+                parent: 'default',
                 views: {
                     'title@': {
                         templateUrl: 'scripts/components/layout/title.html',

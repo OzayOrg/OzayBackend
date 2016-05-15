@@ -4,14 +4,14 @@ angular.module('ozayApp')
     .config(function($stateProvider) {
         $stateProvider
             .state('member', {
-                parent: 'site',
+                parent: 'default',
                 url: '/member',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'MEMBER_GET'],
                     pageTitle: 'Directory'
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/member/member.html',
                         controller: 'MemberController'
                     }
@@ -21,13 +21,13 @@ angular.module('ozayApp')
                 }
             })
             .state('member-edit', {
-                parent: 'site',
+                parent: 'default',
                 url: '/member/edit/{memberId:int}',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'MEMBER_PUT', 'MEMBER_DELETE', 'MEMBER_GET'],
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/member/member.edit.html',
                         controller: 'MemberEditController'
                     }
@@ -37,13 +37,13 @@ angular.module('ozayApp')
                 }
             })
             .state('member-new', {
-                parent: 'site',
+                parent: 'default',
                 url: '/member/new',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'MEMBER_POST', 'MEMBER_GET'],
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/member/member.edit.html',
                         controller: 'MemberEditController'
                     }

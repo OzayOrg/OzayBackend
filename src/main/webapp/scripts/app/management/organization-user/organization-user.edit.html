@@ -1,27 +1,4 @@
-<div ng-cloak class="side-body-content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div my-shared-scope></div>
-            <form name="form" class="form" role="form" ng-submit="form.$valid && submit()" novalidate>
-                <div class="main-content-wrapper">
-                    <div class="main-content-title">
-                        <div class="row">
-                            <h4 class="col-xs-12">
-                                {{contentTitle}}
-                                <span class="pull-right">
-                                    <button class="btn btn-default" ng-show="organizationUser.activated == false" type="button" ng-click="sendInvitation()" ng-disabled="!button || form.$dirty" class="btn button">Invite</button>
-                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
-                                    <a ui-sref="organization-detail({organizationId:organizationId})">
-                                        <button class="btn btn-default">Cancel</button>
-                                    </a>
-                                </span>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="main-content">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="side-body-inner-content">
+
                                     <div class="form-group" ng-class="{ 'has-error' : submitted && form.firstName.$invalid}">
                                         <label for="firstName">First Name</label>
                                         <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" ng-model="organizationUser.firstName" ng-readonly="organizationUser.activated == true">
@@ -49,12 +26,3 @@
                                         </ul>
                                     </div>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>

@@ -10,7 +10,7 @@ angular.module('ozayApp')
                     authorities: ['ROLE_USER']
                 },
                 views: {
-                    'content@': {
+                    'template@': {
                         templateUrl: 'scripts/app/search/search.html',
                         controller: 'SearchController'
                     }

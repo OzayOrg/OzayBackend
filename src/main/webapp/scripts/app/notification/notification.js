@@ -7,7 +7,9 @@ angular.module('ozayApp')
                 parent: 'default',
                 url: '/notification',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_POST']
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_POST'],
+                    pageTitle:'Notification | Create',
+                    notificationBtns:true,
                 },
                 views: {
                     'content@default': {
@@ -23,6 +25,7 @@ angular.module('ozayApp')
                 parent: 'default',
                 url: '/notification-archive/:pageId',
                 data: {
+                    pageTitle:'Notification | Create',
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
                 },
                 views: {
