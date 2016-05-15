@@ -4,15 +4,18 @@ angular.module('ozayApp')
     .config(function($stateProvider) {
         $stateProvider
             .state('collaborate', {
-                parent: 'site',
+                parent: 'default',
                 url: '/collaborate',
+
                 data: {
+                 pageTitle : "Collaborate | Create",
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'COLLABORATE_POST']
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
+
                         templateUrl: 'scripts/app/collaborate/collaborate.html',
-                        controller: 'CollaborateController'
+                        controller: 'CollaborateController',
                     }
                 },
                 resolve: {

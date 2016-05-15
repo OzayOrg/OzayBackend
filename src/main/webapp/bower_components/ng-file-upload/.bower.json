@@ -18,7 +18,7 @@
     "tag": "7.0.17",
     "commit": "f0c93dc6d1f792f24509b7afd54fade03b435a4c"
   },
-  "_source": "git://github.com/danialfarid/angular-file-upload-bower.git",
+  "_source": "https://github.com/danialfarid/angular-file-upload-bower.git",
   "_target": "7.0.17",
   "_originalSource": "ng-file-upload"
 }

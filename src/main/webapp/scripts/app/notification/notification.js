@@ -4,13 +4,13 @@ angular.module('ozayApp')
     .config(function($stateProvider) {
         $stateProvider
             .state('notification', {
-                parent: 'site',
+                parent: 'default',
                 url: '/notification',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_POST']
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/notification/notification.html',
                         controller: 'NotificationController'
                     }
@@ -20,13 +20,13 @@ angular.module('ozayApp')
                 }
             })
             .state('notification-record', {
-                parent: 'site',
+                parent: 'default',
                 url: '/notification-archive/:pageId',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/notification/notification-record.html',
                         controller: 'NotificationRecordController'
                     }
@@ -36,13 +36,13 @@ angular.module('ozayApp')
                 }
             })
             .state('notification-track', {
-                parent: 'site',
+                parent: 'default',
                 url: '/notification-track',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/notification/notification-track.html',
                         controller: 'NotificationTrackController'
                     }
@@ -52,13 +52,13 @@ angular.module('ozayApp')
                 }
             })
             .state('notification-record-detail', {
-                parent: 'site',
-                url: '/notification-archive/{notificationId:int}',
+                parent: 'default',
+                url: '/notification-archive-detail/{notificationId:int}',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET']
                 },
                 views: {
-                    'content@': {
+                    'content@default': {
                         templateUrl: 'scripts/app/notification/notification-record-detail.html',
                         controller: 'NotificationRecordDetailController'
                     }

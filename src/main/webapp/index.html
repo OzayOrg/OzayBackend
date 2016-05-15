@@ -35,7 +35,7 @@
         <div id="content" class="">
             <div class="side-body" ng-class="{'body-slide-in' : button_state.getState(), 'loaded': loaded}">
                 <div ui-view="title"></div>
-                <div ui-view="content"></div>
+                <div ui-view="template"></div>
             </div>
         </div>
     </div>
@@ -191,6 +191,14 @@
 
 <script src="scripts/app/notification/notification.track.controller.js"></script>
 <script src="scripts/app/notification/notification.record.detail.controller.js"></script>
+
+<script src="scripts/app/collaborate/collaborate.js"></script>
+<script src="scripts/app/collaborate/collaborate.controller.js"></script>
+<script src="scripts/app/collaborate/collaborate.record.controller.js"></script>
+<script src="scripts/app/collaborate/collaborate.track.controller.js"></script>
+
+<script src="scripts/components/collaborate/collaborate.service.js"></script>
+
 
 <script src="scripts/app/member/member.js"></script>
 <script src="scripts/app/member/member.controller.js"></script>

@@ -1,0 +1,32 @@
+<div class="side-body-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div my-shared-scope></div>
+            <form name="form" class="form" role="form" ng-submit="form.$valid && submit()" novalidate>
+                <div class="main-content-wrapper">
+                    <div class="main-content-title">
+                        <div class="row">
+                            <h4 class="col-xs-12">
+                                <span ng-bind="$state.current.data.pageTitle"></span>
+                                <span class="pull-right">
+                                    <button class="btn btn-default" ng-hide="success" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Post</button>
+                                    <button class="btn btn-default" type="button" ng-click="reset()">{{resetButton}}</button>
+                                </span>
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="main-content">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="side-body-inner-content">
+                                    <div ui-view="content"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

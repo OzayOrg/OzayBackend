@@ -4,7 +4,6 @@ angular.module('ozayApp', ['LocalStorageModule',
     'ui.bootstrap', // for modal dialogs
     'ngResource', 'ui.router', 'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll',
     'naturalSort',
-    'ui.bootstrap',
     'textAngular',
     'angularjs-dropdown-multiselect',
 ])
@@ -14,6 +13,9 @@ angular.module('ozayApp', ['LocalStorageModule',
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.firstAuthentication = false;// When true and building or organization
+
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
             $rootScope.toState = toState;
@@ -80,6 +82,15 @@ angular.module('ozayApp', ['LocalStorageModule',
                     }
                 ],
             }
+        });
+
+        $stateProvider.state('default', {
+            parent: 'site',
+            views: {
+                'template@': {
+                    templateUrl: 'scripts/components/layout/default.html',
+                }
+            },
         });
 
         $httpProvider.interceptors.push('errorHandlerInterceptor');
