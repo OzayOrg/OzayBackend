@@ -6,4 +6,8 @@ angular.module('ozayApp')
 
 .constant('VERSION', '0.0.1-SNAPSHOT')
 
+.constant('ADMIN_ROLES', 'ROLE_ADMIN')
+
+.constant('MANAGE_ROLES', ['ROLE_ADMIN', 'ROLE_SUBSCRIBER'])
+
 ;

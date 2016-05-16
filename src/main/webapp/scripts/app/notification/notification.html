@@ -1,28 +1,5 @@
-<div class="side-body-content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div my-shared-scope></div>
-            <form name="form" class="form" role="form" ng-submit="form.$valid && submit()" novalidate>
-                <div class="main-content-wrapper">
-                    <div class="main-content-title">
-                        <div class="row">
-                            <h4 class="col-xs-12">
-                                {{contentTitle}}
-                                <span class="pull-right">
 
-                                    <label><input type="checkbox" ng-model="notification.track">&nbsp;Track</label>
-
-
-
-                                    <button class="btn btn-default" ng-hide="success" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Send</button>
-                                    <button class="btn btn-default" type="button" ng-click="reset()">{{resetButton}}</button>
-
-                                </span>
-                            </h4>
-                        </div>
-                    </div>
-                    <div id="notification-content" class="main-content">
-                        <div class="side-body-inner-content">
+                        <div id="notification-content">
                             <div class="row">
                                 <div class="col-sm-2">
                                     <div class="form-group">
@@ -81,9 +58,3 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>

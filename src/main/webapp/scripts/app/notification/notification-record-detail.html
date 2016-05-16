@@ -1,40 +1,26 @@
-<div class="side-body-content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div my-shared-scope></div>
-            <form name="form" class="form" role="form" ng-submit="form.$valid && submit()" novalidate>
-                <div class="main-content-wrapper">
-                    <div class="main-content-title">
-                        <div class="row">
-                            <h4 class="col-xs-12">
-                                {{contentTitle}}
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="main-content">
-                        <div class="side-body-inner-content">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <hr/>
-                                    <label>Subject</label>
-                                    <p>{{notification.subject}}</p>
-                                    <hr/>
-                                    <label>Message</label>
-                                    <p ng-bind-html="notification.notice"></p>
-                                    <hr/>
-                                    <label>Count</label>
-                                    <p>{{notification.emailCount}}</p>
-                                    <hr/>
-                                    <label>Date</label>
-                                    <p>{{notification.createdDate | date: "MM/dd/yyyy"}}</p>
-                                    <hr/>
-                                    <label>Tracked</label>
-                                    <br>
-                                    <span ng-if="notification.track == true">Yes</span>
-                                    <span ng-if="notification.track !== true">No</span>
-                                    <hr/>
-                                    <label>Recipients</label>
-                                    <div ng-repeat="notificationRecord in notificationRecords">
+
+<div class="row">
+    <div class="col-xs-12">
+        <hr/>
+        <label>Subject</label>
+        <p>{{notification.subject}}</p>
+        <hr/>
+        <label>Message</label>
+        <p ng-bind-html="notification.notice"></p>
+        <hr/>
+        <label>Count</label>
+        <p>{{notification.emailCount}}</p>
+        <hr/>
+        <label>Date</label>
+        <p>{{notification.createdDate | date: "MM/dd/yyyy"}}</p>
+        <hr/>
+        <label>Tracked</label>
+        <br>
+        <span ng-if="notification.track == true">Yes</span>
+        <span ng-if="notification.track !== true">No</span>
+        <hr/>
+        <label>Recipients</label>
+        <div ng-repeat="notificationRecord in notificationRecords">
                                         <span ng-class="{ 'text-danger' : notificationRecord.success == false}">
                                         {{notificationRecord.member.firstName}}&nbsp;{{notificationRecord.member.lastName}}
                                         &nbsp;|&nbsp;
@@ -45,14 +31,7 @@
                                         <span ng-if="notificationRecord.success == true">Sent</span>
                                         <span ng-if="notificationRecord.success == false">Failed</span>
                                         </span>
-                                    </div>
-                                    <hr/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
         </div>
+        <hr/>
     </div>
 </div>

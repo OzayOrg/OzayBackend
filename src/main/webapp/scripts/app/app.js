@@ -9,11 +9,15 @@ angular.module('ozayApp', ['LocalStorageModule',
     'angularjs-dropdown-multiselect',
 ])
 
-.run(function($rootScope, $location, $window, $http, $state, $q, $stateParams, Auth, Principal, Building, UserInformation, $cookies, ENV, VERSION) {
+.run(function($rootScope, $location, $window, $http, $state, $q, $stateParams, Auth, Principal, Building, UserInformation, $cookies, ENV, VERSION, ADMIN_ROLES, MANAGE_ROLES) {
 
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
         $rootScope.firstAuthentication = false;// When true and building or organization
+
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
             $rootScope.toState = toState;

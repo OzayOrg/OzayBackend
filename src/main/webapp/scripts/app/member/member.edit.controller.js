@@ -9,15 +9,12 @@ angular.module('ozayApp')
             id: $stateParams.memberId,
         }).$promise.then(function(data) {
             if($state.current.name == 'member-edit'){
-                $scope.pageTitle = 'Directory Edit';
                 $scope.showDeleteBtn = true;
                 var message = MessageService.getSuccessMessage();
                 if(message !== undefined){
                     $scope.successTextAlert = message;
                 }
                 $scope.member = data.member;
-            }else {
-                $scope.pageTitle = 'Directory Create';
             }
 
             $scope.roles = data.roles;

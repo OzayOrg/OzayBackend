@@ -1,0 +1,40 @@
+<div class="side-body-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div my-shared-scope></div>
+            <form name="form" class="form" role="form" ng-submit="form.$valid && submit(form)" novalidate>
+                <div class="main-content-wrapper">
+                    <div class="main-content-title">
+                        <div class="row">
+                            <h4 class="col-xs-12">
+                                <span ng-bind="$state.current.data.pageTitle"></span>
+                                <span ng-if="$state.current.data.addBtn" class="pull-right">
+                                    <a ui-sref='{{$state.current.data.addBtn.route}}'>
+                                        <button class="btn btn-default" has-any-authority="{{$state.current.data.addBtn.authorities}}">
+                                            Add
+                                        </button>
+                                    </a>
+                                </span>
+                                <span ng-show="$state.current.data.memberBtn" class="pull-right">
+                                    <button class="btn btn-default" ng-show="member.userId == 0" type="button" ng-click="invite(member.id);" ng-disabled="!button" class="btn button" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST, MEMBER_PUT">Invite</button>
+                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST, MEMBER_PUT">Save</button>
+                                    <a ui-sref="member"><button class="btn btn-default" type="button" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET">Back</button></a>
+                                    <button ng-show="showDeleteBtn" class="btn btn-danger" type="button" ng-click="deleteClicked();" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_DELETE">Delete</button>
+                                </span>
+                                 <span ng-show="$state.current.data.notificationBtn" class="pull-right">
+                                    <label><input type="checkbox" ng-model="notification.track">&nbsp;Track</label>
+                                        <button class="btn btn-default" ng-hide="success" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Send</button>
+                                        <button class="btn btn-default" type="button" ng-click="reset()">{{resetButton}}</button>
+                                </span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="main-content">
+                        <div ui-view="view"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

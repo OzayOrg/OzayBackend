@@ -4,7 +4,7 @@ angular.module('ozayApp')
     .controller('MemberController', function($scope, $state, MessageService, Page, UserInformation) {
         $scope.pageTitle = 'Directory';
         $scope.memberList = [];
-
+        $scope.auth = "ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST";
         $scope.predicate = 'unit';
 
         var message = MessageService.getSuccessMessage();
