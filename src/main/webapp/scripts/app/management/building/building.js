@@ -12,8 +12,11 @@ angular.module('ozayApp')
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/management/building/building.edit.html',
+                        templateUrl: 'scripts/components/layout/default.html',
                         controller: 'BuildingEditController'
+                    },
+                    'view@building-edit': {
+                        templateUrl: 'scripts/app/management/building/building.edit.html',
                     }
                 },
                 resolve: {
@@ -29,8 +32,11 @@ angular.module('ozayApp')
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'scripts/app/management/building/building.edit.html',
+                        templateUrl: 'scripts/components/layout/default.html',
                         controller: 'BuildingEditController'
+                    },
+                    'view@building-new': {
+                        templateUrl: 'scripts/app/management/building/building.edit.html',
                     }
                 },
                 resolve: {
