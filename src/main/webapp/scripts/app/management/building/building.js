@@ -8,7 +8,8 @@ angular.module('ozayApp')
                 url: '/management/organization/{organizationId:int}/building/{buildingId:int}',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'BUILDING_PUT'],
-                    pageTitle: 'Building Edit'
+                    pageTitle: 'Building Edit',
+                    defaultBtn: true,
                 },
                 views: {
                     'content@': {

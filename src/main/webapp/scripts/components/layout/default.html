@@ -8,6 +8,12 @@
                         <div class="row">
                             <h4 class="col-xs-12">
                                 <span ng-bind="$state.current.data.pageTitle"></span>
+                                <span ng-if="$state.current.data.defaultBtn" class="pull-right">
+                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
+                                    <a ui-sref="management">
+                                        <button class="btn btn-default">Cancel</button>
+                                    </a>
+                                </span>
                                 <span ng-if="$state.current.data.addBtn" class="pull-right">
                                     <a ui-sref='{{$state.current.data.addBtn.route}}'>
                                         <button class="btn btn-default" has-any-authority="{{$state.current.data.addBtn.authorities}}">
