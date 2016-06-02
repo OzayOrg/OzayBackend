@@ -15,6 +15,7 @@ public class Collaborate {
     private Integer response;
     private Long createdBy;
     private Long modifiedBy;
+    private boolean tracking;
     private List<CollaborateDate> collaborateIssueDateList;
 
     public Long getModifiedBy() {
@@ -79,6 +80,14 @@ public class Collaborate {
 
     public void setResponse(Integer response) {
         this.response = response;
+    }
+
+    public boolean isTracking() {
+        return tracking;
+    }
+
+    public void setTracking(boolean tracking) {
+        this.tracking = tracking;
     }
 
     public List<CollaborateDate> getCollaborateIssueDateList() {

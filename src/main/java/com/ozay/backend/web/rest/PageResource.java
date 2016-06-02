@@ -10,6 +10,7 @@ import com.ozay.backend.web.rest.dto.OrganizationRoleMemberDTO;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.dto.OrganizationUserRoleDTO;
 import com.ozay.backend.web.rest.dto.pages.*;
+import com.ozay.backend.web.rest.form.CollaborateCreateFormDTO;
 import com.ozay.backend.web.rest.form.MemberFormDTO;
 import com.ozay.backend.web.rest.form.MemberRoleFormDTO;
 import org.slf4j.Logger;
@@ -80,6 +81,9 @@ public class PageResource {
 
     @Inject
     AccountRepository accountRepository;
+
+    @Inject
+    CollaborateRepository collaborateRepository;
 
     @RequestMapping(
         value = "/management",
@@ -522,7 +526,45 @@ public class PageResource {
                 pageSearchDTO.setMembers(memberRepository.searchMembers(buildingId, items));
             }
         }
-
         return new ResponseEntity<>(pageSearchDTO, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(
+            value = "/collaborate-create",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> collaborateCreate(@RequestParam(value = "building") Long buildingId){
+        CollaborateCreateFormDTO collaborateCreateFormDTO = new CollaborateCreateFormDTO();
+        collaborateCreateFormDTO.setCollaborate(new Collaborate());
+        collaborateCreateFormDTO.setRoles(roleRepository.findAllByBuildingId(buildingId));
+        return new ResponseEntity<>(collaborateCreateFormDTO, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value = "/collaborate-track",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> collaborateTrack(@RequestParam(value = "building") Long buildingId){
+
+        PageCollaborateTrackDTO pageCollaborateTrack = new PageCollaborateTrackDTO();
+        pageCollaborateTrack.setCollaborates(collaborateRepository.findAllByBuilding(buildingId, false)); // second parameter is boolean tracking
+        return new ResponseEntity<>(pageCollaborateTrack, HttpStatus.OK);
+    }
+    @RequestMapping(
+            value = "/collaborate-archive",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> collaborateArchive(@RequestParam(value = "building") Long buildingId){
+        PageCollaborateTrackDTO pageCollaborateTrack = new PageCollaborateTrackDTO();
+
+        pageCollaborateTrack.setCollaborates(collaborateRepository.findAllByBuilding(buildingId, true)); // second parameter is boolean tracking
+        return new ResponseEntity<>(pageCollaborateTrack, HttpStatus.OK);
     }
 }

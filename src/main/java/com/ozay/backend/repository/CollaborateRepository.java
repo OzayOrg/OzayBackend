@@ -18,11 +18,12 @@ public class CollaborateRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Collaborate> findAllByBuilding(Long buildingId){
-        String query = "SELECT c.*, cd.id as cd_id, cd.issue_date, m.id as m_id, m.first_name, m.last_name, m.unit FROM collaborate c INNER JOIN collaborate_date cd ON c.id = cd.collaborate_id INNER JOIN collaborate_date_member cdm ON cd.id = cdm.collaborate_date_id JOIN member m ON m.id = cdm.member_id AND m.deleted = false WHERE building_id = :buildingId";
+    public List<Collaborate> findAllByBuilding(Long buildingId, boolean tracking){
+        String query = "SELECT c.*, cd.id as cd_id, cd.issue_date, m.id as m_id, m.first_name, m.last_name, m.unit FROM collaborate c INNER JOIN collaborate_date cd ON c.id = cd.collaborate_id INNER JOIN collaborate_date_member cdm ON cd.id = cdm.collaborate_date_id JOIN member m ON m.id = cdm.member_id AND m.deleted = false WHERE building_id = :buildingId AND tracking=:tracking";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("buildingId", buildingId);
+        params.addValue("tracking", tracking);
         return (List<Collaborate>)namedParameterJdbcTemplate.query(query, new CollaborateResultSetExtractor());
     }
 

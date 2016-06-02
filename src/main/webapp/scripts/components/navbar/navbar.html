@@ -114,8 +114,9 @@
                     <div id="dropdown-collaborate" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='collaborate'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET" ng-click="menuClicked('collaborate');">List</a></li>
                                 <li><a ui-sref="member-new" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST" ng-click="menuClicked('collaborate');">Create</a></li>
+                                <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET" ng-click="menuClicked('collaborate');">Track</a></li>
+                                <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET" ng-click="menuClicked('collaborate');">Archive</a></li>
                             </ul>
                         </div>
                     </div>

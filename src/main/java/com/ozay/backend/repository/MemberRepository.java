@@ -141,7 +141,7 @@ public class MemberRepository {
     }
 
     public void update(Member member){
-        String query = "UPDATE member SET user_id=:userId, first_name=:firstName, last_name=:lastName, email=:email, unit=:unit, ownership=:ownership, parking =:parking, deleted=:deleted WHERE id=:id";
+        String query = "UPDATE member SET user_id=:userId, first_name=:firstName, last_name=:lastName, email=:email, unit=:unit, ownership=:ownership, parking =:parking, phone=:phone, deleted=:deleted WHERE id=:id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", member.getId());
         params.addValue("userId", member.getUserId());
@@ -149,6 +149,7 @@ public class MemberRepository {
         params.addValue("lastName", member.getLastName());
         params.addValue("email", member.getEmail());
         params.addValue("unit", member.getUnit());
+        params.addValue("phone", member.getPhone());
         params.addValue("ownership", member.getOwnership());
         params.addValue("parking", member.getParking());
         params.addValue("deleted", member.isDeleted());

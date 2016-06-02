@@ -136,6 +136,7 @@ public class Member implements Comparable<Member> {
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", email='" + email + '\'' +
+            ", phone='" + phone + '\'' +
             ", user_id='" + userId + '\'' +
             "}";
     }

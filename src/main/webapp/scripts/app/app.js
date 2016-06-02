@@ -6,10 +6,11 @@ angular.module('ozayApp', ['LocalStorageModule',
     'naturalSort',
     'ui.bootstrap',
     'textAngular',
+    'cfp.loadingBar',
     'angularjs-dropdown-multiselect',
 ])
 
-.run(function($rootScope, $location, $window, $http, $state, $q, $stateParams, Auth, Principal, Building, UserInformation, $cookies, ENV, VERSION, ADMIN_ROLES, MANAGE_ROLES) {
+.run(function($rootScope, $location, $window, $http, $state, $q, $stateParams, Auth, Principal, Building, UserInformation, $cookies, cfpLoadingBar, ENV, VERSION, ADMIN_ROLES, MANAGE_ROLES) {
 
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
@@ -20,6 +21,7 @@ angular.module('ozayApp', ['LocalStorageModule',
 
 
         $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
+            cfpLoadingBar.start();
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
 
@@ -32,7 +34,7 @@ angular.module('ozayApp', ['LocalStorageModule',
         });
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-
+            cfpLoadingBar.complete();
             var titleKey = 'ozay';
 
             // Remember previous state unless we've been redirected to login or we've just
