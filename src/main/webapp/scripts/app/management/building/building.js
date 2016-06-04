@@ -10,6 +10,8 @@ angular.module('ozayApp')
                     authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'BUILDING_PUT'],
                     pageTitle: 'Building Edit',
                     defaultBtn: true,
+                    defaultBtnAuthorities: 'BUILDING_PUT',
+                    cancelUrl:"organization-detail({organizationId:$stateParams.organizationId})"
                 },
                 views: {
                     'content@': {
@@ -29,7 +31,10 @@ angular.module('ozayApp')
                 url: '/management/organization/{organizationId:int}/building/new',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_ORGANIZATION_SUBSCRIBER', 'BUILDING_POST'],
-                    pageTitle: 'Building New'
+                    pageTitle: 'Building New',
+                    defaultBtn: true,
+                    defaultBtnAuthorities: 'BUILDING_POST',
+                    cancelUrl:"organization-detail({organizationId:$stateParams.organizationId})"
                 },
                 views: {
                     'content@': {

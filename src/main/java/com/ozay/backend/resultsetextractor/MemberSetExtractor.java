@@ -23,30 +23,30 @@ public class MemberSetExtractor implements ResultSetExtractor {
         Long previous = null;
 
         while(resultSet.next()){
-            if(previous == null || previous != resultSet.getLong("id")) {
+
+            if(member == null || previous != resultSet.getLong("id")) {
                 if (previous != null) {
                     list.add(member);
                 }
+                member = new Member();
+                member.setRoles(new HashSet<>());
+                member.setId(resultSet.getLong("id"));
+                member.setFirstName(resultSet.getString("first_name"));
+                member.setLastName(resultSet.getString("last_name"));
+                member.setUnit(resultSet.getString("unit"));
+                member.setPhone(resultSet.getString("phone"));
+
+                member.setBuildingId(resultSet.getLong("building_id"));
+                member.setUserId(resultSet.getLong("user_id"));
+                member.setOrganizationUserId(resultSet.getLong("organization_user_id"));
+                member.setDeleted(resultSet.getBoolean("deleted"));
+
+                member.setEmail(resultSet.getString("user_email"));
+                if(member.getEmail() == null){
+                    member.setEmail(resultSet.getString("email"));
+                }
             }
             previous = resultSet.getLong("id");
-            member = new Member();
-            member.setRoles(new HashSet<>());
-            member.setId(resultSet.getLong("id"));
-            member.setFirstName(resultSet.getString("first_name"));
-            member.setLastName(resultSet.getString("last_name"));
-            member.setUnit(resultSet.getString("unit"));
-            member.setPhone(resultSet.getString("phone"));
-
-            member.setBuildingId(resultSet.getLong("building_id"));
-            member.setUserId(resultSet.getLong("user_id"));
-            member.setOrganizationUserId(resultSet.getLong("organization_user_id"));
-            member.setDeleted(resultSet.getBoolean("deleted"));
-
-            member.setEmail(resultSet.getString("user_email"));
-            if(member.getEmail() == null){
-                member.setEmail(resultSet.getString("email"));
-            }
-
             Role role = new Role();
             role.setId(resultSet.getLong("role_id"));
             role.setBuildingId(resultSet.getLong("building_id"));

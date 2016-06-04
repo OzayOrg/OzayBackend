@@ -8,9 +8,21 @@
                         <div class="row">
                             <h4 class="col-xs-12">
                                 <span ng-bind="$state.current.data.pageTitle"></span>
-                                <span ng-if="$state.current.data.defaultBtn" class="pull-right">
-                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" ng-disabled="!button" class="btn button">Save</button>
-                                    <a ui-sref="management">
+                                <span ng-show="$state.current.data.defaultBtn" class="pull-right">
+                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, {{$state.current.data.defaultBtnAuthorities}}" ng-disabled="!button" class="btn button">Save</button>
+                                    <a ui-sref="{{$state.current.data.cancelUrl || 'home'}}">
+                                        <button class="btn btn-default">Cancel</button>
+                                    </a>
+                                </span>
+                                <span ng-show="$state.current.data.collaborateTrackBtn" class="pull-right">
+                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, {{$state.current.data.collaborateTrackBtnAuthorities}}" ng-disabled="!button" class="btn button">Save</button>
+                                    <button class="btn btn-danger" type="button" ng-click="updateStatus('cancel')" ng-show="showCancelBtn" ng-disabled="!button">Cancel Collaborate</button>
+                                    <a ui-sref="{{$state.current.data.cancelUrl || 'home'}}">
+                                        <button class="btn btn-default">Cancel</button>
+                                    </a>
+                                </span>
+                                <span ng-show="$state.current.data.cancelBtn" class="pull-right">
+                                    <a ui-sref="{{$state.current.data.cancelUrl || 'home'}}">
                                         <button class="btn btn-default">Cancel</button>
                                     </a>
                                 </span>

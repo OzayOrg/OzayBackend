@@ -26,7 +26,7 @@ angular.module('ozayApp')
             })
             .state('notification-record', {
                 parent: 'site',
-                url: '/notification-archive/:pageId',
+                url: '/notification-archive?page',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET'],
                     pageTitle: 'Notification Archive',
@@ -46,7 +46,7 @@ angular.module('ozayApp')
             })
             .state('notification-track', {
                 parent: 'site',
-                url: '/notification-track/:pageId?search',
+                url: '/notification-track?page&search',
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET'],
                     pageTitle: 'Notification Tracker',
@@ -70,6 +70,8 @@ angular.module('ozayApp')
                 data: {
                     authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET'],
                     pageTitle: 'Notification Archive Detail',
+                    cancelBtn:true,
+                    cancel_url:""
                 },
                 views: {
                     'content@': {

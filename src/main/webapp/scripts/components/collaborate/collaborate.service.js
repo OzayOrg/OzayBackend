@@ -2,7 +2,7 @@
 
 angular.module('ozayApp')
     .factory('Collaborate', function ($resource) {
-        return $resource('api/collaborate', {}, {
+        return $resource('api/collaborate/:method', {}, {
                 'query': {method: 'GET', isArray: true},
                 'get': {
                     method: 'GET',

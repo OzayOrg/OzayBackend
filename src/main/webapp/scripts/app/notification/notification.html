@@ -1,60 +1,60 @@
 
-                        <div id="notification-content">
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label>Send to</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="form-group">
-                                        <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
-                                            <ul class="checkbox-ul">
-                                                <li ng-class="{'active': role[obj.id],'inactive': !role[obj.id]}" ng-repeat="obj in roleList"><a ng-click="role[obj.id] = !role[obj.id];memberRoleClicked(obj.id, role[obj.id], role);"><input ng-model="role[obj.id]" type="checkbox">{{obj.name}}</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label for="list">List</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="form-group">
-                                        <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
-                                            <div ng-dropdown-multiselect="" options="individualList" selected-model="selectedUsers" extra-settings="multiSelectSettings" events="eventSettings"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label for="list">Subject</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="form-group" ng-class="{ 'has-error' : submitted && form.subject.$invalid}">
-                                        <input id="list"  name="subject" type="text" ng-model="notification.subject" placeholder="[ Type subject here ]" typeahead="subject.subject for subject in subjects | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
-                                        <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
-                                    </div>
-                                </div>
-                            </div>
+<div id="collaborate-content">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Send to</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
+                    <ul class="checkbox-ul">
+                        <li ng-class="{'active': role[obj.id],'inactive': !role[obj.id]}" ng-repeat="obj in roleList"><a ng-click="role[obj.id] = !role[obj.id];memberRoleClicked(obj.id, role[obj.id], role);"><input ng-model="role[obj.id]" type="checkbox">{{obj.name}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="list">List</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
+                    <div ng-dropdown-multiselect="" options="individualList" selected-model="selectedUsers" extra-settings="multiSelectSettings" events="eventSettings"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="list">Subject</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group" ng-class="{ 'has-error' : submitted && form.subject.$invalid}">
+                <input id="list"  name="subject" type="text" ng-model="notification.subject" placeholder="[ Type subject here ]" typeahead="subject.subject for subject in subjects | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
+            </div>
+        </div>
+    </div>
 
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label id="notification-message">Message</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="form-group" ng-class="{ 'has-error' : submitted && form.notice.$invalid}">
-                                        <div text-angular ng-model="notification.notice" required name="notice" ta-toolbar="[['bold', 'italics', 'underline','ul', 'ol']]"></div>
-                                        <p ng-show="submitted && form.notice.$error.required" class="help-block has-error">Required</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label id="notification-message">Message</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group" ng-class="{ 'has-error' : submitted && form.notice.$invalid}">
+                <div text-angular ng-model="notification.notice" required name="notice" ta-toolbar="[['bold', 'italics', 'underline','ul', 'ol']]"></div>
+                <p ng-show="submitted && form.notice.$error.required" class="help-block has-error">Required</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@ package com.ozay.backend.resultsetextractor;
 
 import com.ozay.backend.model.Collaborate;
 import com.ozay.backend.model.CollaborateDate;
+import com.ozay.backend.model.CollaborateMember;
 import com.ozay.backend.model.Member;
 import org.joda.time.DateTime;
 import org.springframework.dao.DataAccessException;
@@ -20,50 +21,87 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
     public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
         List<Collaborate> collaborateList = new ArrayList<Collaborate>();
         Collaborate collaborate = null;
+
         Long previous = null; // For collaborate
         Long previous2 = null; // For collaborate date
+        Long previous3 = null;
         CollaborateDate collaborateDate = null;
+        Member member = null;
+        CollaborateMember collaborateMember = null;
 
         while(resultSet.next()) {
-            if(previous2 == null || previous2 != resultSet.getLong("cd_id")) {
-                if (previous2 != null) {
-                    collaborate.getCollaborateIssueDateList().add(collaborateDate);
-                }
-                collaborateDate = new CollaborateDate();
-                collaborateDate.setMembers(new ArrayList<Member>());
-                collaborate.setId(resultSet.getLong("cd_id"));
-                collaborateDate.setCollaborateId(resultSet.getLong("id"));
-                collaborateDate.setIssueDate(new DateTime(resultSet.getDate("issue_date")));
-            }
-            if(previous == null || previous != resultSet.getLong("id")) {
-                if (previous != null) {
+            if(collaborate == null || collaborate.getId() != previous){
+                if(collaborate != null){
                     collaborateList.add(collaborate);
                 }
                 collaborate = new Collaborate();
-                collaborate.setCollaborateIssueDateList(new ArrayList<CollaborateDate>());
                 collaborate.setId(resultSet.getLong("id"));
-                collaborate.setBuildingId(resultSet.getLong("building_id"));
-                collaborate.setSubject(resultSet.getString("subject"));
                 collaborate.setResponse(resultSet.getInt("response"));
+                collaborate.setSubject(resultSet.getString("subject"));
+                collaborate.setMessage(resultSet.getString("message"));
+                collaborate.setBuildingId(resultSet.getLong("building_id"));
+                collaborate.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
+                collaborate.setCreatedBy(resultSet.getLong("created_by"));
+                collaborate.setStatus(resultSet.getInt("status"));
+
+                if((Integer)resultSet.getObject("collaborate_date_id") == null){
+                    collaborate.setCollaborateDateId(null);
+                } else {
+                    collaborate.setCollaborateDateId(resultSet.getLong("collaborate_date_id"));
+                }
+                collaborate.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
+                collaborate.setCollaborateDates(new ArrayList<CollaborateDate>());
+            }
+
+
+            if(collaborateDate == null || collaborateDate.getId() != previous2){
+                if(collaborateDate != null){
+                    collaborate.getCollaborateDates().add(collaborateDate);
+                }
+
+                collaborateDate = new CollaborateDate();
+                collaborateDate.setId(resultSet.getLong("cd_id"));
+                collaborateDate.setCollaborateId(resultSet.getLong("cd_collaborate_id"));
+                collaborateDate.setIssueDate(new DateTime(resultSet.getDate("issue_date")));
+                collaborateDate.setCollaborateMembers(new ArrayList<CollaborateMember>());
             }
 
             previous = resultSet.getLong("id");
             previous2 = resultSet.getLong("cd_id");
 
-            Member member = new Member();
+            collaborateMember = new CollaborateMember();
+            member = new Member();
             member.setId(resultSet.getLong("m_id"));
             member.setFirstName(resultSet.getString("first_name"));
             member.setLastName(resultSet.getString("last_name"));
-            collaborateDate.getMembers().add(member);
 
-        }
+            collaborateMember.setMember(member);
 
-        if(collaborate != null){
-            if(collaborateDate != null){
-                collaborate.getCollaborateIssueDateList().add(collaborateDate);
+            if((DateTime)resultSet.getObject("cm_modified_date") == null){
+                collaborateMember.setModifiedDate(null);
+            } else {
+                collaborateMember.setModifiedDate(new DateTime(resultSet.getDate("cm_modified_date")));
             }
+
+            collaborateMember.setCollaborateDateId(resultSet.getLong("collaborate_date_id"));
+            Boolean b = resultSet.getBoolean("selected");
+
+            if((Boolean)resultSet.getObject("selected") == null){
+                collaborateMember.setSelected(null);
+            } else {
+                collaborateMember.setSelected(resultSet.getBoolean("selected"));
+            }
+
+
+            collaborateDate.getCollaborateMembers().add(collaborateMember);
+        }
+        if(collaborateDate != null && collaborate != null){
+            collaborate.getCollaborateDates().add(collaborateDate);
+        }
+        if(collaborate != null){
             collaborateList.add(collaborate);
         }
+
         return collaborateList;
     }
 }

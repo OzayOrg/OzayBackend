@@ -138,7 +138,7 @@ a > button{
         background-color:$second_gray;
     }
 
-    input[type='checkbox']{
+    input[type="radio"], input[type="checkbox"]{
         display:none;
     }
 }
@@ -196,4 +196,15 @@ div.side-body{
         width:100%;
         background-color:$global_orange;
     }
+}
+.datetime-container {
+    .dropdown{
+        margin-bottom:15px;
+        .form-control[readonly]{
+            background-color:white;
+        }
+    }
+}
+a.not-allowed{
+    cursor:not-allowed;
 }

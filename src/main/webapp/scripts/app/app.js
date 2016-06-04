@@ -8,6 +8,8 @@ angular.module('ozayApp', ['LocalStorageModule',
     'textAngular',
     'cfp.loadingBar',
     'angularjs-dropdown-multiselect',
+    'ui.bootstrap.datetimepicker',
+    'datetime'
 ])
 
 .run(function($rootScope, $location, $window, $http, $state, $q, $stateParams, Auth, Principal, Building, UserInformation, $cookies, cfpLoadingBar, ENV, VERSION, ADMIN_ROLES, MANAGE_ROLES) {

@@ -49,10 +49,11 @@ public class MemberRepository {
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
     }
 
-    public Member findOneByUserId(Long userId){
-        String query = this.MemberSetExtractorQuery + "WHERE user_id = :userId AND m.deleted = false";
+    public Member findOneByUserIdAndBuildingId(Long userId, Long buildingId){
+        String query = this.MemberSetExtractorQuery + "WHERE user_id = :userId AND m.deleted = false AND m.building_id=:buildingId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("userId", userId);
+        params.addValue("buildingId", buildingId);
         List<Member> members = (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
         if(members.size() == 1){
             return members.get(0);
@@ -109,7 +110,6 @@ public class MemberRepository {
             query += ")";
         }
 
-        System.out.println(query);
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
     }
 

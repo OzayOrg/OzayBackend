@@ -156,7 +156,6 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
-        System.out.println("???????????");
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
         user.getAuthorities().size(); // eagerly load the association
 
@@ -168,8 +167,7 @@ public class UserService {
     }
 
     private User addAuthorities(User user, AccountInformation accountInformation){
-        System.out.println(user);
-        if(accountInformation.getAuthorities() != null && accountInformation.getAuthorities().size() > 0){
+        if(accountInformation != null && accountInformation.getAuthorities() != null && accountInformation.getAuthorities().size() > 0){
             for(String auth : accountInformation.getAuthorities()){
                 user.getAuthorities().add(new Authority(auth));
             }

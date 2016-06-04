@@ -104,7 +104,7 @@ public class NotificationRecordRepository {
     }
 
     public void update(NotificationRecord notificationRecord){
-        String query = "UPDATE notification_record SET track_complete=:trackComplete, track_completed_date=(select now()) WHERE notification_id=:notificationId AND member_id=:memberId";
+        String query = "UPDATE notification_record SET track_complete=:trackComplete, track_completed_date=(select now()), note=:note WHERE notification_id=:notificationId AND member_id=:memberId";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         if(notificationRecord.isTrackComplete() == true){
@@ -117,7 +117,7 @@ public class NotificationRecordRepository {
         }
 
         params.addValue("notificationId", notificationRecord.getNotificationId());
-
+        params.addValue("note", notificationRecord.getNote());
         params.addValue("memberId", notificationRecord.getMemberId());
         params.addValue("trackComplete", notificationRecord.isTrackComplete());
 

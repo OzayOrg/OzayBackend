@@ -1,5 +1,6 @@
 package com.ozay.backend.repository;
 
+import com.ozay.backend.config.Constants;
 import com.ozay.backend.model.Notification;
 import com.ozay.backend.model.NotificationRecord;
 import com.ozay.backend.resultsetextractor.NotificationRecordResultSetExtractor;
@@ -23,7 +24,7 @@ public class NotificationRepository {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public List<Notification> findAllByBuildingId(Long buildingId, Long offset, String search){
-        int limit = 20;
+        long limit = Constants.APP_QUERY_LIMIT;
         offset = offset * limit;
 
         MapSqlParameterSource params = new MapSqlParameterSource();

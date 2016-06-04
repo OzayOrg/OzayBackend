@@ -6,24 +6,24 @@ import org.joda.time.DateTime;
  * Created by naofumiezaki on 5/24/16.
  */
 public abstract class Model {
-    private Integer createdBy;
-    private Integer modifiedBy;
+    private Long createdBy;
+    private Long modifiedBy;
     private DateTime createdDate;
     private DateTime lastModifiedDate;
 
-    public Integer getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
-    public Integer getModifiedBy() {
+    public Long getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Integer modifiedBy) {
+    public void setModifiedBy(Long modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -42,4 +42,5 @@ public abstract class Model {
     public void setLastModifiedDate(DateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
 }

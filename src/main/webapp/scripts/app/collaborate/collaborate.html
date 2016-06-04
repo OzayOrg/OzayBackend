@@ -1,60 +1,102 @@
+<div id="collaborate-content">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Send to</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
+                    <ul class="checkbox-ul">
+                        <li ng-class="{'active': role[obj.id],'inactive': !role[obj.id]}" ng-repeat="obj in roleList"><a ng-click="role[obj.id] = !role[obj.id];memberRoleClicked(obj.id, role[obj.id], role);"><input ng-model="role[obj.id]" type="checkbox">{{obj.name}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="list">List</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
+                    <div id="list" ng-dropdown-multiselect="" options="individualList" selected-model="selectedUsers" extra-settings="multiSelectSettings" events="eventSettings"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        <div id="notification-content">
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label>Send to</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="form-group">
-                                        <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
-                                            <ul class="checkbox-ul">
-                                                <li ng-class="{'active': role[obj.id],'inactive': !role[obj.id]}" ng-repeat="obj in roleList"><a ng-click="role[obj.id] = !role[obj.id];memberRoleClicked(obj.id, role[obj.id], role);"><input ng-model="role[obj.id]" type="checkbox">{{obj.name}}</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label for="list">List</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="form-group">
-                                        <div class="form-group" ng-class="{ 'has-error' : submitted && form.name.$invalid}">
-                                            <div ng-dropdown-multiselect="" options="individualList" selected-model="selectedUsers" extra-settings="multiSelectSettings" events="eventSettings"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label for="list">Subject</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="form-group" ng-class="{ 'has-error' : submitted && form.subject.$invalid}">
-                                        <input id="list"  name="subject" type="text" ng-model="notification.subject" placeholder="[ Type subject here ]" typeahead="subject.subject for subject in subjects | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
-                                        <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label for="subject">Subject</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group" ng-class="{ 'has-error' : submitted && form.subject.$invalid}">
+                <input type="text" name="subject" class="form-control" id="subject" placeholder="Subject" ng-model="collaborate.subject" required>
+                <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
+            </div>
+        </div>
+    </div>
 
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label id="notification-message">Message</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-10">
-                                    <div class="form-group" ng-class="{ 'has-error' : submitted && form.notice.$invalid}">
-                                        <div text-angular ng-model="notification.notice" required name="notice" ta-toolbar="[['bold', 'italics', 'underline','ul', 'ol']]"></div>
-                                        <p ng-show="submitted && form.notice.$error.required" class="help-block has-error">Required</p>
-                                    </div>
-                                </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label id="collaborate-message">Message</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group" ng-class="{ 'has-error' : submitted && form.message.$invalid}">
+                <div text-angular ng-model="collaborate.message" name="message" ta-toolbar="[['bold', 'italics', 'underline','ul', 'ol']]" required></div>
+                <p ng-show="submitted && form.message.$error.required" class="help-block has-error">Required</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label id="collaborate-response">Response</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group">
+                <ul class="checkbox-ul">
+                    <li ng-class="{'active': collaborate.response == obj.value, 'inactive': collaborate.response != obj.value}" ng-repeat="obj in responses"><a ng-click="initCalendarDates();collaborate.response = obj.value">{{obj.label}}</a><input ng-model="collaborate.response" type="radio" name="model.name" value="{{obj.value}}"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label id="collaborate-issue-date">Issue Date</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group" >
+                <div ng-if="isMobile" class="datetime-container" ng-repeat="cDate in calendarDates">
+                    <input min="{{minDate | date:'yyyy-MM-ddTHH:mm:ss'}}" type="datetime-local">
+                </div>
+                <div ng-if="!isMobile" class="datetime-container">
+                    <div class="dropdown" ng-repeat="cDate in calendarDates">
+                        <a class="dropdown-toggle" id="dtp-dropdown-{{$index}}" role="button" data-toggle="dropdown" data-target="#">
+                            <div class="input-group"><input type="text" data-on-set-time="onTimeSet(newDate, oldDate)" readonly datetime="MM/dd/yyyy hh:mm a" class="form-control" ng-model="cDate.issueDate"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
-                        </div>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <datetimepicker data-on-set-time="onTimeSet(newDate, oldDate)" readonly ng-model="cDate.issueDate" />
+                        </ul>
+                    </div>
+                    <button ng-show="collaborate.response == 2" ng-click="addDateTime()" type="button">Add Date</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

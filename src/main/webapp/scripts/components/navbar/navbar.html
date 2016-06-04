@@ -105,7 +105,7 @@
                     </div>
                 </li>
 
-                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET, MEMBER_POST, MEMBER_PUT" ng-class="{'active' : activeMenu =='collaborate'}">
+                <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, ROLE_USER" ng-class="{'active' : activeMenu =='collaborate'}">
                     <a data-toggle="collapse" data-target="#dropdown-collaborate" id="parent-collaborate" class="parent-li" ng-click="panelClicked('collaborate')">
                         Collaborate<span class="caret"></span>
                     </a>
@@ -114,9 +114,9 @@
                     <div id="dropdown-collaborate" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='collaborate'}">
                         <div class="panel-body">
                             <ul class="nav navbar-nav">
-                                <li><a ui-sref="member-new" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_POST" ng-click="menuClicked('collaborate');">Create</a></li>
-                                <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET" ng-click="menuClicked('collaborate');">Track</a></li>
-                                <li><a ui-sref="member" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET" ng-click="menuClicked('collaborate');">Archive</a></li>
+                                <li><a ui-sref="collaborate-create" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, COLLABORATE_POST" ng-click="menuClicked('collaborate');">Create</a></li>
+                                <li><a ui-sref="collaborate-track" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, ROLE_USER" ng-click="menuClicked('collaborate');">Track</a></li>
+                                <li><a ui-sref="collaborate-record" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, ROLE_USER" ng-click="menuClicked('collaborate');">Archive</a></li>
                             </ul>
                         </div>
                     </div>
@@ -129,14 +129,14 @@
                     </a>
 
                     <!-- Dropdown level 1 -->
-                    <div id="dropdown-event" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='events'}">
-                        <div class="panel-body">
-                            <ul class="nav navbar-nav">
-                                <li><a ui-sref="event" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, EVENT_POST" ng-click="menuClicked('event');">Create</a></li>
-                                <li><a ui-sref="event-track" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, EVENT_GET" ng-click="menuClicked('event');">Track</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                    <!--<div id="dropdown-event" class="panel-collapse collapse" ng-class="{'in' : activeMenu=='events'}">-->
+                        <!--<div class="panel-body">-->
+                            <!--<ul class="nav navbar-nav">-->
+                                <!--<li><a ui-sref="event" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, EVENT_POST" ng-click="menuClicked('event');">Create</a></li>-->
+                                <!--<li><a ui-sref="event-track" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, EVENT_GET" ng-click="menuClicked('event');">Track</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </li>
                 <!-- Dropdown-->
                 <li class="panel panel-default" ng-show="buildingReady" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, MEMBER_GET, MEMBER_POST, MEMBER_PUT" ng-class="{'active' : activeMenu =='directory'}">

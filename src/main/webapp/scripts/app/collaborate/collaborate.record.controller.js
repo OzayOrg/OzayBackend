@@ -1,51 +1,41 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('NotificationRecordController', function($scope, $state, $stateParams, NotificationRecord, Page, UserInformation) {
-        $scope.button = true;
-        $scope.contentTitle = 'Notification Archive';
-
-        $scope.selectedUsers = [];
-        if($stateParams.search !== undefined){
-            $scope.searchKeyword = $stateParams.search;
-        }
+    .controller('CollaborateRecordController', function($scope, $state, $stateParams, NotificationRecord, Page, UserInformation) {
 
 
-        // pagination
+        // Shared HTML file with collaborate.track.controller
+        $scope.detailUrl = "collaborate-record-detail";
+        $scope.data = {};
+        $scope.track = false;
+        var pageLoaded = false;
 
-        $scope.setPage = function(pageNo) {
-            $scope.currentPage = pageNo;
-        };
-
-        if($stateParams.pageId !== undefined){
-            $scope.currentPage = 1;
+        $scope.data.currentPage = 1;
+        if ($stateParams.page !== undefined) {
+            $scope.data.currentPage = 1;
         } else {
-            $scope.currentPage = $stateParams.pageId;
+            $scope.data.currentPage = $stateParams.page;
         }
 
-       /*
-        $scope.pageChanged = function() {
-            $state.go('notification-record', {pageId:$scope.currentPage});
-        };
-        */
-        $scope.searchBtnClicked = function(){
-            $state.go('notification-record', {search:$scope.searchTrack});
-        }
 
-        $scope.pageChanged = function() {
-            $state.go('notification-record', {pageId:$scope.currentPage, search:$stateParams.search});
-        };
-
-        $scope.maxSize = 8;
-
+        $scope.data.maxSize = 8;
         Page.get({
             state: $state.current.name,
-            page:$stateParams.pageId,
-            search:$stateParams.search
+            page: $stateParams.page !== undefined ? $stateParams.page : 1
         }).$promise.then(function(data) {
-            $scope.totalItems = data.totalNumOfPages/2;
-            $scope.notifications = data.notificationRecords;
-            $scope.currentPage = $stateParams.pageId;
+            $scope.totalItems = data.numberOfRecords / 2;
+            $scope.collaborates = data.collaborates; //this gets all the collaborates\
+            $scope.data.currentPage = $stateParams.page !== undefined ? $stateParams.page : 1;
+            pageLoaded = true;
         });
+
+        $scope.pageChanged = function() {
+            if(pageLoaded){
+                $state.go('collaborate-track', {
+                    page: $scope.data.currentPage
+                });
+            }
+        };
+
 
     });

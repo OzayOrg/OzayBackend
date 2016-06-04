@@ -39,6 +39,8 @@ module.exports = function (config) {
             'main/webapp/bower_components/lodash/dist/lodash.compat.js',
             'main/webapp/bower_components/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect.js',
             'main/webapp/bower_components/angular-loading-bar/build/loading-bar.js',
+            'main/webapp/bower_components/moment/moment.js',
+            'main/webapp/bower_components/angular-datetime/dist/datetime.js',
             'main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'main/webapp/scripts/app/app.js',

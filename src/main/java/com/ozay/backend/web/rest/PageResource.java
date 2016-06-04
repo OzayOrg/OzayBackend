@@ -13,6 +13,7 @@ import com.ozay.backend.web.rest.dto.pages.*;
 import com.ozay.backend.web.rest.form.CollaborateCreateFormDTO;
 import com.ozay.backend.web.rest.form.MemberFormDTO;
 import com.ozay.backend.web.rest.form.MemberRoleFormDTO;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by naofumiezaki on 11/1/15.
@@ -540,6 +538,11 @@ public class PageResource {
         CollaborateCreateFormDTO collaborateCreateFormDTO = new CollaborateCreateFormDTO();
         collaborateCreateFormDTO.setCollaborate(new Collaborate());
         collaborateCreateFormDTO.setRoles(roleRepository.findAllByBuildingId(buildingId));
+
+        List<Member> members = memberRepository.findAllByBuildingId(buildingId);
+        Collections.sort(members);
+        collaborateCreateFormDTO.setMembers(members);
+
         return new ResponseEntity<>(collaborateCreateFormDTO, HttpStatus.OK);
     }
 
@@ -549,22 +552,82 @@ public class PageResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<?> collaborateTrack(@RequestParam(value = "building") Long buildingId){
+    public ResponseEntity<?> collaborateTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
 
-        PageCollaborateTrackDTO pageCollaborateTrack = new PageCollaborateTrackDTO();
-        pageCollaborateTrack.setCollaborates(collaborateRepository.findAllByBuilding(buildingId, false)); // second parameter is boolean tracking
+        PageCollaborateRecordDTO pageCollaborateTrack = new PageCollaborateRecordDTO();
+        pageCollaborateTrack.setCollaborates(collaborateRepository.findAllByBuildingForTrack(buildingId, page)); // second parameter is boolean tracking
+        pageCollaborateTrack.setNumberOfRecords(collaborateRepository.getTotalNumberOfAccessibleCollaborates(buildingId, true));
         return new ResponseEntity<>(pageCollaborateTrack, HttpStatus.OK);
     }
     @RequestMapping(
-            value = "/collaborate-archive",
+            value = "/collaborate-record",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
-    public ResponseEntity<?> collaborateArchive(@RequestParam(value = "building") Long buildingId){
-        PageCollaborateTrackDTO pageCollaborateTrack = new PageCollaborateTrackDTO();
+    public ResponseEntity<?> collaborateArchive(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+        PageCollaborateRecordDTO pageCollaborateTrack = new PageCollaborateRecordDTO();
 
-        pageCollaborateTrack.setCollaborates(collaborateRepository.findAllByBuilding(buildingId, true)); // second parameter is boolean tracking
+        pageCollaborateTrack.setCollaborates(collaborateRepository.findAllByBuildingForArchive(buildingId, page)); // second parameter is boolean tracking
+        pageCollaborateTrack.setNumberOfRecords(collaborateRepository.getTotalNumberOfAccessibleCollaborates(buildingId, false));
         return new ResponseEntity<>(pageCollaborateTrack, HttpStatus.OK);
+    }
+
+    @RequestMapping(
+        value = "/collaborate-detail/{collaborateId}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> collaborateDetail(@RequestParam(value = "building") Long buildingId, @PathVariable Long collaborateId){
+
+        Collaborate collaborate = collaborateRepository.findOneById(collaborateId);
+        if(collaborate.getBuildingId() != buildingId){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        PageCollaborateDetailDTO pageCollaborateDetailDTO = new PageCollaborateDetailDTO();
+        pageCollaborateDetailDTO.setCollaborate(collaborate);
+
+        boolean archive = true;
+        int currentTime = new DateTime().getMillisOfSecond();
+
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
+
+        Member member = memberRepository.findOneByUserIdAndBuildingId(user.getId(), buildingId);
+        List<Long> selectedIds = new ArrayList<Long>();
+
+        if(collaborate.getCreatedBy() == user.getId()){
+            pageCollaborateDetailDTO.setCreator(true);
+        }
+        // reset
+        collaborate.setCreatedBy(null);
+
+        boolean firstEdit = true;
+        if(collaborate.getStatus() == 2){
+            archive = true;
+        } else{
+            for(CollaborateDate collaborateDate: collaborate.getCollaborateDates()){
+                if(archive == true && new DateTime().isBefore(collaborateDate.getIssueDate())){
+                    archive = false;
+                }
+                for(CollaborateMember cm : collaborateDate.getCollaborateMembers()){
+                    if(cm.getModifiedDate() != null){
+                        firstEdit = false;
+                    }
+                    if(cm.getSelected() != null && cm.getSelected() == true){
+                        if(cm.getMember().getId() == member.getId()){
+                            selectedIds.add(collaborateDate.getId());
+                        }
+                    }
+                }
+            }
+        }
+        pageCollaborateDetailDTO.setFirstEdit(firstEdit);
+
+        pageCollaborateDetailDTO.setArchived(archive);
+        pageCollaborateDetailDTO.setSelectedIds(selectedIds);
+
+
+        return new ResponseEntity<>(pageCollaborateDetailDTO, HttpStatus.OK);
     }
 }

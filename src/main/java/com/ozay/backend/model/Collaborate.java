@@ -5,33 +5,70 @@ import java.util.List;
 /**
  * Created by naofumiezaki on 5/24/16.
  */
-public class Collaborate {
+public class Collaborate extends Model{
     public static Integer RSVP = 1;
     public static Integer CALENDER = 2;
+
+    public static Integer STATUS_CREATED = 0;
+    public static Integer STATUS_COMPLETED = 1;
+    public static Integer STATUS_CANCELED = 2;
 
     private Long id;
     private Long buildingId;
     private String subject;
+    private String message;
     private Integer response;
-    private Long createdBy;
-    private Long modifiedBy;
-    private boolean tracking;
-    private List<CollaborateDate> collaborateIssueDateList;
+    private Long collaborateDateId;
+    private List<Member> members;
+    private List<CollaborateDate> collaborateDates;
+    private Integer status;
 
-    public Long getModifiedBy() {
-        return modifiedBy;
+    public static Integer getStatusCreated() {
+        return STATUS_CREATED;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
-        this.modifiedBy = modifiedBy;
+    public static void setStatusCreated(Integer statusCreated) {
+        STATUS_CREATED = statusCreated;
     }
 
-    public Long getCreatedBy() {
-        return createdBy;
+    public static Integer getStatusCompleted() {
+        return STATUS_COMPLETED;
     }
 
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
+    public static void setStatusCompleted(Integer statusCompleted) {
+        STATUS_COMPLETED = statusCompleted;
+    }
+
+    public static Integer getStatusCanceled() {
+        return STATUS_CANCELED;
+    }
+
+    public static void setStatusCanceled(Integer statusCanceled) {
+        STATUS_CANCELED = statusCanceled;
+    }
+
+    public Long getCollaborateDateId() {
+        return collaborateDateId;
+    }
+
+    public void setCollaborateDateId(Long collaborateDateId) {
+        this.collaborateDateId = collaborateDateId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public static Integer getRSVP() {
@@ -82,19 +119,31 @@ public class Collaborate {
         this.response = response;
     }
 
-    public boolean isTracking() {
-        return tracking;
+
+    public List<Member> getMembers() {
+        return members;
     }
 
-    public void setTracking(boolean tracking) {
-        this.tracking = tracking;
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
 
-    public List<CollaborateDate> getCollaborateIssueDateList() {
-        return collaborateIssueDateList;
+    public List<CollaborateDate> getCollaborateDates() {
+        return collaborateDates;
     }
 
-    public void setCollaborateIssueDateList(List<CollaborateDate> collaborateIssueDateList) {
-        this.collaborateIssueDateList = collaborateIssueDateList;
+    public void setCollaborateDates(List<CollaborateDate> collaborateDates) {
+        this.collaborateDates = collaborateDates;
+    }
+
+    @Override
+    public String toString() {
+        return "Collaborate{" +
+            "id='" + id + '\'' +
+            "subject='" + subject + '\'' +
+            "message='" + message + '\'' +
+            "response='" + response + '\'' +
+            "collaborateDates='" + collaborateDates + '\'' +
+            "}";
     }
 }

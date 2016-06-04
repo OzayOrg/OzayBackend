@@ -39,7 +39,6 @@ angular.module('ozayApp')
                 });
             }
             if ($state.current.name == 'role-edit') {
-                console.log(data.role);
                 $scope.role = data.role;
 
 

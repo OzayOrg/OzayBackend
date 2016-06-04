@@ -3,49 +3,42 @@
 angular.module('ozayApp')
     .controller('NotificationRecordController', function($scope, $state, $stateParams, NotificationRecord, Page, UserInformation) {
         $scope.button = true;
-        $scope.contentTitle = 'Notification Archive';
-
-        $scope.selectedUsers = [];
         if($stateParams.search !== undefined){
             $scope.searchKeyword = $stateParams.search;
         }
-
+        $scope.data = {};
+        var pageLoaded = false;
+        var loadedPageNum = $stateParams.page === undefined ? 1 : $stateParams.page;
 
         // pagination
-
-        $scope.setPage = function(pageNo) {
-            $scope.currentPage = pageNo;
-        };
-
-        if($stateParams.pageId !== undefined){
-            $scope.currentPage = 1;
+        $scope.data.currentPage = 1;
+        if($stateParams.page === undefined){
+            $scope.data.currentPage = 1;
         } else {
-            $scope.currentPage = $stateParams.pageId;
+            $scope.data.currentPage = $stateParams.page;
         }
 
-       /*
-        $scope.pageChanged = function() {
-            $state.go('notification-record', {pageId:$scope.currentPage});
-        };
-        */
         $scope.searchBtnClicked = function(){
             $state.go('notification-record', {search:$scope.searchTrack});
         }
 
         $scope.pageChanged = function() {
-            $state.go('notification-record', {pageId:$scope.currentPage, search:$stateParams.search});
+            if(pageLoaded){
+                $state.go('notification-record', {page:$scope.data.currentPage, search:$stateParams.search});
+            }
         };
 
-        $scope.maxSize = 8;
+        $scope.data.maxSize = 8;
 
         Page.get({
             state: $state.current.name,
-            page:$stateParams.pageId,
+            page: $scope.data.currentPage,
             search:$stateParams.search
         }).$promise.then(function(data) {
             $scope.totalItems = data.totalNumOfPages/2;
             $scope.notifications = data.notificationRecords;
-            $scope.currentPage = $stateParams.pageId;
+            $scope.data.currentPage = loadedPageNum;
+            pageLoaded = true;
         });
 
     });

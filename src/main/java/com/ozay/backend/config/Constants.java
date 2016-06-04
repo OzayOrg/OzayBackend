@@ -16,6 +16,8 @@ public final class Constants {
 
     public static final String SYSTEM_ACCOUNT = "system";
 
+    public static final long APP_QUERY_LIMIT = 20;
+
     private Constants() {
     }
 }

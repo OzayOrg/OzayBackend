@@ -1,52 +1,42 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('NotificationTrackController', function($scope, $state, $stateParams, NotificationRecord, Page, UserInformation) {
-        $scope.button = true;
-        $scope.contentTitle = 'Notification Tracker';
+    .controller('CollaborateTrackController', function($scope, $state, $stateParams, Page, UserInformation) {
 
-        $scope.selectedUsers = [];
-        if($stateParams.search !== undefined){
-            $scope.searchKeyword = $stateParams.search;
-        }
+        $scope.data = {};
+        var pageLoaded = false;
+        // Shared HTML file with collaborate.record.controller
+        $scope.detailUrl = "collaborate-track-detail";
+        $scope.track = true;
+        $scope.data.currentPage = 1;
 
-        $scope.track = function(notificationRecord) {
-            // call api
-            notificationRecord.trackComplete = !notificationRecord.trackComplete;
-            NotificationRecord.update(notificationRecord, function(data) {
-                notificationRecord = data;
-                $scope.success = true;
-            }, function(error) {
-                $scope.errorTextAlert = "Error! Please try later.";
-            }).$promise.finally(function() {
-                $scope.button = true;
-            });
-        }
-
-        // pagination
-
-        $scope.searchBtnClicked = function(){
-            $state.go('notification-track', {search:$scope.searchTrack});
-        }
 
         $scope.pageChanged = function() {
-            $state.go('notification-track', {pageId:$scope.currentPage, search:$stateParams.search});
+            if(pageLoaded){
+                $state.go('collaborate-track', {
+                    page: $scope.data.currentPage
+                });
+            }
         };
 
-        $scope.maxSize = 8;
-         Page.get({
+        if ($stateParams.page !== undefined) {
+            $scope.data.currentPage = 1;
+        } else {
+            $scope.data.currentPage = $stateParams.page;
+        }
+        $scope.data.maxSize = 8;
+        Page.get({
             state: $state.current.name,
-            page: $stateParams.pageId,
-            search:$stateParams.search
+            page: $stateParams.page !== undefined ? $stateParams.page : 1
         }).$promise.then(function(data) {
             $scope.totalItems = data.numberOfRecords / 2;
-            $scope.notifications = data.notificationRecords; //this gets all the notifications\
-            $scope.notes = data.notificationsRecords;
-            $scope.currentPage = $stateParams.pageId;
+            $scope.collaborates = data.collaborates; //this gets all the collaborates\
+            $scope.data.currentPage = $stateParams.page !== undefined ? $stateParams.page : 1;
+            pageLoaded = true;
         });
+        $scope.setPage = function(pageNo) {
+            $scope.data.currentPage = pageNo;
+        };
 
-        $scope.onSelect = function(item) {
-                    $scope.notification.note = item.note;
-                }
 
     });

@@ -3,12 +3,13 @@
 angular.module('ozayApp')
     .config(function($stateProvider) {
         $stateProvider
-            .state('collaborate', {
+            .state('collaborate-create', {
                 parent: 'site',
                 url: '/collaborate',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_POST'],
-                    collaborateBtn:true,
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'COLLABORATE_POST'],
+                    defaultBtn:true,
+                    defaultBtnAuthorities: 'COLLABORATE_POST',
                     pageTitle: 'Collaborate Create',
                 },
                 views: {
@@ -16,7 +17,7 @@ angular.module('ozayApp')
                         templateUrl: 'scripts/components/layout/default.html',
                         controller: 'CollaborateController'
                     },
-                    'view@collaborate': {
+                    'view@collaborate-create': {
                          templateUrl: 'scripts/app/collaborate/collaborate.html',
                     }
                 },
@@ -26,18 +27,18 @@ angular.module('ozayApp')
             })
             .state('collaborate-record', {
                 parent: 'site',
-                url: '/collaborate-archive/:pageId',
+                url: '/collaborate-archive?page',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET'],
-                    pageTitle: 'Notification Archive',
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'ROLE_USER'],
+                    pageTitle: 'Collaborate Archive',
                 },
                 views: {
                     'content@': {
                         templateUrl: 'scripts/components/layout/default.html',
-                        controller: 'NotificationRecordController'
+                        controller: 'CollaborateRecordController'
                     },
                     'view@collaborate-record': {
-                         templateUrl: 'scripts/app/collaborate/collaborate-record.html',
+                         templateUrl: 'scripts/app/collaborate/collaborate-list.html',
                     }
                 },
                 resolve: {
@@ -46,18 +47,41 @@ angular.module('ozayApp')
             })
             .state('collaborate-track', {
                 parent: 'site',
-                url: '/collaborate-track/:pageId?search',
+                url: '/collaborate-track?page',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET'],
-                    pageTitle: 'Notification Tracker',
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'ROLE_USER'],
+                    pageTitle: 'Collaborate Tracker',
                 },
                 views: {
                     'content@': {
                         templateUrl: 'scripts/components/layout/default.html',
-                        controller: 'NotificationTrackController'
+                        controller: 'CollaborateTrackController'
                     },
                     'view@collaborate-track': {
-                         templateUrl: 'scripts/app/collaborate/collaborate-track.html',
+                         templateUrl: 'scripts/app/collaborate/collaborate-list.html',
+                    }
+                },
+                resolve: {
+
+                }
+            })
+            .state('collaborate-track-detail', {
+                parent: 'site',
+                url: '/collaborate-track/detail/{collaborateId:int}',
+                data: {
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'ROLE_USER'],
+                    pageTitle: 'Collaborate Tracker Detail',
+                    collaborateTrackBtn:true,
+                    collaborateTrackBtnAuthorities: 'ROLE_USER',
+                    cancelUrl:"collaborate-track"
+                },
+                views: {
+                    'content@': {
+                        templateUrl: 'scripts/components/layout/default.html',
+                        controller: 'CollaborateDetailController'
+                    },
+                    'view@collaborate-track-detail': {
+                         templateUrl: 'scripts/app/collaborate/collaborate-detail.html',
                     }
                 },
                 resolve: {
@@ -68,16 +92,18 @@ angular.module('ozayApp')
                 parent: 'site',
                 url: '/collaborate-archive/detail/{collaborateId:int}',
                 data: {
-                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'NOTIFICATION_GET'],
-                    pageTitle: 'Notification Archive Detail',
+                    authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'ROLE_USER'],
+                    pageTitle: 'Collaborate Archive Detail',
+                    cancelBtn:true,
+                    cancelUrl:"collaborate-record"
                 },
                 views: {
                     'content@': {
                         templateUrl: 'scripts/components/layout/default.html',
-                        controller: 'NotificationRecordDetailController'
+                        controller: 'CollaborateDetailController'
                     },
                     'view@collaborate-record-detail': {
-                         templateUrl: 'scripts/app/collaborate/collaborate-record-detail.html',
+                         templateUrl: 'scripts/app/collaborate/collaborate-detail.html',
                     }
                 },
                 resolve: {

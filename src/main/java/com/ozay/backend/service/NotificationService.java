@@ -2,6 +2,7 @@ package com.ozay.backend.service;
 
 import com.ozay.backend.model.*;
 import com.ozay.backend.repository.*;
+import com.ozay.backend.utility.HTMLUtility;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,9 @@ public class NotificationService {
     public void processNotification(NotificationFormDTO notificationFormDTO) throws Exception {
         Notification notification = notificationFormDTO.getNotification();
         notification.setIssueDate(new DateTime());
+
+        notification.setNotice(HTMLUtility.removeScriptTag(notification.getNotice()));
+
         notificationRepository.create(notification);
 
         ArrayList<String> emails = new ArrayList<String>();

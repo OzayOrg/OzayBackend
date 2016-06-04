@@ -4,10 +4,12 @@ angular.module('ozayApp')
     .controller('NotificationTrackController', function($scope, $state, $stateParams, NotificationRecord, Page, UserInformation) {
         $scope.button = true;
         $scope.contentTitle = 'Notification Tracker';
+        $scope.data = {};
 
         $scope.selectedUsers = [];
         if($stateParams.search !== undefined){
-            $scope.searchKeyword = $stateParams.search;
+            $scope.data.searchKeyword = $stateParams.search;
+            $scope.data.searchTrack = $stateParams.search;
         }
 
         $scope.track = function(notificationRecord) {
@@ -26,27 +28,29 @@ angular.module('ozayApp')
         // pagination
 
         $scope.searchBtnClicked = function(){
-            $state.go('notification-track', {search:$scope.searchTrack});
+            if($scope.data.searchTrack !== undefined){
+                $state.go('notification-track', {search:$scope.data.searchTrack});
+            }
         }
 
         $scope.pageChanged = function() {
-            $state.go('notification-track', {pageId:$scope.currentPage, search:$stateParams.search});
+            $state.go('notification-track', {pageId:$scope.data.currentPage, search:$stateParams.search});
         };
 
         $scope.maxSize = 8;
          Page.get({
             state: $state.current.name,
-            page: $stateParams.pageId,
+            page: $stateParams.page,
             search:$stateParams.search
-        }).$promise.then(function(data) {
-            $scope.totalItems = data.numberOfRecords / 2;
-            $scope.notifications = data.notificationRecords; //this gets all the notifications\
-            $scope.notes = data.notificationsRecords;
-            $scope.currentPage = $stateParams.pageId;
+        }).$promise.then(function(response) {
+            $scope.totalItems = response.numberOfRecords / 2;
+            $scope.notifications = response.notificationRecords; //this gets all the notifications\
+            $scope.notes = response.notificationsRecords;
+            $scope.currentPage = $stateParams.page;
         });
 
         $scope.onSelect = function(item) {
-                    $scope.notification.note = item.note;
-                }
+            $scope.notification.note = item.note;
+        }
 
     });

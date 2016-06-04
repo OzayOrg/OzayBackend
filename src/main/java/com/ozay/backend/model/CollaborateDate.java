@@ -10,7 +10,8 @@ public class CollaborateDate extends Model{
     private Long id;
     private Long collaborateId;
     private DateTime issueDate;
-    private List<Member> members;
+
+    private List<CollaborateMember> collaborateMembers;
 
     public Long getId() {
         return id;
@@ -36,11 +37,19 @@ public class CollaborateDate extends Model{
         this.issueDate = issueDate;
     }
 
-    public List<Member> getMembers() {
-        return members;
+    public List<CollaborateMember> getCollaborateMembers() {
+        return collaborateMembers;
     }
 
-    public void setMembers(List<Member> members) {
-        this.members = members;
+    public void setCollaborateMembers(List<CollaborateMember> collaborateMembers) {
+        this.collaborateMembers = collaborateMembers;
+    }
+    @Override
+    public String toString() {
+        return "Collaborate{" +
+            "id='" + id + '\'' +
+            "collaborateId='" + collaborateId + '\'' +
+            "issueDate='" + issueDate + '\'' +
+            "}";
     }
 }
