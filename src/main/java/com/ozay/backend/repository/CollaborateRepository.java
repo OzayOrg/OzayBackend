@@ -2,17 +2,17 @@ package com.ozay.backend.repository;
 
 import com.ozay.backend.config.Constants;
 import com.ozay.backend.model.Collaborate;
-import com.ozay.backend.model.CollaborateDate;
 import com.ozay.backend.resultsetextractor.CollaborateResultSetExtractor;
 import com.ozay.backend.security.SecurityUtils;
-import com.ozay.backend.utility.DateTimeUtility;
-import org.joda.time.DateTime;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by naofumiezaki on 5/24/16.
@@ -30,9 +30,8 @@ public class CollaborateRepository {
     private PermissionRepository permissionRepository;
 
 
-
     public Collaborate findOneById(Long id){
-        String query = "SELECT c.*, cd.id as cd_id, cd.collaborate_id as cd_collaborate_id, cd.issue_date, cm.modified_date as cm_modified_date,  m.id as m_id, m.first_name, m.last_name, cm.selected, cm.collaborate_date_id FROM collaborate c INNER JOIN collaborate_date cd ON cd.collaborate_id = c.id INNER JOIN collaborate_member cm ON cm.collaborate_date_id = cd.id INNER JOIN member m ON m.deleted = false AND m.id = cm.member_id WHERE c.id = :id ORDER BY c.id, issue_date";
+        String query = "SELECT c.*, cd.id as cd_id, cd.collaborate_id as cd_collaborate_id, cd.issue_date, cm.modified_date as cm_modified_date,  m.id as m_id, m.first_name, m.last_name, cm.selected, cm.collaborate_date_id FROM collaborate c INNER JOIN collaborate_date cd ON cd.collaborate_id = c.id INNER JOIN collaborate_member cm ON cm.collaborate_date_id = cd.id INNER JOIN member m ON m.deleted = false AND m.id = cm.member_id WHERE c.id = :id ORDER BY cd.issue_date, m.id";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("id", id);

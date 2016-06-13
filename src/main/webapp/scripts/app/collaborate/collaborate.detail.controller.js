@@ -8,7 +8,6 @@ angular.module('ozayApp')
         $scope.data.rsvpPost;
         $scope.status = '';
         $scope.completed = false;
-        $scope.postDate = false;
         $scope.scheduledDate = null;
 
         var successMessage = MessageService.getSuccessMessage();
@@ -44,7 +43,6 @@ angular.module('ozayApp')
                 response = data.collaborate.response;
 
                 for (var j = 0; j < data.collaborate.collaborateDates.length; j++) {
-
                     var yesCounter = 0;
                     var noCounter = 0;
                     var date = data.collaborate.collaborateDates[j];
@@ -79,7 +77,10 @@ angular.module('ozayApp')
                          $scope.scheduledDate = data.collaborate.collaborateDates[0].issueDate;
                     }
                     else if(response == 2){
-
+                        if(data.collaborate.collaborateDateId ){
+                            $scope.completed = true;
+                            $scope.scheduledDate = date.issueDate;
+                        }
                         data.collaborate.collaborateDates[j].yesCounter = yesCounter;
                         data.collaborate.collaborateDates[j].noCounter = noCounter;
                     }
@@ -102,8 +103,6 @@ angular.module('ozayApp')
                 }else if(data.collaborate.status == 2){
                     $scope.status = 'Canceled';
                 }
-
-
             });
         }
         $scope.rsvpCheck = function(value) {
@@ -115,7 +114,7 @@ angular.module('ozayApp')
         }
 
         $scope.calendarCheck = function(obj){
-            if(archived == false){
+            if(archived == false && $scope.collaborate.status == 0){
                 obj.selected = !obj.selected;
             }
         }
@@ -134,20 +133,25 @@ angular.module('ozayApp')
                     }
                 }
             }
+            if(method == 'complete' && response == 2){
+               $scope.collaborate.collaborateDateId = $scope.data.postDate;
+
+            }
 
             $scope.successTextAlert = null;
             $scope.errorTextAlert = null;
             if (archived == true) {
                 return false;
             }
+
             if (confirm("Would you like to proceed?")) {
                 Collaborate.update({method:method}, $scope.collaborate, function(data) {
                     if(method == 'cancel'){
                         MessageService.setSuccessMessage('Successfully updated');
                         $state.go('collaborate-record-detail', {collaborateId:$stateParams.collaborateId});
                     } else {
-                        $scope.completed = true;
-                        $scope.successTextAlert = "Successfully updated";
+                        MessageService.setSuccessMessage('Successfully updated');
+                        $state.reload();
                     }
 
                 }, function(error) {

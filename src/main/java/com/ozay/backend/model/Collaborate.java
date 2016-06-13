@@ -23,6 +23,8 @@ public class Collaborate extends Model{
     private List<CollaborateDate> collaborateDates;
     private Integer status;
 
+
+
     public static Integer getStatusCreated() {
         return STATUS_CREATED;
     }
@@ -141,6 +143,7 @@ public class Collaborate extends Model{
         return "Collaborate{" +
             "id='" + id + '\'' +
             "subject='" + subject + '\'' +
+            "collaborateDateId='" + collaborateDateId + '\'' +
             "message='" + message + '\'' +
             "response='" + response + '\'' +
             "collaborateDates='" + collaborateDates + '\'' +

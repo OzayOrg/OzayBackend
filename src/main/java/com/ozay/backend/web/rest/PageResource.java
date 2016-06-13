@@ -23,7 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by naofumiezaki on 11/1/15.
@@ -582,6 +585,9 @@ public class PageResource {
     public ResponseEntity<?> collaborateDetail(@RequestParam(value = "building") Long buildingId, @PathVariable Long collaborateId){
 
         Collaborate collaborate = collaborateRepository.findOneById(collaborateId);
+        if(collaborate == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         if(collaborate.getBuildingId() != buildingId){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -616,6 +622,7 @@ public class PageResource {
                     }
                     if(cm.getSelected() != null && cm.getSelected() == true){
                         if(cm.getMember().getId() == member.getId()){
+                            firstEdit = false;
                             selectedIds.add(collaborateDate.getId());
                         }
                     }

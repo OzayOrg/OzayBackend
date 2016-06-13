@@ -87,10 +87,18 @@ public class CollaborateResource {
         if(currentCollaborate == null){
             return new ResponseEntity<>(new ErrorDTO("Invalid Request"), HttpStatus.BAD_REQUEST);
         }
+        if(currentCollaborate.getStatus() == Collaborate.STATUS_CANCELED){
+            return new ResponseEntity<>(new ErrorDTO("Invalid Request"), HttpStatus.BAD_REQUEST);
+        }
+        else if(currentCollaborate.getStatus() == Collaborate.STATUS_COMPLETED){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
         currentCollaborate.setStatus(Collaborate.STATUS_COMPLETED);
         if(currentCollaborate.getResponse() == Collaborate.RSVP){
             Long id = currentCollaborate.getCollaborateDates().get(0).getId();
             currentCollaborate.setCollaborateDateId(id);
+        } else if(currentCollaborate.getResponse() == Collaborate.CALENDER){
+            currentCollaborate.setCollaborateDateId(collaborate.getCollaborateDateId());
         }
         collaborateRepository.update(currentCollaborate);
         return new ResponseEntity<>(HttpStatus.OK);

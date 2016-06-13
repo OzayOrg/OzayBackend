@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
     @Override
     public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
         List<Collaborate> collaborateList = new ArrayList<Collaborate>();
+        List<CollaborateDate> collaborateDateList = new ArrayList<CollaborateDate>();
+        List<CollaborateMember> collaborateMemberList = new ArrayList<CollaborateMember>();
         Collaborate collaborate = null;
 
         Long previous = null; // For collaborate
@@ -30,9 +33,12 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
         CollaborateMember collaborateMember = null;
 
         while(resultSet.next()) {
-            if(collaborate == null || collaborate.getId() != previous){
+
+            if(collaborate == null || resultSet.getLong("id") != previous){
                 if(collaborate != null){
                     collaborateList.add(collaborate);
+                    collaborate.setCollaborateDates(collaborateDateList);
+                    collaborateDateList = new ArrayList<CollaborateDate>();
                 }
                 collaborate = new Collaborate();
                 collaborate.setId(resultSet.getLong("id"));
@@ -52,37 +58,25 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
                 collaborate.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
                 collaborate.setCollaborateDates(new ArrayList<CollaborateDate>());
             }
-
-
-            if(collaborateDate == null || collaborateDate.getId() != previous2){
+            if(collaborateDate == null || resultSet.getLong("cd_id") != previous2){
                 if(collaborateDate != null){
-                    collaborate.getCollaborateDates().add(collaborateDate);
+                    collaborateDate.setCollaborateMembers(collaborateMemberList);
+                    collaborateMemberList = new ArrayList<CollaborateMember>();
                 }
-
                 collaborateDate = new CollaborateDate();
                 collaborateDate.setId(resultSet.getLong("cd_id"));
                 collaborateDate.setCollaborateId(resultSet.getLong("cd_collaborate_id"));
                 collaborateDate.setIssueDate(new DateTime(resultSet.getDate("issue_date")));
                 collaborateDate.setCollaborateMembers(new ArrayList<CollaborateMember>());
+                collaborateDateList.add(collaborateDate);
             }
-
-            previous = resultSet.getLong("id");
-            previous2 = resultSet.getLong("cd_id");
 
             collaborateMember = new CollaborateMember();
             member = new Member();
             member.setId(resultSet.getLong("m_id"));
             member.setFirstName(resultSet.getString("first_name"));
             member.setLastName(resultSet.getString("last_name"));
-
             collaborateMember.setMember(member);
-
-            if((DateTime)resultSet.getObject("cm_modified_date") == null){
-                collaborateMember.setModifiedDate(null);
-            } else {
-                collaborateMember.setModifiedDate(new DateTime(resultSet.getDate("cm_modified_date")));
-            }
-
             collaborateMember.setCollaborateDateId(resultSet.getLong("collaborate_date_id"));
             Boolean b = resultSet.getBoolean("selected");
 
@@ -91,16 +85,25 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
             } else {
                 collaborateMember.setSelected(resultSet.getBoolean("selected"));
             }
+            collaborateMemberList.add(collaborateMember);
 
 
-            collaborateDate.getCollaborateMembers().add(collaborateMember);
-        }
-        if(collaborateDate != null && collaborate != null){
-            collaborate.getCollaborateDates().add(collaborateDate);
+            if((Date)resultSet.getObject("cm_modified_date") == null){
+                collaborateMember.setModifiedDate(null);
+            } else {
+                collaborateMember.setModifiedDate(new DateTime(resultSet.getDate("cm_modified_date")));
+            }
+
+            previous = resultSet.getLong("id");
+            previous2 = resultSet.getLong("cd_id");
         }
         if(collaborate != null){
+            collaborateDate.setCollaborateMembers(collaborateMemberList);
+            collaborate.setCollaborateDates(collaborateDateList);
             collaborateList.add(collaborate);
         }
+
+
 
         return collaborateList;
     }

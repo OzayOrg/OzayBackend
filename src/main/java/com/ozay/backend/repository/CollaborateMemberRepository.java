@@ -24,7 +24,7 @@ public class CollaborateMemberRepository {
     }
 
     public void update(Long collaborateId, Long collaborateDateId, Long memberId, Boolean selected){
-        String query = "Update collaborate_member set selected=:selected WHERE collaborate_id=:collaborateId AND collaborate_date_id=:collaborateDateId AND member_id =:memberId";
+        String query = "Update collaborate_member set selected=:selected, modified_date = NOW() WHERE collaborate_id=:collaborateId AND collaborate_date_id=:collaborateDateId AND member_id =:memberId";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("collaborateId", collaborateId);
         params.addValue("collaborateDateId", collaborateDateId);
