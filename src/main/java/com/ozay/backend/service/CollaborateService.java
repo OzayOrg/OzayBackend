@@ -35,18 +35,23 @@ public class CollaborateService {
     UserService userService;
 
     @Inject
+    UserRepository userRepository;
+
+    @Inject
     MailService mailService;
 
     @Inject
     MemberRepository memberRepository;
 
     public void complete(Collaborate collaborate){
+        collaborate.setStatus(Collaborate.STATUS_COMPLETED);
         collaborateRepository.update(collaborate);
         List<Member> members = memberRepository.findAllByCollaborateId(collaborate.getId());
         mailService.sendCollaborateComplete(collaborate, members);
     }
 
     public void cancel(Collaborate collaborate){
+        collaborate.setStatus(Collaborate.STATUS_CANCELED);
         collaborateRepository.update(collaborate);
         List<Member> members = memberRepository.findAllByCollaborateId(collaborate.getId());
         mailService.sendCollaborateComplete(collaborate, members);
@@ -56,11 +61,17 @@ public class CollaborateService {
         for(CollaborateDetailFieldDTO field : collaborateDetailFormDTO.getCollaborateTrackField()){
             collaborateMemberRepository.update(collaborateDetailFormDTO.getCollaborateId(), field.getCollaborateDateId(), collaborateDetailFormDTO.getMemberId(), field.getSelected());
         }
+        Collaborate collaborate = collaborateRepository.findOneById(collaborateDetailFormDTO.getCollaborateId());
+
+        User user = userRepository.findOne(collaborate.getCreatedBy());
+        Member replyFrom = memberRepository.findOne(collaborateDetailFormDTO.getMemberId());
+        mailService.sendCollaborateUpdate(collaborate,replyFrom, user.getEmail());
     }
 
 
     public void create(CollaborateCreateFormDTO collaborateCreateFormDTO){
         Collaborate collaborate = collaborateCreateFormDTO.getCollaborate();
+        collaborate.setStatus(Collaborate.STATUS_CREATED);
         User user = userService.getUserWithAuthorities();
 
         collaborate.setCreatedBy(user.getId());
@@ -76,6 +87,7 @@ public class CollaborateService {
                 collaborateMemberRepository.create(collaborate.getId(), collaborateDate.getId(), member.getId());
             }
         }
-        mailService.sendCollaborateCreate(collaborate, members);
+        collaborate.setCollaborateDates(collaborateCreateFormDTO.getCollaborateDates());
+        mailService.sendCollaborateMail(collaborate, members);
     }
 }

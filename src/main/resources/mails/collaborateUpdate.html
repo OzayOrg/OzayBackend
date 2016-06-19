@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Collaborate</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+<div style="border-top: 0.25cm;border-top-color: #fec912; border-top-style: solid;"></div>
+<center>
+    <a href="http://ozay.us/#/login"><img src="http://ozay.us/assets/images/logo_email.png" width="100px" /></a>
+</center>
+
+<table cellspacing="0" cellpadding="10" border="0" height="100%" width="100%">
+    <tr>
+        <td width="80">Subject</td>
+        <td th:utext="${collaborate.subject}"></td>
+    </tr>
+    <tr>
+        <td width="80">Message</td>
+        <td th:utext="${collaborate.message}"></td>
+    </tr>
+    <tr>
+        <td width="80">Type</td>
+        <td th:utext="${responseType}"></td>
+    </tr>
+    <tr th:if="${collaborate.status == 1}">
+        <td>Dates</td>
+        <td th:each="date : ${dates}">
+            <p th:text="${date}"></p>
+        </td>
+    </tr>
+</table>
+
+<!--footer-->
+
+<div style="background-color:#fec612;color:#ffffff;font-size:12px;font-family:Tahoma;
+                    padding:10px;
+                    display: block;
+                    align-items: flex-end;
+                    flex-wrap: wrap;
+                    white-space: wrap;">
+    <!--Column 1:flex grow does the magic -->
+            <span>
+                <span style="font-size:12px;">Follow us:</span>
+                <a href="https://www.facebook.com/OzayUS"><img src="http://ozay.us/assets/images/facebook.png" style="padding-left:20px;" height="15px"/></a>
+                <a href="https://twitter.com/OzayApp"><img src="http://ozay.us/assets/images/twitter.png" style="padding-left:25px;" height="15px"/></a>
+            </span>
+
+</div>
+
+<div><br /></div>
+</body>
+
+</html>

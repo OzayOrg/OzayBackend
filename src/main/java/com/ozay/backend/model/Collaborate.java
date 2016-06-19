@@ -9,9 +9,9 @@ public class Collaborate extends Model{
     public static Integer RSVP = 1;
     public static Integer CALENDER = 2;
 
-    public static Integer STATUS_CREATED = 0;
-    public static Integer STATUS_COMPLETED = 1;
-    public static Integer STATUS_CANCELED = 2;
+    public static Integer STATUS_CREATED = 1;
+    public static Integer STATUS_COMPLETED = 2;
+    public static Integer STATUS_CANCELED = 3;
 
     private Long id;
     private Long buildingId;

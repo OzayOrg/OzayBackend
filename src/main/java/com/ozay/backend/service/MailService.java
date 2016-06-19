@@ -9,10 +9,13 @@ import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.apache.commons.lang.CharEncoding;
 import org.joda.time.DateTime;
+
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -179,28 +182,87 @@ public class MailService {
         sendEmail(email, status + ": " + Subject, "Task created on " + date + ". " + status + " on " + dt_track , false, true);
     }
 
+
+    // Collaborate
     @Async
-    public void sendCollaborateCreate(Collaborate collaborate, List<Member> members){
+    public void sendCollaborateMail(Collaborate collaborate, List<Member> members){
         String[] emails = this.getEmailsFromListMembers(members);
-        log.debug("Sending notification e-mail to {}", emails);
+        log.debug("Sending Collaborate e-mail to {}", emails);
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
-        context.setVariable("body", collaborate.getMessage());
-        String content = templateEngine.process("collaborateEmail", context);
 
-        String subject = collaborate.getSubject();
-        log.debug("About to send email");
+        String subject = "";
+        String message = null;
+        String responseType = "";
+        String additional ="";
+        List<String> dates = new ArrayList<String>();
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/mm/yyyy hh:mm a");
+        if(collaborate.getStatus() == Collaborate.STATUS_CREATED){
+            subject = collaborate.getSubject();
+            message += collaborate.getMessage();
+
+
+            for(CollaborateDate cd : collaborate.getCollaborateDates()){
+                dates.add(formatter.print(cd.getIssueDate()));
+            }
+        }
+        else if(collaborate.getStatus() == Collaborate.STATUS_CANCELED){
+            subject = "Collaborate Canceled";
+            message += "<p>The following collaborate is canceled</p>";
+            message += collaborate.getMessage();
+        }
+        else if(collaborate.getStatus() == Collaborate.STATUS_COMPLETED){
+            subject = "Collaborate Completed";
+            CollaborateDate scheduledDate = null;
+            for(CollaborateDate cd : collaborate.getCollaborateDates()){
+                if(cd.getId() == collaborate.getCollaborateDateId()){
+                    scheduledDate = cd;
+                    break;
+                }
+            }
+
+            message += "Scheduled Date is " + formatter.print(scheduledDate.getIssueDate());
+        }
+
+        if(collaborate.getResponse() == Collaborate.getRSVP()){
+            responseType = "RSVP";
+        } else if(collaborate.getResponse() == Collaborate.getCALENDER()){
+            responseType = "Calendar";
+        }
+
+        context.setVariable("collaborate", collaborate);
+        context.setVariable("responseType", responseType);
+        context.setVariable("additional", additional);
+        context.setVariable("dates", dates);
+        context.setVariable("message", message);
+        String content = templateEngine.process("collaborateMail", context);
+
+        log.debug("About to collaborate email Status " + collaborate.getStatus());
         this.sendMultipleEmails(emails, subject, content, false, true);
     }
 
     @Async
-    public void sendCollaborateUpdate(Collaborate collaborate, List<Member> members){
-        String[] emails = this.getEmailsFromListMembers(members);
-        log.debug("Sending notification e-mail to {}", emails);
+    public void sendCollaborateUpdate(Collaborate collaborate, Member replyFrom, String creatorEmail){
+
+        log.debug("Sending collabrate update e-mail to {}", creatorEmail);
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         context.setVariable("body", collaborate.getMessage());
-        String content = templateEngine.process("collaborateEmail", context);
+        String content = templateEngine.process("collaborateUpdate", context);
+
+        String subject = collaborate.getSubject();
+        log.debug("About to send email");
+        this.sendEmail(creatorEmail, subject, content, false, true);
+    }
+
+    @Async
+    public void sendCollaborateCancel(Collaborate collaborate, List<Member> members){
+        String[] emails = this.getEmailsFromListMembers(members);
+        log.debug("Sending collaborate Cancel e-mail to {}", emails);
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("body", collaborate.getMessage());
+        String content = templateEngine.process("collaborateUpdate", context);
 
         String subject = "Collaborate updated";
         log.debug("About to send email");
@@ -210,16 +272,18 @@ public class MailService {
     @Async
     public void sendCollaborateComplete(Collaborate collaborate, List<Member> members){
         String[] emails = this.getEmailsFromListMembers(members);
-        log.debug("Sending notification e-mail to {}", emails);
+        log.debug("Sending collaborate complete e-mail to {}", emails);
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         context.setVariable("body", collaborate.getMessage());
-        String content = templateEngine.process("collaborateEmail", context);
+        String content = templateEngine.process("collaborateComplete", context);
 
         String subject = "Collaborate completed";
         log.debug("About to send email");
         this.sendMultipleEmails(emails, subject, content, false, true);
     }
+
+    // End collaborate
 
     private String[] getEmailsFromListMembers(List<Member> members){
         ArrayList<String> emails = new ArrayList<String>();

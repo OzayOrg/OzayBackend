@@ -71,6 +71,7 @@ public class CollaborateResource {
             }
         }
         collaborateService.create(collaborateCreateFormDTO);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
