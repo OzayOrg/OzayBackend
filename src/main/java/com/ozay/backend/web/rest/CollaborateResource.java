@@ -100,7 +100,7 @@ public class CollaborateResource {
         } else if(currentCollaborate.getResponse() == Collaborate.CALENDER){
             currentCollaborate.setCollaborateDateId(collaborate.getCollaborateDateId());
         }
-        collaborateRepository.update(currentCollaborate);
+        collaborateService.complete(currentCollaborate);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     /**

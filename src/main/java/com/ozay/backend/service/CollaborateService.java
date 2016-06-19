@@ -34,6 +34,24 @@ public class CollaborateService {
     @Inject
     UserService userService;
 
+    @Inject
+    MailService mailService;
+
+    @Inject
+    MemberRepository memberRepository;
+
+    public void complete(Collaborate collaborate){
+        collaborateRepository.update(collaborate);
+        List<Member> members = memberRepository.findAllByCollaborateId(collaborate.getId());
+        mailService.sendCollaborateComplete(collaborate, members);
+    }
+
+    public void cancel(Collaborate collaborate){
+        collaborateRepository.update(collaborate);
+        List<Member> members = memberRepository.findAllByCollaborateId(collaborate.getId());
+        mailService.sendCollaborateComplete(collaborate, members);
+    }
+
     public void update(CollaborateDetailFormDTO collaborateDetailFormDTO){
         for(CollaborateDetailFieldDTO field : collaborateDetailFormDTO.getCollaborateTrackField()){
             collaborateMemberRepository.update(collaborateDetailFormDTO.getCollaborateId(), field.getCollaborateDateId(), collaborateDetailFormDTO.getMemberId(), field.getSelected());
@@ -58,7 +76,6 @@ public class CollaborateService {
                 collaborateMemberRepository.create(collaborate.getId(), collaborateDate.getId(), member.getId());
             }
         }
-
-
+        mailService.sendCollaborateCreate(collaborate, members);
     }
 }

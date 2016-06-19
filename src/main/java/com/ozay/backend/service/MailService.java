@@ -26,7 +26,9 @@ import sun.util.calendar.BaseCalendar;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -176,6 +178,57 @@ public class MailService {
 
         sendEmail(email, status + ": " + Subject, "Task created on " + date + ". " + status + " on " + dt_track , false, true);
     }
+
+    @Async
+    public void sendCollaborateCreate(Collaborate collaborate, List<Member> members){
+        String[] emails = this.getEmailsFromListMembers(members);
+        log.debug("Sending notification e-mail to {}", emails);
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("body", collaborate.getMessage());
+        String content = templateEngine.process("collaborateEmail", context);
+
+        String subject = collaborate.getSubject();
+        log.debug("About to send email");
+        this.sendMultipleEmails(emails, subject, content, false, true);
+    }
+
+    @Async
+    public void sendCollaborateUpdate(Collaborate collaborate, List<Member> members){
+        String[] emails = this.getEmailsFromListMembers(members);
+        log.debug("Sending notification e-mail to {}", emails);
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("body", collaborate.getMessage());
+        String content = templateEngine.process("collaborateEmail", context);
+
+        String subject = "Collaborate updated";
+        log.debug("About to send email");
+        this.sendMultipleEmails(emails, subject, content, false, true);
+    }
+
+    @Async
+    public void sendCollaborateComplete(Collaborate collaborate, List<Member> members){
+        String[] emails = this.getEmailsFromListMembers(members);
+        log.debug("Sending notification e-mail to {}", emails);
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("body", collaborate.getMessage());
+        String content = templateEngine.process("collaborateEmail", context);
+
+        String subject = "Collaborate completed";
+        log.debug("About to send email");
+        this.sendMultipleEmails(emails, subject, content, false, true);
+    }
+
+    private String[] getEmailsFromListMembers(List<Member> members){
+        ArrayList<String> emails = new ArrayList<String>();
+        for(Member m : members){
+            emails.add(m.getEmail());
+        }
+        return emails.toArray(new String[emails.size()]);
+    }
+
     @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
         Notification notification = notificationFormDTO.getNotification();
@@ -187,11 +240,11 @@ public class MailService {
         Building building = buildingRepository.findOne(notification.getBuildingId());
         String subject = building.getName()+" : "+notification.getSubject();
         log.debug("About to send email");
-        this.sendMultipleEmails(notificationFormDTO, to, subject, content, false, true);
+        this.sendMultipleEmails(to, subject, content, false, true);
     }
 
     @Async
-    private void sendMultipleEmails(NotificationFormDTO notificationFormDTO, String[] to, String subject, String content, boolean isMultipart, boolean isHtml) {
+    private void sendMultipleEmails(String[] to, String subject, String content, boolean isMultipart, boolean isHtml) {
         log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
             isMultipart, isHtml, to, subject, content);
 

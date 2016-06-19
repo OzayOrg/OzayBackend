@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by naofumiezaki on 11/1/15.
@@ -74,6 +75,14 @@ public class RoleMemberRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("roleId", roleId);
         params.addValue("memberId", memberId);
+        namedParameterJdbcTemplate.update(query,params);
+    }
+
+    public void deleteOrganizationMemberAllByRoleId(Long roleId, Set<Long> userIds){
+        String query="DELETE FROM role_member WHERE role_id=:roleId AND member_id IN (SELECT m.id FROM role_member rm join member m ON  rm.member_id = m.id and rm.role_id = :roleId AND m.organization_user_id IN (:userIds))";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("roleId", roleId);
+        params.addValue("userIds", userIds);
         namedParameterJdbcTemplate.update(query,params);
     }
     public void deleteAllByRoleId(Long roleId){

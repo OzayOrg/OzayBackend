@@ -75,7 +75,16 @@ public class RoleService {
     private void processRoleAssignedMember(RoleFormDTO roleFormDTO){
         Long buildingId = roleFormDTO.getRole().getBuildingId();
 
-        roleMemberRepository.deleteAllByRoleId(roleFormDTO.getRole().getId());
+        // organization user ids
+        Set<Long> ids = new HashSet<Long>();
+
+        for(OrganizationUserRoleDTO organizationUserRoleDTO : roleFormDTO.getOrganizationUserRoleDTOs()){
+            ids.add(organizationUserRoleDTO.getId());
+        }
+        if(ids.size() > 0){
+            roleMemberRepository.deleteOrganizationMemberAllByRoleId(roleFormDTO.getRole().getId(), ids);
+        }
+
 
         for(OrganizationUserRoleDTO organizationUserRoleDTO : roleFormDTO.getOrganizationUserRoleDTOs()){
             OrganizationUser organizationUser = organizationUserRepository.findOne(organizationUserRoleDTO.getId());
