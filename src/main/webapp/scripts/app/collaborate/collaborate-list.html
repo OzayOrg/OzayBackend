@@ -11,7 +11,9 @@
                     <th>Subject</th>
                     <th>Message</th>
                     <th>Response</th>
+                    <th>Process</th>
                     <th>Complete</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -19,7 +21,9 @@
                     <td>{{collaborate.createdDate | date: "MM/dd/yyyy" }}</td>
                     <td>{{collaborate.subject}}</td>
                     <td ng-bind-html="collaborate.message"></td>
+
                     <td><span ng-if="collaborate.response == 1">RSVP</span><span ng-if="collaborate.response == 2">Calendar</span></td>
+                    <td>{{calculateProcess(collaborate)}}</td>
                     <td>
                         <span ng-if="collaborate.status == 1 && track == true">No</span>
                         <span ng-if="collaborate.status == 1 && track == false">Expired</span>

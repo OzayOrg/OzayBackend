@@ -609,7 +609,7 @@ public class PageResource {
         collaborate.setCreatedBy(null);
 
         boolean firstEdit = true;
-        if(collaborate.getStatus() == 2){
+        if(collaborate.getStatus() == Collaborate.STATUS_CANCELED){
             archive = true;
         } else{
             for(CollaborateDate collaborateDate: collaborate.getCollaborateDates()){

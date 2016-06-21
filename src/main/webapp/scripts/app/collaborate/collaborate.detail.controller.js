@@ -114,7 +114,7 @@ angular.module('ozayApp')
         }
 
         $scope.calendarCheck = function(obj){
-            if(archived == false && $scope.collaborate.status == 0){
+            if(archived == false && $scope.collaborate.status == 1){
                 obj.selected = !obj.selected;
             }
         }

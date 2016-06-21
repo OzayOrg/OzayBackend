@@ -83,9 +83,9 @@ public class CollaborateRepository {
         }
         String query = null;
         if(track == true){
-            query = "SELECT id from ((SELECT c.id, max(issue_date) as issue_date, status from collaborate_date cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_date_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date >= now() AND status in (0, 1) ORDER BY issue_date DESC limit :limit offset :offset";
+            query = "SELECT id from ((SELECT c.id, max(issue_date) as issue_date, status from collaborate_date cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_date_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date >= now() AND status in (" + Collaborate.STATUS_CREATED + ", " + Collaborate.STATUS_COMPLETED + ") ORDER BY issue_date DESC limit :limit offset :offset";
         } else {
-            query = "SELECT id from ((SELECT c.id, max(issue_date) as issue_date, status from collaborate_date cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_date_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date < now() OR status in (2) ORDER BY issue_date DESC limit :limit offset :offset";
+            query = "SELECT id from ((SELECT c.id, max(issue_date) as issue_date, status from collaborate_date cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_date_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date < now() OR status in (" + Collaborate.STATUS_CANCELED +  " ) ORDER BY issue_date DESC limit :limit offset :offset";
         }
         List<Integer> list = namedParameterJdbcTemplate.queryForList(query, params, Integer.class);
         Set<Integer> ids = new HashSet<Integer>(list);
