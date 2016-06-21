@@ -10,9 +10,7 @@ import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.apache.commons.lang.CharEncoding;
 import org.joda.time.DateTime;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -25,7 +23,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-import sun.util.calendar.BaseCalendar;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
@@ -202,7 +199,7 @@ public class MailService {
             message += collaborate.getMessage();
 
 
-            for(CollaborateDate cd : collaborate.getCollaborateDates()){
+            for(CollaborateField cd : collaborate.getCollaborateFields()){
                 dates.add(formatter.print(cd.getIssueDate()));
             }
         }
@@ -213,9 +210,9 @@ public class MailService {
         }
         else if(collaborate.getStatus() == Collaborate.STATUS_COMPLETED){
             subject = "Collaborate Completed";
-            CollaborateDate scheduledDate = null;
-            for(CollaborateDate cd : collaborate.getCollaborateDates()){
-                if(cd.getId() == collaborate.getCollaborateDateId()){
+            CollaborateField scheduledDate = null;
+            for(CollaborateField cd : collaborate.getCollaborateFields()){
+                if(cd.getId() == collaborate.getCollaborateFieldId()){
                     scheduledDate = cd;
                     break;
                 }

@@ -1,7 +1,7 @@
 package com.ozay.backend.web.rest.form;
 
 import com.ozay.backend.model.Collaborate;
-import com.ozay.backend.model.CollaborateDate;
+import com.ozay.backend.model.CollaborateField;
 import com.ozay.backend.model.Member;
 import com.ozay.backend.model.Role;
 
@@ -12,16 +12,16 @@ import java.util.List;
  */
 public class CollaborateCreateFormDTO {
     private Collaborate collaborate;
-    private List<CollaborateDate> collaborateDates;
+    private List<CollaborateField> collaborateFields;
     private List<Role> roles;
     private List<Member> members;
 
-    public List<CollaborateDate> getCollaborateDates() {
-        return collaborateDates;
+    public List<CollaborateField> getCollaborateFields() {
+        return collaborateFields;
     }
 
-    public void setCollaborateDates(List<CollaborateDate> collaborateDates) {
-        this.collaborateDates = collaborateDates;
+    public void setCollaborateFields(List<CollaborateField> collaborateFields) {
+        this.collaborateFields = collaborateFields;
     }
 
     public List<Member> getMembers() {

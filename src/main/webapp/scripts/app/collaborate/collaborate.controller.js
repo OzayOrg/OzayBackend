@@ -270,7 +270,7 @@ angular.module('ozayApp')
 
                 form['collaborate'] = $scope.collaborate;
                 form['members'] = $scope.selectedUsers;
-                form['collaborateDates'] = dates;
+                form['collaborateFields'] = dates;
 
                 var roles = []
                 for (var key in $scope.role) {

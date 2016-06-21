@@ -18,9 +18,9 @@ public class Collaborate extends Model{
     private String subject;
     private String message;
     private Integer response;
-    private Long collaborateDateId;
+    private Long collaborateFieldId;
     private List<Member> members;
-    private List<CollaborateDate> collaborateDates;
+    private List<CollaborateField> collaborateFields;
     private Integer status;
 
 
@@ -49,12 +49,12 @@ public class Collaborate extends Model{
         STATUS_CANCELED = statusCanceled;
     }
 
-    public Long getCollaborateDateId() {
-        return collaborateDateId;
+    public Long getCollaborateFieldId() {
+        return collaborateFieldId;
     }
 
-    public void setCollaborateDateId(Long collaborateDateId) {
-        this.collaborateDateId = collaborateDateId;
+    public void setCollaborateFieldId(Long collaborateFieldId) {
+        this.collaborateFieldId = collaborateFieldId;
     }
 
     public String getMessage() {
@@ -130,12 +130,12 @@ public class Collaborate extends Model{
         this.members = members;
     }
 
-    public List<CollaborateDate> getCollaborateDates() {
-        return collaborateDates;
+    public List<CollaborateField> getCollaborateFields() {
+        return collaborateFields;
     }
 
-    public void setCollaborateDates(List<CollaborateDate> collaborateDates) {
-        this.collaborateDates = collaborateDates;
+    public void setCollaborateFields(List<CollaborateField> collaborateFields) {
+        this.collaborateFields = collaborateFields;
     }
 
     @Override
@@ -143,10 +143,10 @@ public class Collaborate extends Model{
         return "Collaborate{" +
             "id='" + id + '\'' +
             "subject='" + subject + '\'' +
-            "collaborateDateId='" + collaborateDateId + '\'' +
+            "collaborateFieldId='" + collaborateFieldId + '\'' +
             "message='" + message + '\'' +
             "response='" + response + '\'' +
-            "collaborateDates='" + collaborateDates + '\'' +
+            "collaborateFields='" + collaborateFields + '\'' +
             "}";
     }
 }

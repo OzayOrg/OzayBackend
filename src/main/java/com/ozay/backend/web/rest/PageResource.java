@@ -612,18 +612,18 @@ public class PageResource {
         if(collaborate.getStatus() == Collaborate.STATUS_CANCELED){
             archive = true;
         } else{
-            for(CollaborateDate collaborateDate: collaborate.getCollaborateDates()){
-                if(archive == true && new DateTime().isBefore(collaborateDate.getIssueDate())){
+            for(CollaborateField collaborateField : collaborate.getCollaborateFields()){
+                if(archive == true && new DateTime().isBefore(collaborateField.getIssueDate())){
                     archive = false;
                 }
-                for(CollaborateMember cm : collaborateDate.getCollaborateMembers()){
+                for(CollaborateMember cm : collaborateField.getCollaborateMembers()){
                     if(cm.getModifiedDate() != null){
                         firstEdit = false;
                     }
                     if(cm.getSelected() != null && cm.getSelected() == true){
                         if(cm.getMember().getId() == member.getId()){
                             firstEdit = false;
-                            selectedIds.add(collaborateDate.getId());
+                            selectedIds.add(collaborateField.getId());
                         }
                     }
                 }

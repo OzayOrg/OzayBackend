@@ -31,7 +31,7 @@ public class CollaborateRepository {
 
 
     public Collaborate findOneById(Long id){
-        String query = "SELECT c.*, cd.id as cd_id, cd.collaborate_id as cd_collaborate_id, cd.issue_date, cm.modified_date as cm_modified_date,  m.id as m_id, m.first_name, m.last_name, cm.selected, cm.collaborate_date_id FROM collaborate c INNER JOIN collaborate_date cd ON cd.collaborate_id = c.id INNER JOIN collaborate_member cm ON cm.collaborate_date_id = cd.id INNER JOIN member m ON m.deleted = false AND m.id = cm.member_id WHERE c.id = :id ORDER BY cd.issue_date, m.id";
+        String query = "SELECT c.*, cd.id as cd_id, cd.collaborate_id as cd_collaborate_id, cd.issue_date, cm.modified_date as cm_modified_date,  m.id as m_id, m.first_name, m.last_name, cm.selected, cm.collaborate_field_id FROM collaborate c INNER JOIN collaborate_field cd ON cd.collaborate_id = c.id INNER JOIN collaborate_member cm ON cm.collaborate_field_id = cd.id INNER JOIN member m ON m.deleted = false AND m.id = cm.member_id WHERE c.id = :id ORDER BY cd.issue_date, m.id";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("id", id);
@@ -57,9 +57,9 @@ public class CollaborateRepository {
         }
         String query = null;
         if(track == true){
-            query = "SELECT COUNT(id) from ((SELECT c.id, max(issue_date) as issue_date from collaborate_date cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_date_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date >= now()";
+            query = "SELECT COUNT(id) from ((SELECT c.id, max(issue_date) as issue_date from collaborate_field cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_field_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date >= now()";
         } else {
-            query = "SELECT COUNT(id) from ((SELECT c.id, max(issue_date) as issue_date from collaborate_date cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_date_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date < now()";
+            query = "SELECT COUNT(id) from ((SELECT c.id, max(issue_date) as issue_date from collaborate_field cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_field_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date < now()";
         }
         return namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
     }
@@ -83,9 +83,9 @@ public class CollaborateRepository {
         }
         String query = null;
         if(track == true){
-            query = "SELECT id from ((SELECT c.id, max(issue_date) as issue_date, status from collaborate_date cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_date_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date >= now() AND status in (" + Collaborate.STATUS_CREATED + ", " + Collaborate.STATUS_COMPLETED + ") ORDER BY issue_date DESC limit :limit offset :offset";
+            query = "SELECT id from ((SELECT c.id, max(issue_date) as issue_date, status from collaborate_field cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_field_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date >= now() AND status in (" + Collaborate.STATUS_CREATED + ", " + Collaborate.STATUS_COMPLETED + ") ORDER BY issue_date DESC limit :limit offset :offset";
         } else {
-            query = "SELECT id from ((SELECT c.id, max(issue_date) as issue_date, status from collaborate_date cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_date_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date < now() OR status in (" + Collaborate.STATUS_CANCELED +  " ) ORDER BY issue_date DESC limit :limit offset :offset";
+            query = "SELECT id from ((SELECT c.id, max(issue_date) as issue_date, status from collaborate_field cd INNER join collaborate c on cd.collaborate_id = c.id AND c.building_id = :buildingId INNER JOIN collaborate_member cm ON cd.id = cm.collaborate_field_id INNER JOIN member m ON cm.member_id = m.id " + extraQuery + " group by c.id)) t1 where issue_date < now() OR status in (" + Collaborate.STATUS_CANCELED +  " ) ORDER BY issue_date DESC limit :limit offset :offset";
         }
         List<Integer> list = namedParameterJdbcTemplate.queryForList(query, params, Integer.class);
         Set<Integer> ids = new HashSet<Integer>(list);
@@ -99,7 +99,7 @@ public class CollaborateRepository {
         if(ids.size() == 0){
             return new ArrayList<Collaborate>();
         }
-        String query = "SELECT c.*, cd.id as cd_id, cd.collaborate_id as cd_collaborate_id, cd.issue_date, m.id as m_id, cm.modified_date as cm_modified_date, m.first_name, m.last_name, cm.selected, cm.collaborate_date_id FROM collaborate c INNER JOIN collaborate_member cm ON c.id = cm.collaborate_id INNER JOIN member m ON m.deleted = false and m.id = cm.member_id LEFT JOIN collaborate_date cd ON cd.collaborate_id = c.id WHERE c.id IN (:ids) ORDER BY issue_date DESC ";
+        String query = "SELECT c.*, cd.id as cd_id, cd.collaborate_id as cd_collaborate_id, cd.issue_date, m.id as m_id, cm.modified_date as cm_modified_date, m.first_name, m.last_name, cm.selected, cm.collaborate_field_id FROM collaborate c INNER JOIN collaborate_member cm ON c.id = cm.collaborate_id INNER JOIN member m ON m.deleted = false and m.id = cm.member_id LEFT JOIN collaborate_field cd ON cd.collaborate_id = c.id WHERE c.id IN (:ids) ORDER BY issue_date DESC ";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ids", ids);
@@ -124,11 +124,11 @@ public class CollaborateRepository {
     }
 
     public void update(Collaborate collaborate){
-        String query = "UPDATE collaborate SET status = :status, collaborate_date_id=:collaborateDateId WHERE id=:id";
+        String query = "UPDATE collaborate SET status = :status, collaborate_field_id=:collaborateFieldId WHERE id=:id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", collaborate.getId());
         params.addValue("status", collaborate.getStatus());
-        params.addValue("collaborateDateId", collaborate.getCollaborateDateId());
+        params.addValue("collaborateFieldId", collaborate.getCollaborateFieldId());
         namedParameterJdbcTemplate.update(query, params);
     }
 

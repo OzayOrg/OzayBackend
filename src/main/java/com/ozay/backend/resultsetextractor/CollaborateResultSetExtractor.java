@@ -1,7 +1,7 @@
 package com.ozay.backend.resultsetextractor;
 
 import com.ozay.backend.model.Collaborate;
-import com.ozay.backend.model.CollaborateDate;
+import com.ozay.backend.model.CollaborateField;
 import com.ozay.backend.model.CollaborateMember;
 import com.ozay.backend.model.Member;
 import org.joda.time.DateTime;
@@ -21,14 +21,14 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
     @Override
     public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
         List<Collaborate> collaborateList = new ArrayList<Collaborate>();
-        List<CollaborateDate> collaborateDateList = new ArrayList<CollaborateDate>();
+        List<CollaborateField> collaborateFieldList = new ArrayList<CollaborateField>();
         List<CollaborateMember> collaborateMemberList = new ArrayList<CollaborateMember>();
         Collaborate collaborate = null;
 
         Long previous = null; // For collaborate
         Long previous2 = null; // For collaborate date
         Long previous3 = null;
-        CollaborateDate collaborateDate = null;
+        CollaborateField collaborateField = null;
         Member member = null;
         CollaborateMember collaborateMember = null;
 
@@ -37,8 +37,8 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
             if(collaborate == null || resultSet.getLong("id") != previous){
                 if(collaborate != null){
                     collaborateList.add(collaborate);
-                    collaborate.setCollaborateDates(collaborateDateList);
-                    collaborateDateList = new ArrayList<CollaborateDate>();
+                    collaborate.setCollaborateFields(collaborateFieldList);
+                    collaborateFieldList = new ArrayList<CollaborateField>();
                 }
                 collaborate = new Collaborate();
                 collaborate.setId(resultSet.getLong("id"));
@@ -50,25 +50,25 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
                 collaborate.setCreatedBy(resultSet.getLong("created_by"));
                 collaborate.setStatus(resultSet.getInt("status"));
 
-                if((Integer)resultSet.getObject("collaborate_date_id") == null){
-                    collaborate.setCollaborateDateId(null);
+                if((Integer)resultSet.getObject("collaborate_field_id") == null){
+                    collaborate.setCollaborateFieldId(null);
                 } else {
-                    collaborate.setCollaborateDateId(resultSet.getLong("collaborate_date_id"));
+                    collaborate.setCollaborateFieldId(resultSet.getLong("collaborate_field_id"));
                 }
                 collaborate.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
-                collaborate.setCollaborateDates(new ArrayList<CollaborateDate>());
+                collaborate.setCollaborateFields(new ArrayList<CollaborateField>());
             }
-            if(collaborateDate == null || resultSet.getLong("cd_id") != previous2){
-                if(collaborateDate != null){
-                    collaborateDate.setCollaborateMembers(collaborateMemberList);
+            if(collaborateField == null || resultSet.getLong("cd_id") != previous2){
+                if(collaborateField != null){
+                    collaborateField.setCollaborateMembers(collaborateMemberList);
                     collaborateMemberList = new ArrayList<CollaborateMember>();
                 }
-                collaborateDate = new CollaborateDate();
-                collaborateDate.setId(resultSet.getLong("cd_id"));
-                collaborateDate.setCollaborateId(resultSet.getLong("cd_collaborate_id"));
-                collaborateDate.setIssueDate(new DateTime(resultSet.getDate("issue_date")));
-                collaborateDate.setCollaborateMembers(new ArrayList<CollaborateMember>());
-                collaborateDateList.add(collaborateDate);
+                collaborateField = new CollaborateField();
+                collaborateField.setId(resultSet.getLong("cd_id"));
+                collaborateField.setCollaborateId(resultSet.getLong("cd_collaborate_id"));
+                collaborateField.setIssueDate(new DateTime(resultSet.getDate("issue_date")));
+                collaborateField.setCollaborateMembers(new ArrayList<CollaborateMember>());
+                collaborateFieldList.add(collaborateField);
             }
 
             collaborateMember = new CollaborateMember();
@@ -77,7 +77,7 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
             member.setFirstName(resultSet.getString("first_name"));
             member.setLastName(resultSet.getString("last_name"));
             collaborateMember.setMember(member);
-            collaborateMember.setCollaborateDateId(resultSet.getLong("collaborate_date_id"));
+            collaborateMember.setCollaborateFieldId(resultSet.getLong("collaborate_field_id"));
             Boolean b = resultSet.getBoolean("selected");
 
             if((Boolean)resultSet.getObject("selected") == null){
@@ -98,8 +98,8 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
             previous2 = resultSet.getLong("cd_id");
         }
         if(collaborate != null){
-            collaborateDate.setCollaborateMembers(collaborateMemberList);
-            collaborate.setCollaborateDates(collaborateDateList);
+            collaborateField.setCollaborateMembers(collaborateMemberList);
+            collaborate.setCollaborateFields(collaborateFieldList);
             collaborateList.add(collaborate);
         }
 

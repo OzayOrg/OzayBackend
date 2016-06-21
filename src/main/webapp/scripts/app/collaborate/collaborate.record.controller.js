@@ -6,10 +6,10 @@ angular.module('ozayApp')
 
         $scope.calculateProcess = function(collaborateObj){
 
-            var total = collaborateObj.collaborateDates[0].collaborateMembers.length;
+            var total = collaborateObj.collaborateFields[0].collaborateMembers.length;
             var repliedUserList = [];
-            for(var i = 0; i < collaborateObj.collaborateDates.length; i++){
-                var date = collaborateObj.collaborateDates[i];
+            for(var i = 0; i < collaborateObj.collaborateFields.length; i++){
+                var date = collaborateObj.collaborateFields[i];
                 for(var j = 0; j<  date.collaborateMembers.length;j++){
                     var cMember = date.collaborateMembers[j];
                     if(repliedUserList.indexOf(cMember.member.id) === -1){

@@ -42,14 +42,14 @@ angular.module('ozayApp')
                 }
                 response = data.collaborate.response;
 
-                for (var j = 0; j < data.collaborate.collaborateDates.length; j++) {
+                for (var j = 0; j < data.collaborate.collaborateFields.length; j++) {
                     var yesCounter = 0;
                     var noCounter = 0;
-                    var date = data.collaborate.collaborateDates[j];
+                    var date = data.collaborate.collaborateFields[j];
                     for (var i = 0; i < data.selectedIds.length; i++) {
                         var selectedId = data.selectedIds[i];
                         if (date.id === selectedId) {
-                            data.collaborate.collaborateDates[j].selected = true;
+                            data.collaborate.collaborateFields[j].selected = true;
                         }
                     }
 
@@ -70,19 +70,19 @@ angular.module('ozayApp')
                             $scope.data.rsvp = data.selectedIds.length ? true : false;
                          }
 
-                         if(data.collaborate.collaborateDateId !== undefined && data.collaborate.collaborateDateId != null){
+                         if(data.collaborate.collaborateFieldId !== undefined && data.collaborate.collaborateFieldId != null){
                             $scope.data.rsvpPost = true;
                             $scope.completed = true;
                          }
-                         $scope.scheduledDate = data.collaborate.collaborateDates[0].issueDate;
+                         $scope.scheduledDate = data.collaborate.collaborateFields[0].issueDate;
                     }
                     else if(response == 2){
-                        if(data.collaborate.collaborateDateId ){
+                        if(data.collaborate.collaborateFieldId ){
                             $scope.completed = true;
                             $scope.scheduledDate = date.issueDate;
                         }
-                        data.collaborate.collaborateDates[j].yesCounter = yesCounter;
-                        data.collaborate.collaborateDates[j].noCounter = noCounter;
+                        data.collaborate.collaborateFields[j].yesCounter = yesCounter;
+                        data.collaborate.collaborateFields[j].noCounter = noCounter;
                     }
                 }
                 $scope.collaborate = data.collaborate;
@@ -134,7 +134,7 @@ angular.module('ozayApp')
                 }
             }
             if(method == 'complete' && response == 2){
-               $scope.collaborate.collaborateDateId = $scope.data.postDate;
+               $scope.collaborate.collaborateFieldId = $scope.data.postDate;
 
             }
 
@@ -187,18 +187,18 @@ angular.module('ozayApp')
                 var tracks = [];
                 if (response == 1) {
                     tracks.push({
-                        collaborateDateId: $scope.collaborate.collaborateDates[0].id,
+                        collaborateFieldId: $scope.collaborate.collaborateFields[0].id,
                         selected: $scope.data.rsvp
                     });
                 } else if (response == 2) {
 
-                    for (var i = 0; i < $scope.collaborate.collaborateDates.length; i++) {
-                        var item = $scope.collaborate.collaborateDates[i];
+                    for (var i = 0; i < $scope.collaborate.collaborateFields.length; i++) {
+                        var item = $scope.collaborate.collaborateFields[i];
                         if (item.selected === undefined) {
                             item.selected = null;
                         }
                         tracks.push({
-                            collaborateDateId: item.id,
+                            collaborateFieldId: item.id,
                             selected: item.selected
                         });
                     }

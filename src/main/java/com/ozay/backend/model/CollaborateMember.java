@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
  * Created by naofumiezaki on 6/7/16.
  */
 public class CollaborateMember {
-    private Long collaborateDateId;
+    private Long collaborateFieldId;
     private Boolean selected; // For RSVP
     private Member member;
     private DateTime modifiedDate;
@@ -20,12 +20,12 @@ public class CollaborateMember {
         this.modifiedDate = modifiedDate;
     }
 
-    public Long getCollaborateDateId() {
-        return collaborateDateId;
+    public Long getCollaborateFieldId() {
+        return collaborateFieldId;
     }
 
-    public void setCollaborateDateId(Long collaborateDateId) {
-        this.collaborateDateId = collaborateDateId;
+    public void setCollaborateFieldId(Long collaborateFieldId) {
+        this.collaborateFieldId = collaborateFieldId;
     }
 
     public Boolean getSelected() {

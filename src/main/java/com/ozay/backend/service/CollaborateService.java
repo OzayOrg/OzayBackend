@@ -3,7 +3,6 @@ package com.ozay.backend.service;
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.*;
 import com.ozay.backend.repository.*;
-import com.ozay.backend.security.SecurityUtils;
 import com.ozay.backend.utility.HTMLUtility;
 import com.ozay.backend.web.rest.form.CollaborateCreateFormDTO;
 import com.ozay.backend.web.rest.form.CollaborateDetailFieldDTO;
@@ -26,7 +25,7 @@ public class CollaborateService {
     CollaborateRepository collaborateRepository;
 
     @Inject
-    CollaborateDateRepository collaborateDateRepository;
+    CollaborateFieldRepository collaborateFieldRepository;
 
     @Inject
     CollaborateMemberRepository collaborateMemberRepository;
@@ -59,7 +58,7 @@ public class CollaborateService {
 
     public void update(CollaborateDetailFormDTO collaborateDetailFormDTO){
         for(CollaborateDetailFieldDTO field : collaborateDetailFormDTO.getCollaborateTrackField()){
-            collaborateMemberRepository.update(collaborateDetailFormDTO.getCollaborateId(), field.getCollaborateDateId(), collaborateDetailFormDTO.getMemberId(), field.getSelected());
+            collaborateMemberRepository.update(collaborateDetailFormDTO.getCollaborateId(), field.getCollaborateFieldId(), collaborateDetailFormDTO.getMemberId(), field.getSelected());
         }
         Collaborate collaborate = collaborateRepository.findOneById(collaborateDetailFormDTO.getCollaborateId());
 
@@ -80,14 +79,14 @@ public class CollaborateService {
 
         List<Member> members = collaborateCreateFormDTO.getMembers();
 
-        for(CollaborateDate collaborateDate : collaborateCreateFormDTO.getCollaborateDates()){
-            collaborateDate.setCollaborateId(collaborate.getId());
-            collaborateDateRepository.create(collaborateDate);
+        for(CollaborateField collaborateField : collaborateCreateFormDTO.getCollaborateFields()){
+            collaborateField.setCollaborateId(collaborate.getId());
+            collaborateFieldRepository.create(collaborateField);
             for(Member member : members){
-                collaborateMemberRepository.create(collaborate.getId(), collaborateDate.getId(), member.getId());
+                collaborateMemberRepository.create(collaborate.getId(), collaborateField.getId(), member.getId());
             }
         }
-        collaborate.setCollaborateDates(collaborateCreateFormDTO.getCollaborateDates());
+        collaborate.setCollaborateFields(collaborateCreateFormDTO.getCollaborateFields());
         mailService.sendCollaborateMail(collaborate, members);
     }
 }

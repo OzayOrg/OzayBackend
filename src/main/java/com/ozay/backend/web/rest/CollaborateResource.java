@@ -3,7 +3,7 @@ package com.ozay.backend.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.Collaborate;
-import com.ozay.backend.model.CollaborateDate;
+import com.ozay.backend.model.CollaborateField;
 import com.ozay.backend.model.CollaborateMember;
 import com.ozay.backend.model.Member;
 import com.ozay.backend.repository.CollaborateRepository;
@@ -61,7 +61,7 @@ public class CollaborateResource {
     public ResponseEntity<?> createCollaborate(@RequestBody CollaborateCreateFormDTO collaborateCreateFormDTO) {
         log.debug("REST request to save collraborate : {}", collaborateCreateFormDTO);
 
-        int size = collaborateCreateFormDTO.getCollaborateDates().size();
+        int size = collaborateCreateFormDTO.getCollaborateFields().size();
         if(size == 0){
             return new ResponseEntity<>(new ErrorDTO("Sorry, Please add at least one Calendar Date"), HttpStatus.BAD_REQUEST);
         }
@@ -96,10 +96,10 @@ public class CollaborateResource {
         }
         currentCollaborate.setStatus(Collaborate.STATUS_COMPLETED);
         if(currentCollaborate.getResponse() == Collaborate.RSVP){
-            Long id = currentCollaborate.getCollaborateDates().get(0).getId();
-            currentCollaborate.setCollaborateDateId(id);
+            Long id = currentCollaborate.getCollaborateFields().get(0).getId();
+            currentCollaborate.setCollaborateFieldId(id);
         } else if(currentCollaborate.getResponse() == Collaborate.CALENDER){
-            currentCollaborate.setCollaborateDateId(collaborate.getCollaborateDateId());
+            currentCollaborate.setCollaborateFieldId(collaborate.getCollaborateFieldId());
         }
         collaborateService.complete(currentCollaborate);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -117,7 +117,7 @@ public class CollaborateResource {
         if(currentCollaborate == null){
             return new ResponseEntity<>(new ErrorDTO("Invalid Request"), HttpStatus.BAD_REQUEST);
         }
-        currentCollaborate.setCollaborateDateId(null);
+        currentCollaborate.setCollaborateFieldId(null);
         currentCollaborate.setStatus(Collaborate.STATUS_CANCELED);
         collaborateRepository.update(currentCollaborate);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -153,7 +153,7 @@ public class CollaborateResource {
         boolean isBigger = false;
         boolean hasMember = false;
 
-        for(CollaborateDate cd : currentCollaborate.getCollaborateDates()){
+        for(CollaborateField cd : currentCollaborate.getCollaborateFields()){
             if(cd.getIssueDate().isAfter(new DateTime().getMillis()) ){
                 isBigger = true;
             }

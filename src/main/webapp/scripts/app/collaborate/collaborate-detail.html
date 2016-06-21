@@ -90,7 +90,7 @@
     <div class="col-sm-10">
         <div class="form-group">
             <ul class="checkbox-ul">
-                <li ng-class="{'active': obj.selected == true, 'inactive': obj.selected != true}" ng-repeat="obj in collaborate.collaborateDates">
+                <li ng-class="{'active': obj.selected == true, 'inactive': obj.selected != true}" ng-repeat="obj in collaborate.collaborateFields">
                     <a ng-click="calendarCheck(obj);" ng-class="{'not-allowed' : data.archived }">
                         {{obj.issueDate | date: "MM/dd/yyyy h:mm a"}}
                         <br />
@@ -128,7 +128,7 @@
     </div>
     <div class="col-sm-10">
         <div class="form-group">
-            <select  class="form-control" ng-change="" ng-model="data.postDate" ng-options="collaborateDate.id as (collaborateDate.issueDate | date: 'MM/dd/yyyy h:mm a') for collaborateDate in collaborate.collaborateDates">
+            <select  class="form-control" ng-change="" ng-model="data.postDate" ng-options="collaborateField.id as (collaborateField.issueDate | date: 'MM/dd/yyyy h:mm a') for collaborateField in collaborate.collaborateFields">
             </select>
         </div>
         <p>

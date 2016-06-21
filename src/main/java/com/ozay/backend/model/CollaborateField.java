@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by naofumiezaki on 5/24/16.
  */
-public class CollaborateDate extends Model{
+public class CollaborateField extends Model{
     private Long id;
     private Long collaborateId;
     private DateTime issueDate;

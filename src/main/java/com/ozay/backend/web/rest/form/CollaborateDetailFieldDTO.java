@@ -10,15 +10,15 @@ import java.util.List;
  * Created by naofumiezaki on 6/10/16.
  */
 public class CollaborateDetailFieldDTO {
-    private Long collaborateDateId; // for Collaborate Dates, response = 2
+    private Long collaborateFieldId; // for Collaborate Dates, response = 2
     private Boolean selected;
 
-    public Long getCollaborateDateId() {
-        return collaborateDateId;
+    public Long getCollaborateFieldId() {
+        return collaborateFieldId;
     }
 
-    public void setCollaborateDateId(Long collaborateDateId) {
-        this.collaborateDateId = collaborateDateId;
+    public void setCollaborateFieldId(Long collaborateFieldId) {
+        this.collaborateFieldId = collaborateFieldId;
     }
 
     public Boolean getSelected() {
