@@ -94,13 +94,13 @@ angular.module('ozayApp')
                     $scope.showCancelBtn = true;
                 }
 
-                if(archived == false && data.collaborate.status == 0){
+                if(archived == false && data.collaborate.status == 1){
                     $scope.status = 'Ongoing';
-                } else if(archived == true && data.collaborate.status == 0){
+                } else if(archived == true && data.collaborate.status == 1){
                     $scope.status = 'Expired';
-                }else if(data.collaborate.status == 1){
-                    $scope.status = 'Completed';
                 }else if(data.collaborate.status == 2){
+                    $scope.status = 'Completed';
+                }else if(data.collaborate.status == 3){
                     $scope.status = 'Canceled';
                 }
             });

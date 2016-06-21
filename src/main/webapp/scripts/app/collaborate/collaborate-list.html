@@ -21,10 +21,10 @@
                     <td ng-bind-html="collaborate.message"></td>
                     <td><span ng-if="collaborate.response == 1">RSVP</span><span ng-if="collaborate.response == 2">Calendar</span></td>
                     <td>
-                        <span ng-if="collaborate.status == 0 && track == true">No</span>
-                        <span ng-if="collaborate.status == 0 && track == false">Expired</span>
-                        <span ng-if="collaborate.status == 1">Completed</span>
-                        <span ng-if="collaborate.status == 2">Canceled</span>
+                        <span ng-if="collaborate.status == 1 && track == true">No</span>
+                        <span ng-if="collaborate.status == 1 && track == false">Expired</span>
+                        <span ng-if="collaborate.status == 2">Completed</span>
+                        <span ng-if="collaborate.status == 3">Canceled</span>
                     </td>
                     <td>
                         <a ui-sref="{{detailUrl}}({collaborateId:collaborate.id})">
