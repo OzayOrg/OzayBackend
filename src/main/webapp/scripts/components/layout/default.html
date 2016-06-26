@@ -15,8 +15,7 @@
                                     </a>
                                 </span>
                                 <span ng-show="$state.current.data.collaborateTrackBtn" class="pull-right">
-                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, {{$state.current.data.collaborateTrackBtnAuthorities}}" ng-disabled="!button" class="btn button">Save</button>
-                                    <button class="btn btn-danger" type="button" ng-click="updateStatus('cancel')" ng-show="showCancelBtn" ng-disabled="!button">Cancel Collaborate</button>
+                                    <button class="btn btn-default" type="submit" ng-click="submitted=true;" has-any-authority="ROLE_ADMIN, ROLE_SUBSCRIBER, {{$state.current.data.collaborateTrackBtnAuthorities}}" ng-disabled="!button" class="btn button">Select</button>
                                     <a ui-sref="{{$state.current.data.cancelUrl || 'home'}}">
                                         <button class="btn btn-default">Cancel</button>
                                     </a>

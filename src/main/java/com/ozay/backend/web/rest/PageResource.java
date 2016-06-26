@@ -10,6 +10,9 @@ import com.ozay.backend.web.rest.dto.OrganizationRoleMemberDTO;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.dto.OrganizationUserRoleDTO;
 import com.ozay.backend.web.rest.dto.pages.*;
+import com.ozay.backend.web.rest.dto.pages.partials.CollaborateDTO;
+import com.ozay.backend.web.rest.dto.pages.partials.CollaborateFieldDTO;
+import com.ozay.backend.web.rest.dto.pages.partials.CollaborateRecordDTO;
 import com.ozay.backend.web.rest.form.CollaborateCreateFormDTO;
 import com.ozay.backend.web.rest.form.MemberFormDTO;
 import com.ozay.backend.web.rest.form.MemberRoleFormDTO;
@@ -23,10 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by naofumiezaki on 11/1/15.
@@ -85,6 +85,9 @@ public class PageResource {
 
     @Inject
     CollaborateRepository collaborateRepository;
+
+    @Inject
+    CollaborateFieldRepository collaborateFieldRepository;
 
     @RequestMapping(
         value = "/management",
@@ -404,7 +407,7 @@ public class PageResource {
 
         log.debug("REST page notification Details");
 
-       PageNotificationRecordDetailDTO pageOrganizationUserDTO = new PageNotificationRecordDetailDTO();
+        PageNotificationRecordDetailDTO pageOrganizationUserDTO = new PageNotificationRecordDetailDTO();
 
         pageOrganizationUserDTO.setNotification(notificationRepository.findOne(notificationId));
         pageOrganizationUserDTO.setNotificationRecords(notificationRecordRepository.findAllByNotificationId(notificationId));
@@ -532,9 +535,9 @@ public class PageResource {
 
 
     @RequestMapping(
-            value = "/collaborate-create",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        value = "/collaborate-create",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
     public ResponseEntity<?> collaborateCreate(@RequestParam(value = "building") Long buildingId){
@@ -550,28 +553,75 @@ public class PageResource {
     }
 
     @RequestMapping(
-            value = "/collaborate-track",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        value = "/collaborate-track",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
     public ResponseEntity<?> collaborateTrack(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
 
         PageCollaborateRecordDTO pageCollaborateTrack = new PageCollaborateRecordDTO();
-        pageCollaborateTrack.setCollaborates(collaborateRepository.findAllByBuildingForTrack(buildingId, page)); // second parameter is boolean tracking
+        List<Collaborate> collaborateList = collaborateRepository.findAllByBuildingForTrack(buildingId, page);
+        List<CollaborateRecordDTO> collaborateRecordDTOList = convertToCollaborateRecordDTO(collaborateList);
+
+        pageCollaborateTrack.setCollaborateRecordDTOs(collaborateRecordDTOList);
+
         pageCollaborateTrack.setNumberOfRecords(collaborateRepository.getTotalNumberOfAccessibleCollaborates(buildingId, true));
         return new ResponseEntity<>(pageCollaborateTrack, HttpStatus.OK);
     }
+
+    private List<CollaborateRecordDTO> convertToCollaborateRecordDTO(List<Collaborate> collaborateList){
+        List<CollaborateRecordDTO> collaborateRecordDTOList = new ArrayList<CollaborateRecordDTO>();
+        for(Collaborate c : collaborateList){
+            int total = 0;
+            int numOfReplies = 0;
+
+            HashMap<Long, Boolean> replyCounter = new HashMap<Long, Boolean>();
+            HashMap<Long, Boolean> totalCounter = new HashMap<Long, Boolean>();
+
+            for(CollaborateField cf : c.getCollaborateFields()){
+                for(CollaborateMember cm : cf.getCollaborateMembers()){
+                    if(cm.getSelected() != null){
+                        if(!replyCounter.containsKey(cm.getMember().getId())){
+                            replyCounter.put(cm.getMember().getId(), true);
+                        }
+                    }
+                    if(!totalCounter.containsKey(cm.getMember().getId())){
+                        totalCounter.put(cm.getMember().getId(), true);
+                    }
+                }
+            }
+            total = totalCounter.size();
+            numOfReplies = replyCounter.size();
+
+            CollaborateRecordDTO collaborateRecordDTO = new CollaborateRecordDTO(
+                c.getId(),
+                c.getCollaborateFieldId(),
+                c.getCreatedDate(),
+                c.getMessage(),
+                c.getResponse(),
+                c.getStatus(),
+                c.getSubject(),
+                total,
+                numOfReplies
+            );
+            collaborateRecordDTOList.add(collaborateRecordDTO);
+
+        }
+        return  collaborateRecordDTOList;
+    }
     @RequestMapping(
-            value = "/collaborate-record",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        value = "/collaborate-record",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @Transactional(readOnly = true)
     public ResponseEntity<?> collaborateArchive(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
         PageCollaborateRecordDTO pageCollaborateTrack = new PageCollaborateRecordDTO();
 
-        pageCollaborateTrack.setCollaborates(collaborateRepository.findAllByBuildingForArchive(buildingId, page)); // second parameter is boolean tracking
+        List<Collaborate> collaborateList = collaborateRepository.findAllByBuildingForArchive(buildingId, page);
+        List<CollaborateRecordDTO> collaborateRecordDTOList = convertToCollaborateRecordDTO(collaborateList);
+        pageCollaborateTrack.setCollaborateRecordDTOs(collaborateRecordDTOList);
         pageCollaborateTrack.setNumberOfRecords(collaborateRepository.getTotalNumberOfAccessibleCollaborates(buildingId, false));
         return new ResponseEntity<>(pageCollaborateTrack, HttpStatus.OK);
     }
@@ -592,7 +642,7 @@ public class PageResource {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         PageCollaborateDetailDTO pageCollaborateDetailDTO = new PageCollaborateDetailDTO();
-        pageCollaborateDetailDTO.setCollaborate(collaborate);
+
 
         boolean archive = true;
         int currentTime = new DateTime().getMillisOfSecond();
@@ -609,31 +659,72 @@ public class PageResource {
         collaborate.setCreatedBy(null);
 
         boolean firstEdit = true;
+        List<CollaborateField> collaborateFields = collaborateFieldRepository.findAllByCollaborateId(collaborateId);
+        List<CollaborateFieldDTO> questionList = new ArrayList<CollaborateFieldDTO>();
+        for(CollaborateField cf : collaborateFields){
+            questionList.add(new CollaborateFieldDTO(cf.getId(), (long)0, cf.getIssueDate(), cf.getQuestion()));
+        }
+
+
         if(collaborate.getStatus() == Collaborate.STATUS_CANCELED){
             archive = true;
-        } else{
-            for(CollaborateField collaborateField : collaborate.getCollaborateFields()){
-                if(archive == true && new DateTime().isBefore(collaborateField.getIssueDate())){
-                    archive = false;
+        }
+        if(collaborate.getDisplayUntil().isAfter(new DateTime())){
+            archive = false;
+        }
+
+        for(CollaborateField collaborateField : collaborate.getCollaborateFields()){
+            CollaborateFieldDTO cDto = null;
+
+            for(CollaborateFieldDTO c : questionList){
+                if(c.getId() == collaborateField.getId()){
+                    cDto = c;
                 }
-                for(CollaborateMember cm : collaborateField.getCollaborateMembers()){
-                    if(cm.getModifiedDate() != null){
+            }
+
+            for(CollaborateMember cm : collaborateField.getCollaborateMembers()){
+                if(cm.getModifiedDate() != null){
+                    firstEdit = false;
+                }
+
+                if(cm.getSelected() != null && cm.getSelected() == true){
+
+                    if(member != null && cm.getMember().getId() == member.getId()){
                         firstEdit = false;
+                        selectedIds.add(collaborateField.getId());
                     }
-                    if(cm.getSelected() != null && cm.getSelected() == true){
-                        if(cm.getMember().getId() == member.getId()){
-                            firstEdit = false;
-                            selectedIds.add(collaborateField.getId());
-                        }
+                    if(cDto != null){
+                        cDto.setSelectedCount(cDto.getSelectedCount() + 1);
                     }
                 }
             }
         }
+
         pageCollaborateDetailDTO.setFirstEdit(firstEdit);
+        CollaborateDTO collaborateDTO = new CollaborateDTO(
+            collaborate.getId(),
+            collaborate.getCollaborateFieldId(),
+            collaborate.getCreatedDate(),
+            collaborate.getMessage(),
+            collaborate.getResponse(),
+            collaborate.getStatus(),
+            collaborate.getSubject()
+        );
+        pageCollaborateDetailDTO.setCollaborateFieldDTOs(questionList);
+
+
+        pageCollaborateDetailDTO.setCollaborate(collaborateDTO);
+
+        if(collaborateDTO.getCollaborateFieldId() != null){
+            for(CollaborateFieldDTO dto : questionList){
+                if(dto.getId() == collaborateDTO.getCollaborateFieldId()){
+                    pageCollaborateDetailDTO.setCollaborateFieldDTO(dto);
+                }
+            }
+        }
 
         pageCollaborateDetailDTO.setArchived(archive);
         pageCollaborateDetailDTO.setSelectedIds(selectedIds);
-
 
         return new ResponseEntity<>(pageCollaborateDetailDTO, HttpStatus.OK);
     }

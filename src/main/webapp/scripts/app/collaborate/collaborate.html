@@ -66,7 +66,7 @@
         <div class="col-sm-10">
             <div class="form-group">
                 <ul class="checkbox-ul">
-                    <li ng-class="{'active': collaborate.response == obj.value, 'inactive': collaborate.response != obj.value}" ng-repeat="obj in responses"><a ng-click="initCalendarDates();collaborate.response = obj.value">{{obj.label}}</a><input ng-model="collaborate.response" type="radio" name="model.name" value="{{obj.value}}"></li>
+                    <li ng-class="{'active': collaborate.response == obj.value, 'inactive': collaborate.response != obj.value}" ng-repeat="obj in responses"><a ng-click=";initfieldData(obj.value);collaborate.response = obj.value;">{{obj.label}}</a><input ng-model="collaborate.response" type="radio" name="model.name" value="{{obj.value}}"></li>
                 </ul>
             </div>
         </div>
@@ -75,26 +75,56 @@
     <div class="row">
         <div class="col-sm-2">
             <div class="form-group">
-                <label id="collaborate-issue-date">Issue Date</label>
+                <label ng-show="collaborate.response == COLLABORATE_RADIO || collaborate.response == COLLABORATE_MULTIPLE_CHOICE" id="collaborate-issue-date">Choices</label>
+                <label ng-show="collaborate.response == COLLABORATE_CALENDAR" id="collaborate-issue-date">Issue Date</label>
             </div>
         </div>
         <div class="col-sm-10">
             <div class="form-group" >
-                <div ng-if="isMobile" class="datetime-container" ng-repeat="cDate in calendarDates">
-                    <input min="{{minDate | date:'yyyy-MM-ddTHH:mm:ss'}}" type="datetime-local">
+                <div ng-if="isMobile" class="datetime-container" ng-repeat="cDate in fieldData">
+                    <div ng-show="collaborate.response == COLLABORATE_CALENDAR">
+                        <input ng-model="cDate.issueDate" ng-change="calculateMaxDisplayUntil();" min="{{minDate | date:'yyyy-MM-ddTHH:mm:ss'}}" type="datetime-local">
+                    </div>
+                    <div ng-show="collaborate.response == COLLABORATE_RADIO || collaborate.response == COLLABORATE_MULTIPLE_CHOICE">
+                        <input class="form-control" ng-model="cDate.question" type="text">
+                    </div>
                 </div>
                 <div ng-if="!isMobile" class="datetime-container">
-                    <div class="dropdown" ng-repeat="cDate in calendarDates">
-                        <a class="dropdown-toggle" id="dtp-dropdown-{{$index}}" role="button" data-toggle="dropdown" data-target="#">
-                            <div class="input-group"><input type="text" data-on-set-time="onTimeSet(newDate, oldDate)" readonly datetime="MM/dd/yyyy hh:mm a" class="form-control" ng-model="cDate.issueDate"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                            <datetimepicker data-on-set-time="onTimeSet(newDate, oldDate)" readonly ng-model="cDate.issueDate" />
-                        </ul>
+                    <div class="dropdown" ng-repeat="cDate in fieldData">
+                        <div ng-if="collaborate.response == COLLABORATE_CALENDAR">
+                            <a class="dropdown-toggle" id="dtp-dropdown-{{$index}}" role="button" data-toggle="dropdown" data-target="#">
+                                <div class="input-group"><input type="text" data-on-set-time="onTimeSet(newDate, oldDate)" readonly datetime="MM/dd/yyyy hh:mm a" class="form-control" ng-change="calculateMaxDisplayUntil();" ng-model="cDate.issueDate"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <datetimepicker data-on-set-time="onTimeSet(newDate, oldDate)" readonly ng-change="calculateMaxDisplayUntil();" ng-model="cDate.issueDate" />
+                            </ul>
+                        </div>
+                        <div ng-show="collaborate.response == COLLABORATE_RADIO || collaborate.response == COLLABORATE_MULTIPLE_CHOICE">
+                            <input class="form-control" ng-model="cDate.question" type="text">
+                        </div>
                     </div>
-                    <button ng-show="collaborate.response == 2" ng-click="addDateTime()" type="button">Add Date</button>
+                    <button ng-show="collaborate.response == COLLABORATE_CALENDAR" ng-click="addBox()" type="button">Add Date</button>
+                    <button ng-show="collaborate.response == COLLABORATE_RADIO || collaborate.response == COLLABORATE_MULTIPLE_CHOICE" ng-click="addBox()" type="button">Add a Choice</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label id="expire">Expiration Date</label>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <div class="form-group">
+                <a class="dropdown-toggle" id="dtp-dropdown-expire" role="button" data-toggle="dropdown" data-target="#">
+                    <div class="input-group"><input type="text" data-on-set-time="onTimeSet(newDate, oldDate)" datetime="MM/dd/yyyy hh:mm a" class="form-control" ng-model="collaborate.displayUntil"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <datetimepicker data-on-set-time="onTimeSet(newDate, oldDate)" ng-model="collaborate.displayUntil" />
+                </ul>
             </div>
         </div>
     </div>

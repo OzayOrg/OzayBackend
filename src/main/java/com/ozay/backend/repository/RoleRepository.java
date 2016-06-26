@@ -47,10 +47,8 @@ public class RoleRepository {
         params.addValue("roleId", id);
         List<Role> roles = (List<Role>)namedParameterJdbcTemplate.query(query, params, new RoleRolePermissionSetExtractor(){});
         if(roles.size() == 1){
-            System.out.println(roles.get(0));
             return roles.get(0);
         } else {
-            System.out.println(123);
             return null;
         }
     }

@@ -221,9 +221,12 @@ public class MailService {
             message += "Scheduled Date is " + formatter.print(scheduledDate.getIssueDate());
         }
 
-        if(collaborate.getResponse() == Collaborate.getRSVP()){
-            responseType = "RSVP";
-        } else if(collaborate.getResponse() == Collaborate.getCALENDER()){
+        if(collaborate.getResponse() == Collaborate.RADIO){
+            responseType = "Radio";
+        } else if(collaborate.getResponse() == Collaborate.MULTIPLE_CHOICE){
+            responseType = "Multiple Choice";
+        }
+        else if(collaborate.getResponse() == Collaborate.CALENDAR){
             responseType = "Calendar";
         }
 

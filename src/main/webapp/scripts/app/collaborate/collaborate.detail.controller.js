@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('CollaborateDetailController', function($scope, $state, $stateParams, MessageService, Page, UserInformation, Collaborate) {
+    .controller('CollaborateDetailController', function(COLLABORATE_STATUS_CREATED, COLLABORATE_STATUS_COMPLETED, COLLABORATE_STATUS_CANCELED,  COLLABORATE_CALENDAR, COLLABORATE_MULTIPLE_CHOICE, COLLABORATE_RADIO,$scope, $state, $stateParams, MessageService, Page, UserInformation, Collaborate) {
 
         $scope.button = true;
         $scope.data = {};
@@ -9,6 +9,14 @@ angular.module('ozayApp')
         $scope.status = '';
         $scope.completed = false;
         $scope.scheduledDate = null;
+        $scope.collaborateFields = [];
+        $scope.COLLABORATE_RADIO = COLLABORATE_RADIO;
+        $scope.COLLABORATE_MULTIPLE_CHOICE = COLLABORATE_MULTIPLE_CHOICE;
+        $scope.COLLABORATE_CALENDAR = COLLABORATE_CALENDAR;
+        $scope.COLLABORATE_STATUS_CREATED = COLLABORATE_STATUS_CREATED;
+        $scope.COLLABORATE_STATUS_COMPLETED = COLLABORATE_STATUS_COMPLETED;
+        $scope.COLLABORATE_STATUS_CANCELED = COLLABORATE_STATUS_CANCELED;
+        $scope.data.radio = null;
 
         var successMessage = MessageService.getSuccessMessage();
         if(successMessage !== undefined){
@@ -16,18 +24,9 @@ angular.module('ozayApp')
             $scope.successTextAlert = successMessage;
         }
 
-        var response = 1;
+        var response = COLLABORATE_RADIO;
         var archived = false;
 
-        $scope.rsvpList = [{
-            label: "Yes",
-            value: true,
-            counter : 0
-        }, {
-            label: "No",
-            value: false,
-            counter : 0
-        }, ]
 
         $scope.getData = function() {
             Page.get({
@@ -40,81 +39,59 @@ angular.module('ozayApp')
                 } else if(data.archived == true && $state.current.name == 'collaborate-track-detail'){
                     $state.go('collaborate-record-detail', {collaborateId:data.collaborate.id});
                 }
+
                 response = data.collaborate.response;
 
-                for (var j = 0; j < data.collaborate.collaborateFields.length; j++) {
-                    var yesCounter = 0;
-                    var noCounter = 0;
-                    var date = data.collaborate.collaborateFields[j];
+                for (var j = 0; j < data.collaborateFieldDTOs.length; j++) {
+                    var date = data.collaborateFieldDTOs[j];
                     for (var i = 0; i < data.selectedIds.length; i++) {
                         var selectedId = data.selectedIds[i];
                         if (date.id === selectedId) {
-                            data.collaborate.collaborateFields[j].selected = true;
+                            data.collaborateFieldDTOs[j].selected = true;
+                            if(data.collaborate.response == COLLABORATE_RADIO){
+                                $scope.data.radio = date.id;
+                            }
                         }
-                    }
-
-                    for (var k = 0; k < date.collaborateMembers.length; k++) {
-                        var selected = date.collaborateMembers[k].selected;
-
-                        if (selected === true) {
-                            yesCounter++
-                        } else if (selected === false) {
-                            noCounter++
-                        }
-                    }
-
-                    if(response == 1){
-                         $scope.rsvpList[0].counter = yesCounter;
-                         $scope.rsvpList[1].counter = noCounter;
-                         if(data.firstEdit === false){
-                            $scope.data.rsvp = data.selectedIds.length ? true : false;
-                         }
-
-                         if(data.collaborate.collaborateFieldId !== undefined && data.collaborate.collaborateFieldId != null){
-                            $scope.data.rsvpPost = true;
-                            $scope.completed = true;
-                         }
-                         $scope.scheduledDate = data.collaborate.collaborateFields[0].issueDate;
-                    }
-                    else if(response == 2){
-                        if(data.collaborate.collaborateFieldId ){
-                            $scope.completed = true;
-                            $scope.scheduledDate = date.issueDate;
-                        }
-                        data.collaborate.collaborateFields[j].yesCounter = yesCounter;
-                        data.collaborate.collaborateFields[j].noCounter = noCounter;
                     }
                 }
+
+                $scope.collaborateFields = data.collaborateFieldDTOs;
+
                 $scope.collaborate = data.collaborate;
                 archived = data.archived;
                 $scope.data.archived = archived;
 
                 $scope.data.creator = data.creator;
-                if(archived == false && data.creator && data.collaborate.status != 2){
+                if(archived == false && data.creator && data.collaborate.status != COLLABORATE_STATUS_COMPLETED){
                     $scope.showCancelBtn = true;
                 }
 
-                if(archived == false && data.collaborate.status == 1){
+
+                if(archived == false && data.collaborate.status == COLLABORATE_STATUS_CREATED){
                     $scope.status = 'Ongoing';
-                } else if(archived == true && data.collaborate.status == 1){
+                } else if(archived == true && data.collaborate.status == COLLABORATE_STATUS_CREATED){
                     $scope.status = 'Expired';
-                }else if(data.collaborate.status == 2){
+                }else if(data.collaborate.status == COLLABORATE_STATUS_COMPLETED){
                     $scope.status = 'Completed';
-                }else if(data.collaborate.status == 3){
+                    if(data.collaborate.response == COLLABORATE_CALENDAR){
+                        if(data.collaborateFieldDTO != null){
+                            $scope.scheduledDate = data.collaborateFieldDTO.issueDate;
+                        }
+                    }
+                }else if(data.collaborate.status == COLLABORATE_STATUS_CANCELED){
                     $scope.status = 'Canceled';
                 }
             });
         }
-        $scope.rsvpCheck = function(value) {
+        $scope.radioCheck = function(value) {
 
-            if(archived == false && $scope.completed == false){
-            //data.rsvp = obj.value;
-                $scope.data.rsvp = value;
+            if(archived == false && $scope.collaborate.status == COLLABORATE_STATUS_CREATED){
+                $scope.data.radio = value;
             }
         }
 
-        $scope.calendarCheck = function(obj){
-            if(archived == false && $scope.collaborate.status == 1){
+        $scope.multiCheck = function(obj){
+            if(archived == false && $scope.collaborate.status == COLLABORATE_STATUS_CREATED){
                 obj.selected = !obj.selected;
             }
         }
@@ -122,20 +99,9 @@ angular.module('ozayApp')
         $scope.getData();
 
         $scope.updateStatus = function(method){
-            if(method == 'complete' && response == 1){
-                if($scope.data.rsvpPost === undefined){
-                    alert('Please select Yes or No');
-                    return false;
-                }
-                else {
-                    if($scope.data.rsvpPost !== true){
-                        method = 'cancel';
-                    }
-                }
-            }
-            if(method == 'complete' && response == 2){
-               $scope.collaborate.collaborateFieldId = $scope.data.postDate;
 
+            if(method == 'complete' && response == COLLABORATE_CALENDAR){
+               $scope.collaborate.collaborateFieldId = $scope.data.postDate;
             }
 
             $scope.successTextAlert = null;
@@ -168,11 +134,9 @@ angular.module('ozayApp')
             }
         }
 
-
-
         $scope.submit = function() {
-            if($scope.completed == true){
-                alert("The status is completed. Cannot proceed.");
+            if(archived == true || $scope.collaborate.status !== COLLABORATE_STATUS_CREATED){
+                alert("You cannot take action to this item anymore.");
                 return false;
             }
             $scope.successTextAlert = null;
@@ -185,15 +149,25 @@ angular.module('ozayApp')
             if (confirm("Would you like to proceed?")) {
                 $scope.button = false;
                 var tracks = [];
-                if (response == 1) {
-                    tracks.push({
-                        collaborateFieldId: $scope.collaborate.collaborateFields[0].id,
-                        selected: $scope.data.rsvp
-                    });
-                } else if (response == 2) {
+                if (response == COLLABORATE_RADIO) {
+                    for(var i = 0; i < $scope.collaborateFields.length; i++){
+                        if($scope.collaborateFields[i].id == $scope.data.radio ){
+                            tracks.push({
+                                collaborateFieldId: $scope.data.radio,
+                                selected: $scope.data.radio
+                            });
+                        } else {
+                            tracks.push({
+                                collaborateFieldId: $scope.collaborateFields[i].id,
+                                selected: false
+                            });
+                        }
+                    }
 
-                    for (var i = 0; i < $scope.collaborate.collaborateFields.length; i++) {
-                        var item = $scope.collaborate.collaborateFields[i];
+                } else if (response == COLLABORATE_MULTIPLE_CHOICE || response == COLLABORATE_CALENDAR) {
+
+                    for (var i = 0; i < $scope.collaborateFields.length; i++) {
+                        var item = $scope.collaborateFields[i];
                         if (item.selected === undefined) {
                             item.selected = null;
                         }

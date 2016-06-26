@@ -22,8 +22,11 @@
                     <td>{{collaborate.subject}}</td>
                     <td ng-bind-html="collaborate.message"></td>
 
-                    <td><span ng-if="collaborate.response == 1">RSVP</span><span ng-if="collaborate.response == 2">Calendar</span></td>
-                    <td>{{calculateProcess(collaborate)}}</td>
+                    <td><span ng-if="collaborate.response == 1">Radio</span>
+                        <span ng-if="collaborate.response == 2">Multiple Choice</span>
+                        <span ng-if="collaborate.response == 3">Calendar</span>
+                    </td>
+                    <td>{{collaborate.numOfReplies}} of {{collaborate.total}}</td>
                     <td>
                         <span ng-if="collaborate.status == 1 && track == true">No</span>
                         <span ng-if="collaborate.status == 1 && track == false">Expired</span>

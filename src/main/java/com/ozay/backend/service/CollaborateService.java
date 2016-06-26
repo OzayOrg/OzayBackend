@@ -57,9 +57,11 @@ public class CollaborateService {
     }
 
     public void update(CollaborateDetailFormDTO collaborateDetailFormDTO){
+
         for(CollaborateDetailFieldDTO field : collaborateDetailFormDTO.getCollaborateTrackField()){
             collaborateMemberRepository.update(collaborateDetailFormDTO.getCollaborateId(), field.getCollaborateFieldId(), collaborateDetailFormDTO.getMemberId(), field.getSelected());
         }
+
         Collaborate collaborate = collaborateRepository.findOneById(collaborateDetailFormDTO.getCollaborateId());
 
         User user = userRepository.findOne(collaborate.getCreatedBy());

@@ -49,6 +49,7 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
                 collaborate.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
                 collaborate.setCreatedBy(resultSet.getLong("created_by"));
                 collaborate.setStatus(resultSet.getInt("status"));
+                collaborate.setDisplayUntil(new DateTime(resultSet.getDate("display_until")));
 
                 if((Integer)resultSet.getObject("collaborate_field_id") == null){
                     collaborate.setCollaborateFieldId(null);
@@ -66,7 +67,13 @@ public class CollaborateResultSetExtractor implements ResultSetExtractor {
                 collaborateField = new CollaborateField();
                 collaborateField.setId(resultSet.getLong("cd_id"));
                 collaborateField.setCollaborateId(resultSet.getLong("cd_collaborate_id"));
-                collaborateField.setIssueDate(new DateTime(resultSet.getDate("issue_date")));
+                if((Date)resultSet.getObject("issue_date") == null){
+                    collaborateField.setIssueDate(null);
+                } else {
+                    collaborateField.setIssueDate(new DateTime(resultSet.getDate("issue_date")));
+                }
+                collaborateField.setQuestion(resultSet.getString("question"));
+
                 collaborateField.setCollaborateMembers(new ArrayList<CollaborateMember>());
                 collaborateFieldList.add(collaborateField);
             }

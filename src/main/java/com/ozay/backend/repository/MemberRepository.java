@@ -110,7 +110,6 @@ public class MemberRepository {
                 " OR LOWER(m.email) LIKE :" + param +
                 " OR LOWER(m.unit) LIKE :" + param +
                 " OR LOWER(m.parking) LIKE :" + param;
-            //System.out.println(params);
         }
         if(items.length > 0){
             query += " AND (";

@@ -60,7 +60,6 @@ public class NotificationRepository {
             }
             queryForList += " LOWER(notice) like '%"+items[i]+"%'" +
                 " OR LOWER(subject) LIKE '%"+items[i]+"%'";
-            //System.out.println(param[items(0)]);
 
         }
         if(items.length > 0){
@@ -68,7 +67,6 @@ public class NotificationRepository {
             query += queryForList;
             query += ")";
         }
-        System.out.println(query);
         return (List<Notification>)namedParameterJdbcTemplate.query(query, params, new NotificationSetExtractor());
     };
 

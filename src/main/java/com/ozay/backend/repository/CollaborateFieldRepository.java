@@ -1,12 +1,15 @@
 package com.ozay.backend.repository;
 
 import com.ozay.backend.model.CollaborateField;
+import com.ozay.backend.resultsetextractor.CollaborateFieldSetExtractor;
 import com.ozay.backend.utility.DateTimeUtility;
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by naofumiezaki on 5/24/16.
@@ -16,12 +19,26 @@ public class CollaborateFieldRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+
+    public List<CollaborateField> findAllByCollaborateId(Long collaborateId){
+        String query = "SELECT * FROM collaborate_field WHERE collaborate_id = :collaborateId";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("collaborateId", collaborateId);
+        return (List<CollaborateField>)  namedParameterJdbcTemplate.query(query, params,new CollaborateFieldSetExtractor());
+    }
     public void create(CollaborateField collaborateField){
-        String query = "INSERT INTO collaborate_field (collaborate_id, issue_date) VALUES(:collaborateId, :issueDate) RETURNING id";
+        String query = "INSERT INTO collaborate_field (collaborate_id, issue_date, question) VALUES(:collaborateId, :issueDate, :question) RETURNING id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("collaborateId", collaborateField.getCollaborateId());
+        params.addValue("question", collaborateField.getQuestion());
+        DateTime d = null;
+        if(collaborateField.getIssueDate() != null){
+            d = collaborateField.getIssueDate().withSecondOfMinute(0);
+        }
 
-        params.addValue("issueDate", DateTimeUtility.convertToTimeStamp(collaborateField.getIssueDate()));
+
+
+        params.addValue("issueDate", DateTimeUtility.convertToTimeStamp(d));
         Long id =namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
         collaborateField.setId(id);
     }

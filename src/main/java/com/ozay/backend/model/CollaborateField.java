@@ -10,6 +10,15 @@ public class CollaborateField extends Model{
     private Long id;
     private Long collaborateId;
     private DateTime issueDate;
+    private String question;
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
 
     private List<CollaborateMember> collaborateMembers;
 
@@ -46,10 +55,11 @@ public class CollaborateField extends Model{
     }
     @Override
     public String toString() {
-        return "Collaborate{" +
+        return "CollaborateField{" +
             "id='" + id + '\'' +
             "collaborateId='" + collaborateId + '\'' +
             "issueDate='" + issueDate + '\'' +
+            "member='" + collaborateMembers + '\'' +
             "}";
     }
 }

@@ -60,16 +60,34 @@ public class CollaborateResource {
     @Timed
     public ResponseEntity<?> createCollaborate(@RequestBody CollaborateCreateFormDTO collaborateCreateFormDTO) {
         log.debug("REST request to save collraborate : {}", collaborateCreateFormDTO);
-
+        Collaborate collaborate = collaborateCreateFormDTO.getCollaborate();
         int size = collaborateCreateFormDTO.getCollaborateFields().size();
         if(size == 0){
             return new ResponseEntity<>(new ErrorDTO("Sorry, Please add at least one Calendar Date"), HttpStatus.BAD_REQUEST);
         }
-        if(collaborateCreateFormDTO.getCollaborate().getResponse() == Collaborate.RSVP){
-            if(size > 1) {
-                return new ResponseEntity<>(new ErrorDTO("Sorry, Need size 1"), HttpStatus.BAD_REQUEST);
+        // It's multiple choice or radio button. There should be at least 2 choices.
+        if(collaborateCreateFormDTO.getCollaborate().getResponse() == Collaborate.RADIO || collaborateCreateFormDTO.getCollaborate().getResponse() == Collaborate.MULTIPLE_CHOICE){
+            if(collaborateCreateFormDTO.getCollaborateFields().size() < 2){
+                return new ResponseEntity<>(new ErrorDTO("Sorry, Not enough fields"), HttpStatus.BAD_REQUEST);
+            }
+        }else if(collaborate.getResponse() == Collaborate.CALENDAR){
+            DateTime maxDate = null;
+            for(CollaborateField cf : collaborateCreateFormDTO.getCollaborateFields()){
+                if(maxDate == null){
+                    maxDate = cf.getIssueDate();
+                } else {
+                    if(maxDate.isBefore(cf.getIssueDate())){
+                        maxDate = cf.getIssueDate();
+                    }
+                }
+            }
+            if(maxDate == null){
+                return new ResponseEntity<>(new ErrorDTO("Sorry, Error occurred. Please try again"), HttpStatus.BAD_REQUEST);
+            } else {
+                collaborate.setDisplayUntil(maxDate);
             }
         }
+
         collaborateService.create(collaborateCreateFormDTO);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -95,10 +113,13 @@ public class CollaborateResource {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         currentCollaborate.setStatus(Collaborate.STATUS_COMPLETED);
-        if(currentCollaborate.getResponse() == Collaborate.RSVP){
-            Long id = currentCollaborate.getCollaborateFields().get(0).getId();
-            currentCollaborate.setCollaborateFieldId(id);
-        } else if(currentCollaborate.getResponse() == Collaborate.CALENDER){
+//        if(currentCollaborate.getResponse() == Collaborate.RSVP){
+//            Long id = currentCollaborate.getCollaborateFields().get(0).getId();
+//            currentCollaborate.setCollaborateFieldId(id);
+//        } else if(currentCollaborate.getResponse() == Collaborate.CALENDER){
+//            currentCollaborate.setCollaborateFieldId(collaborate.getCollaborateFieldId());
+//        }
+        if(currentCollaborate.getResponse() == Collaborate.CALENDAR){
             currentCollaborate.setCollaborateFieldId(collaborate.getCollaborateFieldId());
         }
         collaborateService.complete(currentCollaborate);
@@ -141,6 +162,9 @@ public class CollaborateResource {
             return new ResponseEntity<>(new ErrorDTO("Invalid Request"), HttpStatus.BAD_REQUEST);
         }
         Collaborate currentCollaborate = collaborateRepository.findOneById(collaborateDetailFormDTO.getCollaborateId());
+        if(currentCollaborate.getDisplayUntil().isBefore(new DateTime())){
+            return new ResponseEntity<>(new ErrorDTO("This is already expired"), HttpStatus.BAD_REQUEST);
+        }
 
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
 
@@ -150,26 +174,18 @@ public class CollaborateResource {
             return new ResponseEntity<>(new ErrorDTO("You cannot make this request"), HttpStatus.BAD_REQUEST);
         }
 
-        boolean isBigger = false;
         boolean hasMember = false;
 
         for(CollaborateField cd : currentCollaborate.getCollaborateFields()){
-            if(cd.getIssueDate().isAfter(new DateTime().getMillis()) ){
-                isBigger = true;
-            }
             for(CollaborateMember cm : cd.getCollaborateMembers()){
                 if(member.getId() == cm.getMember().getId()){
                     hasMember = true;
                     break;
                 }
             }
-
-            if(hasMember == true && isBigger == true){
+            if(hasMember == true){
                 break;
             }
-        }
-        if(isBigger == false){
-            return new ResponseEntity<>(new ErrorDTO("This is already expired"), HttpStatus.BAD_REQUEST);
         }
         if(hasMember == false){
             return new ResponseEntity<>(new ErrorDTO("You don't have acces"), HttpStatus.BAD_REQUEST);

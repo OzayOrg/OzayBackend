@@ -43,7 +43,7 @@ angular.module('ozayApp')
             page: $stateParams.page !== undefined ? $stateParams.page : 1
         }).$promise.then(function(data) {
             $scope.totalItems = data.numberOfRecords / 2;
-            $scope.collaborates = data.collaborates; //this gets all the collaborates\
+            $scope.collaborates = data.collaborateRecordDTOs; //this gets all the collaborates\
             $scope.data.currentPage = $stateParams.page !== undefined ? $stateParams.page : 1;
             pageLoaded = true;
         });

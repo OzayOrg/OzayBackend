@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ozayApp')
-    .controller('CollaborateController', function($scope, $state, Collaborate, MenuSearchState, Page, UserInformation, DeviceDetector) {
+    .controller('CollaborateController', function(COLLABORATE_CALENDAR, COLLABORATE_MULTIPLE_CHOICE, COLLABORATE_RADIO, $scope, $state, Collaborate, MenuSearchState, Page, UserInformation, DeviceDetector) {
         $scope.button = true;
         $scope.role = [];
         $scope.memberList = [];
@@ -13,30 +13,77 @@ angular.module('ozayApp')
         $scope.collaborate.response = 1;
         $scope.minDate = new Date();
         $scope.isMobile = DeviceDetector.isMobile();
-        $scope.calendarDates = [];
+        $scope.fieldData = [];
+        $scope.COLLABORATE_RADIO = COLLABORATE_RADIO;
+        $scope.COLLABORATE_MULTIPLE_CHOICE = COLLABORATE_MULTIPLE_CHOICE;
+        $scope.COLLABORATE_CALENDAR = COLLABORATE_CALENDAR;
 
-        $scope.initCalendarDates = function(){
-            $scope.calendarDates = [];
-            var tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            $scope.calendarDates.push({issueDate : tomorrow});
+        var nextWeek = new Date();
+        nextWeek.setDate(nextWeek.getDate() + 7);
+        $scope.collaborate.displayUntil = nextWeek;
+
+        $scope.calculateMaxDisplayUntil = function(){
+            if($scope.collaborate.response == $scope.COLLABORATE_CALENDAR){
+                if($scope.fieldData.length == 1){
+                    $scope.collaborate.displayUntil = $scope.fieldData[0].issueDate;
+                } else if($scope.fieldData.length > 1){
+                    var maxDate = $scope.fieldData[0].issueDate;
+                    for(var i = 1; i < $scope.fieldData.length;i++){
+                        if(maxDate < $scope.fieldData[i].issueDate){
+                            maxDate = $scope.fieldData[i].issueDate;
+                        }
+                    }
+                    $scope.collaborate.displayUntil = maxDate;
+                }
+
+
+            }
         }
 
-        $scope.addDateTime =function(){
-            var tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            $scope.calendarDates.push({issueDate : tomorrow});
+        $scope.initfieldData = function(value){
+            if(value !== undefined && value == $scope.collaborate.response){
+                return;
+            }
+
+            $scope.fieldData = [];
+            var data = '';
+
+            if(value == $scope.COLLABORATE_CALENDAR){
+                var tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                data = tomorrow;
+            } else {
+                $scope.fieldData.push({issueDate : data});
+            }
+
+            $scope.fieldData.push({issueDate : data});
+
+        }
+
+        $scope.addBox =function(){
+            var data = '';
+            if($scope.collaborate.response == $scope.COLLABORATE_CALENDAR){
+                var tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                data = tomorrow;
+                $scope.calculateMaxDisplayUntil();
+            }
+
+            $scope.fieldData.push({issueDate : data});
         }
 
         $scope.responses = [{
-            label: "RSVP",
-            value: 1
+            label: "Radio",
+            value: COLLABORATE_RADIO
         }, {
-            label: "Calender",
-            value: 2
-        }];
+            label: "Multiple Choice",
+            value: COLLABORATE_MULTIPLE_CHOICE
+        }, {
+             label: "Calendar",
+             value: COLLABORATE_CALENDAR
+         }];
 
-        $scope.initCalendarDates();
+        $scope.initfieldData();
 
         Page.get({
             state: $state.current.name
@@ -247,7 +294,23 @@ angular.module('ozayApp')
 
             if (numOfRecipients == 0) {
                 errorMessage = "You need to choose at least one recipient";
+            } else if($scope.collaborate.response == COLLABORATE_RADIO || $scope.collaborate.response == COLLABORATE_MULTIPLE_CHOICE){
+                var count = 0;
+
+                for(var i = 0; i< $scope.fieldData.length;i++){
+
+                    if($scope.fieldData[i].question == ''){
+
+                        errorMessage = "Choice cannot be empty";
+                    } else {
+                        count++;
+                    }
+                }
+                if(count  < 2){
+                    errorMessage = "Choice has to be 2 or more";
+                }
             }
+
 
             if (errorMessage !== false) {
                 $scope.errorTextAlert = errorMessage;
@@ -258,19 +321,25 @@ angular.module('ozayApp')
             if (confirm("Would you like to send to " + $scope.selectedUsers.length + " people?")) {
                 $scope.collaborate.buildingId = UserInformation.getBuilding().id;
                 var form = {};
-                var length = $scope.calendarDates.length;
-                var dates = [];
+                var length = $scope.fieldData.length;
+                var fields = [];
+
                 for(var i = 0; i< length; i++){
-                    var d =  $scope.calendarDates[i].issueDate;
-                    if(d != '' && d !== undefined){
-                        var issueDate = {issueDate:d.toISOString()};
-                        dates.push(issueDate);
+                    var d =  $scope.fieldData[i].issueDate;
+                    var question = null;
+
+                    if($scope.collaborate.response == COLLABORATE_MULTIPLE_CHOICE || $scope.collaborate.response == COLLABORATE_RADIO){
+                        var q =  {question:$scope.fieldData[i].question, issueDate:null};
+                         fields.push(q);
+                    } else {
+                        var issueDate = {issueDate:d.toISOString(), question:null};
+                        fields.push(issueDate);
                     }
                 }
 
                 form['collaborate'] = $scope.collaborate;
                 form['members'] = $scope.selectedUsers;
-                form['collaborateFields'] = dates;
+                form['collaborateFields'] = fields;
 
                 var roles = []
                 for (var key in $scope.role) {

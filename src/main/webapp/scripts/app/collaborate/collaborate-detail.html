@@ -24,8 +24,9 @@
         </div>
     </div>
     <div class="col-sm-10">
-        <span ng-show="collaborate.response == 1">RSVP</span>
-        <span ng-show="collaborate.response == 2">Calendar</span>
+        <span ng-show="collaborate.response == COLLABORATE_RADIO">Radio</span>
+        <span ng-show="collaborate.response == COLLABORATE_MULTIPLE_CHOICE">Multiple choice</span>
+        <span ng-show="collaborate.response == COLLABORATE_CALENDAR">Calendar</span>
     </div>
 </div>
 <div class="row">
@@ -39,7 +40,7 @@
 
     </div>
 </div>
-<div class="row text-danger" ng-if="completed == true && scheduledDate != null">
+<div class="row text-danger" ng-if="collaborate.status == COLLABORATE_STATUS_COMPLETED && scheduledDate != null">
     <div class="col-sm-2">
         <div class="form-group">
             <label>Scheduled Date</label>
@@ -59,7 +60,7 @@
         <p>{{collaborate.createdDate | date: "MM/dd/yyyy h:mm a" }}</p>
     </div>
 </div>
-<div class="row" ng-if="collaborate.response == 1">
+<div class="row" ng-if="collaborate.response == COLLABORATE_RADIO">
     <div class="col-sm-2">
         <div class="form-group">
             <label>Response</label>
@@ -69,19 +70,20 @@
 
         <div class="form-group">
             <ul class="checkbox-ul">
-                <li ng-class="{'active': data.rsvp == obj.value, 'inactive': data.rsvp != obj.value}" ng-repeat="obj in rsvpList">
-                    <a ng-click="rsvpCheck(obj.value);" ng-class="{'not-allowed' : data.archived }">
-                        {{obj.label}}
+                <li ng-class="{'active': data.radio == obj.id, 'inactive': data.radio != obj.id}" ng-repeat="obj in collaborateFields">
+                    <a ng-click="radioCheck(obj.id);" ng-class="{'not-allowed' : data.archived }">
+                        {{obj.question}}
                         <br />
-                        Count : {{obj.counter}}
+                        Count : {{obj.selectedCount}}
                     </a>
-                    <input ng-disabled="collaborate.response == 2" ng-model="data.rsvp" type="radio" name="rsvp" value="{{obj.value}}">
+                    <input ng-model="data.radio" type="radio" name="radio" value="{{obj.id}}">
                 </li>
             </ul>
         </div>
     </div>
 </div>
-<div class="row" ng-if="collaborate.response == 2">
+
+<div class="row" ng-if="collaborate.response == COLLABORATE_MULTIPLE_CHOICE || collaborate.response == COLLABORATE_CALENDAR">
     <div class="col-sm-2">
         <div class="form-group">
             <label>Response</label>
@@ -90,49 +92,51 @@
     <div class="col-sm-10">
         <div class="form-group">
             <ul class="checkbox-ul">
-                <li ng-class="{'active': obj.selected == true, 'inactive': obj.selected != true}" ng-repeat="obj in collaborate.collaborateFields">
-                    <a ng-click="calendarCheck(obj);" ng-class="{'not-allowed' : data.archived }">
-                        {{obj.issueDate | date: "MM/dd/yyyy h:mm a"}}
+                <li ng-class="{'active': obj.selected == true, 'inactive': obj.selected != true}" ng-repeat="obj in collaborateFields">
+                    <a ng-click="multiCheck(obj);" ng-class="{'not-allowed' : data.archived }">
+                        <span ng-if="collaborate.response == COLLABORATE_MULTIPLE_CHOICE">
+                            {{obj.question}}
+                        </span>
+                        <span ng-if="collaborate.response == COLLABORATE_CALENDAR">
+                            {{obj.issueDate | date: "MM/dd/yyyy h:mm a"}}
+                        </span>
                         <br />
-                        Count : {{obj.yesCounter}}
+                        Count : {{obj.selectedCount}}
                     </a>
-                    <input ng-readonly="data.archived" ng-disabled="collaborate.response == 1" ng-model="obj.selected" type="checkbox" value="{{obj.id}}">
                 </li>
             </ul>
         </div>
     </div>
 </div>
 
-<div class="row" ng-if="data.archived == false && data.creator == true && collaborate.response == 1">
+<div class="row" ng-if="data.archived == false && data.creator == true && (collaborate.response == COLLABORATE_RADIO || collaborate.response == COLLABORATE_MULTIPLE_CHOICE) ">
     <div class="col-sm-2">
         <div class="form-group">
-            <label>Post it</label>
+            <label>Action</label>
         </div>
     </div>
     <div class="col-sm-10">
-        <div class="form-group">
-            <select  class="form-control" ng-change="" ng-model="data.rsvpPost" ng-options="obj.value as obj.label for obj in rsvpList">
-            </select>
-        </div>
         <p>
-            <button type="button" ng-click="updateStatus('complete')" class="btn btn-success">Post it</button>
+            <button type="button" ng-click="updateStatus('complete')" ng-disabled="!button" class="btn btn-success">Complete</button>
+            <button class="btn btn-danger" type="button" ng-disabled="!button" ng-click="updateStatus('cancel')">Cancel</button>
         </p>
     </div>
 </div>
 
-<div class="row" ng-if="data.archived == false && data.creator == true && collaborate.response == 2">
+<div class="row" ng-if="data.archived == false && data.creator == true && collaborate.response == COLLABORATE_CALENDAR">
     <div class="col-sm-2">
         <div class="form-group">
-            <label>Post it2</label>
+            <label>Action</label>
         </div>
     </div>
     <div class="col-sm-10">
-        <div class="form-group">
-            <select  class="form-control" ng-change="" ng-model="data.postDate" ng-options="collaborateField.id as (collaborateField.issueDate | date: 'MM/dd/yyyy h:mm a') for collaborateField in collaborate.collaborateFields">
+        <div class="form-group" ng-if="collaborate.status == COLLABORATE_STATUS_CREATED">
+            <select  class="form-control" ng-change="" ng-model="data.postDate" ng-options="collaborateField.id as (collaborateField.issueDate | date: 'MM/dd/yyyy h:mm a') for collaborateField in collaborateFields">
             </select>
         </div>
         <p>
-            <button type="button" ng-click="updateStatus('complete')" class="btn btn-success">Post it</button>
+            <button ng-if="collaborate.status == COLLABORATE_STATUS_CREATED" type="button" ng-click="updateStatus('complete')" ng-disabled="!button" class="btn btn-success">Post it</button>
+            <button class="btn btn-danger" type="button" ng-disabled="!button" ng-click="updateStatus('cancel')">Cancel</button>
         </p>
     </div>
 </div>

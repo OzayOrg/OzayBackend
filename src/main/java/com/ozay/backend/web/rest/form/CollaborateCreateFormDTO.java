@@ -20,6 +20,8 @@ public class CollaborateCreateFormDTO {
         return collaborateFields;
     }
 
+
+
     public void setCollaborateFields(List<CollaborateField> collaborateFields) {
         this.collaborateFields = collaborateFields;
     }

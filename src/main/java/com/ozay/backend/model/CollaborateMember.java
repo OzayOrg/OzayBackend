@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
  */
 public class CollaborateMember {
     private Long collaborateFieldId;
-    private Boolean selected; // For RSVP
+    private Boolean selected;
     private Member member;
     private DateTime modifiedDate;
 
@@ -42,5 +42,15 @@ public class CollaborateMember {
 
     public void setMember(Member member) {
         this.member = member;
+    }
+
+    @Override
+    public String toString() {
+        return "CollaborateMember{" +
+            "collaborateFieldId='" + collaborateFieldId + '\'' +
+            "selected='" + selected + '\'' +
+            "member='" + member + '\'' +
+            "modifiedDate='" + modifiedDate + '\'' +
+            "}";
     }
 }

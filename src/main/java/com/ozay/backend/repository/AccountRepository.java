@@ -65,7 +65,7 @@ public class AccountRepository {
         params.addValue("organizationId", organizationId);
 
         Long countForOrganizationSubscriber  = namedParameterJdbcTemplate.queryForObject(query4, params, Long.class);
-        System.out.println(countForOrganizationSubscriber);
+
         if(countForOrganizationSubscriber > 0){
             return true;
         } else {
@@ -160,8 +160,6 @@ public class AccountRepository {
             }
         }
 
-
-        System.out.println(accountInformation);
         return accountInformation;
     }
 }

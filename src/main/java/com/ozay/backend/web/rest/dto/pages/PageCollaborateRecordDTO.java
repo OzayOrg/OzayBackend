@@ -1,6 +1,7 @@
 package com.ozay.backend.web.rest.dto.pages;
 
 import com.ozay.backend.model.Collaborate;
+import com.ozay.backend.web.rest.dto.pages.partials.CollaborateRecordDTO;
 
 import java.util.List;
 
@@ -8,22 +9,23 @@ import java.util.List;
  * Created by naofumiezaki on 5/27/16.
  */
 public class PageCollaborateRecordDTO {
-    private Long numberOfRecords;
-    private List<Collaborate> collaborates;
+    private long numberOfRecords;
+    private List<CollaborateRecordDTO> collaborateRecordDTOs;
 
-    public Long getNumberOfRecords() {
+    public List<CollaborateRecordDTO> getCollaborateRecordDTOs() {
+        return collaborateRecordDTOs;
+    }
+
+    public void setCollaborateRecordDTOs(List<CollaborateRecordDTO> collaborateRecordDTOs) {
+        this.collaborateRecordDTOs = collaborateRecordDTOs;
+    }
+
+    public long getNumberOfRecords() {
         return numberOfRecords;
     }
 
-    public void setNumberOfRecords(Long numberOfRecords) {
+    public void setNumberOfRecords(long numberOfRecords) {
         this.numberOfRecords = numberOfRecords;
     }
 
-    public List<Collaborate> getCollaborates() {
-        return collaborates;
-    }
-
-    public void setCollaborates(List<Collaborate> collaborates) {
-        this.collaborates = collaborates;
-    }
 }

@@ -1,6 +1,7 @@
 package com.ozay.backend.web.rest.dto.pages;
 
-import com.ozay.backend.model.Collaborate;
+import com.ozay.backend.web.rest.dto.pages.partials.CollaborateDTO;
+import com.ozay.backend.web.rest.dto.pages.partials.CollaborateFieldDTO;
 
 import java.util.List;
 
@@ -8,10 +9,31 @@ import java.util.List;
  * Created by naofumiezaki on 6/6/16.
  */
 public class PageCollaborateDetailDTO {
-    private Collaborate collaborate;
+
     private boolean archived;
     private boolean isCreator;
     private boolean firstEdit;
+    private CollaborateDTO collaborate;
+    private CollaborateFieldDTO collaborateFieldDTO;
+
+    private List<CollaborateFieldDTO> CollaborateFieldDTOs;
+
+    public List<CollaborateFieldDTO> getCollaborateFieldDTOs() {
+        return CollaborateFieldDTOs;
+    }
+
+    public CollaborateFieldDTO getCollaborateFieldDTO() {
+        return collaborateFieldDTO;
+    }
+
+    public void setCollaborateFieldDTO(CollaborateFieldDTO collaborateFieldDTO) {
+        this.collaborateFieldDTO = collaborateFieldDTO;
+    }
+
+    public void setCollaborateFieldDTOs(List<CollaborateFieldDTO> collaborateFieldDTOs) {
+        CollaborateFieldDTOs = collaborateFieldDTOs;
+    }
+
     private List<Long> selectedIds;
 
     public boolean isFirstEdit() {
@@ -38,11 +60,11 @@ public class PageCollaborateDetailDTO {
         this.selectedIds = selectedIds;
     }
 
-    public Collaborate getCollaborate() {
+    public CollaborateDTO getCollaborate() {
         return collaborate;
     }
 
-    public void setCollaborate(Collaborate collaborate) {
+    public void setCollaborate(CollaborateDTO collaborate) {
         this.collaborate = collaborate;
     }
 
