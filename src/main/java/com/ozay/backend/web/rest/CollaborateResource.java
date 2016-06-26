@@ -113,12 +113,7 @@ public class CollaborateResource {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         currentCollaborate.setStatus(Collaborate.STATUS_COMPLETED);
-//        if(currentCollaborate.getResponse() == Collaborate.RSVP){
-//            Long id = currentCollaborate.getCollaborateFields().get(0).getId();
-//            currentCollaborate.setCollaborateFieldId(id);
-//        } else if(currentCollaborate.getResponse() == Collaborate.CALENDER){
-//            currentCollaborate.setCollaborateFieldId(collaborate.getCollaborateFieldId());
-//        }
+
         if(currentCollaborate.getResponse() == Collaborate.CALENDAR){
             currentCollaborate.setCollaborateFieldId(collaborate.getCollaborateFieldId());
         }

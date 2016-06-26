@@ -19,6 +19,18 @@ public class CollaborateFieldRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    public CollaborateField findAllById(Long id){
+        String query = "SELECT * FROM collaborate_field WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+        List<CollaborateField> list = (List<CollaborateField>)  namedParameterJdbcTemplate.query(query, params,new CollaborateFieldSetExtractor());
+        if(list.size() == 1){
+            return list.get(0);
+        } else {
+            return null;
+        }
+
+    }
 
     public List<CollaborateField> findAllByCollaborateId(Long collaborateId){
         String query = "SELECT * FROM collaborate_field WHERE collaborate_id = :collaborateId";
@@ -26,6 +38,7 @@ public class CollaborateFieldRepository {
         params.addValue("collaborateId", collaborateId);
         return (List<CollaborateField>)  namedParameterJdbcTemplate.query(query, params,new CollaborateFieldSetExtractor());
     }
+
     public void create(CollaborateField collaborateField){
         String query = "INSERT INTO collaborate_field (collaborate_id, issue_date, question) VALUES(:collaborateId, :issueDate, :question) RETURNING id";
         MapSqlParameterSource params = new MapSqlParameterSource();

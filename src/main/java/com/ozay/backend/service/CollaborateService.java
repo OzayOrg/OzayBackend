@@ -46,14 +46,21 @@ public class CollaborateService {
         collaborate.setStatus(Collaborate.STATUS_COMPLETED);
         collaborateRepository.update(collaborate);
         List<Member> members = memberRepository.findAllByCollaborateId(collaborate.getId());
-        mailService.sendCollaborateComplete(collaborate, members);
+
+        CollaborateField collaborateField = null;
+        if(collaborate.getResponse() == Collaborate.CALENDAR){
+            collaborateField = collaborateFieldRepository.findAllById(collaborate.getCollaborateFieldId());
+        }
+
+
+        mailService.sendCollaborateComplete(collaborate, members, collaborateField);
     }
 
     public void cancel(Collaborate collaborate){
         collaborate.setStatus(Collaborate.STATUS_CANCELED);
         collaborateRepository.update(collaborate);
         List<Member> members = memberRepository.findAllByCollaborateId(collaborate.getId());
-        mailService.sendCollaborateComplete(collaborate, members);
+        mailService.sendCollaborateCancel(collaborate, members);
     }
 
     public void update(CollaborateDetailFormDTO collaborateDetailFormDTO){

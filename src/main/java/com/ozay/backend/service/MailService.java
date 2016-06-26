@@ -7,9 +7,18 @@ import com.ozay.backend.repository.OrganizationRepository;
 import com.ozay.backend.repository.BuildingRepository;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.CalendarOutputter;
+import net.fortuna.ical4j.model.*;
+import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.Version;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.CharEncoding;
 import org.joda.time.DateTime;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import org.joda.time.format.DateTimeFormat;
@@ -17,6 +26,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -26,10 +36,9 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Service for sending e-mails.
@@ -270,7 +279,7 @@ public class MailService {
     }
 
     @Async
-    public void sendCollaborateComplete(Collaborate collaborate, List<Member> members){
+    public void sendCollaborateComplete(Collaborate collaborate, List<Member> members, CollaborateField collaborateField){
         String[] emails = this.getEmailsFromListMembers(members);
         log.debug("Sending collaborate complete e-mail to {}", emails);
         Locale locale = Locale.forLanguageTag("en");
@@ -278,9 +287,28 @@ public class MailService {
         context.setVariable("body", collaborate.getMessage());
         String content = templateEngine.process("collaborateComplete", context);
 
-        String subject = "Collaborate completed";
-        log.debug("About to send email");
-        this.sendMultipleEmails(emails, subject, content, false, true);
+        if(collaborate.getResponse() == Collaborate.CALENDAR && collaborateField != null){
+            TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
+            net.fortuna.ical4j.model.TimeZone timezone = registry.getTimeZone("America/New_York");
+
+            java.util.Calendar cal = java.util.Calendar.getInstance(timezone);
+            DateTime issueDate = collaborateField.getIssueDate();
+            cal.set(java.util.Calendar.YEAR, issueDate.getYear());
+            cal.set(java.util.Calendar.MONTH, issueDate.getMonthOfYear());
+            cal.set(java.util.Calendar.DAY_OF_MONTH, issueDate.getDayOfMonth());
+            cal.set(java.util.Calendar.HOUR_OF_DAY, issueDate.getHourOfDay());
+            cal.set(Calendar.MINUTE, issueDate.getMinuteOfDay());
+            cal.clear(java.util.Calendar.SECOND);
+
+            net.fortuna.ical4j.model.DateTime dt = new net.fortuna.ical4j.model.DateTime(cal.getTime());
+            dt.setTimeZone(timezone);
+            VEvent collaborateIcal = new VEvent(dt, "Collaborate");
+        } else {
+            String subject = "Collaborate completed";
+            log.debug("About to send email");
+            this.sendMultipleEmails(emails, subject, content, false, true);
+        }
+
     }
 
     // End collaborate
@@ -319,7 +347,49 @@ public class MailService {
 
             message.setFrom(jHipsterProperties.getMail().getFrom());
             message.setSubject(subject);
+
+
             message.setText(content, isHtml);
+
+            for(String emailAddress:to){
+                message.setTo(emailAddress);
+                javaMailSender.send(mimeMessage);
+            }
+        } catch (Exception e) {
+            log.warn("E-mail could not be sent to users '{}', exception is: {}", to, e.getMessage());
+        }
+        log.debug("Sent e-mail to Emails '{}'", to);
+    }
+    @Async
+    private void sendMultipleEmailsWithCalendarInvite(String[] to, String subject, String content, boolean isMultipart, boolean isHtml, VEvent event) {
+        log.debug("Send e-mail[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
+            isMultipart, isHtml, to, subject, content);
+
+        // Prepare message using a Spring helper
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, CharEncoding.UTF_8);
+
+            message.setFrom(jHipsterProperties.getMail().getFrom());
+            message.setSubject(subject);
+
+
+            // http://www.programcreek.com/java-api-examples/index.php?api=net.fortuna.ical4j.data.CalendarOutputter
+            // http://ical4j.sourceforge.net/introduction.html
+            // calendar invite
+            net.fortuna.ical4j.model.Calendar c = new net.fortuna.ical4j.model.Calendar();
+            c.getProperties().add(event);
+            c.getProperties().add(Version.VERSION_2_0);
+            CalendarOutputter outputter = new CalendarOutputter();
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            outputter.setValidating(false);
+            outputter.output(c, os);
+            message.addAttachment("invite.ics", new ByteArrayResource(os.toByteArray()));
+
+
+            message.setText(content, isHtml);
+
+
             for(String emailAddress:to){
                 message.setTo(emailAddress);
                 javaMailSender.send(mimeMessage);
