@@ -51,14 +51,16 @@
 
                     <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
 
-                        <input id="list"  name="note" type="text" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                        <input id="list"  name="note" type="text" ng-disabled="!notification.disabled" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
                         <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
 
                     </td>
                     <td>
-                        <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
+                        <button class="btn" ng-disabled="!notification.disabled" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
                     </td>
-
+                    <td>
+                        <button class="btn" ng-class="{'btn-success' : notification.edited, 'btn-error': notification.edited == false}" type="button" ng-click="update(notification)"><span ng-show="notification.edited">Save</span><span ng-show="!notification.edited">Edit</span></button>
+                    </td>
                 </tr>
                 </tbody>
 
