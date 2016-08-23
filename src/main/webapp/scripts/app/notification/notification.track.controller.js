@@ -15,6 +15,20 @@ angular.module('ozayApp')
         $scope.track = function(notificationRecord) {
             // call api
             notificationRecord.trackComplete = !notificationRecord.trackComplete;
+           /* NotificationRecord.update(notificationRecord, function(data) {
+                notificationRecord = data;
+                $scope.success = true;
+            }, function(error) {
+                $scope.errorTextAlert = "Error! Please try later.";
+            }).$promise.finally(function() {
+                $scope.button = true;
+            });*/
+        }
+
+        $scope.update = function(notificationRecord) {
+            // call api
+            notificationRecord.edited = !notificationRecord.edited;
+            notificationRecord.disabled = !notificationRecord.disabled;
             NotificationRecord.update(notificationRecord, function(data) {
                 notificationRecord = data;
                 $scope.success = true;
