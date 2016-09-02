@@ -78,8 +78,9 @@
                                                         <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
 
                                                     </td>
-
-
+                                                    <td>
+                                                        <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="toggle(notification)"><span ng-show="notification.trackComplete">Edit</span><span ng-show="!notification.trackComplete">Save</span></button>
+                                                    </td>
                                                     <td>
                                                         <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
                                                     </td>
