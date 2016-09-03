@@ -56,6 +56,7 @@
                                                     <th>Message</th>
                                                     <th>Completed Date</th>
                                                     <th>Comment</th>
+                                                    <th></th>
                                                     <th>Complete</th>
                                                 </tr>
                                             </thead>
@@ -74,15 +75,15 @@
 
                                                     <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
 
-                                                        <input id="list"  name="note" type="text" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                                                        <input id="list"  name="note" type="text" ng-disabled="!notification.editComplete" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
                                                         <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
 
                                                     </td>
-                                                    <td>
-                                                        <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="toggle(notification)"><span ng-show="notification.trackComplete">Edit</span><span ng-show="!notification.trackComplete">Save</span></button>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-warning" ng-disabled="checkTimeStamp(notification)" ng-class="{'btn-danger' : notification.status, 'btn-success': notification.status}" type="button" ng-click="toggle(notification)"><span ng-show="notification.status">Save</span><span ng-show="!notification.status">Edit</span></button>
                                                     </td>
-                                                    <td>
-                                                        <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
+                                                    <td class="text-center">
+                                                        <button class="btn" ng-disabled="notification.trackComplete" ng-class="{'btn-success' : notification.trackComplete, 'btn-danger': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
                                                     </td>
 
 
