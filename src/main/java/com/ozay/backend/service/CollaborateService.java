@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by naofumiezaki on 11/18/15.
@@ -85,9 +88,17 @@ public class CollaborateService {
         collaborate.setCreatedBy(user.getId());
         collaborate.setMessage(HTMLUtility.removeScriptTag(collaborate.getMessage()));
         collaborateRepository.create(collaborate);
-
-        List<Member> members = collaborateCreateFormDTO.getMembers();
-
+        
+        //collaborate members are send mail from here (done by Amit Moondra) 
+        //all information about members are fethced from here to send email after creating collaborate.
+        Set<Long> ids = new HashSet<Long>();
+        for(Member member : collaborateCreateFormDTO.getMembers()){
+            ids.add(member.getId());
+        }
+        long validEmailCount = 0;
+        
+        List<Member> members = memberRepository.findAllByIds(ids);;
+       
         for(CollaborateField collaborateField : collaborateCreateFormDTO.getCollaborateFields()){
             collaborateField.setCollaborateId(collaborate.getId());
             collaborateFieldRepository.create(collaborateField);

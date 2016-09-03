@@ -85,8 +85,9 @@
                     <div ng-show="collaborate.response == COLLABORATE_CALENDAR">
                         <input ng-model="cDate.issueDate" ng-change="calculateMaxDisplayUntil();" min="{{minDate | date:'yyyy-MM-ddTHH:mm:ss'}}" type="datetime-local">
                     </div>
-                    <div ng-show="collaborate.response == COLLABORATE_RADIO || collaborate.response == COLLABORATE_MULTIPLE_CHOICE">
+                    <div ng-show="collaborate.response == COLLABORATE_RADIO || collaborate.response == COLLABORATE_MULTIPLE_CHOICE" >
                         <input class="form-control" ng-model="cDate.question" type="text">
+                        
                     </div>
                 </div>
                 <div ng-if="!isMobile" class="datetime-container">

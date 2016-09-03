@@ -33,6 +33,7 @@
                     <th>Message</th>
                     <th>Completed Date</th>
                     <th>Comment</th>
+                    <th>Option</th><!-- this is newly added by *amit* -->
                     <th>Complete</th>
                 </tr>
                 </thead>
@@ -53,7 +54,10 @@
 
                         <input id="list"  name="note" type="text" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
                         <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
-
+						
+                    </td>
+                    <td>
+                    	<button type="button" class="btn">Save</button><!-- this is added by *amit*( new button to save and edit , it will toggle between save and edit) -->
                     </td>
                     <td>
                         <button class="btn" ng-class="{'btn-success' : notification.trackComplete, 'btn-error': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
