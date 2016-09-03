@@ -294,12 +294,13 @@ angular.module('ozayApp')
 
             if (numOfRecipients == 0) {
                 errorMessage = "You need to choose at least one recipient";
-            } else if($scope.collaborate.response == COLLABORATE_RADIO || $scope.collaborate.response == COLLABORATE_MULTIPLE_CHOICE){
+            }
+            else if($scope.collaborate.response == COLLABORATE_RADIO ||$scope.collaborate.response == COLLABORATE_MULTIPLE_CHOICE){
                 var count = 0;
 
                 for(var i = 0; i< $scope.fieldData.length;i++){
 
-                    if($scope.fieldData[i].question == ''){
+                    if($scope.fieldData[i].question == null){
 
                         errorMessage = "Choice cannot be empty";
                     } else {
