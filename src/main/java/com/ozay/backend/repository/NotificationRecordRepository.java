@@ -111,15 +111,13 @@ public class NotificationRecordRepository {
         if(notificationRecord.isTrackComplete() == true){
             notificationRecord.setTrackCompletedDate(new DateTime());
             params.addValue("trackCompletedDate", new Timestamp(notificationRecord.getTrackCompletedDate().getMillisOfSecond()));
-            params.addValue("note", notificationRecord.getNote());
         } else {
             notificationRecord.setTrackCompletedDate(null);
             params.addValue("trackCompletedDate", null);
-            params.addValue("note", notificationRecord.getNote());
         }
-
+        
+        params.addValue("note", notificationRecord.getNote());
         params.addValue("notificationId", notificationRecord.getNotificationId());
-
         params.addValue("memberId", notificationRecord.getMemberId());
         params.addValue("trackComplete", notificationRecord.isTrackComplete());
 
