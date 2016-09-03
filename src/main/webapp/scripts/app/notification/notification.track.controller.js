@@ -13,6 +13,7 @@ angular.module('ozayApp')
         $scope.track = function(notificationRecord) {
             // call api
             notificationRecord.trackComplete = !notificationRecord.trackComplete;
+			
             NotificationRecord.update(notificationRecord, function(data) {
                 notificationRecord = data;
                 $scope.success = true;
@@ -21,6 +22,34 @@ angular.module('ozayApp')
             }).$promise.finally(function() {
                 $scope.button = true;
             });
+			
+			var date=new Date();
+			notificationRecord.trackCompletedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);;
+        }
+		
+		$scope.checkTimeStamp = function(notificationRecord) {
+            // call api
+			if(notificationRecord.trackComplete==false)
+			return false;
+			else
+			return true;
+        }
+		
+		$scope.toggle = function(notificationRecord) {
+            // call api
+			//notificationRecord.trackComplete = !notificationRecord.trackComplete;
+			notificationRecord.status=!(notificationRecord.status);
+            notificationRecord.editComplete = !notificationRecord.editComplete;
+			
+			NotificationRecord.update(notificationRecord, function(data) {
+                notificationRecord = data;
+                $scope.success = true;
+            }, function(error) {
+                $scope.errorTextAlert = "Error! Please try later.";
+            }).$promise.finally(function() {
+                $scope.button = true;
+            });
+			checkTimeStamp(notificationRecord);
         }
 
         // pagination
