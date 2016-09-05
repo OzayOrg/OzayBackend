@@ -104,19 +104,19 @@ public class NotificationRecordRepository {
     }
 
     public void update(NotificationRecord notificationRecord){
-        //added not=:note to store the comments in DB (Hrushikesh Liya)
-        String query = "UPDATE notification_record SET track_complete=:trackComplete,note=:note, track_completed_date=(select now()) WHERE notification_id=:notificationId AND member_id=:memberId";
-        MapSqlParameterSource params = new MapSqlParameterSource();
-
+		String query;
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		
         if(notificationRecord.isTrackComplete() == true){
+        query = "UPDATE notification_record SET track_complete=:trackComplete,note=:note, track_completed_date=(select now()) WHERE notification_id=:notificationId AND member_id=:memberId";	
             notificationRecord.setTrackCompletedDate(new DateTime());
             params.addValue("trackCompletedDate", new Timestamp(notificationRecord.getTrackCompletedDate().getMillisOfSecond()));
         } else {
+        query = "UPDATE notification_record SET track_complete=:trackComplete,note=:note, track_completed_date=:trackCompletedDate WHERE notification_id=:notificationId AND member_id=:memberId";				
             notificationRecord.setTrackCompletedDate(null);
-            params.addValue("trackCompletedDate", null);
-        }
-        
-        params.addValue("note", notificationRecord.getNote());
+            params.addValue("trackCompletedDate", null);		
+		}
+		params.addValue("note", notificationRecord.getNote());	    
         params.addValue("notificationId", notificationRecord.getNotificationId());
         params.addValue("memberId", notificationRecord.getMemberId());
         params.addValue("trackComplete", notificationRecord.isTrackComplete());
