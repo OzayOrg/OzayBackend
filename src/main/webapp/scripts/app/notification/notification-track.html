@@ -80,7 +80,7 @@
 
                                                     </td>
                                                     <td class="text-center">
-                                                        <button class="btn btn-warning" ng-disabled="checkTimeStamp(notification)" ng-class="{'btn-danger' : notification.status, 'btn-success': notification.status}" type="button" ng-click="toggle(notification)"><span ng-show="notification.status">Save</span><span ng-show="!notification.status">Edit</span></button>
+                                                        <button class="btn" ng-disabled="checkTimeStamp(notification)" ng-class="{'btn-success' : notification.status, 'btn-warning': !notification.status}" type="button" ng-click="toggle(notification)"><span ng-show="notification.status">Save</span><span ng-show="!notification.status">Edit</span></button>
                                                     </td>
                                                     <td class="text-center">
                                                         <button class="btn" ng-disabled="notification.trackComplete" ng-class="{'btn-success' : notification.trackComplete, 'btn-danger': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
