@@ -37,10 +37,8 @@ angular.module('ozayApp')
 		
 		$scope.toggle = function(notificationRecord) {
             // call api
-			//notificationRecord.trackComplete = !notificationRecord.trackComplete;
 			notificationRecord.status=!(notificationRecord.status);
             notificationRecord.editComplete = !notificationRecord.editComplete;
-			
 			NotificationRecord.update(notificationRecord, function(data) {
                 notificationRecord = data;
                 $scope.success = true;
@@ -49,7 +47,6 @@ angular.module('ozayApp')
             }).$promise.finally(function() {
                 $scope.button = true;
             });
-			checkTimeStamp(notificationRecord);
         }
 
         // pagination
