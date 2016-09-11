@@ -73,6 +73,7 @@
 
                                                     <!--<td>{{notification.note}}</td>-->
 
+<!-- 
                                                     <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
 
                                                         <input id="list"  name="note" type="text" ng-disabled="!notification.editComplete" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
@@ -86,12 +87,27 @@
                                                         <button class="btn" ng-disabled="notification.trackComplete" ng-class="{'btn-success' : notification.trackComplete, 'btn-danger': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
                                                     </td>
 
+ -->
+ 
+                                                     <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
 
+                                                        <input id="list"  name="note" type="text" ng-disabled="!notification.success" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                                                        <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
+
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn" ng-class="{'btn-success' : notification.success, 'btn-warning': !notification.success}" type="button" ng-click="toggle(notification)"><span ng-show="notification.success">Save</span><span ng-show="!notification.success">Edit</span></button>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn"  ng-class="{'btn-success' : notification.trackComplete, 'btn-danger': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
+                                                    </td>
                                                 </tr>
                                             </tbody>
 
                                         </table>
+                                        
                                         <hr/>
+                                        
                                         <div style="text-align:center;">
                                             <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" ng-change="pageChanged()" boundary-links="true" rotate="false" num-pages="numPages" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                                         </div>

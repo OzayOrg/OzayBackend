@@ -29,7 +29,7 @@ angular.module('ozayApp')
 		
 		$scope.checkTimeStamp = function(notificationRecord) {
             // call api
-			if(notificationRecord.trackComplete==false)
+			if(notificationRecord.note==null && notificationRecord.trackComplete==false)
 			return false;
 			else
 			return true;
@@ -37,8 +37,9 @@ angular.module('ozayApp')
 		
 		$scope.toggle = function(notificationRecord) {
             // call api
-			notificationRecord.status=!(notificationRecord.status);
-            notificationRecord.editComplete = !notificationRecord.editComplete;
+			notificationRecord.success=!(notificationRecord.success);
+			//checkTimeStamp(notificationRecord);
+            //notificationRecord.editComplete = !notificationRecord.editComplete;
 			NotificationRecord.update(notificationRecord, function(data) {
                 notificationRecord = data;
                 $scope.success = true;

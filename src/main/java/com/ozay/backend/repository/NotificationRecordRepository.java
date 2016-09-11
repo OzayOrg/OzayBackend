@@ -108,15 +108,23 @@ public class NotificationRecordRepository {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		
         if(notificationRecord.isTrackComplete() == true){
-        query = "UPDATE notification_record SET track_complete=:trackComplete,note=:note, track_completed_date=(select now()) WHERE notification_id=:notificationId AND member_id=:memberId";	
+        query = "UPDATE notification_record SET track_complete=:trackComplete,note=:note,success=:success, track_completed_date=(select now()) WHERE notification_id=:notificationId AND member_id=:memberId";	
             notificationRecord.setTrackCompletedDate(new DateTime());
             params.addValue("trackCompletedDate", new Timestamp(notificationRecord.getTrackCompletedDate().getMillisOfSecond()));
-        } else {
-        query = "UPDATE notification_record SET track_complete=:trackComplete,note=:note, track_completed_date=:trackCompletedDate WHERE notification_id=:notificationId AND member_id=:memberId";				
+        } 
+        else {
+        query = "UPDATE notification_record SET track_complete=:trackComplete,note=:note,success=:success, track_completed_date=:trackCompletedDate WHERE notification_id=:notificationId AND member_id=:memberId";				
             notificationRecord.setTrackCompletedDate(null);
             params.addValue("trackCompletedDate", null);		
 		}
-		params.addValue("note", notificationRecord.getNote());	    
+        params.addValue("note", notificationRecord.getNote());
+		
+		if(notificationRecord.getNote()==null){
+			params.addValue("success", true);	    	
+		}
+		else {
+			params.addValue("success", false);	    					
+		}
         params.addValue("notificationId", notificationRecord.getNotificationId());
         params.addValue("memberId", notificationRecord.getMemberId());
         params.addValue("trackComplete", notificationRecord.isTrackComplete());

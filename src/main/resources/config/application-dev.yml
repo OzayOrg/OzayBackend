@@ -15,10 +15,16 @@ spring:
         active: dev
     datasource:
         driver-class-name: org.postgresql.ds.PGSimpleDataSource
-        url: jdbc:postgresql://ec2-54-83-10-210.compute-1.amazonaws.com/d7iegu76smkaqb?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
-        name: d7iegu76smkaqb
-        username: pymqxayzqcupig
-        password: bbfQfAnPae6Fk4jrJDChq4qOpN
+        url: jdbc:postgresql://ec2-54-243-55-9.compute-1.amazonaws.com/dej2t33e1tmpqk?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+        name: dej2t33e1tmpqk
+        username: nmxwrlceuoscjn
+        password: F0xhGbhxZGzZjz5_PcBu6m6XEo
+
+#        url: jdbc:postgresql://localhost:5432/postgres
+#        name: postgres
+#        username: postgres
+#        password: admin
+        
     jpa:
         database-platform: com.ozay.backend.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
