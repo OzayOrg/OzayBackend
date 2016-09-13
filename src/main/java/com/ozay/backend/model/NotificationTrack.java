@@ -11,7 +11,7 @@ public class NotificationTrack {
     public Long memberId;
     public Long notificationId;
 
-    private boolean success;
+    private boolean success,commented;
     private String email;
     private String note;
 
@@ -60,6 +60,10 @@ public class NotificationTrack {
         return success;
     }
 
+    public boolean isCommented() {
+        return commented;
+    }
+
     public String getNote() {
         return note;
     }
@@ -72,6 +76,10 @@ public class NotificationTrack {
         this.success = success;
     }
 
+    public void setCommented(boolean commented) {
+        this.commented = commented;
+    }
+    
     public String getEmail() {
         return email;
     }

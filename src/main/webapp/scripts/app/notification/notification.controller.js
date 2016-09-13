@@ -254,7 +254,7 @@ angular.module('ozayApp')
                        value1 : true
                       };
 
-
+/*
                 $scope.track = function(notification){
                             // call api
 
@@ -266,9 +266,10 @@ angular.module('ozayApp')
                                             }).$promise.finally(function() {
                                                 $scope.track = true;
                                             });
+                                            
                 }
 
-
+*/
 
             }
         }

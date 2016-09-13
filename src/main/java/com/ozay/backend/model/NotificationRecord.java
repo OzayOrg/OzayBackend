@@ -9,7 +9,7 @@ public class NotificationRecord {
     public Long memberId;
     public Long notificationId;
 
-    private boolean success;
+    private boolean success,commented;
     private boolean trackComplete;
     private DateTime trackCompletedDate;
     private String email;
@@ -47,6 +47,11 @@ public class NotificationRecord {
         return success;
     }
 
+    public boolean isCommented() {
+        return commented;
+    }
+
+    
    // not needed as now part of notification
    // public boolean isTrack() {   return track;   }
 
@@ -63,7 +68,10 @@ public class NotificationRecord {
         this.success = success;
     }
 
-
+    public void setCommented(boolean commented) {
+        this.commented = commented;
+    }
+    
     public boolean isTrackComplete() {
         return trackComplete;
     }

@@ -67,39 +67,22 @@
                                                     <td>{{notification.member.unit}}</td>
 
                                                     <td>{{notification.member.firstName}} {{notification.member.lastName}}</td>
+                                                    
                                                     <td>{{notification.notification.subject}}</td>
                                                     <!--<td>{{notification.trackCompletedDate | date: "MM/dd/yyyy " : '+0430'}}</td>-->
                                                     <td>{{notification.trackCompletedDate | date: "MM/dd/yyyy"}}</td>
 
-                                                    <!--<td>{{notification.note}}</td>-->
-
-<!-- 
-                                                    <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
-
-                                                        <input id="list"  name="note" type="text" ng-disabled="!notification.editComplete" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
-                                                        <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
-
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button class="btn" ng-disabled="checkTimeStamp(notification)" ng-class="{'btn-success' : notification.status, 'btn-warning': !notification.status}" type="button" ng-click="toggle(notification)"><span ng-show="notification.status">Save</span><span ng-show="!notification.status">Edit</span></button>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button class="btn" ng-disabled="notification.trackComplete" ng-class="{'btn-success' : notification.trackComplete, 'btn-danger': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
-                                                    </td>
-
- -->
- 
                                                      <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
 
-                                                        <input id="list"  name="note" type="text" ng-disabled="!notification.success" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                                                        <input id="list"  name="note" type="text" ng-disabled="notification.commented" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
                                                         <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
 
                                                     </td>
                                                     <td class="text-center">
-                                                        <button class="btn" ng-class="{'btn-success' : notification.success, 'btn-warning': !notification.success}" type="button" ng-click="toggle(notification)"><span ng-show="notification.success">Save</span><span ng-show="!notification.success">Edit</span></button>
+                                                        <button class="btn commentbtn" ng-class="{'btn-warning': notification.commented}" type="button" ng-click="toggle(notification)"><span ng-show="!notification.commented">Save</span><span ng-show="notification.commented">Edit</span></button>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button class="btn"  ng-class="{'btn-success' : notification.trackComplete, 'btn-danger': notification.trackComplete == false}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
+                                                        <button class="btn completebtn"  ng-class="{'btn-success' : notification.trackComplete}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
                                                     </td>
                                                 </tr>
                                             </tbody>

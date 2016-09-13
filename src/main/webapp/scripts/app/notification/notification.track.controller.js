@@ -27,19 +27,11 @@ angular.module('ozayApp')
 			notificationRecord.trackCompletedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);;
         }
 		
-		$scope.checkTimeStamp = function(notificationRecord) {
-            // call api
-			if(notificationRecord.note==null && notificationRecord.trackComplete==false)
-			return false;
-			else
-			return true;
-        }
+		
 		
 		$scope.toggle = function(notificationRecord) {
             // call api
-			notificationRecord.success=!(notificationRecord.success);
-			//checkTimeStamp(notificationRecord);
-            //notificationRecord.editComplete = !notificationRecord.editComplete;
+			notificationRecord.commented=!(notificationRecord.commented);
 			NotificationRecord.update(notificationRecord, function(data) {
                 notificationRecord = data;
                 $scope.success = true;
