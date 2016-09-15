@@ -17,6 +17,7 @@ angular.module('ozayApp')
         $scope.COLLABORATE_STATUS_COMPLETED = COLLABORATE_STATUS_COMPLETED;
         $scope.COLLABORATE_STATUS_CANCELED = COLLABORATE_STATUS_CANCELED;
         $scope.data.radio = null;
+        //$scope.createDate=Collaborate.createdDate
 
         var successMessage = MessageService.getSuccessMessage();
         if(successMessage !== undefined){

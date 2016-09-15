@@ -43,15 +43,13 @@ public class CollaborateFieldRepository {
         String query = "INSERT INTO collaborate_field (collaborate_id, issue_date, question) VALUES(:collaborateId, :issueDate, :question) RETURNING id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("collaborateId", collaborateField.getCollaborateId());
-        params.addValue("question", collaborateField.getQuestion());
         DateTime d = null;
         if(collaborateField.getIssueDate() != null){
-            d = collaborateField.getIssueDate().withSecondOfMinute(0);
+            d = collaborateField.getIssueDate().withMillisOfSecond(0);
         }
-
-
-
         params.addValue("issueDate", DateTimeUtility.convertToTimeStamp(d));
+        params.addValue("question", collaborateField.getQuestion());
+        
         Long id =namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
         collaborateField.setId(id);
     }

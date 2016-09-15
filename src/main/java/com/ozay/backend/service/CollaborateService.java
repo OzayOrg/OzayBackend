@@ -48,7 +48,7 @@ public class CollaborateService {
     public void complete(Collaborate collaborate){
         collaborate.setStatus(Collaborate.STATUS_COMPLETED);
         collaborateRepository.update(collaborate);
-        List<Member> members = memberRepository.findAllByCollaborateId(collaborate.getId());
+        List<Member> members =memberRepository.findAllByCollaborateId(collaborate.getId());
 
         CollaborateField collaborateField = null;
         if(collaborate.getResponse() == Collaborate.CALENDAR){

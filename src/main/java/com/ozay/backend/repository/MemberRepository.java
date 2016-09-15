@@ -32,7 +32,7 @@ public class MemberRepository {
     }
 
     public List<Member> findAllByCollaborateId(Long collaborteId){
-        String query = this.MemberSetExtractorQuery + " JOIN collaborate_member cm on m.id = cm.member_id and cm.collaborate_id = :collaborteId ORDER BY m.id";
+        String query = "select distinct m.*, u.email as user_email, r.id as role_id, r.name as role_name, r.belong_to as role_belong_to, r.sort_order as role_sort_order from member m LEFT JOIN jhi_user u ON m.user_id = u.id AND m.deleted = true LEFT JOIN role_member rm ON m.id = rm.member_id LEFT JOIN role r ON r.id = rm.role_id  JOIN collaborate_member cm on m.id = cm.member_id and cm.collaborate_id = :collaborteId ORDER BY m.id";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("collaborteId", collaborteId);
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());

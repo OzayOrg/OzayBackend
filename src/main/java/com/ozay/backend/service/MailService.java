@@ -196,21 +196,25 @@ public class MailService {
         log.debug("Sending Collaborate e-mail to {}", emails);
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
-
+        List<String> optionsToSelect=new ArrayList<String>();
         String subject = "";
         String message = null;
         String responseType = "";
         String additional ="";
+        String dated="";
         List<String> dates = new ArrayList<String>();
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/mm/yyyy hh:mm a");
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy hh:mm a");
         if(collaborate.getStatus() == Collaborate.STATUS_CREATED){
             subject = collaborate.getSubject();
             message += collaborate.getMessage();
 
 
             for(CollaborateField cd : collaborate.getCollaborateFields()){
-                dates.add(formatter.print(cd.getIssueDate()));
+                dates.add(formatter.print(new DateTime(cd.getIssueDate())));
+                optionsToSelect.add(cd.getQuestion());
             }
+            dated=dates.get(0);
+            
         }
         else if(collaborate.getStatus() == Collaborate.STATUS_CANCELED){
             subject = "Collaborate Canceled";
@@ -227,7 +231,8 @@ public class MailService {
                 }
             }
 
-            message += "Scheduled Date is " + formatter.print(scheduledDate.getIssueDate());
+            message += "Scheduled Date is " + formatter.print(new DateTime(scheduledDate.getIssueDate()));
+            
         }
 
         if(collaborate.getResponse() == Collaborate.RADIO){
@@ -241,8 +246,9 @@ public class MailService {
 
         context.setVariable("collaborate", collaborate);
         context.setVariable("responseType", responseType);
+        context.setVariable("optionsToSelect", optionsToSelect);
         context.setVariable("additional", additional);
-        context.setVariable("dates", dates);
+        context.setVariable("dated", dated);
         context.setVariable("message", message);
         String content = templateEngine.process("collaborateMail", context);
 
@@ -292,7 +298,7 @@ public class MailService {
             net.fortuna.ical4j.model.TimeZone timezone = registry.getTimeZone("America/New_York");
 
             java.util.Calendar cal = java.util.Calendar.getInstance(timezone);
-            DateTime issueDate = collaborateField.getIssueDate();
+            DateTime issueDate = new DateTime(collaborateField.getIssueDate());
             cal.set(java.util.Calendar.YEAR, issueDate.getYear());
             cal.set(java.util.Calendar.MONTH, issueDate.getMonthOfYear());
             cal.set(java.util.Calendar.DAY_OF_MONTH, issueDate.getDayOfMonth());

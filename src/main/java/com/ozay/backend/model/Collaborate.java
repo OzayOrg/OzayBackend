@@ -26,8 +26,9 @@ public class Collaborate extends Model{
     private List<CollaborateField> collaborateFields;
     private Integer status;
     private DateTime displayUntil;
-
-
+    
+    
+    
     public DateTime getDisplayUntil() {
         return displayUntil;
     }
