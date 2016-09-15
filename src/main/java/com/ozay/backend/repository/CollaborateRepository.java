@@ -5,6 +5,9 @@ import com.ozay.backend.model.Collaborate;
 import com.ozay.backend.resultsetextractor.CollaborateResultSetExtractor;
 import com.ozay.backend.security.SecurityUtils;
 import com.ozay.backend.utility.DateTimeUtility;
+
+import net.fortuna.ical4j.model.DateTime;
+
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -126,7 +129,7 @@ public class CollaborateRepository {
         params.addValue("subject", collaborate.getSubject());
         params.addValue("message", collaborate.getMessage());
         params.addValue("response", collaborate.getResponse());
-        params.addValue("createdBy", collaborate.getCreatedBy());
+        params.addValue("createdBy", collaborate.getCreatedBy());  
         params.addValue("displayUntil", DateTimeUtility.convertToTimeStamp(collaborate.getDisplayUntil()));
         Long id = namedParameterJdbcTemplate.queryForObject(query, params, Long.class );
         collaborate.setId(id);
