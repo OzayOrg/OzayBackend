@@ -25,11 +25,16 @@ public class NotificationTrackResultSetExtractor implements ResultSetExtractor {
             notificationRecord.setEmail(resultSet.getString("email"));
             notificationRecord.setNote(resultSet.getString("note"));
             notificationRecord.setSuccess(resultSet.getBoolean("success"));
+            notificationRecord.setCommented(resultSet.getBoolean("commented"));
             notification.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
             notification.setSubject(resultSet.getString("subject"));
             notificationRecord.setTrackComplete(resultSet.getBoolean("track_complete"));
            // notificationRecord.setTrack(resultSet.getBoolean("track"));
            // notificationRecord.setTrackComplete(resultSet.getBoolean("track_complete"));
+
+            if(resultSet.getDate("track_completed_date") != null){
+                notificationRecord.setTrackCompletedDate(new DateTime(resultSet.getDate("track_completed_date")));
+            }
 
             member.setFirstName(resultSet.getString("first_name"));
             member.setLastName(resultSet.getString("last_name"));

@@ -77,7 +77,7 @@ public class BuildingResource {
     }
 
     /**
-     * POST  /building -> Update a building.
+     * PUT  /building -> Update a building.
      */
     @RequestMapping(
         method = RequestMethod.PUT,

@@ -19,6 +19,14 @@ body {
     display: none !important;
 }
 
+.commentbtn {
+ width:60px;
+}
+
+.completebtn {
+ width:50px
+}
+
 .development {
     position: absolute;
     width: 149px;
@@ -574,7 +582,6 @@ input, textarea, select{
     div.side-menu-container > ul > li:not(#profile-li){
         background-color:$second_gray;
     }
-
     .panel-body ul li{
         border-bottom:1px solid #FFF;
     }

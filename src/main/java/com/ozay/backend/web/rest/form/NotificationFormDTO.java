@@ -2,6 +2,7 @@ package com.ozay.backend.web.rest.form;
 
 import com.ozay.backend.model.Member;
 import com.ozay.backend.model.Notification;
+//import com.ozay.backend.model.Building;
 import com.ozay.backend.model.Role;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public class NotificationFormDTO {
     private Notification notification;
     private List<Member> members;
+    //private List<Building> buildings;
     private List<NotificationRoleFormDTO> roles;
     private boolean result;
 

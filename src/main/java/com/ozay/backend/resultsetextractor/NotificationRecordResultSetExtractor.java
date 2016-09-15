@@ -3,10 +3,12 @@ package com.ozay.backend.resultsetextractor;
 import com.ozay.backend.model.AccountInformation;
 import com.ozay.backend.model.Member;
 import com.ozay.backend.model.NotificationRecord;
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -26,6 +28,9 @@ public class NotificationRecordResultSetExtractor implements ResultSetExtractor 
             notificationRecord.setNote(resultSet.getString("note"));
             notificationRecord.setSuccess(resultSet.getBoolean("success"));
             notificationRecord.setTrackComplete(resultSet.getBoolean("track_complete"));
+            if(resultSet.getDate("track_completed_date") != null){
+                notificationRecord.setTrackCompletedDate(new DateTime(resultSet.getDate("track_completed_date")));
+            }
 
             member.setFirstName(resultSet.getString("first_name"));
             member.setLastName(resultSet.getString("last_name"));

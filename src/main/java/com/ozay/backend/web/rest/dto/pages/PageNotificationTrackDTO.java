@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class PageNotificationTrackDTO {
     private List<NotificationRecord> notificationRecords;
+    private Long numberOfRecords;
 
     public List<NotificationRecord> getNotificationRecords() {
         return notificationRecords;
@@ -16,5 +17,13 @@ public class PageNotificationTrackDTO {
 
     public void setNotificationRecords(List<NotificationRecord> notificationRecords) {
         this.notificationRecords = notificationRecords;
+    }
+
+    public Long getNumberOfRecords() {
+        return numberOfRecords;
+    }
+
+    public void setNumberOfRecords(Long numberOfRecords) {
+        this.numberOfRecords = numberOfRecords;
     }
 }

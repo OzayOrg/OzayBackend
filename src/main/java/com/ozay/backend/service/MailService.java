@@ -4,9 +4,15 @@ import com.ozay.backend.config.JHipsterProperties;
 import com.ozay.backend.domain.User;
 import com.ozay.backend.model.*;
 import com.ozay.backend.repository.OrganizationRepository;
+import com.ozay.backend.repository.BuildingRepository;
 import com.ozay.backend.web.rest.dto.OrganizationUserDTO;
 import com.ozay.backend.web.rest.form.NotificationFormDTO;
 import org.apache.commons.lang.CharEncoding;
+import org.joda.time.DateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -16,9 +22,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
+import sun.util.calendar.BaseCalendar;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -47,6 +55,9 @@ public class MailService {
 
     @Inject
     private OrganizationRepository organizationRepository;
+
+    @Inject
+    private BuildingRepository buildingRepository;
 
     /**
      * System default email address that sends the e-mails.
@@ -142,6 +153,33 @@ public class MailService {
     }
 
     @Async
+    public void sendTrackComplete(String email, boolean trackComplete,String Subject, DateTime createdDate, DateTime trackedDate){
+        log.debug("Sending invitation e-mail to {}", email);
+        //Locale locale = Locale.forLanguageTag(invitedMember.getLangKey());
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        //context.setVariable("name", member.getFirstName() + " " + member.getLastName());
+        context.setVariable("building", email);
+        //String content = templateEngine.process("memberInvitationEmail", context);
+        //String subject = messageSource.getMessage("email.member.subject", null, locale);
+        String status = null;
+        if (trackComplete==true) {
+            status = "completed" ; }
+        if  (trackComplete==false) {
+            status="incomplete";}
+        Date dt = createdDate.toDate();
+
+        //Building building = buildingRepository.findOne(notification.getBuildingId());
+        //String buildingName = building.getName();
+
+        Date input = new Date();
+        LocalDate date = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        Date dt_track = trackedDate.toDate();
+
+        sendEmail(email, "Tracked notification '" + Subject + "' has been completed", "Tracked notification created on " + date + " has been " + status, false, true);
+    }
+    @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
         Notification notification = notificationFormDTO.getNotification();
         log.debug("Sending notification e-mail to {}", to);
@@ -149,7 +187,8 @@ public class MailService {
         Context context = new Context(locale);
         context.setVariable("body", notification.getNotice());
         String content = templateEngine.process("notificationEmail", context);
-        String subject = notification.getSubject();
+        Building building = buildingRepository.findOne(notification.getBuildingId());
+        String subject = building.getName()+" : "+notification.getSubject();
         log.debug("About to send email");
         this.sendMultipleEmails(notificationFormDTO, to, subject, content, false, true);
     }

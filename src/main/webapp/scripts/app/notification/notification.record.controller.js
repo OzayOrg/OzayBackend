@@ -5,15 +5,11 @@ angular.module('ozayApp')
         $scope.button = true;
         $scope.contentTitle = 'Notification Archive';
 
-//        $scope.process = function(pageNumber){
-//            Page.get({
-//                state: $state.current.name,
-//                page:pageNumber
-//            }).$promise.then(function(data) {
-//                $scope.totalItems = data.totalNumOfPages/2;
-//                $scope.notifications = data.notificationRecords;
-//            });
-//        }
+        $scope.selectedUsers = [];
+        if($stateParams.search !== undefined){
+            $scope.searchKeyword = $stateParams.search;
+        }
+
 
         // pagination
 
@@ -21,21 +17,35 @@ angular.module('ozayApp')
             $scope.currentPage = pageNo;
         };
 
+        if($stateParams.pageId !== undefined){
+            $scope.currentPage = 1;
+        } else {
+            $scope.currentPage = $stateParams.pageId;
+        }
 
-
-
+       /*
         $scope.pageChanged = function() {
             $state.go('notification-record', {pageId:$scope.currentPage});
+        };
+        */
+        $scope.searchBtnClicked = function(){
+            $state.go('notification-record', {search:$scope.searchTrack});
+        }
+
+        $scope.pageChanged = function() {
+            $state.go('notification-record', {pageId:$scope.currentPage, search:$stateParams.search});
         };
 
         $scope.maxSize = 8;
 
         Page.get({
             state: $state.current.name,
-            page:$stateParams.pageId
+            page:$stateParams.pageId,
+            search:$stateParams.search
         }).$promise.then(function(data) {
             $scope.totalItems = data.totalNumOfPages/2;
             $scope.notifications = data.notificationRecords;
+            $scope.currentPage = $stateParams.pageId;
         });
 
     });

@@ -1,5 +1,7 @@
 package com.ozay.backend.model;
 
+import org.joda.time.DateTime;
+
 /**
  * Created by naofumiezaki on 10/31/15.
  */
@@ -7,8 +9,9 @@ public class NotificationRecord {
     public Long memberId;
     public Long notificationId;
 
-    private boolean success;
+    private boolean success,commented;
     private boolean trackComplete;
+    private DateTime trackCompletedDate;
     private String email;
     private String note;
 
@@ -44,6 +47,11 @@ public class NotificationRecord {
         return success;
     }
 
+    public boolean isCommented() {
+        return commented;
+    }
+
+    
    // not needed as now part of notification
    // public boolean isTrack() {   return track;   }
 
@@ -59,8 +67,11 @@ public class NotificationRecord {
     public void setSuccess(boolean success) {
         this.success = success;
     }
-    
 
+    public void setCommented(boolean commented) {
+        this.commented = commented;
+    }
+    
     public boolean isTrackComplete() {
         return trackComplete;
     }
@@ -83,5 +94,13 @@ public class NotificationRecord {
 
     public void setMember(Member member) {
         this.member = member;
+    }
+
+    public DateTime getTrackCompletedDate() {
+        return trackCompletedDate;
+    }
+
+    public void setTrackCompletedDate(DateTime trackCompletedDate) {
+        this.trackCompletedDate = trackCompletedDate;
     }
 }

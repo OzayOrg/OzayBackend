@@ -30,6 +30,9 @@ public class NotificationService {
     NotificationRecordRepository notificationRecordRepository;
 
     @Inject
+    BuildingRepository buildingRepository;
+
+    @Inject
     MailService mailService;
 
     private static final String EMAIL_PATTERN =

@@ -1,16 +1,17 @@
 package com.ozay.backend.repository;
 
-import com.ozay.backend.model.Notification;
-import com.ozay.backend.model.NotificationRecord;
-import com.ozay.backend.model.NotificationTrack;
+import com.ozay.backend.model.*;
 import com.ozay.backend.resultsetextractor.NotificationRecordResultSetExtractor;
 import com.ozay.backend.resultsetextractor.NotificationTrackResultSetExtractor;
-import com.ozay.backend.resultsetextractor.NotificationSetExtractor;
+import com.ozay.backend.service.MailService;
+import org.joda.time.DateTime;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,9 @@ import java.util.List;
 public class NotificationRecordRepository {
     @Inject
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Inject
+    MailService mailService;
 
 
     public List<NotificationRecord> findAllByNotificationId(Long notificationId){
@@ -49,12 +53,17 @@ public class NotificationRecordRepository {
     }
  */
  //Old Notification Track using Notification.java and NotificationRecordResultSetExtractor
-    public List<NotificationRecord> findAllTrackedByBuildingId(Long buildingId, Long offset){
-        int limit = 20;
+    public List<NotificationRecord> findAllTrackedByBuildingId(Long buildingId, Long offset, String search){
+        int limit = 10;
         offset = offset * limit;
-        String query = "SELECT n.created_date, n.subject, nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
-
         MapSqlParameterSource params = new MapSqlParameterSource();
+        String partialQuery = "";
+        if(search != null){
+            params.addValue("unit", search);
+            partialQuery = " AND (lower(m.unit)=lower(:unit) or lower(m.first_name) = lower(:unit) or lower(m.last_name) = lower(:unit))  ";
+        }
+        String query = "SELECT n.created_date, n.subject, nr.* , m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id " + partialQuery + " WHERE n.building_id = :buildingId ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
+
 
         params.addValue("buildingId", buildingId);
         params.addValue("limit", limit);
@@ -67,10 +76,14 @@ public class NotificationRecordRepository {
 
 
 
-    public Long countAllByNotificationId(Long buildingId){
-        String query = "SELECT COUNT(*) FROM notification_record nr JOIN notification n ON n.id = nr.notification_id WHERE building_id = :buildingId";
-
+    public Long countAllByNotificationId(Long buildingId, String search){
+        String partialQuery = "";
         MapSqlParameterSource params = new MapSqlParameterSource();
+        if(search != null){
+            params.addValue("unit", search);
+            partialQuery = " AND m.unit=:unit ";
+        }
+        String query = "SELECT COUNT(*) FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id " + partialQuery + " WHERE n.building_id = :buildingId";
 
         params.addValue("buildingId", buildingId);
 
@@ -91,10 +104,28 @@ public class NotificationRecordRepository {
     }
 
     public void update(NotificationRecord notificationRecord){
-        String query = "UPDATE notification_record SET track_complete=:trackComplete WHERE notification_id=:notificationId AND member_id=:memberId";
-        MapSqlParameterSource params = new MapSqlParameterSource();
-
-        params.addValue("notificationId", notificationRecord.getNotificationId());
+		String query;
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		
+        if(notificationRecord.isTrackComplete() == true){
+        query = "UPDATE notification_record SET track_complete=:trackComplete,note=:note,success=:success,commented=:commented, track_completed_date=(select now()) WHERE notification_id=:notificationId AND member_id=:memberId";	
+            notificationRecord.setTrackCompletedDate(new DateTime());
+            params.addValue("trackCompletedDate", new Timestamp(notificationRecord.getTrackCompletedDate().getMillisOfSecond()));
+        } 
+        else {
+        query = "UPDATE notification_record SET track_complete=:trackComplete,note=:note,success=:success,commented=:commented, track_completed_date=:trackCompletedDate WHERE notification_id=:notificationId AND member_id=:memberId";				
+            notificationRecord.setTrackCompletedDate(null);
+            params.addValue("trackCompletedDate", null);		
+		}
+        
+        if(notificationRecord.getNote()==null)
+        	params.addValue("commented", false);
+        else
+        	params.addValue("commented", true);
+		
+        params.addValue("note", notificationRecord.getNote());
+		params.addValue("success", notificationRecord.isSuccess());	    					
+		params.addValue("notificationId", notificationRecord.getNotificationId());
         params.addValue("memberId", notificationRecord.getMemberId());
         params.addValue("trackComplete", notificationRecord.isTrackComplete());
 

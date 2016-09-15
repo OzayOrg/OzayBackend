@@ -1,0 +1,134 @@
+2015-12-29T17:00:03.566871+00:00 app[web.1]: 	at org.springframework.expression.spel.support.ReflectiveMethodExecutor.execute(ReflectiveMethodExecutor.java:112)
+2015-12-29T17:00:03.566999+00:00 app[web.1]: 	at org.springframework.expression.spel.ast.MethodReference.access$000(MethodReference.java:49)
+2015-12-29T17:00:03.566939+00:00 app[web.1]: 	at org.springframework.expression.spel.ast.MethodReference.getValueInternal(MethodReference.java:129)
+2015-12-29T17:00:03.567056+00:00 app[web.1]: 	at org.springframework.expression.spel.ast.MethodReference$MethodValueRef.getValue(MethodReference.java:342)
+2015-12-29T17:00:03.567108+00:00 app[web.1]: 	at org.springframework.expression.spel.ast.CompoundExpression.getValueInternal(CompoundExpression.java:88)
+2015-12-29T17:00:03.567167+00:00 app[web.1]: 	at org.springframework.expression.spel.ast.SpelNodeImpl.getValue(SpelNodeImpl.java:120)
+2015-12-29T17:00:03.567224+00:00 app[web.1]: 	at org.springframework.expression.spel.standard.SpelExpression.getValue(SpelExpression.java:242)
+2015-12-29T17:00:03.567271+00:00 app[web.1]: 	at org.springframework.context.expression.StandardBeanExpressionResolver.evaluate(StandardBeanExpressionResolver.java:161)
+2015-12-29T17:00:03.567330+00:00 app[web.1]: 	... 40 more
+2015-12-29T17:00:03.567858+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:649)
+2015-12-29T17:00:03.567788+00:00 app[web.1]: Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire method: public void org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter.setContentNegotationStrategy(org.springframework.web.accept.ContentNegotiationStrategy); nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration$EnableWebMvcConfiguration': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire method: public void org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration.setConfigurers(java.util.List); nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'applicationConfigurerAdapter': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private javax.sql.DataSource com.ozay.backend.config.ApplicationConfigurerAdapter.datasource; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [com/ozay/backend/config/HerokuDatabaseConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalArgumentException: either dataSource or dataSourceClassName is required
+2015-12-29T17:00:03.567914+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+2015-12-29T17:00:03.567962+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:331)
+2015-12-29T17:00:03.568013+00:00 app[web.1]: 	... 62 more
+2015-12-29T17:00:03.568224+00:00 app[web.1]: Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration$EnableWebMvcConfiguration': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire method: public void org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration.setConfigurers(java.util.List); nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'applicationConfigurerAdapter': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private javax.sql.DataSource com.ozay.backend.config.ApplicationConfigurerAdapter.datasource; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [com/ozay/backend/config/HerokuDatabaseConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalArgumentException: either dataSource or dataSourceClassName is required
+2015-12-29T17:00:03.568283+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:334)
+2015-12-29T17:00:03.568347+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1210)
+2015-12-29T17:00:03.568405+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:537)
+2015-12-29T17:00:03.568480+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
+2015-12-29T17:00:03.568724+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+2015-12-29T17:00:03.568595+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
+2015-12-29T17:00:03.568787+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
+2015-12-29T17:00:03.568841+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+2015-12-29T17:00:03.568932+00:00 app[web.1]: 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:368)
+2015-12-29T17:00:03.569092+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1119)
+2015-12-29T17:00:03.569138+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1014)
+2015-12-29T17:00:03.569211+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:504)
+2015-12-29T17:00:03.569319+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
+2015-12-29T17:00:03.569437+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
+2015-12-29T17:00:03.569487+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+2015-12-29T17:00:03.569550+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
+2015-12-29T17:00:03.569653+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+2015-12-29T17:00:03.569811+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1120)
+2015-12-29T17:00:03.569868+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1044)
+2015-12-29T17:00:03.569952+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:942)
+2015-12-29T17:00:03.570094+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:606)
+2015-12-29T17:00:03.570193+00:00 app[web.1]: 	... 64 more
+2015-12-29T17:00:03.570356+00:00 app[web.1]: Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire method: public void org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration.setConfigurers(java.util.List); nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'applicationConfigurerAdapter': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private javax.sql.DataSource com.ozay.backend.config.ApplicationConfigurerAdapter.datasource; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [com/ozay/backend/config/HerokuDatabaseConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalArgumentException: either dataSource or dataSourceClassName is required
+2015-12-29T17:00:03.570526+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:649)
+2015-12-29T17:00:03.570596+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+2015-12-29T17:00:03.570700+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:331)
+2015-12-29T17:00:03.570835+00:00 app[web.1]: 	... 84 more
+2015-12-29T17:00:03.573782+00:00 app[web.1]: Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'applicationConfigurerAdapter': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private javax.sql.DataSource com.ozay.backend.config.ApplicationConfigurerAdapter.datasource; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [com/ozay/backend/config/HerokuDatabaseConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalArgumentException: either dataSource or dataSourceClassName is required
+2015-12-29T17:00:03.573811+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:334)
+2015-12-29T17:00:03.573878+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1210)
+2015-12-29T17:00:03.573927+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:537)
+2015-12-29T17:00:03.573988+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
+2015-12-29T17:00:03.574047+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
+2015-12-29T17:00:03.574114+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+2015-12-29T17:00:03.574157+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
+2015-12-29T17:00:03.574249+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+2015-12-29T17:00:03.574251+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1120)
+2015-12-29T17:00:03.574302+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:996)
+2015-12-29T17:00:03.574361+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:942)
+2015-12-29T17:00:03.574461+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:606)
+2015-12-29T17:00:03.574491+00:00 app[web.1]: 	... 86 more
+2015-12-29T17:00:03.574645+00:00 app[web.1]: Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire field: private javax.sql.DataSource com.ozay.backend.config.ApplicationConfigurerAdapter.datasource; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [com/ozay/backend/config/HerokuDatabaseConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalArgumentException: either dataSource or dataSourceClassName is required
+2015-12-29T17:00:03.574672+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:561)
+2015-12-29T17:00:03.574732+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+2015-12-29T17:00:03.574810+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:331)
+2015-12-29T17:00:03.574837+00:00 app[web.1]: 	... 97 more
+2015-12-29T17:00:03.574936+00:00 app[web.1]: Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [com/ozay/backend/config/HerokuDatabaseConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalArgumentException: either dataSource or dataSourceClassName is required
+2015-12-29T17:00:03.574984+00:00 app[web.1]: 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:599)
+2015-12-29T17:00:03.575043+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1119)
+2015-12-29T17:00:03.575104+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1014)
+2015-12-29T17:00:03.575151+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:504)
+2015-12-29T17:00:03.575216+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
+2015-12-29T17:00:03.575274+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
+2015-12-29T17:00:03.575321+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+2015-12-29T17:00:03.575482+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+2015-12-29T17:00:03.575394+00:00 app[web.1]: 	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
+2015-12-29T17:00:03.575576+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1044)
+2015-12-29T17:00:03.575514+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1120)
+2015-12-29T17:00:03.575648+00:00 app[web.1]: 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:942)
+2015-12-29T17:00:03.575748+00:00 app[web.1]: 	... 99 more
+2015-12-29T17:00:03.575676+00:00 app[web.1]: 	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:533)
+2015-12-29T17:00:03.582120+00:00 app[web.1]: Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalArgumentException: either dataSource or dataSourceClassName is required
+2015-12-29T17:00:03.582238+00:00 app[web.1]: 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:189)
+2015-12-29T17:00:03.582341+00:00 app[web.1]: 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:588)
+2015-12-29T17:00:03.582406+00:00 app[web.1]: 	... 111 more
+2015-12-29T17:00:03.582504+00:00 app[web.1]: Caused by: java.lang.IllegalArgumentException: either dataSource or dataSourceClassName is required
+2015-12-29T17:00:03.582581+00:00 app[web.1]: 	at com.zaxxer.hikari.HikariConfig.validate(HikariConfig.java:771)
+2015-12-29T17:00:03.582658+00:00 app[web.1]: 	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:69)
+2015-12-29T17:00:03.582736+00:00 app[web.1]: 	at com.ozay.backend.config.HerokuDatabaseConfiguration.dataSource(HerokuDatabaseConfiguration.java:57)
+2015-12-29T17:00:03.582809+00:00 app[web.1]: 	at com.ozay.backend.config.HerokuDatabaseConfiguration$$EnhancerBySpringCGLIB$$f22d6e6.CGLIB$dataSource$1(<generated>)
+2015-12-29T17:00:03.582891+00:00 app[web.1]: 	at com.ozay.backend.config.HerokuDatabaseConfiguration$$EnhancerBySpringCGLIB$$f22d6e6$$FastClassBySpringCGLIB$$edeab393.invoke(<generated>)
+2015-12-29T17:00:03.582968+00:00 app[web.1]: 	at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:228)
+2015-12-29T17:00:03.583048+00:00 app[web.1]: 	at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:309)
+2015-12-29T17:00:03.583192+00:00 app[web.1]: 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2015-12-29T17:00:03.583122+00:00 app[web.1]: 	at com.ozay.backend.config.HerokuDatabaseConfiguration$$EnhancerBySpringCGLIB$$f22d6e6.dataSource(<generated>)
+2015-12-29T17:00:03.583346+00:00 app[web.1]: 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2015-12-29T17:00:03.583267+00:00 app[web.1]: 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+2015-12-29T17:00:03.583439+00:00 app[web.1]: 	at java.lang.reflect.Method.invoke(Method.java:497)
+2015-12-29T17:00:03.583513+00:00 app[web.1]: 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:162)
+2015-12-29T17:00:03.583578+00:00 app[web.1]: 	... 112 more
+2015-12-29T17:00:04.689221+00:00 heroku[web.1]: State changed from starting to crashed
+2015-12-29T17:00:04.677702+00:00 heroku[web.1]: Process exited with status 1
+2015-12-29T17:17:25.559542+00:00 heroku[slug-compiler]: Slug compilation finished
+2015-12-29T17:17:25.559534+00:00 heroku[slug-compiler]: Slug compilation started
+2015-12-29T17:17:25.454833+00:00 heroku[api]: Deploy 4a7b396 by sandeep@ozay.us
+2015-12-29T17:17:25.454833+00:00 heroku[api]: Release v33 created by sandeep@ozay.us
+2015-12-29T17:17:29.465605+00:00 heroku[web.1]: Starting process with command `java -jar target/*.war --spring.profiles.active=prod,heroku --server.port=28135 --spring.datasource.heroku-url=postgres://pymqxayzqcupig:bbfQfAnPae6Fk4jrJDChq4qOpN@ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7iegu76smkaqb --metrics.jmx.enabled=false --spring.datasource.jmx-enabled=false --spring.jmx.enabled=false --management.security.enabled=false --endpoints.jmx.enabled=false`
+2015-12-29T17:17:31.071824+00:00 app[web.1]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T17:17:31.075378+00:00 app[web.1]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T17:17:32.607297+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Starting Application on 10b24294-7a38-4ab0-b931-e78f707426d3 with PID 3 (started by u13914 in /app)
+2015-12-29T17:17:32.607383+00:00 app[web.1]: [DEBUG] com.ozay.backend.Application - Running with Spring Boot v1.2.6.RELEASE, Spring v4.1.7.RELEASE
+2015-12-29T17:17:36.391594+00:00 app[web.1]: [DEBUG] org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
+2015-12-29T17:17:36.717582+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.AsyncConfiguration - Creating Async Task Executor
+2015-12-29T17:17:37.370808+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.MetricsConfiguration - Registering JVM gauges
+2015-12-29T17:17:37.452620+00:00 app[web.1]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T17:17:25.907632+00:00 heroku[web.1]: State changed from crashed to starting
+2015-12-29T17:17:40.958821+00:00 app[web.1]: [INFO] com.ozay.backend.config.HerokuDatabaseConfiguration - Using Heroku, parsing their $DATABASE_URL to use it with JDBC
+2015-12-29T17:17:40.958579+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.HerokuDatabaseConfiguration - Configuring Heroku Datasource
+2015-12-29T17:17:46.206848+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.DatabaseConfiguration - Configuring Liquibase
+2015-12-29T17:17:46.251128+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.liquibase.AsyncSpringLiquibase - Starting Liquibase synchronously
+2015-12-29T17:18:29.989362+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 60 seconds of launch
+2015-12-29T17:18:29.989362+00:00 heroku[web.1]: Stopping process with SIGKILL
+2015-12-29T17:18:30.606143+00:00 heroku[web.1]: Process exited with status 137
+2015-12-29T17:18:35.629987+00:00 heroku[web.1]: Starting process with command `java -jar target/*.war --spring.profiles.active=prod,heroku --server.port=18331 --spring.datasource.heroku-url=postgres://pymqxayzqcupig:bbfQfAnPae6Fk4jrJDChq4qOpN@ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7iegu76smkaqb --metrics.jmx.enabled=false --spring.datasource.jmx-enabled=false --spring.jmx.enabled=false --management.security.enabled=false --endpoints.jmx.enabled=false`
+2015-12-29T17:18:37.693440+00:00 app[web.1]: Picked up JAVA_TOOL_OPTIONS: -Xmx350m -Xss512k -Dfile.encoding=UTF-8
+2015-12-29T17:18:37.672969+00:00 app[web.1]: Setting JAVA_TOOL_OPTIONS defaults based on dyno size. Custom settings will override them.
+2015-12-29T17:18:48.021618+00:00 app[web.1]: [INFO] com.ozay.backend.Application - Starting Application on 2c1810a1-1d55-440d-b75a-042521f0e203 with PID 3 (started by u59586 in /app)
+2015-12-29T17:18:48.021770+00:00 app[web.1]: [DEBUG] com.ozay.backend.Application - Running with Spring Boot v1.2.6.RELEASE, Spring v4.1.7.RELEASE
+2015-12-29T17:19:09.008914+00:00 app[web.1]: [DEBUG] org.jboss.logging - Logging Provider: org.jboss.logging.Slf4jLoggerProvider
+2015-12-29T17:19:10.425203+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.AsyncConfiguration - Creating Async Task Executor
+2015-12-29T17:19:13.954756+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.MetricsConfiguration - Registering JVM gauges
+2015-12-29T17:19:14.089185+00:00 app[web.1]: [INFO] com.ozay.backend.config.MetricsConfiguration - Initializing Metrics JMX reporting
+2015-12-29T17:19:29.001975+00:00 app[web.1]: [DEBUG] com.ozay.backend.config.HerokuDatabaseConfiguration - Configuring Heroku Datasource
+2015-12-29T17:19:29.002344+00:00 app[web.1]: [INFO] com.ozay.backend.config.HerokuDatabaseConfiguration - Using Heroku, parsing their $DATABASE_URL to use it with JDBC
+2015-12-29T17:19:35.731529+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 60 seconds of launch
+2015-12-29T17:19:35.732887+00:00 heroku[web.1]: Stopping process with SIGKILL
+2015-12-29T17:19:36.815426+00:00 heroku[web.1]: Process exited with status 137
+2015-12-29T17:23:31.792261+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=ozay-backend-staging.herokuapp.com request_id=4ff50b30-2509-429d-897b-71fe9fabdf4f fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
+2015-12-29T17:23:32.705784+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/favicon.ico" host=ozay-backend-staging.herokuapp.com request_id=83ee96b1-b99e-464b-ab6c-dba093b53019 fwd="198.46.120.198" dyno= connect= service= status=503 bytes=
