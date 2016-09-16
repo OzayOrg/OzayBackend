@@ -174,7 +174,7 @@ public class MailService {
 
         Date dt_track = trackedDate.toDate();
 
-        sendEmail(email, status + ": " + Subject, "Task created on " + date + ". " + status + " on " + dt_track , false, true);
+        sendEmail(email, status + ": " + Subject, "Task created on " + dt + ". " + status + " on " + dt_track , false, true);
     }
     @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
