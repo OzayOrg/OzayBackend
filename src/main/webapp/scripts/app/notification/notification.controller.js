@@ -272,5 +272,6 @@ angular.module('ozayApp')
 */
 
             }
+            else{$scope.button = true}
         }
     });

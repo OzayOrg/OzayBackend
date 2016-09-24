@@ -49,7 +49,9 @@ public class HerokuDatabaseConfiguration implements EnvironmentAware {
                     dbUri.getPort() +
                     dbUri.getPath() +
                     "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";*/
-           String dbUrl = "jdbc:postgresql://ec2-54-83-38-132.compute-1.amazonaws.com:5932/d5jaj1qkckbjlj?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+           
+            //String dbUrl = "jdbc:postgresql://ec2-54-83-38-132.compute-1.amazonaws.com:5932/d5jaj1qkckbjlj?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+           String dbUrl = "jdbc:postgresql://ec2-54-243-55-9.compute-1.amazonaws.com:5432/dej2t33e1tmpqk?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
 
 
             HikariConfig config = new HikariConfig();
@@ -61,9 +63,12 @@ public class HerokuDatabaseConfiguration implements EnvironmentAware {
 
             config.setDataSourceClassName("org.postgresql.ds.PGSimpleDataSource");
             config.addDataSourceProperty("url", dbUrl);
-            config.addDataSourceProperty("user", "u94338q1vtrci");
-            config.addDataSourceProperty("password", "pb5kgbacja4fdfchiq7hjd5n5j7");
-
+           
+            //config.addDataSourceProperty("user", "u94338q1vtrci");
+            //config.addDataSourceProperty("password", "pb5kgbacja4fdfchiq7hjd5n5j7");
+            
+            config.addDataSourceProperty("user", "nmxwrlceuoscjn");
+            config.addDataSourceProperty("password", "F0xhGbhxZGzZjz5_PcBu6m6XEo");
 
 
             return new HikariDataSource(config);

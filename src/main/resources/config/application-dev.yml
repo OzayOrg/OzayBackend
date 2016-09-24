@@ -19,6 +19,12 @@ spring:
         name: dej2t33e1tmpqk
         username: nmxwrlceuoscjn
         password: F0xhGbhxZGzZjz5_PcBu6m6XEo
+        
+        #url: jdbc:postgresql://localhost:5432/postgres
+        #name: postgres
+        #username: postgres
+        #password: admin
+
     jpa:
         database-platform: com.ozay.backend.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL

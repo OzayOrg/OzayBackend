@@ -155,6 +155,7 @@ public class MailService {
     }
 
     @Async
+    public void sendTrackComplete(String building,String email, boolean trackComplete,String comment,String Subject, DateTime createdDate, DateTime trackedDate){
         log.debug("Sending invitation e-mail to {}", email);
         //Locale locale = Locale.forLanguageTag(invitedMember.getLangKey());
         Locale locale = Locale.forLanguageTag("en");
@@ -171,9 +172,10 @@ public class MailService {
         Date dt = createdDate.toDate();
         Date dt_track = trackedDate.toDate();
         
-        context.setVariable("body",  "Tracked notification '"+Subject+"' with comment: '"+comment+"', \n started on " + dt + " has been completed on " + dt_track);
+        context.setVariable("body",  "Tracked notification '"+Subject+"' with comment: '"+comment+"', \n started on " + createdDate + " has been completed on " + dt_track);
         String content = templateEngine.process("notificationEmail", context);
         
+        String subject =building+" : Tracking Notification  '"+Subject+"' has been completed";
         
         sendEmail(email,subject,content, false, true);
     }

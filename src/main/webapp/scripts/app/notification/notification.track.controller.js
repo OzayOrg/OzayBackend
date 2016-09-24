@@ -80,7 +80,7 @@ angular.module('ozayApp')
 	 {
 	  if(input == null){ return ""; } 
 	 	  var _date = $filter('date')(new Date(input),
-	                              'MMM dd yyyy HH:mm a');
+	                              'MMM dd yyyy');
 	  return _date;
 
 	 };

@@ -44,6 +44,7 @@ public class NotificationRecordResource {
     public ResponseEntity<?> updateNotificationRecord(@RequestBody NotificationRecord notificationRecord) {
         log.debug("REST request to update NotificationRecord : {}", notificationRecord);
         notificationRecordRepository.update(notificationRecord);
+        mailService.sendTrackComplete(notificationRecord.getBuilding().getName(),notificationRecord.getEmail(), notificationRecord.isTrackComplete(),notificationRecord.getNote(), notificationRecord.getNotification().getSubject() , notificationRecord.getNotification().getCreatedDate(),notificationRecord.getTrackCompletedDate());
         return new ResponseEntity<>(notificationRecord, HttpStatus.OK);
     }
 }
