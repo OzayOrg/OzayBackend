@@ -62,7 +62,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="notification in notifications">
-                                                    <td>{{notification.notification.createdDate | date: "MM/dd/yyyy"}}</td>
+                                                    <td>{{notification.notification.createdDate | datetime}}</td>
 
                                                     <td>{{notification.member.unit}}</td>
 
@@ -70,19 +70,23 @@
                                                     
                                                     <td>{{notification.notification.subject}}</td>
                                                     <!--<td>{{notification.trackCompletedDate | date: "MM/dd/yyyy " : '+0430'}}</td>-->
-                                                    <td>{{notification.trackCompletedDate | date: "MM/dd/yyyy"}}</td>
+                                                    <td>{{notification.trackCompletedDate | date:"MMM dd yyyy"}}</td>
 
                                                      <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
 
-                                                        <input id="list"  name="note" type="text" ng-disabled="notification.commented" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                                                       <!--  <input id="list"  name="note" type="text" ng-disabled="notification.commented" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required>
+                                                         --><textarea id="list" class="commentbox" name="note" ng-disabled="notification.commented" ng-model="notification.note" placeholder="[ Type comment here ]" typeahead="note.note for note in notes | filter:$viewValue | limitTo:10" class="form-control" typeahead-on-select='onSelect($item)' required  >
+</textarea>
+
+                                                        
                                                         <p ng-show="submitted && form.subject.$error.required" class="help-block has-error">Required</p>
 
                                                     </td>
                                                     <td class="text-center">
-                                                        <button class="btn commentbtn" ng-class="{'btn-warning': notification.commented}" type="button" ng-click="toggle(notification)"><span ng-show="!notification.commented">Save</span><span ng-show="notification.commented">Edit</span></button>
+                                                        <button class="btn commentbtn"  ng-class="{'btn-warning': notification.commented}" type="button" ng-click="toggle(notification)"><span ng-show="!notification.commented">Save</span><span ng-show="notification.commented">Edit</span></button>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button class="btn completebtn"  ng-class="{'btn-success' : notification.trackComplete}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
+                                                        <button class="btn completebtn" ng-disabled="notification.trackComplete"  ng-class="{'btn-success' : notification.trackComplete}" type="button" ng-click="track(notification)"><span ng-show="notification.trackComplete">Yes</span><span ng-show="!notification.trackComplete">No</span></button>
                                                     </td>
                                                 </tr>
                                             </tbody>

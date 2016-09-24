@@ -1,6 +1,7 @@
 package com.ozay.backend.resultsetextractor;
 
 import com.ozay.backend.model.AccountInformation;
+import com.ozay.backend.model.Building;
 import com.ozay.backend.model.Member;
 import com.ozay.backend.model.NotificationRecord;
 import org.joda.time.DateTime;
@@ -21,7 +22,8 @@ public class NotificationRecordResultSetExtractor implements ResultSetExtractor 
         while(resultSet.next()){
             NotificationRecord notificationRecord = new NotificationRecord();
             Member member = new Member();
-
+            Building building=new Building();
+            
             notificationRecord.setMemberId(resultSet.getLong("member_id"));
             notificationRecord.setNotificationId(resultSet.getLong("notification_id"));
             notificationRecord.setEmail(resultSet.getString("email"));
@@ -35,7 +37,10 @@ public class NotificationRecordResultSetExtractor implements ResultSetExtractor 
             member.setFirstName(resultSet.getString("first_name"));
             member.setLastName(resultSet.getString("last_name"));
             member.setUnit(resultSet.getString("unit"));
-
+            
+            building.setName(resultSet.getString("name"));
+            
+            notificationRecord.setBuilding(building);
             notificationRecord.setMember(member);
             list.add(notificationRecord);
         }

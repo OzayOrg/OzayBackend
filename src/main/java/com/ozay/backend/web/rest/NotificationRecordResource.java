@@ -34,7 +34,6 @@ public class NotificationRecordResource {
     @Inject
     MailService mailService;
 
-
     /**
      * PUT  /notification -> Create a new notification.
      */
@@ -45,7 +44,6 @@ public class NotificationRecordResource {
     public ResponseEntity<?> updateNotificationRecord(@RequestBody NotificationRecord notificationRecord) {
         log.debug("REST request to update NotificationRecord : {}", notificationRecord);
         notificationRecordRepository.update(notificationRecord);
-        mailService.sendTrackComplete(notificationRecord.getEmail(), notificationRecord.isTrackComplete(), notificationRecord.getNotification().getSubject() , notificationRecord.getNotification().getCreatedDate(),notificationRecord.getTrackCompletedDate());
         return new ResponseEntity<>(notificationRecord, HttpStatus.OK);
     }
 }

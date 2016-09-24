@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 public class NotificationRecord {
     public Long memberId;
     public Long notificationId;
-
+    
     private boolean success,commented;
     private boolean trackComplete;
     private DateTime trackCompletedDate;
@@ -17,8 +17,16 @@ public class NotificationRecord {
 
     private Member member;
     private Notification notification;
+    private Building building;
+   
+    public Building getBuilding() {
+        return building;
+    }
 
-
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+    
     public Notification getNotification() {
         return notification;
     }

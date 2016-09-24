@@ -28,7 +28,7 @@ public class NotificationRecordRepository {
 
     public List<NotificationRecord> findAllByNotificationId(Long notificationId){
 
-        String query = "SELECT nr.*, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN member m ON nr.member_id = m.id INNER JOIN notification n ON nr.notification_id = n.id WHERE nr.notification_id = :notificationId ORDER BY n.created_date DESC";
+        String query = "SELECT nr.*,b.name, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN member m ON nr.member_id = m.id INNER JOIN notification n ON nr.notification_id = n.id INNER JOIN building b ON m.building_id=b.id WHERE nr.notification_id = :notificationId ORDER BY n.created_date DESC";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
@@ -62,7 +62,7 @@ public class NotificationRecordRepository {
             params.addValue("unit", search);
             partialQuery = " AND (lower(m.unit)=lower(:unit) or lower(m.first_name) = lower(:unit) or lower(m.last_name) = lower(:unit))  ";
         }
-        String query = "SELECT n.created_date, n.subject, nr.* , m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id " + partialQuery + " WHERE n.building_id = :buildingId ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
+        String query = "SELECT n.created_date, n.subject, nr.* , b.name, m.first_name, m.last_name, m.unit, n.track FROM notification_record nr INNER JOIN notification n ON nr.notification_id = n.id INNER JOIN building b ON n.building_id=b.id AND n.track = true INNER JOIN member m ON nr.member_id = m.id " + partialQuery + " WHERE n.building_id = :buildingId ORDER BY nr.track_complete, n.created_date DESC LIMIT :limit OFFSET :offset";
 
 
         params.addValue("buildingId", buildingId);

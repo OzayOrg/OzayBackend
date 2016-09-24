@@ -19,6 +19,7 @@ public class NotificationTrackResultSetExtractor implements ResultSetExtractor {
             NotificationRecord notificationRecord = new NotificationRecord();
             Member member = new Member();
             Notification notification = new Notification();
+            Building building =new Building();
 
             notificationRecord.setMemberId(resultSet.getLong("member_id"));
             notificationRecord.setNotificationId(resultSet.getLong("notification_id"));
@@ -40,8 +41,10 @@ public class NotificationTrackResultSetExtractor implements ResultSetExtractor {
             member.setLastName(resultSet.getString("last_name"));
             member.setUnit(resultSet.getString("unit"));
 
+            building.setName(resultSet.getString("name"));
             notificationRecord.setMember(member);
             notificationRecord.setNotification(notification);
+            notificationRecord.setBuilding(building);
             list.add(notificationRecord);
         }
 

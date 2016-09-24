@@ -9,9 +9,10 @@ angular.module('ozayApp')
         if($stateParams.search !== undefined){
             $scope.searchKeyword = $stateParams.search;
         }
-
+      
         $scope.track = function(notificationRecord) {
             // call api
+        	if (confirm("Mark This Notification As Complete")) {
             notificationRecord.trackComplete = !notificationRecord.trackComplete;
 			
             NotificationRecord.update(notificationRecord, function(data) {
@@ -25,7 +26,9 @@ angular.module('ozayApp')
 			
 			var date=new Date();
 			notificationRecord.trackCompletedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);;
-        }
+        	} else {
+            }
+        	}
 		
 		
 		
@@ -69,3 +72,16 @@ angular.module('ozayApp')
                 }
 
     });
+
+angular.module('ozayApp')
+.filter('datetime', function($filter)
+	{
+	 return function(input)
+	 {
+	  if(input == null){ return ""; } 
+	 	  var _date = $filter('date')(new Date(input),
+	                              'MMM dd yyyy HH:mm a');
+	  return _date;
+
+	 };
+	});

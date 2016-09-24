@@ -28,6 +28,8 @@ import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Locale;
+import java.util.*;
+import java.text.*;
 
 /**
  * Service for sending e-mails.
@@ -153,31 +155,27 @@ public class MailService {
     }
 
     @Async
-    public void sendTrackComplete(String email, boolean trackComplete,String Subject, DateTime createdDate, DateTime trackedDate){
         log.debug("Sending invitation e-mail to {}", email);
         //Locale locale = Locale.forLanguageTag(invitedMember.getLangKey());
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         //context.setVariable("name", member.getFirstName() + " " + member.getLastName());
-        context.setVariable("building", email);
-        //String content = templateEngine.process("memberInvitationEmail", context);
-        //String subject = messageSource.getMessage("email.member.subject", null, locale);
+        //context.setVariable("building", email);
+        
         String status = null;
         if (trackComplete==true) {
             status = "completed" ; }
         if  (trackComplete==false) {
             status="incomplete";}
+
         Date dt = createdDate.toDate();
-
-        //Building building = buildingRepository.findOne(notification.getBuildingId());
-        //String buildingName = building.getName();
-
-        Date input = new Date();
-        LocalDate date = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
         Date dt_track = trackedDate.toDate();
-
-        sendEmail(email, "Tracked notification '" + Subject + "' has been completed", "Tracked notification created on " + date + " has been " + status, false, true);
+        
+        context.setVariable("body",  "Tracked notification '"+Subject+"' with comment: '"+comment+"', \n started on " + dt + " has been completed on " + dt_track);
+        String content = templateEngine.process("notificationEmail", context);
+        
+        
+        sendEmail(email,subject,content, false, true);
     }
     @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
@@ -185,11 +183,17 @@ public class MailService {
         log.debug("Sending notification e-mail to {}", to);
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
-        context.setVariable("body", notification.getNotice());
+        //Date input = new Date();
+        //LocalDate date = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String pattern = "MMM dd yyyy 'at' hh:mm a zzz";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String date = simpleDateFormat.format(new Date());
+        context.setVariable("body", "Created On "+date+" with message: \n"+notification.getNotice());
         String content = templateEngine.process("notificationEmail", context);
         Building building = buildingRepository.findOne(notification.getBuildingId());
-        String subject = building.getName()+" : "+notification.getSubject();
+        String subject = building.getName()+" : Tracking Notification  '"+notification.getSubject()+"' has been created";
         log.debug("About to send email");
+        
         this.sendMultipleEmails(notificationFormDTO, to, subject, content, false, true);
     }
 
