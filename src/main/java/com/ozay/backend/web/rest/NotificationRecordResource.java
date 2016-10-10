@@ -17,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.inject.Inject;
 
 /**
  * Created by naofumiezaki on 11/23/15.
  */
+
 @RestController
 @RequestMapping("/api/notification-record")
 public class NotificationRecordResource {

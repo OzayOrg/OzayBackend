@@ -156,28 +156,31 @@ public class MailService {
 
     @Async
     public void sendTrackComplete(String building,String email, boolean trackComplete,String comment,String Subject, DateTime createdDate, DateTime trackedDate){
-        log.debug("Sending invitation e-mail to {}", email);
+        if (trackComplete==true) {
+    	log.debug("Sending invitation e-mail to {}", email);
         //Locale locale = Locale.forLanguageTag(invitedMember.getLangKey());
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
-        //context.setVariable("name", member.getFirstName() + " " + member.getLastName());
-        //context.setVariable("building", email);
         
-        String status = null;
-        if (trackComplete==true) {
-            status = "completed" ; }
-        if  (trackComplete==false) {
-            status="incomplete";}
 
         Date dt = createdDate.toDate();
-        Date dt_track = trackedDate.toDate();
+
+        String trackDate;
+        String pattern = "MM/dd/yyyy";// 'at' hh:mm a zzz
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         
-        context.setVariable("body",  "Tracked notification '"+Subject+"' with comment: '"+comment+"', \n started on " + createdDate + " has been completed on " + dt_track);
+        
+        trackDate = simpleDateFormat.format(new Date());
+        
+        String dt_created=simpleDateFormat.format(dt);/*""+createdDate.getMonthOfYear()+" "+createdDate.getDayOfMonth()+" "+createdDate.getMonthOfYear();
+        */
+        context.setVariable("body",  "Tracked notification '"+Subject+"' with comment: '"+comment+"', \n started on " + dt_created + " has been completed on " + trackDate);
         String content = templateEngine.process("notificationEmail", context);
         
         String subject =building+" : Tracking Notification  '"+Subject+"' has been completed";
         
         sendEmail(email,subject,content, false, true);
+        }
     }
     @Async
     public void sendNotification(NotificationFormDTO notificationFormDTO, String[] to) {
@@ -187,7 +190,7 @@ public class MailService {
         Context context = new Context(locale);
         //Date input = new Date();
         //LocalDate date = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        String pattern = "MMM dd yyyy 'at' hh:mm a zzz";
+        String pattern = "MM/dd/yyyy";// 'at' hh:mm a zzz
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String date = simpleDateFormat.format(new Date());
         context.setVariable("body", "Created On "+date+" with message: \n"+notification.getNotice());
