@@ -10,9 +10,8 @@
                     <th>Created Date</th>
                     <th>Subject</th>
                     <th>Message</th>
-                    <th>Response</th>
                     <th>Process</th>
-                    <th>Complete</th>
+                    <th>Expiration Date</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -26,18 +25,8 @@
                         <span ng-if="collaborate.response == 2">Multiple Choice</span>
                         <span ng-if="collaborate.response == 3">Calendar</span>
                     </td>
-                    <td>{{collaborate.numOfReplies}} of {{collaborate.total}}</td>
-                    <td>
-                        <span ng-if="collaborate.status == 1 && track == true">No</span>
-                        <span ng-if="collaborate.status == 1 && track == false">Expired</span>
-                        <span ng-if="collaborate.status == 2">Completed</span>
-                        <span ng-if="collaborate.status == 3">Canceled</span>
-                    </td>
-                    <td>
-                        <a ui-sref="{{detailUrl}}({collaborateId:collaborate.id})">
-                            <button class="btn btn-default" type="button">View</button>
-                        </a>
-                    </td>
+                    <td>{{collaborate.display_until}}</td>
+                    
                 </tr>
                 </tbody>
 

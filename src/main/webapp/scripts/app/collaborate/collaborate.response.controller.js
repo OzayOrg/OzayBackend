@@ -6,7 +6,7 @@ angular.module('ozayApp')
         $scope.data = {};
         var pageLoaded = false;
         // Shared HTML file with collaborate.record.controller
-        $scope.detailUrl = "collaborate-track-detail";
+        //$scope.detailUrl = "collaborate-response-detail";
         $scope.track = true;
         $scope.data.currentPage = 1;
 
@@ -51,7 +51,7 @@ angular.module('ozayApp')
             page: $stateParams.page !== undefined ? $stateParams.page : 1
         }).$promise.then(function(data) {
             $scope.totalItems = data.numberOfRecords / 2;
-            $scope.collaborates = data.collaborateRecordDTOs; //this gets all the collaborates\
+            $scope.collaborates = data.collaborateDTOs; //this gets all the collaborates\
             $scope.data.currentPage = $stateParams.page !== undefined ? $stateParams.page : 1;
             pageLoaded = true;
         });

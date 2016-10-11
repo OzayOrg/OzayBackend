@@ -632,14 +632,31 @@ public class PageResource {
     @Timed
     @Transactional(readOnly=true)
     public ResponseEntity<?> collaborateResponse(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
-    	PageCollaborateRecordDTO pageCollaborateResponse = new PageCollaborateRecordDTO();
+    	PageCollaborateResponseDTO pageCollaborateResponse = new PageCollaborateResponseDTO();
+    	List<CollaborateDTO> collaborateRes=new ArrayList<CollaborateDTO>();
     	String uname=SecurityUtils.getCurrentLogin();
     	long mid=organizationUserRepository.UserId(uname);
     	List<Collaborate> collaborateList=collaborateRepository.findAllByMemberId(mid);
+    	for(Collaborate c: collaborateList)
+    	{
+    		if(c.getStatus()!=3)
+    		{
+    		 CollaborateDTO collaborateResponseDTO = new CollaborateDTO(
+    				 c.getId(),
+    				 c.getCollaborateFieldId(),
+    				 c.getCreatedDate(),
+    				 c.getMessage(),
+    				 c.getResponse(), 
+    				 c.getStatus(),
+    				 c.getSubject());
+    		 collaborateRes.add(collaborateResponseDTO);
+    		 
+    		}
+    	}
+    	long numOfRecords=collaborateRes.size();
        // List<Collaborate> collaborateList = collaborateRepository.findAllByBuildingForArchive(buildingId, page);
-        List<CollaborateRecordDTO> collaborateRecordDTOList = convertToCollaborateRecordDTO(collaborateList);
-        pageCollaborateResponse.setCollaborateRecordDTOs(collaborateRecordDTOList);
-        pageCollaborateResponse.setNumberOfRecords(collaborateRepository.getTotalNumberOfAccessibleCollaborates(buildingId, false));
+    	pageCollaborateResponse.setNumberOfRecords(numOfRecords);
+        pageCollaborateResponse.setCollaborateDTO(collaborateRes);
         return new ResponseEntity<>(pageCollaborateResponse, HttpStatus.OK);
     	
     }

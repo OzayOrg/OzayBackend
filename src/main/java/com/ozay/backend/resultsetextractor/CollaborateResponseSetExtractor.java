@@ -18,7 +18,6 @@ public class CollaborateResponseSetExtractor {
 	public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
         List<Collaborate> collaborateList = new ArrayList<Collaborate>();
         List<CollaborateField> collaborateFieldList = new ArrayList<CollaborateField>();
-        List<CollaborateMember> collaborateMemberList = new ArrayList<CollaborateMember>();
         Collaborate collaborate = null;
 
         Long previous = null; // For collaborate
@@ -50,19 +49,15 @@ public class CollaborateResponseSetExtractor {
                 if((Integer)resultSet.getObject("collaborate_field_id") == null){
                     collaborate.setCollaborateFieldId(null);
                 } else {
-                    collaborate.setCollaborateFieldId(resultSet.getLong("collaborate_field_id"));
+                    collaborate.setCollaborateFieldId(resultSet.getLong("collaborate_fieldId"));
                 }
                 collaborate.setCreatedDate(new DateTime(resultSet.getDate("created_date")));
                 collaborate.setCollaborateFields(new ArrayList<CollaborateField>());
             }
-            if(collaborateField == null || resultSet.getLong("cd_id") != previous2){
-                if(collaborateField != null){
-                    collaborateField.setCollaborateMembers(collaborateMemberList);
-                    collaborateMemberList = new ArrayList<CollaborateMember>();
-                }
+            if(collaborateField == null || resultSet.getLong("id") != previous2){
                 collaborateField = new CollaborateField();
-                collaborateField.setId(resultSet.getLong("cd_id"));
-                collaborateField.setCollaborateId(resultSet.getLong("cd_collaborate_id"));
+                collaborateField.setId(resultSet.getLong("id"));
+                collaborateField.setCollaborateId(resultSet.getLong("id"));
                 if((Date)resultSet.getObject("issue_date") == null){
                     collaborateField.setIssueDate(null);
                 } else {
@@ -74,34 +69,10 @@ public class CollaborateResponseSetExtractor {
                 collaborateFieldList.add(collaborateField);
             }
 
-            collaborateMember = new CollaborateMember();
-            member = new Member();
-            member.setId(resultSet.getLong("m_id"));
-            member.setFirstName(resultSet.getString("first_name"));
-            member.setLastName(resultSet.getString("last_name"));
-            collaborateMember.setMember(member);
-            collaborateMember.setCollaborateFieldId(resultSet.getLong("collaborate_field_id"));
-            Boolean b = resultSet.getBoolean("selected");
-
-            if((Boolean)resultSet.getObject("selected") == null){
-                collaborateMember.setSelected(null);
-            } else {
-                collaborateMember.setSelected(resultSet.getBoolean("selected"));
-            }
-            collaborateMemberList.add(collaborateMember);
-
-
-            if((Date)resultSet.getObject("cm_modified_date") == null){
-                collaborateMember.setModifiedDate(null);
-            } else {
-                collaborateMember.setModifiedDate(new DateTime(resultSet.getDate("cm_modified_date")));
-            }
-
             previous = resultSet.getLong("id");
-            previous2 = resultSet.getLong("cd_id");
+            previous2 = resultSet.getLong("id");
         }
         if(collaborate != null){
-            collaborateField.setCollaborateMembers(collaborateMemberList);
             collaborate.setCollaborateFields(collaborateFieldList);
             collaborateList.add(collaborate);
         }
