@@ -618,13 +618,32 @@ public class PageResource {
     @Transactional(readOnly = true)
     public ResponseEntity<?> collaborateArchive(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
         PageCollaborateRecordDTO pageCollaborateTrack = new PageCollaborateRecordDTO();
-
+        
         List<Collaborate> collaborateList = collaborateRepository.findAllByBuildingForArchive(buildingId, page);
         List<CollaborateRecordDTO> collaborateRecordDTOList = convertToCollaborateRecordDTO(collaborateList);
         pageCollaborateTrack.setCollaborateRecordDTOs(collaborateRecordDTOList);
         pageCollaborateTrack.setNumberOfRecords(collaborateRepository.getTotalNumberOfAccessibleCollaborates(buildingId, false));
         return new ResponseEntity<>(pageCollaborateTrack, HttpStatus.OK);
     }
+    @RequestMapping(
+    		value = "/collaborate-response",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    @Transactional(readOnly=true)
+    public ResponseEntity<?> collaborateResponse(@RequestParam(value = "building") Long buildingId, @RequestParam(value = "page", required = false) Long page){
+    	PageCollaborateRecordDTO pageCollaborateResponse = new PageCollaborateRecordDTO();
+    	String uname=SecurityUtils.getCurrentLogin();
+    	long mid=organizationUserRepository.UserId(uname);
+    	List<Collaborate> collaborateList=collaborateRepository.findAllByMemberId(mid);
+       // List<Collaborate> collaborateList = collaborateRepository.findAllByBuildingForArchive(buildingId, page);
+        List<CollaborateRecordDTO> collaborateRecordDTOList = convertToCollaborateRecordDTO(collaborateList);
+        pageCollaborateResponse.setCollaborateRecordDTOs(collaborateRecordDTOList);
+        pageCollaborateResponse.setNumberOfRecords(collaborateRepository.getTotalNumberOfAccessibleCollaborates(buildingId, false));
+        return new ResponseEntity<>(pageCollaborateResponse, HttpStatus.OK);
+    	
+    }
+	
 
     @RequestMapping(
         value = "/collaborate-detail/{collaborateId}",

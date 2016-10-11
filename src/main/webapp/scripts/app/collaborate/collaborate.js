@@ -109,5 +109,25 @@ angular.module('ozayApp')
                 resolve: {
 
                 }
-            });
+            })
+            .state('collaborate-response',{
+        	parent: 'site',
+        	url: '/collaborate-response?page',
+            data: {
+                authorities: ['ROLE_ADMIN', 'ROLE_SUBSCRIBER', 'ROLE_USER'],
+                pageTitle: 'Collaborate Response'
+        	},
+        	 views: {
+                 'content@': {
+                     templateUrl: 'scripts/components/layout/default.html',
+                     controller: 'CollaborateResponseController'
+                 },
+                 'view@collaborate-response': {
+                      templateUrl: 'scripts/app/collaborate/collaborate-response.html',
+                 }
+             },
+             resolve: {
+
+             }
+         });
     });

@@ -1,0 +1,51 @@
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
+
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Created Date</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Response</th>
+                    <th>Process</th>
+                    <th>Complete</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="collaborate in collaborates">
+                    <td>{{collaborate.createdDate | date: "MM/dd/yyyy" }}</td>
+                    <td>{{collaborate.subject}}</td>
+                    <td ng-bind-html="collaborate.message"></td>
+
+                    <td><span ng-if="collaborate.response == 1">Radio</span>
+                        <span ng-if="collaborate.response == 2">Multiple Choice</span>
+                        <span ng-if="collaborate.response == 3">Calendar</span>
+                    </td>
+                    <td>{{collaborate.numOfReplies}} of {{collaborate.total}}</td>
+                    <td>
+                        <span ng-if="collaborate.status == 1 && track == true">No</span>
+                        <span ng-if="collaborate.status == 1 && track == false">Expired</span>
+                        <span ng-if="collaborate.status == 2">Completed</span>
+                        <span ng-if="collaborate.status == 3">Canceled</span>
+                    </td>
+                    <td>
+                        <a ui-sref="{{detailUrl}}({collaborateId:collaborate.id})">
+                            <button class="btn btn-default" type="button">View</button>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+            <hr/>
+            <div style="text-align:center;">
+                <uib-pagination total-items="totalItems" ng-model="data.currentPage" max-size="data.maxSize" class="pagination-sm" ng-change="pageChanged()" boundary-links="true" rotate="false" num-pages="numPages" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+            </div>
+        </div>
+    </div>
+</div>

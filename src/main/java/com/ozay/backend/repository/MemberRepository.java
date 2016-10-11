@@ -37,7 +37,6 @@ public class MemberRepository {
         params.addValue("collaborteId", collaborteId);
         return (List<Member>)namedParameterJdbcTemplate.query(query, params, new MemberSetExtractor());
     }
-
     public Member findOne(Long id){
         String query = this.MemberSetExtractorQuery + "WHERE m.deleted= false AND m.id=:id ORDER BY m.id";
         MapSqlParameterSource params = new MapSqlParameterSource();

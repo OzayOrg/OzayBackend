@@ -201,7 +201,9 @@ public class MailService {
         String message = null;
         String responseType = "";
         String additional ="";
+        String collaborateCreateDate="";
         List<String> dates = new ArrayList<String>();
+        List<String> optionsToSelect=new ArrayList<String>();
         DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/mm/yyyy hh:mm a");
         if(collaborate.getStatus() == Collaborate.STATUS_CREATED){
             subject = collaborate.getSubject();
@@ -210,7 +212,9 @@ public class MailService {
 
             for(CollaborateField cd : collaborate.getCollaborateFields()){
                 dates.add(formatter.print(cd.getIssueDate()));
+                optionsToSelect.add(cd.getQuestion());
             }
+            collaborateCreateDate=dates.get(0);
         }
         else if(collaborate.getStatus() == Collaborate.STATUS_CANCELED){
             subject = "Collaborate Canceled";
@@ -237,12 +241,14 @@ public class MailService {
         }
         else if(collaborate.getResponse() == Collaborate.CALENDAR){
             responseType = "Calendar";
+            context.setVariable("dates", dates);
         }
-
+        context.setVariable("optionsToSelect", optionsToSelect);
         context.setVariable("collaborate", collaborate);
         context.setVariable("responseType", responseType);
         context.setVariable("additional", additional);
-        context.setVariable("dates", dates);
+        context.setVariable("collaborateCreateDate", collaborateCreateDate);
+        
         context.setVariable("message", message);
         String content = templateEngine.process("collaborateMail", context);
 

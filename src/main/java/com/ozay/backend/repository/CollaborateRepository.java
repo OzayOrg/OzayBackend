@@ -118,7 +118,14 @@ public class CollaborateRepository {
     public List<Collaborate> findAllByBuildingForArchive(Long buildingId, Long page){
         return this.findAllByBuilding(buildingId, false, page);
     }
-
+    //For response from  User to show in Response Collaborate Page
+    public List<Collaborate> findAllByMemberId(Long memberId)
+    {
+    	String query = "SELECT DISTINCT c.id,c.subject,c.created_date,c.response,c.message,c.display_until  FROM collaborate c INNER JOIN collaborate_field cf ON c.id=cf.collaborate_id INNER JOIN collaborate_member cm ON cf.id=cm.collaborate_field_id AND cm.member_id=:memberId and c.display_until>now() ORDER BY c.created_date DESC";
+    	MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("memberId",memberId);
+        return(List<Collaborate>) namedParameterJdbcTemplate.query(query, params,new CollaborateResultSetExtractor());
+    }
     public void create(Collaborate collaborate){
         String query = "INSERT INTO collaborate (building_id, subject, message, response, created_by, created_date, display_until) VALUES (:buildingId, :subject, :message, :response, :createdBy, now(), :displayUntil) RETURNING id";
         MapSqlParameterSource params = new MapSqlParameterSource();

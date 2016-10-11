@@ -42,7 +42,14 @@ public class OrganizationUserRepository {
             return false;
         }
     }
-
+    public long UserId(String username)
+    {
+    	String query="SELECT id from jhi_user WHERE login=:login";
+    	MapSqlParameterSource params = new MapSqlParameterSource();
+    	params.addValue("login",username);
+    	long mid=namedParameterJdbcTemplate.queryForObject(query, params, Long.class);
+    	return mid;
+    }
     public OrganizationUser findOneByTempUserId(Long tempUserId){
         String query = "SELECT * FROM organization_user WHERE temp_user_id=:tempUserId";
         MapSqlParameterSource params = new MapSqlParameterSource();

@@ -3,35 +3,102 @@
     <head>
         <title>Collaborate</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+       	<link rel="stylesheet" th:href="@{'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'}"/>
+  		<script th:src="@{'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'}"></script>
+  		<script th:src="@{'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'}"></script>
+        
     </head>
     <body>
-
+	<script th:inline="javascript">
+          
+       	/*<![CDATA[*/ /* 
+       	       function toggleVisibility(x){
+	    		var y = document.getElementById(x);
+	    		var f=document.getElementById($('form1'));
+	    		if (y.style.display=="none"){
+	    			f.style.dsiplay="none";
+	    			y.style.display="";
+	    			}
+	    		else {
+	    			y.style.visibility="hidden";
+	    			f.style.display="";
+	    			}
+	    		}
+       	    /*]]>*/
+       	    */
+       	    (function($){
+				  var $form = $('#myform');
+				  $form.on('submit', function(e) {
+				    e.preventDefault();
+				    $('#form1').hide();
+				    $('#hidden_div').show();
+				    
+				  });
+			}(jQuery));
+       	
+       	</script>
         <div style="border-top: 0.25cm;border-top-color: #fec912; border-top-style: solid;"></div>
         <center>
             <a href="http://ozay.us/#/login"><img src="http://ozay.us/assets/images/logo_email.png" width="100px" /></a>
         </center>
-
-        <table cellspacing="0" cellpadding="10" border="0" height="100%" width="100%">
-            <tr>
-                <td width="80">Subject</td>
-                <td th:utext="${collaborate.subject}"></td>
-            </tr>
-            <tr>
-                <td width="80">Message</td>
-                <td th:utext="${collaborate.message}"></td>
-            </tr>
-            <tr>
-                <td width="80">Type</td>
-                <td th:utext="${responseType}"></td>
-            </tr>
-            <tr th:if="${collaborate.status == 1}">
-                <td>Dates</td>
-                <td th:each="date : ${dates}">
-                    <p th:text="${date}"></p>
-                </td>
-            </tr>
-        </table>
-
+		
+		
+		<div id="form1" style="display:">
+		<form id="myform" th:object="${Collaborator}" method="post">
+	        <table cellspacing="0" cellpadding="10" border="0" height="100%" width="100%">
+	            <tr>
+	                <td width="80">Subject</td>
+	                <td th:utext="${collaborate.subject}"></td>
+	            </tr>
+	            <tr>
+	                <td width="80">Message</td>
+	                <td th:utext="${collaborate.message}"></td>
+	            </tr>
+	            <tr>
+	                <td width="80">Type</td>
+	                <td th:utext="${responseType}">
+	                	
+	                </td>
+	            </tr>
+	            <!-- Body Of Selection -->
+	            
+	            <tr>
+		            	<td width="80">Response Form</td>
+		            	<td  th:if="${responseType}=='Radio'">
+		            	 <a href="http://ozay.us/#/login">Respond By Clicking Here</a>
+		            			
+		            	</td>
+		            	<td th:if="${responseType}=='Multiple Choice'">
+		            	 <a href="http://ozay.us/#/login">Respond By Clicking Here</a>		
+								
+						
+		            	</td>
+		            	<td  th:if="${responseType}=='Calendar'">
+		            	 <a href="http://ozay.us/#/login">Respond By Clicking Here</a>		
+									
+		            	</td>
+		            	
+	            </tr>
+	            
+	            <!--  
+	            <tr>
+	            	<td  width="80">Replying Options</td>
+	            	<td th:each="options : ${optionsToSelect}">
+	            		<p th:text="${options}"></p>
+	            	</td>
+	            </tr>
+	            -->
+	            
+	        </table>
+				<input class="btn btn-primary" type="submit" value="Submit"/>
+			<table cellspacing="0" cellpadding="10" border="0" height="100%" width="100%">
+			<tr th:if="${collaborate.status == 1}">
+		                <td width="80px">Dates</td>
+		                <td th:utext="${collaborateCreateDate}"> </td>
+		    </tr>
+	</table>
+	</form>
+	</div>
     <!--footer-->
 
         <div style="background-color:#fec612;color:#ffffff;font-size:12px;font-family:Tahoma;

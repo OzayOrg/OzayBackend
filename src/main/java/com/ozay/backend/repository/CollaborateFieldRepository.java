@@ -2,6 +2,7 @@ package com.ozay.backend.repository;
 
 import com.ozay.backend.model.CollaborateField;
 import com.ozay.backend.resultsetextractor.CollaborateFieldSetExtractor;
+import com.ozay.backend.resultsetextractor.CollaborateResultSetExtractor;
 import com.ozay.backend.utility.DateTimeUtility;
 import org.joda.time.DateTime;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -31,6 +32,7 @@ public class CollaborateFieldRepository {
         }
 
     }
+    
 
     public List<CollaborateField> findAllByCollaborateId(Long collaborateId){
         String query = "SELECT * FROM collaborate_field WHERE collaborate_id = :collaborateId";

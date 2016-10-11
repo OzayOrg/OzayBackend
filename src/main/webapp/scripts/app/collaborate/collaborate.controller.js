@@ -50,7 +50,7 @@ angular.module('ozayApp')
 
             if(value == $scope.COLLABORATE_CALENDAR){
                 var tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setDate(tomorrow.getDate());
                 data = tomorrow;
             } else {
                 $scope.fieldData.push({issueDate : data});
@@ -64,7 +64,7 @@ angular.module('ozayApp')
             var data = '';
             if($scope.collaborate.response == $scope.COLLABORATE_CALENDAR){
                 var tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setDate(tomorrow.getDate());
                 data = tomorrow;
                 $scope.calculateMaxDisplayUntil();
             }
@@ -299,7 +299,7 @@ angular.module('ozayApp')
 
                 for(var i = 0; i< $scope.fieldData.length;i++){
 
-                    if($scope.fieldData[i].question == ''){
+                    if($scope.fieldData[i].question == null){
 
                         errorMessage = "Choice cannot be empty";
                     } else {
@@ -329,7 +329,7 @@ angular.module('ozayApp')
                     var question = null;
 
                     if($scope.collaborate.response == COLLABORATE_MULTIPLE_CHOICE || $scope.collaborate.response == COLLABORATE_RADIO){
-                        var q =  {question:$scope.fieldData[i].question, issueDate:null};
+                        var q =  {question:$scope.fieldData[i].question, issueDate:new Date()};
                          fields.push(q);
                     } else {
                         var issueDate = {issueDate:d.toISOString(), question:null};
