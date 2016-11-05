@@ -62,7 +62,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="notification in notifications">
-                                                    <td>{{notification.notification.createdDate | date:"MM/dd/yyyy"}}</td>
+                                                    <td>{{notification.notification.createdDateFront | date:"MMM dd yyyy hh:mm a"}}</td>
 
                                                     <td>{{notification.member.unit}}</td>
 
@@ -70,7 +70,7 @@
                                                     
                                                     <td>{{notification.notification.subject}}</td>
                                                     <!--<td>{{notification.trackCompletedDate | date: "MM/dd/yyyy " : '+0430'}}</td>-->
-                                                    <td>{{notification.trackCompletedDate | date:"MM/dd/yyyy"}}</td>
+                                                    <td>{{notification.trackCompletedDateFront | date:"MMM dd yyyy hh:mm a"}}</td>
 
                                                      <td class="form-group" ng-class="{ 'has-error' : submitted && form.note.$invalid}">
 
