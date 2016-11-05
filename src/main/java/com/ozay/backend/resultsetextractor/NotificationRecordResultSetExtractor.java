@@ -32,6 +32,7 @@ public class NotificationRecordResultSetExtractor implements ResultSetExtractor 
             notificationRecord.setTrackComplete(resultSet.getBoolean("track_complete"));
             if(resultSet.getDate("track_completed_date") != null){
                 notificationRecord.setTrackCompletedDate(new DateTime(resultSet.getDate("track_completed_date")));
+                notificationRecord.setTrackCompletedDateFront(resultSet.getString("track_completed_date"));
             }
 
             member.setFirstName(resultSet.getString("first_name"));
