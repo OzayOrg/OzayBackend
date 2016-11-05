@@ -23,6 +23,8 @@ public class Notification{
 
     private DateTime createdDate;
 
+    private String createdDateFront;
+    
     private Long emailCount;
 
     private boolean track;
@@ -85,6 +87,14 @@ public class Notification{
         this.createdDate = createdDate;
     }
 
+        public String getCreatedDateFront() {
+        return createdDateFront;
+    }
+
+    public void setCreatedDateFront(String createdDateFront) {
+        this.createdDateFront = createdDateFront.substring(0,10)+'T'+createdDateFront.substring(11,19);
+    }
+    
     public Long getEmailCount() {
         return emailCount;
     }
