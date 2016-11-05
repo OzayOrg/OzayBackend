@@ -12,6 +12,7 @@ public class NotificationRecord {
     private boolean success,commented;
     private boolean trackComplete;
     private DateTime trackCompletedDate;
+    private String trackCompletedDateFront;
     private String email;
     private String note;
 
@@ -110,5 +111,13 @@ public class NotificationRecord {
 
     public void setTrackCompletedDate(DateTime trackCompletedDate) {
         this.trackCompletedDate = trackCompletedDate;
+    }
+    
+        public String getTrackCompletedDateFront() {
+        return trackCompletedDateFront;
+    }
+
+    public void setTrackCompletedDateFront(String trackCompletedDateFront) {
+        this.trackCompletedDateFront = trackCompletedDateFront.substring(0,10)+'T'+trackCompletedDateFront.substring(11,19);
     }
 }
