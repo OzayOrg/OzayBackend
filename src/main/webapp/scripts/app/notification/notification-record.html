@@ -50,7 +50,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="notification in notifications">
-                                                    <td>{{notification.createdDate | date: "MM/dd/yyyy"}}</td>
+                                                    <td>{{notification.createdDateFront | date: "MMM dd yyyy hh:mm a"}}</td>
                                                     <td>{{notification.createdBy}} [ {{notification.emailCount}} ]</td>
                                                     <td>{{notification.subject}}</td>
                                                     <td ng-bind-html="notification.notice"></td>
